@@ -22,7 +22,7 @@ phpcs-report.txt
 /views/assets/vendor/vue-fullscreen/vue-fullscreen.min.js
 wp-project-manager.zip
 /zipfile/
-/views/assets/dist/*.map
+/views/assets/dist/
 
 # Claude Code - personal overrides (do not commit)
 CLAUDE.local.md

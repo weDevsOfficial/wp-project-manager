@@ -12,21 +12,21 @@ import ProBadge from '@components/common/ProBadge'
 
 // ── Sub-nav item definitions (mirrors AppSidebar) ────
 
-const SUB_NAV_FREE = [
-  { key: 'task-lists',  label: 'Task Lists',  icon: LayoutList,    path: (pid) => `/projects/${pid}/task-lists` },
-  { key: 'overview',    label: 'Overview',     icon: Layout,        path: (pid) => `/projects/${pid}/overview` },
-  { key: 'discussions', label: 'Discussions',  icon: MessageSquare, path: (pid) => `/projects/${pid}/discussions` },
-  { key: 'milestones',  label: 'Milestones',   icon: Milestone,     path: (pid) => `/projects/${pid}/milestones` },
-  { key: 'files',       label: 'Files',        icon: FileText,      path: (pid) => `/projects/${pid}/files` },
+const getSubNavFree = () => [
+  { key: 'task-lists',  label: __('Task Lists',  'wedevs-project-manager'), icon: LayoutList,    path: (pid) => `/projects/${pid}/task-lists` },
+  { key: 'overview',    label: __('Overview',    'wedevs-project-manager'), icon: Layout,        path: (pid) => `/projects/${pid}/overview` },
+  { key: 'discussions', label: __('Discussions', 'wedevs-project-manager'), icon: MessageSquare, path: (pid) => `/projects/${pid}/discussions` },
+  { key: 'milestones',  label: __('Milestones',  'wedevs-project-manager'), icon: Milestone,     path: (pid) => `/projects/${pid}/milestones` },
+  { key: 'files',       label: __('Files',       'wedevs-project-manager'), icon: FileText,      path: (pid) => `/projects/${pid}/files` },
 ]
 
 function buildProSubNav(modulePaths) {
   const isActive = (dir) => isProModuleActive(modulePaths, dir)
   const items = []
-  if (isActive('Kanboard')) items.push({ key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
-  if (isActive('Gantt'))    items.push({ key: 'gantt',    label: 'Gantt Chart',  icon: GitBranch, path: (pid) => `/projects/${pid}/gantt` })
-  if (isActive('Invoice'))  items.push({ key: 'invoices', label: 'Invoices',     icon: Receipt,   path: (pid) => `/projects/${pid}/invoices` })
-  items.push({ key: 'settings', label: 'Settings', icon: Settings, path: (pid) => `/projects/${pid}/settings` })
+  if (isActive('Kanboard')) items.push({ key: 'kanban',   label: __('Kanban Board', 'wedevs-project-manager'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
+  if (isActive('Gantt'))    items.push({ key: 'gantt',    label: __('Gantt Chart',  'wedevs-project-manager'), icon: GitBranch, path: (pid) => `/projects/${pid}/gantt` })
+  if (isActive('Invoice'))  items.push({ key: 'invoices', label: __('Invoices',     'wedevs-project-manager'), icon: Receipt,   path: (pid) => `/projects/${pid}/invoices` })
+  items.push({ key: 'settings', label: __('Settings', 'wedevs-project-manager'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
   return items
 }
 
@@ -55,14 +55,15 @@ export function ProjectSubNavBar() {
   }, [location.pathname])
 
   const subNav = useMemo(() => {
+    const SUB_NAV_FREE = getSubNavFree()
     if (isPro) return [...SUB_NAV_FREE, ...buildProSubNav(activeModulePaths)]
     return [
       ...SUB_NAV_FREE,
-      { key: 'activities', label: 'Activities',  icon: Activity,     path: (pid) => `/projects/${pid}/activities`, proPreview: true },
-      { key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
-      { key: 'gantt',    label: 'Gantt Chart',  icon: GitBranch, path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
-      { key: 'invoices', label: 'Invoices',     icon: Receipt,   path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
-      { key: 'settings', label: 'Settings',     icon: Settings,  path: (pid) => `/projects/${pid}/settings`, proPreview: true },
+      { key: 'activities', label: __('Activities',  'wedevs-project-manager'), icon: Activity,  path: (pid) => `/projects/${pid}/activities`, proPreview: true },
+      { key: 'kanban',   label: __('Kanban Board', 'wedevs-project-manager'),  icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
+      { key: 'gantt',    label: __('Gantt Chart',  'wedevs-project-manager'),  icon: GitBranch, path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
+      { key: 'invoices', label: __('Invoices',     'wedevs-project-manager'),  icon: Receipt,   path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
+      { key: 'settings', label: __('Settings',     'wedevs-project-manager'),  icon: Settings,  path: (pid) => `/projects/${pid}/settings`, proPreview: true },
     ]
   }, [isPro, activeModulePaths])
 
@@ -101,7 +102,7 @@ export function ProjectSubNavBar() {
                 'w-3.5 h-3.5 shrink-0',
                 isActive ? 'text-pm-accent' : 'text-pm-text-muted group-hover/tab:text-pm-text',
               )} />
-              {__(item.label, 'wedevs-project-manager')}
+              {item.label}
               {item.proPreview && (
                 <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover/tab:max-w-fit group-hover/tab:ml-1 transition-all">
                   <ProBadge />

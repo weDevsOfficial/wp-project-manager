@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { setLocaleData } from '@wordpress/i18n'
+import { __, setLocaleData } from '@wordpress/i18n'
 
 // Mirrors the Vue 3.x JED pipeline: PHP injects locale data into PM_Vars and we
 // feed it to wp.i18n so __()/_n()/sprintf() resolve against the existing .mo
@@ -138,22 +138,22 @@ function AppRoutes() {
 
         {/* ── Pro feature placeholders — only shown when Pro hasn't registered the route ── */}
         {!dynamicRoutes.some(r => r.path === 'projects/:projectId/kanban') && (
-          <Route path="projects/:projectId/kanban" element={<ProjectRoute><ProFeaturePlaceholder title="Kanban Board" description="Visualize your workflow with drag-and-drop boards." icon={Columns3} mockKey="kanban" /></ProjectRoute>} />
+          <Route path="projects/:projectId/kanban" element={<ProjectRoute><ProFeaturePlaceholder title={__("Kanban Board", 'wedevs-project-manager')} description={__("Visualize your workflow with drag-and-drop boards.", 'wedevs-project-manager')} icon={Columns3} mockKey="kanban" /></ProjectRoute>} />
         )}
         {!dynamicRoutes.some(r => r.path === 'projects/:projectId/gantt') && (
-          <Route path="projects/:projectId/gantt" element={<ProjectRoute><ProFeaturePlaceholder title="Gantt Chart" description="Plan and track project timelines with interactive Gantt charts." icon={GitBranch} mockKey="gantt" /></ProjectRoute>} />
+          <Route path="projects/:projectId/gantt" element={<ProjectRoute><ProFeaturePlaceholder title={__("Gantt Chart", 'wedevs-project-manager')} description={__("Plan and track project timelines with interactive Gantt charts.", 'wedevs-project-manager')} icon={GitBranch} mockKey="gantt" /></ProjectRoute>} />
         )}
         {!dynamicRoutes.some(r => r.path === 'projects/:projectId/invoices') && (
-          <Route path="projects/:projectId/invoices" element={<ProjectRoute managerOnly><ProFeaturePlaceholder title="Invoices" description="Create and manage project invoices with payment tracking." icon={Receipt} mockKey="invoices" /></ProjectRoute>} />
+          <Route path="projects/:projectId/invoices" element={<ProjectRoute managerOnly><ProFeaturePlaceholder title={__("Invoices", 'wedevs-project-manager')} description={__("Create and manage project invoices with payment tracking.", 'wedevs-project-manager')} icon={Receipt} mockKey="invoices" /></ProjectRoute>} />
         )}
         {!dynamicRoutes.some(r => r.path === 'projects/:projectId/settings') && (
-          <Route path="projects/:projectId/settings" element={<ProjectRoute managerOnly><ProFeaturePlaceholder title="Project Settings" description="Configure project capabilities, integrations, and more." icon={SettingsIcon} mockKey="settings" /></ProjectRoute>} />
+          <Route path="projects/:projectId/settings" element={<ProjectRoute managerOnly><ProFeaturePlaceholder title={__("Project Settings", 'wedevs-project-manager')} description={__("Configure project capabilities, integrations, and more.", 'wedevs-project-manager')} icon={SettingsIcon} mockKey="settings" /></ProjectRoute>} />
         )}
         {!dynamicRoutes.some(r => r.path === 'sprints') && (
-          <Route path="sprints" element={<ProFeaturePlaceholder title="Sprints" description="Plan and manage agile sprints to organize your team's work into focused iterations." icon={Zap} mockKey="sprints" />} />
+          <Route path="sprints" element={<ProFeaturePlaceholder title={__("Sprints", 'wedevs-project-manager')} description={__("Plan and manage agile sprints to organize your team's work into focused iterations.", 'wedevs-project-manager')} icon={Zap} mockKey="sprints" />} />
         )}
         {!dynamicRoutes.some(r => r.path === 'woo-project') && (
-          <Route path="woo-project" element={<ProFeaturePlaceholder title="WooCommerce Project" description="Automatically create projects from WooCommerce orders with product-based templates." icon={ShoppingCart} mockKey="woo-project" />} />
+          <Route path="woo-project" element={<ProFeaturePlaceholder title={__("WooCommerce Project", 'wedevs-project-manager')} description={__("Automatically create projects from WooCommerce orders with product-based templates.", 'wedevs-project-manager')} icon={ShoppingCart} mockKey="woo-project" />} />
         )}
 
         <Route path="*" element={<Navigate to="/projects" replace />} />

@@ -224,8 +224,8 @@ export default function ProFeaturePlaceholder({ title, description, icon: Icon, 
       {/* Header — same pattern as CalendarPage */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-pm-text-primary">{__(title, 'wedevs-project-manager')}</h1>
-          <p className="text-sm text-pm-text-muted mt-0.5">{__(description, 'wedevs-project-manager')}</p>
+          <h1 className="text-xl font-bold text-pm-text-primary">{title}</h1>
+          <p className="text-sm text-pm-text-muted mt-0.5">{description}</p>
         </div>
         {!isPro && <ProBadge label={__('Pro Required', 'wedevs-project-manager')} />}
       </div>
@@ -250,8 +250,8 @@ export default function ProFeaturePlaceholder({ title, description, icon: Icon, 
               <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-pm-accent/10 mb-4">
                 {Icon && <Icon className="h-7 w-7 text-pm-accent" />}
               </div>
-              <h3 className="text-lg font-bold text-pm-text-primary mb-1">{__(title, 'wedevs-project-manager')}</h3>
-              <p className="text-sm text-pm-text-muted mb-4 max-w-[250px]">{__(description, 'wedevs-project-manager')}</p>
+              <h3 className="text-lg font-bold text-pm-text-primary mb-1">{title}</h3>
+              <p className="text-sm text-pm-text-muted mb-4 max-w-[250px]">{description}</p>
               <div
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-semibold text-sm"
                 style={{ background: '#ff9000' }}

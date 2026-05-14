@@ -100,11 +100,12 @@ import {
   statusColor,
   statusLabel,
   getDescriptionSnippet,
-  FILTER_TABS,
+  getFilterTabs,
 } from "./utils";
 
 export default function ProjectsPage() {
   const dispatch = useAppDispatch();
+  const FILTER_TABS = useMemo(() => getFilterTabs(), []);
   const navigate = useNavigate();
   const toast = useToast();
   const { canCreate, isPro } = usePermissions();
@@ -737,7 +738,7 @@ export default function ProjectsPage() {
                     : "text-pm-text-muted hover:text-pm-text-primary",
                 )}
               >
-                {__(tab.label, 'wedevs-project-manager')}
+                {tab.label}
                 <span
                   className="inline-flex items-center justify-center rounded-full px-1.5 min-w-[18px] h-[18px] text-[14px] font-semibold tabular-nums transition-colors"
                   style={isActive ? { backgroundColor: tab.color + '15', color: tab.color } : { color: 'var(--pm-text-muted)' }}

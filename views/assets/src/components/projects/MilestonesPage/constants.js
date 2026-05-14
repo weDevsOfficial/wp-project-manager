@@ -1,28 +1,29 @@
+import { __ } from '@wordpress/i18n';
 import {
   CheckCircle, Clock, AlertCircle, AlertTriangle,
 } from "lucide-react";
 
-export const healthConfig = {
-  "on-track":  { label: "On Track",  icon: CheckCircle,   className: "bg-emerald-50 text-emerald-700 border-emerald-200" },
-  "at-risk":   { label: "At Risk",   icon: AlertTriangle, className: "bg-amber-50 text-amber-700 border-amber-200" },
-  overdue:     { label: "Overdue",   icon: AlertCircle,   className: "bg-red-50 text-red-700 border-red-200" },
-  completed:   { label: "Completed", icon: CheckCircle,   className: "bg-blue-50 text-blue-700 border-blue-200" },
-  "no-date":   { label: "No Date",   icon: Clock,         className: "bg-gray-50 text-gray-500 border-gray-200" },
-};
+export const getHealthConfig = () => ({
+  "on-track":  { label: __("On Track",  'wedevs-project-manager'), icon: CheckCircle,   className: "bg-emerald-50 text-emerald-700 border-emerald-200" },
+  "at-risk":   { label: __("At Risk",   'wedevs-project-manager'), icon: AlertTriangle, className: "bg-amber-50 text-amber-700 border-amber-200" },
+  overdue:     { label: __("Overdue",   'wedevs-project-manager'), icon: AlertCircle,   className: "bg-red-50 text-red-700 border-red-200" },
+  completed:   { label: __("Completed", 'wedevs-project-manager'), icon: CheckCircle,   className: "bg-blue-50 text-blue-700 border-blue-200" },
+  "no-date":   { label: __("No Date",   'wedevs-project-manager'), icon: Clock,         className: "bg-gray-50 text-gray-500 border-gray-200" },
+});
 
-export const filterTabs = [
-  { key: "all",       label: "All",       color: "#6b7280" },
-  { key: "upcoming",  label: "Upcoming",  color: "#3b82f6" },
-  { key: "at-risk",   label: "At Risk",   color: "#f59e0b" },
-  { key: "overdue",   label: "Overdue",   color: "#ef4444" },
-  { key: "completed", label: "Completed", color: "#10b981" },
-  { key: "no-date",   label: "No Date",   color: "#9ca3af" },
+export const getFilterTabs = () => [
+  { key: "all",       label: __("All",       'wedevs-project-manager'), color: "#6b7280" },
+  { key: "upcoming",  label: __("Upcoming",  'wedevs-project-manager'), color: "#3b82f6" },
+  { key: "at-risk",   label: __("At Risk",   'wedevs-project-manager'), color: "#f59e0b" },
+  { key: "overdue",   label: __("Overdue",   'wedevs-project-manager'), color: "#ef4444" },
+  { key: "completed", label: __("Completed", 'wedevs-project-manager'), color: "#10b981" },
+  { key: "no-date",   label: __("No Date",   'wedevs-project-manager'), color: "#9ca3af" },
 ];
 
-export const sortOptions = [
-  { value: "date",     label: "Target Date" },
-  { value: "progress", label: "Progress" },
-  { value: "title",    label: "Title" },
+export const getSortOptions = () => [
+  { value: "date",     label: __("Target Date", 'wedevs-project-manager') },
+  { value: "progress", label: __("Progress",    'wedevs-project-manager') },
+  { value: "title",    label: __("Title",       'wedevs-project-manager') },
 ];
 
 export const groupConfig = {
