@@ -1,7 +1,7 @@
+import { __ } from '@wordpress/i18n';
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApi } from '@hooks/useApi';
-import { useI18n } from '@hooks/useI18n';
 import { useToast } from '@hooks/useToast';
 import {
   Sheet,
@@ -17,7 +17,6 @@ import PromptStep from './parts/PromptStep';
 import PreviewStep from './parts/PreviewStep';
 
 const AiCreateDialog = ({ open, onOpenChange }) => {
-  const { __ } = useI18n();
   const toast = useToast();
   const api = useApi();
   const navigate = useNavigate();

@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 /**
  * GitHubPreviewCard — displays a single GitHub issue/PR preview card.
  */
 import React from 'react'
-import { useI18n } from '@hooks/useI18n'
 import { cn } from '@lib/utils'
 import { Skeleton } from '@components/ui/skeleton'
 import {
@@ -49,7 +49,6 @@ function StateIcon({ state, type }) {
 }
 
 export default function GitHubPreviewCard({ previewData, loading, url, onRefresh }) {
-  const { __ } = useI18n()
 
   if (loading) {
     return (
@@ -66,7 +65,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
   if (!previewData) return null
 
   const isError = previewData.state === 'access_denied' || previewData.state === 'error' || previewData.state === 'rate_limited'
-  const typeLabel = previewData.type === 'pull_request' ? __('PR') : __('Issue')
+  const typeLabel = previewData.type === 'pull_request' ? __('PR', 'wedevs-project-manager') : __('Issue', 'wedevs-project-manager')
 
   const stateColors = {
     open:   'text-green-600 bg-green-50',
@@ -110,7 +109,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
             <button
               className="p-0.5 rounded hover:bg-muted text-pm-text-muted/40 hover:text-pm-text-muted transition-colors"
               onClick={(e) => { e.stopPropagation(); onRefresh() }}
-              title={__('Refresh')}
+              title={__('Refresh', 'wedevs-project-manager')}
             >
               <RefreshCw className="h-3.5 w-3.5" />
             </button>

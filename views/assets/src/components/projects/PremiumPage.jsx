@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React from "react";
-import { useI18n } from "@hooks/useI18n";
 import {
   Sparkles,
   Calendar,
@@ -132,7 +132,6 @@ const MORE_FEATURES = [
 ];
 
 export default function PremiumPage() {
-  const { __ } = useI18n();
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-8">
@@ -142,14 +141,14 @@ export default function PremiumPage() {
         <div className="relative z-10">
           <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-sm font-medium px-3 py-1 rounded-full mb-3">
             <Sparkles className="h-4 w-4" />
-            {__("Project Manager Pro")}
+            {__("Project Manager Pro", 'wedevs-project-manager')}
           </span>
           <h1 className="text-2xl md:text-3xl font-bold mb-2 text-white">
-            {__("Premium Features")}
+            {__("Premium Features", 'wedevs-project-manager')}
           </h1>
           <p className="text-white/80 text-sm max-w-lg mx-auto leading-relaxed">
             {__(
-              "Advanced project management tools to ensure your efficiency and productivity reach the peak.",
+              "Advanced project management tools to ensure your efficiency and productivity reach the peak.", 'wedevs-project-manager',
             )}
           </p>
           <a
@@ -162,7 +161,7 @@ export default function PremiumPage() {
             onMouseLeave={(e) => (e.currentTarget.style.background = "#ff9000")}
           >
             <Crown className="h-5 w-5" />
-            {__("Upgrade to Pro")}
+            {__("Upgrade to Pro", 'wedevs-project-manager')}
           </a>
         </div>
       </div>
@@ -181,10 +180,10 @@ export default function PremiumPage() {
               <f.icon className={`h-5 w-5 ${f.fg}`} />
             </div>
             <h3 className="text-sm font-semibold text-pm-text-primary mb-1">
-              {__(f.title)}
+              {__(f.title, 'wedevs-project-manager')}
             </h3>
             <p className="text-sm text-pm-text-muted leading-relaxed mb-2">
-              {__(f.desc)}
+              {__(f.desc, 'wedevs-project-manager')}
             </p>
             <a
               href={f.url}
@@ -192,7 +191,7 @@ export default function PremiumPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-[15px] font-medium text-pm-accent hover:underline no-underline"
             >
-              {__("Learn More")} <ExternalLink className="h-3 w-3" />
+              {__("Learn More", 'wedevs-project-manager')} <ExternalLink className="h-3 w-3" />
             </a>
           </div>
         ))}
@@ -201,11 +200,11 @@ export default function PremiumPage() {
       {/* ── Modules Grid ── */}
       <div>
         <h2 className="text-lg font-bold text-pm-text-primary mb-1">
-          {__("Premium Modules")}
+          {__("Premium Modules", 'wedevs-project-manager')}
         </h2>
         <p className="text-sm text-pm-text-muted mb-4">
           {__(
-            "Give your team & projects additional pace with 9+ premium modules",
+            "Give your team & projects additional pace with 9+ premium modules", 'wedevs-project-manager',
           )}
         </p>
 
@@ -221,10 +220,10 @@ export default function PremiumPage() {
                 </div>
                 <div className="min-w-0">
                   <h4 className="text-sm font-semibold text-pm-text-primary mb-0.5">
-                    {__(m.title)}
+                    {__(m.title, 'wedevs-project-manager')}
                   </h4>
                   <p className="text-[15px] text-pm-text-muted leading-relaxed">
-                    {__(m.desc)}
+                    {__(m.desc, 'wedevs-project-manager')}
                   </p>
                   <a
                     href={m.url}
@@ -232,7 +231,7 @@ export default function PremiumPage() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-[14px] font-medium text-pm-accent mt-1.5 hover:underline no-underline"
                   >
-                    {__("See More")} <ExternalLink className="h-3 w-3" />
+                    {__("See More", 'wedevs-project-manager')} <ExternalLink className="h-3 w-3" />
                   </a>
                 </div>
               </div>
@@ -246,14 +245,14 @@ export default function PremiumPage() {
         {/* Feature list */}
         <div className="md:col-span-3">
           <h2 className="text-lg font-bold text-pm-text-primary">
-            {__("More features to unveil while")}
+            {__("More features to unveil while", 'wedevs-project-manager')}
           </h2>
           <h2 className="text-lg font-bold text-pm-accent mb-1">
-            {__("Managing Your Project")}
+            {__("Managing Your Project", 'wedevs-project-manager')}
           </h2>
           <p className="text-sm text-pm-text-muted mb-4">
             {__(
-              "Useful & fascinating features for WP Project Manager that can be unlocked with the Pro Version.",
+              "Useful & fascinating features for WP Project Manager that can be unlocked with the Pro Version.", 'wedevs-project-manager',
             )}
           </p>
 
@@ -267,7 +266,7 @@ export default function PremiumPage() {
                   <Check className="h-3.5 w-3.5 text-emerald-500" strokeWidth={3} />
                 </span>
                 <span className="text-sm text-pm-text-primary">
-                  {__(f.text)}
+                  {__(f.text, 'wedevs-project-manager')}
                 </span>
               </div>
             ))}
@@ -283,10 +282,10 @@ export default function PremiumPage() {
             }}
           >
             <Sparkles className="h-8 w-8 mx-auto mb-3 opacity-80" />
-            <h3 className="text-xl font-bold mb-1 text-white">{__("Go Pro Today")}</h3>
+            <h3 className="text-xl font-bold mb-1 text-white">{__("Go Pro Today", 'wedevs-project-manager')}</h3>
             <p className="text-white/70 text-sm mb-4">
               {__(
-                "Unlock all premium features and take your project management to the next level.",
+                "Unlock all premium features and take your project management to the next level.", 'wedevs-project-manager',
               )}
             </p>
             <a
@@ -295,7 +294,7 @@ export default function PremiumPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white text-purple-600 font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-white/90 transition-colors no-underline"
             >
-              {__("Get Started Now")} <ArrowRight className="h-5 w-5" />
+              {__("Get Started Now", 'wedevs-project-manager')} <ArrowRight className="h-5 w-5" />
             </a>
           </div>
         </div>

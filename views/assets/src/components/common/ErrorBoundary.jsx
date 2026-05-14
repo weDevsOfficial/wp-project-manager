@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import React from 'react'
 
 export class ErrorBoundary extends React.Component {
@@ -19,13 +20,13 @@ export class ErrorBoundary extends React.Component {
       const __ = typeof window.__ === 'function' ? window.__ : (t) => t
       return (
         <div className="flex flex-col items-center justify-center min-h-[300px] text-pm-text-primary gap-3 p-8">
-          <p className="text-lg font-semibold">{__('Something went wrong.')}</p>
+          <p className="text-lg font-semibold">{__('Something went wrong.', 'wedevs-project-manager')}</p>
           <p className="text-sm text-pm-text-muted">{this.state.error?.message}</p>
           <button
             className="text-sm underline text-pm-accent"
             onClick={() => this.setState({ hasError: false, error: null })}
           >
-            {__('Try again')}
+            {__('Try again', 'wedevs-project-manager')}
           </button>
         </div>
       )

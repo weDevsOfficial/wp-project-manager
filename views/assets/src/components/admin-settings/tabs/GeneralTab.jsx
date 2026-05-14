@@ -1,7 +1,7 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useCallback, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { saveGeneral } from '@store/settingsSlice'
-import { useI18n } from '@hooks/useI18n'
 import { usePermissions } from '@hooks/usePermissions'
 import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
@@ -12,7 +12,6 @@ import { Separator } from '@components/ui/separator'
 import { Calendar, Mail as MailIcon, Image, Upload, Trash2, Loader2 } from 'lucide-react'
 
 const GeneralTab = () => {
-  const { __ } = useI18n()
   const toast  = useToast()
   const dispatch = useAppDispatch()
   const { isPro } = usePermissions()
@@ -53,7 +52,7 @@ const GeneralTab = () => {
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0]
     if (!file) return
-    if (!file.type.startsWith('image/')) { toast.error(__('Please select an image file')); return }
+    if (!file.type.startsWith('image/')) { toast.error(__('Please select an image file', 'wedevs-project-manager')); return }
     setUploading(true)
     try {
       const formData = new FormData()
@@ -69,9 +68,9 @@ const GeneralTab = () => {
       setLogoId(att.id)
       setLogo({ thumb: att.source_url, name: att.title?.rendered || file.name })
       setIsDirty(true)
-      toast.success(__('Logo uploaded'))
+      toast.success(__('Logo uploaded', 'wedevs-project-manager'))
     } catch (err) {
-      toast.error(err?.message || __('Failed to upload'))
+      toast.error(err?.message || __('Failed to upload', 'wedevs-project-manager'))
     }
     setUploading(false)
     e.target.value = ''
@@ -168,15 +167,15 @@ const GeneralTab = () => {
       {isPro && (
         <div className="rounded-lg border border-pm-border bg-pm-surface mt-5">
           <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-            <h3 className="text-sm font-semibold text-pm-text-primary">{__('Pro Settings')}</h3>
+            <h3 className="text-sm font-semibold text-pm-text-primary">{__('Pro Settings', 'wedevs-project-manager')}</h3>
           </div>
 
           <div className="flex items-center justify-between px-5 py-4">
             <div>
               <Label className="text-sm font-medium flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-pm-text-muted" />{__('Task Start Date')}
+                <Calendar className="h-5 w-5 text-pm-text-muted" />{__('Task Start Date', 'wedevs-project-manager')}
               </Label>
-              <p className="text-sm text-pm-text-muted mt-0.5">{__('Enable start date field for tasks')}</p>
+              <p className="text-sm text-pm-text-muted mt-0.5">{__('Enable start date field for tasks', 'wedevs-project-manager')}</p>
             </div>
             <Switch checked={taskStartField} onCheckedChange={(v) => { setTaskStartField(v); setIsDirty(true) }} />
           </div>
@@ -186,9 +185,9 @@ const GeneralTab = () => {
           <div className="flex items-center justify-between px-5 py-4">
             <div>
               <Label className="text-sm font-medium flex items-center gap-2">
-                <MailIcon className="h-5 w-5 text-pm-text-muted" />{__('Daily Digest')}
+                <MailIcon className="h-5 w-5 text-pm-text-muted" />{__('Daily Digest', 'wedevs-project-manager')}
               </Label>
-              <p className="text-sm text-pm-text-muted mt-0.5">{__('Send daily digest emails to team members')}</p>
+              <p className="text-sm text-pm-text-muted mt-0.5">{__('Send daily digest emails to team members', 'wedevs-project-manager')}</p>
             </div>
             <Switch checked={dailyDigest} onCheckedChange={(v) => { setDailyDigest(v); setIsDirty(true) }} />
           </div>
@@ -197,9 +196,9 @@ const GeneralTab = () => {
 
           <div className="px-5 py-4">
             <Label className="text-sm font-medium flex items-center gap-2 mb-1">
-              <Image className="h-5 w-5 text-pm-text-muted" />{__('Company Logo')}
+              <Image className="h-5 w-5 text-pm-text-muted" />{__('Company Logo', 'wedevs-project-manager')}
             </Label>
-            <p className="text-sm text-pm-text-muted mb-3">{__('Used on invoices and reports')}</p>
+            <p className="text-sm text-pm-text-muted mb-3">{__('Used on invoices and reports', 'wedevs-project-manager')}</p>
             <div className="flex items-center gap-3">
               {logo?.thumb && (
                 <img src={logo.thumb} alt={logo.name || 'Logo'} className="h-14 w-14 rounded-lg border border-pm-border object-contain bg-pm-surface" />
@@ -208,11 +207,11 @@ const GeneralTab = () => {
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
                 <Button type="button" size="sm" variant="outline" className="h-8 text-sm" onClick={handleLogoUpload} disabled={uploading}>
                   {uploading ? <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" /> : <Upload className="h-3.5 w-3.5 mr-1" />}
-                  {uploading ? __('Uploading...') : logo ? __('Change') : __('Upload')}
+                  {uploading ? __('Uploading...', 'wedevs-project-manager') : logo ? __('Change', 'wedevs-project-manager') : __('Upload', 'wedevs-project-manager')}
                 </Button>
                 {logo && (
                   <Button type="button" size="sm" variant="outline" className="h-8 text-sm text-destructive" onClick={() => { setLogo(null); setLogoId(null); setIsDirty(true) }}>
-                    <Trash2 className="h-3.5 w-3.5 mr-1" />{__('Remove')}
+                    <Trash2 className="h-3.5 w-3.5 mr-1" />{__('Remove', 'wedevs-project-manager')}
                   </Button>
                 )}
               </div>

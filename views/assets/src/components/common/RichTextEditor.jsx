@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useCallback, useState, useRef, forwardRef, useImperativeHandle } from 'react'
 import { useEditor, EditorContent, ReactRenderer } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -29,7 +30,6 @@ import {
   RemoveFormatting,
 } from 'lucide-react'
 import { createPortal } from 'react-dom'
-import { useI18n } from '@hooks/useI18n'
 
 function ToolbarBtn({ icon: Icon, label, active, disabled, onClick }) {
   return (
@@ -224,8 +224,7 @@ export default function RichTextEditor({
   className,
   users,
 }) {
-  const { __ } = useI18n()
-  const placeholder = placeholderProp || __('Write something...')
+  const placeholder = placeholderProp || __('Write something...', 'wedevs-project-manager')
 
   const usersRef = useRef(users || [])
   useEffect(() => { usersRef.current = users || [] }, [users])
@@ -273,7 +272,7 @@ export default function RichTextEditor({
 
   const addLink = useCallback(() => {
     if (!editor) return
-    const url = window.prompt(__('URL'))
+    const url = window.prompt(__('URL', 'wedevs-project-manager'))
     if (url) {
       editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
     }
@@ -287,25 +286,25 @@ export default function RichTextEditor({
         <div className="flex items-center gap-0.5 px-1.5 py-1 border-b bg-pm-surface-muted rounded-t-lg flex-wrap">
           <ToolbarBtn
             icon={Bold}
-            label={__('Bold')}
+            label={__('Bold', 'wedevs-project-manager')}
             active={editor.isActive('bold')}
             onClick={() => editor.chain().focus().toggleBold().run()}
           />
           <ToolbarBtn
             icon={Italic}
-            label={__('Italic')}
+            label={__('Italic', 'wedevs-project-manager')}
             active={editor.isActive('italic')}
             onClick={() => editor.chain().focus().toggleItalic().run()}
           />
           <ToolbarBtn
             icon={UnderlineIcon}
-            label={__('Underline')}
+            label={__('Underline', 'wedevs-project-manager')}
             active={editor.isActive('underline')}
             onClick={() => editor.chain().focus().toggleUnderline().run()}
           />
           <ToolbarBtn
             icon={Strikethrough}
-            label={__('Strikethrough')}
+            label={__('Strikethrough', 'wedevs-project-manager')}
             active={editor.isActive('strike')}
             onClick={() => editor.chain().focus().toggleStrike().run()}
           />
@@ -314,13 +313,13 @@ export default function RichTextEditor({
 
           <ToolbarBtn
             icon={List}
-            label={__('Bullet List')}
+            label={__('Bullet List', 'wedevs-project-manager')}
             active={editor.isActive('bulletList')}
             onClick={() => editor.chain().focus().toggleBulletList().run()}
           />
           <ToolbarBtn
             icon={ListOrdered}
-            label={__('Numbered List')}
+            label={__('Numbered List', 'wedevs-project-manager')}
             active={editor.isActive('orderedList')}
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
           />
@@ -329,24 +328,24 @@ export default function RichTextEditor({
 
           <ToolbarBtn
             icon={Quote}
-            label={__('Blockquote')}
+            label={__('Blockquote', 'wedevs-project-manager')}
             active={editor.isActive('blockquote')}
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
           />
           <ToolbarBtn
             icon={Code}
-            label={__('Code')}
+            label={__('Code', 'wedevs-project-manager')}
             active={editor.isActive('code')}
             onClick={() => editor.chain().focus().toggleCode().run()}
           />
           <ToolbarBtn
             icon={Minus}
-            label={__('Horizontal Rule')}
+            label={__('Horizontal Rule', 'wedevs-project-manager')}
             onClick={() => editor.chain().focus().setHorizontalRule().run()}
           />
           <ToolbarBtn
             icon={LinkIcon}
-            label={__('Link')}
+            label={__('Link', 'wedevs-project-manager')}
             active={editor.isActive('link')}
             onClick={addLink}
           />
@@ -355,18 +354,18 @@ export default function RichTextEditor({
 
           <ToolbarBtn
             icon={RemoveFormatting}
-            label={__('Clear Formatting')}
+            label={__('Clear Formatting', 'wedevs-project-manager')}
             onClick={() => editor.chain().focus().clearNodes().unsetAllMarks().run()}
           />
           <ToolbarBtn
             icon={Undo}
-            label={__('Undo')}
+            label={__('Undo', 'wedevs-project-manager')}
             disabled={!editor.can().undo()}
             onClick={() => editor.chain().focus().undo().run()}
           />
           <ToolbarBtn
             icon={Redo}
-            label={__('Redo')}
+            label={__('Redo', 'wedevs-project-manager')}
             disabled={!editor.can().redo()}
             onClick={() => editor.chain().focus().redo().run()}
           />

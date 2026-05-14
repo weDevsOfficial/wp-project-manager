@@ -1,9 +1,9 @@
+import { __ } from '@wordpress/i18n';
 import { useMemo, useState, useEffect, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '@store/index'
 import { fetchTask, openTaskSheet } from '@store/tasksSlice'
 import { useApi } from '@hooks/useApi'
-import { useI18n } from '@hooks/useI18n'
 import { useCurrentProject } from '@hooks/useCurrentProject'
 import { usePermissions } from '@hooks/usePermissions'
 import { UserAvatar } from '@components/common/UserAvatar'
@@ -45,7 +45,6 @@ import { cn } from '@lib/utils'
 import { formatPmDateTime } from '@lib/pm-utils'
 
 export function TopBar() {
-  const { __ } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -166,31 +165,31 @@ export function TopBar() {
   // Build breadcrumb from URL
   // Translatable breadcrumb labels — ensures make-pot can extract them
   const BREADCRUMB_LABELS = useMemo(() => ({
-    'task-lists':  __('Task Lists'),
-    'overview':    __('Overview'),
-    'discussions': __('Discussions'),
-    'milestones':  __('Milestones'),
-    'files':       __('Files'),
-    'activities':  __('Activities'),
-    'kanban':      __('Kanban Board'),
-    'gantt':       __('Gantt Chart'),
-    'invoices':    __('Invoices'),
-    'settings':    __('Settings'),
-    'my-tasks':    __('My Tasks'),
-    'projects':    __('Projects'),
-    'categories':  __('Categories'),
-    'calendar':    __('Calendar'),
-    'reports':     __('Reports'),
-    'progress':    __('Progress'),
-    'sprints':     __('Sprints'),
-    'modules':     __('Modules'),
-    'premium':     __('Premium'),
-    'license':     __('License'),
+    'task-lists':  __('Task Lists', 'wedevs-project-manager'),
+    'overview':    __('Overview', 'wedevs-project-manager'),
+    'discussions': __('Discussions', 'wedevs-project-manager'),
+    'milestones':  __('Milestones', 'wedevs-project-manager'),
+    'files':       __('Files', 'wedevs-project-manager'),
+    'activities':  __('Activities', 'wedevs-project-manager'),
+    'kanban':      __('Kanban Board', 'wedevs-project-manager'),
+    'gantt':       __('Gantt Chart', 'wedevs-project-manager'),
+    'invoices':    __('Invoices', 'wedevs-project-manager'),
+    'settings':    __('Settings', 'wedevs-project-manager'),
+    'my-tasks':    __('My Tasks', 'wedevs-project-manager'),
+    'projects':    __('Projects', 'wedevs-project-manager'),
+    'categories':  __('Categories', 'wedevs-project-manager'),
+    'calendar':    __('Calendar', 'wedevs-project-manager'),
+    'reports':     __('Reports', 'wedevs-project-manager'),
+    'progress':    __('Progress', 'wedevs-project-manager'),
+    'sprints':     __('Sprints', 'wedevs-project-manager'),
+    'modules':     __('Modules', 'wedevs-project-manager'),
+    'premium':     __('Premium', 'wedevs-project-manager'),
+    'license':     __('License', 'wedevs-project-manager'),
   }), [__])
 
   const breadcrumbs = useMemo(() => {
     const parts = location.pathname.split('/').filter(Boolean)
-    const crumbs = [{ label: BREADCRUMB_LABELS['projects'] || __('Projects'), path: '/projects' }]
+    const crumbs = [{ label: BREADCRUMB_LABELS['projects'] || __('Projects', 'wedevs-project-manager'), path: '/projects' }]
 
     if (parts[0] === 'projects' && parts[1]) {
       const projectLabel = activeProject?.title
@@ -202,26 +201,26 @@ export function TopBar() {
         crumbs.push({ label: section, path: location.pathname })
       }
     } else if (parts[0] === 'my-tasks') {
-      crumbs.push({ label: BREADCRUMB_LABELS['my-tasks'] || __('My Tasks'), path: '/my-tasks' })
+      crumbs.push({ label: BREADCRUMB_LABELS['my-tasks'] || __('My Tasks', 'wedevs-project-manager'), path: '/my-tasks' })
     } else if (parts[0] === 'settings') {
-      crumbs.push({ label: BREADCRUMB_LABELS['settings'] || __('Settings'), path: '/settings' })
+      crumbs.push({ label: BREADCRUMB_LABELS['settings'] || __('Settings', 'wedevs-project-manager'), path: '/settings' })
     } else if (parts[0] === 'categories') {
-      crumbs.push({ label: BREADCRUMB_LABELS['categories'] || __('Categories'), path: '/categories' })
+      crumbs.push({ label: BREADCRUMB_LABELS['categories'] || __('Categories', 'wedevs-project-manager'), path: '/categories' })
     } else if (parts[0] === 'reports') {
-      crumbs.push({ label: BREADCRUMB_LABELS['reports'] || __('Reports'), path: '/reports' })
+      crumbs.push({ label: BREADCRUMB_LABELS['reports'] || __('Reports', 'wedevs-project-manager'), path: '/reports' })
       if (parts[1] === 'report-summary') {
-        crumbs.push({ label: __('Summary Report'), path: location.pathname })
+        crumbs.push({ label: __('Summary Report', 'wedevs-project-manager'), path: location.pathname })
       }
     } else if (parts[0] === 'calendar') {
-      crumbs.push({ label: BREADCRUMB_LABELS['calendar'] || __('Calendar'), path: '/calendar' })
+      crumbs.push({ label: BREADCRUMB_LABELS['calendar'] || __('Calendar', 'wedevs-project-manager'), path: '/calendar' })
     } else if (parts[0] === 'sprints') {
-      crumbs.push({ label: BREADCRUMB_LABELS['sprints'] || __('Sprints'), path: '/sprints' })
+      crumbs.push({ label: BREADCRUMB_LABELS['sprints'] || __('Sprints', 'wedevs-project-manager'), path: '/sprints' })
     } else if (parts[0] === 'modules') {
-      crumbs.push({ label: BREADCRUMB_LABELS['modules'] || __('Modules'), path: '/modules' })
+      crumbs.push({ label: BREADCRUMB_LABELS['modules'] || __('Modules', 'wedevs-project-manager'), path: '/modules' })
     } else if (parts[0] === 'premium') {
-      crumbs.push({ label: BREADCRUMB_LABELS['premium'] || __('Premium'), path: '/premium' })
+      crumbs.push({ label: BREADCRUMB_LABELS['premium'] || __('Premium', 'wedevs-project-manager'), path: '/premium' })
     } else if (parts[0] === 'license') {
-      crumbs.push({ label: BREADCRUMB_LABELS['license'] || __('License'), path: '/license' })
+      crumbs.push({ label: BREADCRUMB_LABELS['license'] || __('License', 'wedevs-project-manager'), path: '/license' })
     } else if (parts[0]) {
       const label = BREADCRUMB_LABELS[parts[0]] ?? parts[0].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
       crumbs.push({ label, path: `/${parts[0]}` })
@@ -273,7 +272,7 @@ export function TopBar() {
           onClick={() => setSearchOpen(true)}
         >
           <Search className="h-3.5 w-3.5" />
-          {__('Search...')}
+          {__('Search...', 'wedevs-project-manager')}
           <kbd className="ml-2 text-[14px] bg-muted px-1 py-0.5 rounded font-mono">⌘K</kbd>
         </Button>
 
@@ -283,7 +282,7 @@ export function TopBar() {
           target="_blank"
           rel="noopener noreferrer"
           className="hidden md:inline-flex items-center gap-1 text-sm text-pm-text-muted hover:text-pm-accent transition-colors shrink-0"
-          title={__('Share your idea')}
+          title={__('Share your idea', 'wedevs-project-manager')}
         >
           <Lightbulb className="h-4 w-4" />
         </a>
@@ -294,7 +293,7 @@ export function TopBar() {
           id="pm-headway-icon"
           role="button"
           tabIndex={0}
-          title={__("What's New")}
+          title={__("What's New", 'wedevs-project-manager')}
           onClick={(e) => {
             e.stopPropagation()
             if (typeof window.Headway !== 'undefined') {
@@ -323,7 +322,7 @@ export function TopBar() {
         <button
           type="button"
           className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors shrink-0"
-          title={isDark ? __('Switch to light mode') : __('Switch to dark mode')}
+          title={isDark ? __('Switch to light mode', 'wedevs-project-manager') : __('Switch to dark mode', 'wedevs-project-manager')}
           onClick={toggleDarkMode}
         >
           {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -339,7 +338,7 @@ export function TopBar() {
                 'p-1.5 rounded transition-colors',
                 sidebarMode === 'plugin' ? 'bg-background shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'
               )}
-              title={__('Plugin sidebar')}
+              title={__('Plugin sidebar', 'wedevs-project-manager')}
             >
               <LayoutDashboard className="h-4 w-4" />
             </button>
@@ -350,7 +349,7 @@ export function TopBar() {
                 'p-1.5 rounded transition-colors',
                 sidebarMode === 'wordpress' ? 'bg-background shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'
               )}
-              title={__('WordPress sidebar')}
+              title={__('WordPress sidebar', 'wedevs-project-manager')}
             >
               <Monitor className="h-4 w-4" />
             </button>
@@ -374,21 +373,21 @@ export function TopBar() {
         <DialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-[480px] p-0 gap-0 overflow-hidden" data-pm-dialog>
           <Command shouldFilter={false} className="rounded-lg">
             <CommandInput
-              placeholder={__('Search projects and tasks...')}
+              placeholder={__('Search projects and tasks...', 'wedevs-project-manager')}
               value={searchQuery}
               onValueChange={handleSearch}
             />
             <CommandList className="max-h-[320px]">
               {searching && (
                 <div className="flex items-center justify-center py-6 text-sm text-muted-foreground">
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__('Searching...')}
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__('Searching...', 'wedevs-project-manager')}
                 </div>
               )}
               {!searching && searchQuery.trim().length >= 2 && !hasResults && (
-                <CommandEmpty>{__('No results found')}</CommandEmpty>
+                <CommandEmpty>{__('No results found', 'wedevs-project-manager')}</CommandEmpty>
               )}
               {searchResults.projects.length > 0 && (
-                <CommandGroup heading={__('Projects')}>
+                <CommandGroup heading={__('Projects', 'wedevs-project-manager')}>
                   {searchResults.projects.map(p => (
                     <CommandItem
                       key={`p-${p.id}`}
@@ -403,7 +402,7 @@ export function TopBar() {
                 </CommandGroup>
               )}
               {searchResults.taskLists.length > 0 && (
-                <CommandGroup heading={__('Task Lists')}>
+                <CommandGroup heading={__('Task Lists', 'wedevs-project-manager')}>
                   {searchResults.taskLists.map(l => (
                     <CommandItem
                       key={`tl-${l.id}`}
@@ -418,7 +417,7 @@ export function TopBar() {
                 </CommandGroup>
               )}
               {searchResults.tasks.length > 0 && (
-                <CommandGroup heading={__('Tasks')}>
+                <CommandGroup heading={__('Tasks', 'wedevs-project-manager')}>
                   {searchResults.tasks.map(t => (
                     <CommandItem
                       key={`t-${t.id}`}
@@ -454,24 +453,24 @@ export function TopBar() {
           <SheetHeader className="px-5 py-4 border-b shrink-0">
             <SheetTitle className="flex items-center gap-2">
               <Bell className="h-5 w-5 text-pm-accent" />
-              {__('Notifications')}
+              {__('Notifications', 'wedevs-project-manager')}
             </SheetTitle>
           </SheetHeader>
           <div className="flex-1 overflow-y-auto min-h-0">
             {notifLoading ? (
               <div className="flex items-center justify-center py-12 text-sm text-pm-text-muted">
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__('Loading...')}
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__('Loading...', 'wedevs-project-manager')}
               </div>
             ) : notifications.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center px-6">
                 <Bell className="h-10 w-10 text-pm-text-muted/30 mb-3" />
-                <p className="text-sm text-pm-text-muted">{__('No notifications yet')}</p>
+                <p className="text-sm text-pm-text-muted">{__('No notifications yet', 'wedevs-project-manager')}</p>
               </div>
             ) : (
               <div className="divide-y divide-border">
                 {notifications.map(n => {
                   // Parse {{placeholder}} templates in activity messages
-                  let msg = n.message || n.description || n.title || __('Activity')
+                  let msg = n.message || n.description || n.title || __('Activity', 'wedevs-project-manager')
                   if (typeof msg === 'string') {
                     msg = msg.replace(/\{\{([^}]+)\}\}/g, (_, path) => {
                       const val = path.split('.').reduce((o, k) => o?.[k], n)

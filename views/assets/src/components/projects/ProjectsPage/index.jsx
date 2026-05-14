@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@store/index";
@@ -17,7 +18,6 @@ import {
   openEditSheet,
 } from "@store/projectsSlice";
 import { cn } from "@lib/utils";
-import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { usePermissions } from "@hooks/usePermissions";
 import { useProApi } from "@hooks/useProApi";
@@ -106,7 +106,6 @@ import {
 export default function ProjectsPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { __ } = useI18n();
   const toast = useToast();
   const { canCreate, isPro } = usePermissions();
   const proApi = useProApi();
@@ -184,9 +183,9 @@ export default function ProjectsPage() {
     async (projectId) => {
       try {
         await dispatch(toggleProjectStatus(projectId)).unwrap();
-        toast.success(__("Project status updated"));
+        toast.success(__("Project status updated", 'wedevs-project-manager'));
       } catch {
-        toast.error(__("Failed to update project status"));
+        toast.error(__("Failed to update project status", 'wedevs-project-manager'));
       }
     },
     [dispatch, toast, __],
@@ -201,9 +200,9 @@ export default function ProjectsPage() {
     if (!projectToDelete) return;
     try {
       await dispatch(deleteProject(projectToDelete.id)).unwrap();
-      toast.success(__("Project deleted"));
+      toast.success(__("Project deleted", 'wedevs-project-manager'));
     } catch {
-      toast.error(__("Failed to delete project"));
+      toast.error(__("Failed to delete project", 'wedevs-project-manager'));
     } finally {
       setDeleteDialogOpen(false);
       setProjectToDelete(null);
@@ -217,10 +216,10 @@ export default function ProjectsPage() {
     }
     try {
       await proApi.post(`duplicate/project/${project.id}`);
-      toast.success(__('Project duplicated'));
+      toast.success(__('Project duplicated', 'wedevs-project-manager'));
       dispatch(fetchProjects({ status: activeFilter === 'all' ? '' : activeFilter }));
     } catch {
-      toast.error(__('Failed to duplicate project'));
+      toast.error(__('Failed to duplicate project', 'wedevs-project-manager'));
     }
   }, [dispatch, isPro, proApi, activeFilter, setProModalOpen, toast, __]);
 
@@ -257,15 +256,15 @@ export default function ProjectsPage() {
     <div className="flex flex-col items-center justify-center py-20 text-center">
       <FolderKanban className="h-16 w-16 text-muted-foreground/40 mb-4" />
       <h3 className="text-lg font-medium text-pm-text-primary mb-1">
-        {__("No projects found")}
+        {__("No projects found", 'wedevs-project-manager')}
       </h3>
       <p className="text-sm text-pm-text-muted mb-4">
-        {__("Get started by creating a new project.")}
+        {__("Get started by creating a new project.", 'wedevs-project-manager')}
       </p>
       {canCreate && (
         <Button onClick={() => dispatch(setCreateSheetOpen(true))}>
           <Plus className="h-5 w-5 mr-2" />
-          {__("New Project")}
+          {__("New Project", 'wedevs-project-manager')}
         </Button>
       )}
     </div>
@@ -277,12 +276,12 @@ export default function ProjectsPage() {
 
     const pid = project.id;
     const items = [
-      { icon: ClipboardList, label: __("Tasks"), value: meta.total_tasks, route: `/projects/${pid}/task-lists` },
-      { icon: MessageSquare, label: __("Discussions"), value: meta.total_discussion_boards, route: `/projects/${pid}/discussions` },
-      { icon: LayoutList, label: __("Task Lists"), value: meta.total_task_lists, route: `/projects/${pid}/task-lists` },
-      { icon: FileText, label: __("Files"), value: meta.total_files, route: `/projects/${pid}/files` },
-      { icon: Milestone, label: __("Milestones"), value: meta.total_milestones, route: `/projects/${pid}/milestones` },
-      { icon: MessagesSquare, label: __("Comments"), value: meta.total_comments, route: `/projects/${pid}/task-lists` },
+      { icon: ClipboardList, label: __("Tasks", 'wedevs-project-manager'), value: meta.total_tasks, route: `/projects/${pid}/task-lists` },
+      { icon: MessageSquare, label: __("Discussions", 'wedevs-project-manager'), value: meta.total_discussion_boards, route: `/projects/${pid}/discussions` },
+      { icon: LayoutList, label: __("Task Lists", 'wedevs-project-manager'), value: meta.total_task_lists, route: `/projects/${pid}/task-lists` },
+      { icon: FileText, label: __("Files", 'wedevs-project-manager'), value: meta.total_files, route: `/projects/${pid}/files` },
+      { icon: Milestone, label: __("Milestones", 'wedevs-project-manager'), value: meta.total_milestones, route: `/projects/${pid}/milestones` },
+      { icon: MessagesSquare, label: __("Comments", 'wedevs-project-manager'), value: meta.total_comments, route: `/projects/${pid}/task-lists` },
     ];
 
     return (
@@ -341,29 +340,29 @@ export default function ProjectsPage() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => dispatch(openEditSheet(project))}>
           <Pencil className="h-5 w-5 mr-2" />
-          {__("Edit")}
+          {__("Edit", 'wedevs-project-manager')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleToggleStatus(project.id)}>
           {isComplete(project) ? (
             <>
               <Undo2 className="h-5 w-5 mr-2" />
-              {__("Restore")}
+              {__("Restore", 'wedevs-project-manager')}
             </>
           ) : (
             <>
               <CheckCircle className="h-5 w-5 mr-2" />
-              {__("Complete")}
+              {__("Complete", 'wedevs-project-manager')}
             </>
           )}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => isPro ? navigate(`/projects/${project.id}/settings`) : setProModalOpen(true)}>
           <Settings className="h-5 w-5 mr-2" />
-          {__("Settings")}
+          {__("Settings", 'wedevs-project-manager')}
           {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleDuplicate(project)}>
           <Copy className="h-5 w-5 mr-2" />
-          {__("Duplicate")}
+          {__("Duplicate", 'wedevs-project-manager')}
           {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -371,7 +370,7 @@ export default function ProjectsPage() {
           onClick={() => confirmDelete(project)}
         >
           <Trash2 className="h-5 w-5 mr-2" />
-          {__("Delete")}
+          {__("Delete", 'wedevs-project-manager')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -459,7 +458,7 @@ export default function ProjectsPage() {
                 </div>
                 {getMeta(project) && (
                   <p className="text-[13px] text-pm-text-muted">
-                    {getMeta(project).total_complete_tasks ?? 0} {__("done")} / {getMeta(project).total_tasks ?? 0} {__("total")}
+                    {getMeta(project).total_complete_tasks ?? 0} {__("done", 'wedevs-project-manager')} / {getMeta(project).total_tasks ?? 0} {__("total", 'wedevs-project-manager')}
                   </p>
                 )}
               </div>
@@ -481,7 +480,7 @@ export default function ProjectsPage() {
                     className="h-1.5 w-1.5 rounded-full"
                     style={{ backgroundColor: statusColor(project) }}
                   />
-                  {__(statusLabel(project))}
+                  {__(statusLabel(project), 'wedevs-project-manager')}
                 </span>
               </div>
             </div>
@@ -497,25 +496,25 @@ export default function ProjectsPage() {
         <thead>
           <tr className="border-b bg-muted/30">
             <th className="text-left px-5 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-              {__("Project")}
+              {__("Project", 'wedevs-project-manager')}
             </th>
             <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-              {__("Status")}
+              {__("Status", 'wedevs-project-manager')}
             </th>
             <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70 w-36">
-              {__("Progress")}
+              {__("Progress", 'wedevs-project-manager')}
             </th>
             <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-              {__("Details")}
+              {__("Details", 'wedevs-project-manager')}
             </th>
             <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-              {__("Members")}
+              {__("Members", 'wedevs-project-manager')}
             </th>
             <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-              {__("Created")}
+              {__("Created", 'wedevs-project-manager')}
             </th>
             <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70 w-10">
-              {__("Action")}
+              {__("Action", 'wedevs-project-manager')}
             </th>
           </tr>
         </thead>
@@ -581,7 +580,7 @@ export default function ProjectsPage() {
                       className="h-1.5 w-1.5 rounded-full"
                       style={{ backgroundColor: statusColor(project) }}
                     />
-                    {__(statusLabel(project))}
+                    {__(statusLabel(project), 'wedevs-project-manager')}
                   </span>
                 </td>
                 <td className="px-4 py-3">
@@ -594,7 +593,7 @@ export default function ProjectsPage() {
                     </div>
                     {getMeta(project) && (
                       <p className="text-[13px] text-pm-text-muted">
-                        {getMeta(project).total_complete_tasks ?? 0} {__("done")} / {getMeta(project).total_tasks ?? 0} {__("total")}
+                        {getMeta(project).total_complete_tasks ?? 0} {__("done", 'wedevs-project-manager')} / {getMeta(project).total_tasks ?? 0} {__("total", 'wedevs-project-manager')}
                       </p>
                     )}
                   </div>
@@ -695,7 +694,7 @@ export default function ProjectsPage() {
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h1 className="text-2xl font-bold text-pm-text-primary">
-          {__("Projects")}
+          {__("Projects", 'wedevs-project-manager')}
         </h1>
         <div className="flex items-center gap-2">
           <Button
@@ -705,7 +704,7 @@ export default function ProjectsPage() {
             onClick={() => setAiDialogOpen(true)}
           >
             <Sparkles className="h-5 w-5" />
-            {__("AI Create")}
+            {__("AI Create", 'wedevs-project-manager')}
           </Button>
           <Button
             size="sm"
@@ -713,7 +712,7 @@ export default function ProjectsPage() {
             onClick={() => dispatch(setCreateSheetOpen(true))}
           >
             <Plus className="h-5 w-5" />
-            {__("New Project")}
+            {__("New Project", 'wedevs-project-manager')}
           </Button>
         </div>
       </div>
@@ -738,7 +737,7 @@ export default function ProjectsPage() {
                     : "text-pm-text-muted hover:text-pm-text-primary",
                 )}
               >
-                {__(tab.label)}
+                {__(tab.label, 'wedevs-project-manager')}
                 <span
                   className="inline-flex items-center justify-center rounded-full px-1.5 min-w-[18px] h-[18px] text-[14px] font-semibold tabular-nums transition-colors"
                   style={isActive ? { backgroundColor: tab.color + '15', color: tab.color } : { color: 'var(--pm-text-muted)' }}
@@ -757,7 +756,7 @@ export default function ProjectsPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
-              placeholder={__('Search projects...')}
+              placeholder={__('Search projects...', 'wedevs-project-manager')}
               className="flex-1 min-w-0 h-full bg-transparent text-sm placeholder:text-pm-text-muted/60 focus:outline-none !border-0 !p-0 !shadow-none"
             />
           </div>
@@ -766,10 +765,10 @@ export default function ProjectsPage() {
             onValueChange={handleCategoryChange}
           >
             <SelectTrigger className="w-[160px] h-9 text-sm">
-              <SelectValue placeholder={__("All Categories")} />
+              <SelectValue placeholder={__("All Categories", 'wedevs-project-manager')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="__all__">{__("All Categories")}</SelectItem>
+              <SelectItem value="__all__">{__("All Categories", 'wedevs-project-manager')}</SelectItem>
               {categories.map((cat) => (
                 <SelectItem key={cat.id} value={String(cat.id)}>
                   {cat.title}
@@ -780,13 +779,13 @@ export default function ProjectsPage() {
 
           <Select value={orderBy} onValueChange={handleSortChange}>
             <SelectTrigger className="w-[160px] h-9 text-sm">
-              <SelectValue placeholder={__("Sort By")} />
+              <SelectValue placeholder={__("Sort By", 'wedevs-project-manager')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="id:desc">{__("Newest First")}</SelectItem>
-              <SelectItem value="id:asc">{__("Oldest First")}</SelectItem>
-              <SelectItem value="title:asc">{__("Title A-Z")}</SelectItem>
-              <SelectItem value="title:desc">{__("Title Z-A")}</SelectItem>
+              <SelectItem value="id:desc">{__("Newest First", 'wedevs-project-manager')}</SelectItem>
+              <SelectItem value="id:asc">{__("Oldest First", 'wedevs-project-manager')}</SelectItem>
+              <SelectItem value="title:asc">{__("Title A-Z", 'wedevs-project-manager')}</SelectItem>
+              <SelectItem value="title:desc">{__("Title Z-A", 'wedevs-project-manager')}</SelectItem>
             </SelectContent>
           </Select>
 
@@ -824,11 +823,11 @@ export default function ProjectsPage() {
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent data-pm-dialog>
           <DialogHeader>
-            <DialogTitle>{__("Delete Project")}</DialogTitle>
+            <DialogTitle>{__("Delete Project", 'wedevs-project-manager')}</DialogTitle>
             <DialogDescription>
-              {__("Are you sure you want to delete")}{" "}
+              {__("Are you sure you want to delete", 'wedevs-project-manager')}{" "}
               <strong>{projectToDelete?.title}</strong>?{" "}
-              {__("This action cannot be undone.")}
+              {__("This action cannot be undone.", 'wedevs-project-manager')}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -836,11 +835,11 @@ export default function ProjectsPage() {
               variant="outline"
               onClick={() => setDeleteDialogOpen(false)}
             >
-              {__("Cancel")}
+              {__("Cancel", 'wedevs-project-manager')}
             </Button>
             <Button variant="destructive" onClick={handleDelete}>
               <Trash2 className="h-5 w-5 mr-2" />
-              {__("Delete")}
+              {__("Delete", 'wedevs-project-manager')}
             </Button>
           </DialogFooter>
         </DialogContent>

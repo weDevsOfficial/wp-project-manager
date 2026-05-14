@@ -1,6 +1,6 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useMemo, useState } from "react";
 import { useApi } from "@hooks/useApi";
-import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { cn } from "@lib/utils";
 import { Button } from "@components/ui/button";
@@ -20,7 +20,6 @@ import {
 import { ListChecks, CheckCircle } from "lucide-react";
 
 export default function ImportTasksDialog({ open, onOpenChange, milestone, projectId, onDone }) {
-  const { __ } = useI18n();
   const api = useApi();
   const toast = useToast();
 
@@ -84,12 +83,12 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
         task_ids: selected,
       });
       toast.success(
-        `${selected.length} ${selected.length === 1 ? __("task linked") : __("tasks linked")}`,
+        `${selected.length} ${selected.length === 1 ? __("task linked", 'wedevs-project-manager') : __("tasks linked", 'wedevs-project-manager')}`,
       );
       onOpenChange(false);
       onDone();
     } catch {
-      toast.error(__("Failed to link tasks"));
+      toast.error(__("Failed to link tasks", 'wedevs-project-manager'));
     }
     setLinking(false);
   };
@@ -98,18 +97,18 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md max-h-[90vh] flex flex-col overflow-hidden" data-pm-dialog>
         <DialogHeader>
-          <DialogTitle>{__("Link Tasks")}</DialogTitle>
+          <DialogTitle>{__("Link Tasks", 'wedevs-project-manager')}</DialogTitle>
           <DialogDescription className="sr-only">
-            {__("Link tasks to this milestone")}
+            {__("Link tasks to this milestone", 'wedevs-project-manager')}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-3 flex-1 overflow-y-auto overflow-x-hidden min-h-0">
           <p className="text-sm text-pm-text-muted">
-            {__("Select tasks to link to")} <strong>{milestone?.title}</strong>
+            {__("Select tasks to link to", 'wedevs-project-manager')} <strong>{milestone?.title}</strong>
           </p>
 
           <Input
-            placeholder={__("Search tasks...")}
+            placeholder={__("Search tasks...", 'wedevs-project-manager')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="h-8 text-sm"
@@ -117,9 +116,9 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
 
           <div className="inline-flex items-center rounded-lg bg-muted/60 p-0.5 gap-0.5">
             {[
-              { key: "all", label: __("All") },
-              { key: "incomplete", label: __("Incomplete") },
-              { key: "complete", label: __("Completed") },
+              { key: "all", label: __("All", 'wedevs-project-manager') },
+              { key: "incomplete", label: __("Incomplete", 'wedevs-project-manager') },
+              { key: "complete", label: __("Completed", 'wedevs-project-manager') },
             ].map((t) => (
               <button
                 key={t.key}
@@ -147,10 +146,10 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
             <div className="py-6 text-center">
               <p className="text-sm text-pm-text-muted">
                 {tasks.length === 0
-                  ? __("No tasks found in this project")
+                  ? __("No tasks found in this project", 'wedevs-project-manager')
                   : search.trim()
-                    ? __("No tasks match your search")
-                    : __("All tasks are already linked")}
+                    ? __("No tasks match your search", 'wedevs-project-manager')
+                    : __("All tasks are already linked", 'wedevs-project-manager')}
               </p>
             </div>
           ) : (
@@ -162,11 +161,11 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
                   onCheckedChange={selectAll}
                 />
                 <label htmlFor="select-all-tasks" className="text-sm font-medium cursor-pointer">
-                  {__("Select All")}
+                  {__("Select All", 'wedevs-project-manager')}
                 </label>
                 {selected.length > 0 && (
                   <Badge variant="secondary" className="text-[11px] ml-auto">
-                    {selected.length} {__("selected")}
+                    {selected.length} {__("selected", 'wedevs-project-manager')}
                   </Badge>
                 )}
               </div>
@@ -203,11 +202,11 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
         </div>
         <DialogFooter className="shrink-0">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            {__("Cancel")}
+            {__("Cancel", 'wedevs-project-manager')}
           </Button>
           <Button onClick={handleLink} disabled={selected.length === 0 || linking}>
             <ListChecks className="h-4 w-4 mr-1" />
-            {__("Link")} {selected.length > 0 && `(${selected.length})`}
+            {__("Link", 'wedevs-project-manager')} {selected.length > 0 && `(${selected.length})`}
           </Button>
         </DialogFooter>
       </DialogContent>

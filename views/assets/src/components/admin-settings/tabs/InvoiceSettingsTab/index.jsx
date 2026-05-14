@@ -1,7 +1,7 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useCallback } from 'react';
 import { useAppDispatch } from '@store/index';
 import { saveGeneral } from '@store/settingsSlice';
-import { useI18n } from '@hooks/useI18n';
 import { useToast } from '@hooks/useToast';
 import { Button } from '@components/ui/button';
 import { Input } from '@components/ui/input';
@@ -13,7 +13,6 @@ import { CURRENCIES, COUNTRIES, getInv } from './constants';
 import ColorPicker from './parts/ColorPicker';
 
 export default function InvoiceSettingsTab() {
-  const { __ } = useI18n();
   const toast = useToast();
   const dispatch = useAppDispatch();
   const [isDirty, setIsDirty] = useState(false);
@@ -101,31 +100,31 @@ export default function InvoiceSettingsTab() {
       await dispatch(saveGeneral({ invoice: invoiceData })).unwrap();
       if (PM_Vars.settings) PM_Vars.settings.invoice = invoiceData;
       setIsDirty(false);
-      toast.success(__('Invoice settings saved'));
+      toast.success(__('Invoice settings saved', 'wedevs-project-manager'));
     } catch (err) {
-      toast.error(err ?? __('Failed to save'));
+      toast.error(err ?? __('Failed to save', 'wedevs-project-manager'));
     }
   };
 
   return (
     <form onSubmit={onSubmit}>
-      <h2 className="text-lg font-semibold text-pm-text mb-1">{__('Invoice Settings')}</h2>
-      <p className="text-sm text-pm-text-muted mb-5">{__('Configure invoice appearance and payment gateways')}</p>
+      <h2 className="text-lg font-semibold text-pm-text mb-1">{__('Invoice Settings', 'wedevs-project-manager')}</h2>
+      <p className="text-sm text-pm-text-muted mb-5">{__('Configure invoice appearance and payment gateways', 'wedevs-project-manager')}</p>
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Appearance')}</h3>
+          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Appearance', 'wedevs-project-manager')}</h3>
         </div>
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
           <div>
-            <Label className="text-sm font-medium">{__('Theme Color')}</Label>
-            <p className="text-sm text-pm-text-muted mt-0.5">{__('Used for invoice header and accents')}</p>
+            <Label className="text-sm font-medium">{__('Theme Color', 'wedevs-project-manager')}</Label>
+            <p className="text-sm text-pm-text-muted mt-0.5">{__('Used for invoice header and accents', 'wedevs-project-manager')}</p>
           </div>
           <ColorPicker value={themeColor} onChange={set(setThemeColor)} />
         </div>
         <div className="flex items-center justify-between px-5 py-4">
           <div>
-            <Label className="text-sm font-medium">{__('Currency')}</Label>
+            <Label className="text-sm font-medium">{__('Currency', 'wedevs-project-manager')}</Label>
           </div>
           <Select value={currencyCode} onValueChange={set(setCurrencyCode)}>
             <SelectTrigger className="w-52 h-8 text-sm">
@@ -140,7 +139,7 @@ export default function InvoiceSettingsTab() {
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Payment Gateways')}</h3>
+          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Payment Gateways', 'wedevs-project-manager')}</h3>
         </div>
 
         <div className="border-b border-pm-border">
@@ -150,8 +149,8 @@ export default function InvoiceSettingsTab() {
                 <span className="text-blue-600 font-bold text-sm">PP</span>
               </div>
               <div>
-                <Label className="text-sm font-semibold">{__('PayPal')}</Label>
-                <p className="text-[15px] text-pm-text-muted">{__('Accept payments via PayPal')}</p>
+                <Label className="text-sm font-semibold">{__('PayPal', 'wedevs-project-manager')}</Label>
+                <p className="text-[15px] text-pm-text-muted">{__('Accept payments via PayPal', 'wedevs-project-manager')}</p>
               </div>
             </div>
             <Switch checked={paypalEnabled} onCheckedChange={set(setPaypalEnabled)} />
@@ -159,18 +158,18 @@ export default function InvoiceSettingsTab() {
           {paypalEnabled && (
             <div className="px-5 pb-4 pt-0 space-y-3 ml-[52px]">
               <div className="flex items-center justify-between">
-                <Label className="text-sm">{__('PayPal Email')}</Label>
+                <Label className="text-sm">{__('PayPal Email', 'wedevs-project-manager')}</Label>
                 <Input value={paypalMail} onChange={e => set(setPaypalMail)(e.target.value)} className="w-64 h-7 text-sm" placeholder="paypal@example.com" />
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-sm">{__('Sandbox Mode')}</Label>
-                  <p className="text-[13px] text-pm-text-muted">{__('Use demo mode for testing')}</p>
+                  <Label className="text-sm">{__('Sandbox Mode', 'wedevs-project-manager')}</Label>
+                  <p className="text-[13px] text-pm-text-muted">{__('Use demo mode for testing', 'wedevs-project-manager')}</p>
                 </div>
                 <Switch checked={sandboxMode} onCheckedChange={set(setSandboxMode)} />
               </div>
               <div>
-                <Label className="text-sm mb-1 block">{__('PayPal Instruction')}</Label>
+                <Label className="text-sm mb-1 block">{__('PayPal Instruction', 'wedevs-project-manager')}</Label>
                 <Textarea value={paypalInstruction} onChange={e => set(setPaypalInstruction)(e.target.value)} className="text-sm" rows={2} />
               </div>
             </div>
@@ -184,8 +183,8 @@ export default function InvoiceSettingsTab() {
                 <span className="text-purple-600 font-bold text-sm">S</span>
               </div>
               <div>
-                <Label className="text-sm font-semibold">{__('Stripe')}</Label>
-                <p className="text-[15px] text-pm-text-muted">{__('Accept credit card payments via Stripe')}</p>
+                <Label className="text-sm font-semibold">{__('Stripe', 'wedevs-project-manager')}</Label>
+                <p className="text-[15px] text-pm-text-muted">{__('Accept credit card payments via Stripe', 'wedevs-project-manager')}</p>
               </div>
             </div>
             <Switch checked={stripeEnabled} onCheckedChange={set(setStripeEnabled)} />
@@ -193,35 +192,35 @@ export default function InvoiceSettingsTab() {
           {stripeEnabled && (
             <div className="px-5 pb-4 pt-0 space-y-3 ml-[52px]">
               <div>
-                <Label className="text-sm mb-1 block">{__('Stripe Instruction')}</Label>
+                <Label className="text-sm mb-1 block">{__('Stripe Instruction', 'wedevs-project-manager')}</Label>
                 <Textarea value={stripeInstruction} onChange={e => set(setStripeInstruction)(e.target.value)} className="text-sm" rows={2} />
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-sm">{__('Enable Test Secret Key')}</Label>
-                  <p className="text-[13px] text-pm-text-muted">{__('Use sandbox mode for testing')}</p>
+                  <Label className="text-sm">{__('Enable Test Secret Key', 'wedevs-project-manager')}</Label>
+                  <p className="text-[13px] text-pm-text-muted">{__('Use sandbox mode for testing', 'wedevs-project-manager')}</p>
                 </div>
                 <Switch checked={stripeTestSecret} onCheckedChange={set(setStripeTestSecret)} />
               </div>
               {stripeTestSecret ? (
                 <>
                   <div className="flex items-center justify-between">
-                    <Label className="text-sm">{__('Test Secret Key')}</Label>
+                    <Label className="text-sm">{__('Test Secret Key', 'wedevs-project-manager')}</Label>
                     <Input value={secretKey} onChange={e => set(setSecretKey)(e.target.value)} className="w-64 h-7 text-sm font-mono" placeholder="sk_test_..." />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label className="text-sm">{__('Test Publishable Key')}</Label>
+                    <Label className="text-sm">{__('Test Publishable Key', 'wedevs-project-manager')}</Label>
                     <Input value={secretPublishableKey} onChange={e => set(setSecretPublishableKey)(e.target.value)} className="w-64 h-7 text-sm font-mono" placeholder="pk_test_..." />
                   </div>
                 </>
               ) : (
                 <>
                   <div className="flex items-center justify-between">
-                    <Label className="text-sm">{__('Live Secret Key')}</Label>
+                    <Label className="text-sm">{__('Live Secret Key', 'wedevs-project-manager')}</Label>
                     <Input value={liveSecretKey} onChange={e => set(setLiveSecretKey)(e.target.value)} className="w-64 h-7 text-sm font-mono" placeholder="sk_live_..." />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label className="text-sm">{__('Live Publishable Key')}</Label>
+                    <Label className="text-sm">{__('Live Publishable Key', 'wedevs-project-manager')}</Label>
                     <Input value={livePublishableKey} onChange={e => set(setLivePublishableKey)(e.target.value)} className="w-64 h-7 text-sm font-mono" placeholder="pk_live_..." />
                   </div>
                 </>
@@ -233,28 +232,28 @@ export default function InvoiceSettingsTab() {
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Invoice Defaults')}</h3>
+          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Invoice Defaults', 'wedevs-project-manager')}</h3>
         </div>
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
           <div>
-            <Label className="text-sm font-medium">{__('Company Name')}</Label>
-            <p className="text-sm text-pm-text-muted mt-0.5">{__('Displayed on invoices as the billing entity')}</p>
+            <Label className="text-sm font-medium">{__('Company Name', 'wedevs-project-manager')}</Label>
+            <p className="text-sm text-pm-text-muted mt-0.5">{__('Displayed on invoices as the billing entity', 'wedevs-project-manager')}</p>
           </div>
-          <Input value={companyName} onChange={e => set(setCompanyName)(e.target.value)} className="w-64 h-8 text-sm" placeholder={__('Your Company Name')} />
+          <Input value={companyName} onChange={e => set(setCompanyName)(e.target.value)} className="w-64 h-8 text-sm" placeholder={__('Your Company Name', 'wedevs-project-manager')} />
         </div>
         <div className="px-5 py-4 border-b border-pm-border">
           <div className="flex items-center justify-between mb-1">
             <div>
-              <Label className="text-sm font-medium">{__('Company Address')}</Label>
-              <p className="text-sm text-pm-text-muted mt-0.5">{__('Full address shown on invoices')}</p>
+              <Label className="text-sm font-medium">{__('Company Address', 'wedevs-project-manager')}</Label>
+              <p className="text-sm text-pm-text-muted mt-0.5">{__('Full address shown on invoices', 'wedevs-project-manager')}</p>
             </div>
           </div>
-          <Textarea value={companyAddress} onChange={e => set(setCompanyAddress)(e.target.value)} className="text-sm mt-2" rows={3} placeholder={__('123 Main St, Suite 100\nCity, State 12345')} />
+          <Textarea value={companyAddress} onChange={e => set(setCompanyAddress)(e.target.value)} className="text-sm mt-2" rows={3} placeholder={__('123 Main St, Suite 100\nCity, State 12345', 'wedevs-project-manager')} />
         </div>
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
           <div>
-            <Label className="text-sm font-medium">{__('Tax Rate (%)')}</Label>
-            <p className="text-sm text-pm-text-muted mt-0.5">{__('Default tax percentage applied to invoices')}</p>
+            <Label className="text-sm font-medium">{__('Tax Rate (%)', 'wedevs-project-manager')}</Label>
+            <p className="text-sm text-pm-text-muted mt-0.5">{__('Default tax percentage applied to invoices', 'wedevs-project-manager')}</p>
           </div>
           <Input
             type="number"
@@ -270,44 +269,44 @@ export default function InvoiceSettingsTab() {
         <div className="px-5 py-4">
           <div className="flex items-center justify-between mb-1">
             <div>
-              <Label className="text-sm font-medium">{__('Default Notes / Terms')}</Label>
-              <p className="text-sm text-pm-text-muted mt-0.5">{__('Automatically included at the bottom of every invoice')}</p>
+              <Label className="text-sm font-medium">{__('Default Notes / Terms', 'wedevs-project-manager')}</Label>
+              <p className="text-sm text-pm-text-muted mt-0.5">{__('Automatically included at the bottom of every invoice', 'wedevs-project-manager')}</p>
             </div>
           </div>
-          <Textarea value={defaultNotes} onChange={e => set(setDefaultNotes)(e.target.value)} className="text-sm mt-2" rows={4} placeholder={__('Payment is due within 30 days of invoice date.\nThank you for your business.')} />
+          <Textarea value={defaultNotes} onChange={e => set(setDefaultNotes)(e.target.value)} className="text-sm mt-2" rows={4} placeholder={__('Payment is due within 30 days of invoice date.\nThank you for your business.', 'wedevs-project-manager')} />
         </div>
       </div>
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Organization')}</h3>
+          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Organization', 'wedevs-project-manager')}</h3>
         </div>
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
-          <Label className="text-sm font-medium">{__('Organization Name')}</Label>
+          <Label className="text-sm font-medium">{__('Organization Name', 'wedevs-project-manager')}</Label>
           <Input value={organization} onChange={e => set(setOrganization)(e.target.value)} className="w-64 h-8 text-sm" />
         </div>
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
-          <Label className="text-sm font-medium">{__('Address Line 1')}</Label>
+          <Label className="text-sm font-medium">{__('Address Line 1', 'wedevs-project-manager')}</Label>
           <Input value={address1} onChange={e => set(setAddress1)(e.target.value)} className="w-64 h-8 text-sm" />
         </div>
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
-          <Label className="text-sm font-medium">{__('Address Line 2')}</Label>
+          <Label className="text-sm font-medium">{__('Address Line 2', 'wedevs-project-manager')}</Label>
           <Input value={address2} onChange={e => set(setAddress2)(e.target.value)} className="w-64 h-8 text-sm" />
         </div>
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
-          <Label className="text-sm font-medium">{__('City')}</Label>
+          <Label className="text-sm font-medium">{__('City', 'wedevs-project-manager')}</Label>
           <Input value={city} onChange={e => set(setCity)(e.target.value)} className="w-64 h-8 text-sm" />
         </div>
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
-          <Label className="text-sm font-medium">{__('State/Province')}</Label>
+          <Label className="text-sm font-medium">{__('State/Province', 'wedevs-project-manager')}</Label>
           <Input value={state} onChange={e => set(setState)(e.target.value)} className="w-64 h-8 text-sm" />
         </div>
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
-          <Label className="text-sm font-medium">{__('Zip/Postal Code')}</Label>
+          <Label className="text-sm font-medium">{__('Zip/Postal Code', 'wedevs-project-manager')}</Label>
           <Input value={zip} onChange={e => set(setZip)(e.target.value)} className="w-40 h-8 text-sm" />
         </div>
         <div className="flex items-center justify-between px-5 py-4">
-          <Label className="text-sm font-medium">{__('Country')}</Label>
+          <Label className="text-sm font-medium">{__('Country', 'wedevs-project-manager')}</Label>
           <Select value={countryCode} onValueChange={set(setCountryCode)}>
             <SelectTrigger className="w-52 h-8 text-sm">
               <SelectValue />
@@ -321,11 +320,11 @@ export default function InvoiceSettingsTab() {
 
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={!isDirty}>
-          {__('Save Changes')}
+          {__('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && (
           <span className="text-sm text-pm-text-muted">
-            {__('You have unsaved changes')}
+            {__('You have unsaved changes', 'wedevs-project-manager')}
           </span>
         )}
       </div>

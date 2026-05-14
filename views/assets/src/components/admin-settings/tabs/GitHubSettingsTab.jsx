@@ -1,10 +1,10 @@
+import { __ } from '@wordpress/i18n';
 /**
  * GitHubSettingsTab — GitHub integration settings (token, enable previews, connection test).
  * Uses the general PM settings API (POST /pm/v2/settings) — same as Vue version.
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { useApi } from '@hooks/useApi'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
@@ -21,7 +21,6 @@ const GitHubLogo = ({ className = '' }) => (
 
 const GitHubSettingsTab = () => {
   const api   = useApi()
-  const { __ } = useI18n()
   const toast  = useToast()
 
   const [accessToken, setAccessToken]       = useState('')

@@ -1,7 +1,7 @@
+import { __ } from '@wordpress/i18n';
 import React, { useCallback, useState } from 'react';
 import { fetchTask } from '@store/tasksSlice';
 import { cn } from '@lib/utils';
-import { useI18n } from '@hooks/useI18n';
 import {
   Popover,
   PopoverContent,
@@ -10,7 +10,6 @@ import {
 import { Check, ListTodo, X } from 'lucide-react';
 
 export default function TaskTypeField({ task, projectId, dispatch, api }) {
-  const { __ } = useI18n();
   const [open, setOpen] = useState(false);
   const [types, setTypes] = useState([]);
   const [loadingTypes, setLoadingTypes] = useState(false);
@@ -60,7 +59,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
   return (
     <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-        <ListTodo className="h-4 w-4" /><span className="text-sm">{__('Type')}</span>
+        <ListTodo className="h-4 w-4" /><span className="text-sm">{__('Type', 'wedevs-project-manager')}</span>
       </div>
       <div className="flex items-center gap-1">
       <Popover open={open} onOpenChange={(v) => { setOpen(v); if (v) loadTypes(); }}>
@@ -71,14 +70,14 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
               ? 'text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded hover:bg-muted'
               : 'text-pm-text-muted hover:text-pm-accent'
           )}>
-            {currentType ? currentType.title : __('Add type')}
+            {currentType ? currentType.title : __('Add type', 'wedevs-project-manager')}
           </button>
         </PopoverTrigger>
         <PopoverContent className="w-44 p-2" align="start">
           {loadingTypes ? (
-            <p className="text-sm text-pm-text-muted py-2 text-center">{__('Loading...')}</p>
+            <p className="text-sm text-pm-text-muted py-2 text-center">{__('Loading...', 'wedevs-project-manager')}</p>
           ) : types.length === 0 ? (
-            <p className="text-sm text-pm-text-muted py-2 text-center">{__('No task types found')}</p>
+            <p className="text-sm text-pm-text-muted py-2 text-center">{__('No task types found', 'wedevs-project-manager')}</p>
           ) : (
             <div className="space-y-0.5">
               {types.map(t => (
@@ -105,7 +104,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
                     onClick={handleClear}
                     disabled={saving}
                   >
-                    {__('Remove type')}
+                    {__('Remove type', 'wedevs-project-manager')}
                   </button>
                 </>
               )}
@@ -118,7 +117,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
           type="button"
           onClick={handleClear}
           className="inline-flex items-center text-pm-text-muted hover:text-destructive transition-colors"
-          title={__('Remove type')}
+          title={__('Remove type', 'wedevs-project-manager')}
         >
           <X className="h-3.5 w-3.5" />
         </button>

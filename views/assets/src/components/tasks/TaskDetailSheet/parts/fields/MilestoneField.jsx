@@ -1,6 +1,6 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useRef } from 'react';
 import { cn } from '@lib/utils';
-import { useI18n } from '@hooks/useI18n';
 import { useToast } from '@hooks/useToast';
 import { useAppDispatch } from '@store/index';
 import { markTaskModified } from '@store/tasksSlice';
@@ -8,7 +8,6 @@ import { removeTaskFromMilestone, addTaskToMilestone } from '@store/milestonesSl
 import { Milestone as MilestoneIcon, ChevronDown, X, Check } from 'lucide-react';
 
 export default function MilestoneField({ task, projectId, api }) {
-  const { __ } = useI18n();
   const toast = useToast();
   const dispatch = useAppDispatch();
   const [milestones, setMilestones] = useState([]);
@@ -88,7 +87,7 @@ export default function MilestoneField({ task, projectId, api }) {
         });
       }
       dispatch(markTaskModified());
-      toast.success(milestone ? __('Milestone assigned') : __('Milestone removed'));
+      toast.success(milestone ? __('Milestone assigned', 'wedevs-project-manager') : __('Milestone removed', 'wedevs-project-manager'));
     } catch {
       // Rollback on failure
       setCurrentMilestone(previous);
@@ -98,7 +97,7 @@ export default function MilestoneField({ task, projectId, api }) {
       if (milestone) {
         dispatch(removeTaskFromMilestone({ milestoneId: milestone.id, taskId }));
       }
-      toast.error(__('Failed to update milestone'));
+      toast.error(__('Failed to update milestone', 'wedevs-project-manager'));
     }
     setSaving(false);
   };
@@ -107,7 +106,7 @@ export default function MilestoneField({ task, projectId, api }) {
     <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
         <MilestoneIcon className="h-4 w-4" />
-        <span className="text-sm">{__('Milestone')}</span>
+        <span className="text-sm">{__('Milestone', 'wedevs-project-manager')}</span>
       </div>
 
       <div className="relative flex items-center gap-1 h-full" ref={dropdownRef}>
@@ -121,7 +120,7 @@ export default function MilestoneField({ task, projectId, api }) {
             'hover:text-pm-accent disabled:opacity-50'
           )}
         >
-          <span>{saving ? __('Saving...') : (currentMilestone?.title || __('None'))}</span>
+          <span>{saving ? __('Saving...', 'wedevs-project-manager') : (currentMilestone?.title || __('None', 'wedevs-project-manager'))}</span>
           <ChevronDown className="h-3.5 w-3.5 shrink-0 opacity-60" />
         </button>
 
@@ -130,7 +129,7 @@ export default function MilestoneField({ task, projectId, api }) {
             type="button"
             onClick={(e) => { e.stopPropagation(); handleSelect(null); }}
             className="inline-flex items-center text-pm-text-muted hover:text-destructive transition-colors"
-            title={__('Remove milestone')}
+            title={__('Remove milestone', 'wedevs-project-manager')}
           >
             <X className="h-3.5 w-3.5" />
           </button>
@@ -146,7 +145,7 @@ export default function MilestoneField({ task, projectId, api }) {
                 !currentMilestone && 'bg-pm-accent/5 text-pm-accent'
               )}
             >
-              <span className="italic">{__('None')}</span>
+              <span className="italic">{__('None', 'wedevs-project-manager')}</span>
               {!currentMilestone && <Check className="h-3.5 w-3.5 shrink-0" />}
             </button>
             {milestones.map(m => (
@@ -164,7 +163,7 @@ export default function MilestoneField({ task, projectId, api }) {
               </button>
             ))}
             {milestones.length === 0 && (
-              <div className="px-3 py-2 text-sm text-pm-text-muted italic">{__('No milestones')}</div>
+              <div className="px-3 py-2 text-sm text-pm-text-muted italic">{__('No milestones', 'wedevs-project-manager')}</div>
             )}
           </div>
         )}
