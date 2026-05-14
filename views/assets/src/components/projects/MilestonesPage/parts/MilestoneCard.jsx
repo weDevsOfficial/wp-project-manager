@@ -35,7 +35,7 @@ import ProBadge from "@components/common/ProBadge";
 import {
   Trash2, MoreHorizontal, CheckCircle, Clock,
   Lock, Unlock, Pencil, MessageSquare, Minus,
-  ListChecks, ChevronDown, Calendar, Timer, Flag,
+  ListChecks, ChevronDown, Calendar, Timer, Flag, Layers,
 } from "lucide-react";
 import TaskCheckbox from "./TaskCheckbox";
 import MilestoneHealthBadge from "./MilestoneHealthBadge";
@@ -319,6 +319,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                 const dueDate = taskDateStr(task.due_date);
                 const est = taskEstTime(task);
                 const commentCount = parseInt(task.meta?.total_comment ?? task.comments_count ?? 0, 10) || 0;
+                const subtaskCount = parseInt(task.meta?.total_sub_task ?? 0, 10) || 0;
                 const taskIsPrivate = checkPrivate(task.meta?.privacy);
                 const priorityColor = task.priority >= 3 ? 'text-red-500' : task.priority === 2 ? 'text-amber-500' : task.priority === 1 ? 'text-blue-500' : '';
                 const overdueTask = isOverdue(task.due_date, task.status);
@@ -364,6 +365,12 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                         <Timer className="h-3.5 w-3.5" />
                         <span>{est}</span>
                       </div>
+                    )}
+                    {subtaskCount > 0 && (
+                      <span className="flex items-center gap-0.5 text-[13px] text-pm-text-muted shrink-0">
+                        <Layers className="h-3.5 w-3.5" />
+                        {subtaskCount}
+                      </span>
                     )}
                     {commentCount > 0 && (
                       <span className="flex items-center gap-0.5 text-[13px] text-pm-text-muted shrink-0">

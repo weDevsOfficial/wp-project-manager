@@ -183,16 +183,42 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
       setDragOverTaskIdx(null)
       return
     }
-    // Optimistic reorder
+    // Optimistic visible reorder
     dispatch(reorderTasksLocal({ listId: list.id, fromIndex: fromIdx, toIndex: toIdx }))
-    // Build orders for API
-    const tasks = [...incompleteTasks]
-    const [moved] = tasks.splice(fromIdx, 1)
-    tasks.splice(toIdx, 0, moved)
-    const orders = tasks.map((t, i) => ({ id: t.id, index: i }))
-
     dragTaskIdx.current = null
     setDragOverTaskIdx(null)
+
+    // Build reordered visible list
+    const visibleTasks = [...incompleteTasks]
+    const [moved] = visibleTasks.splice(fromIdx, 1)
+    visibleTasks.splice(toIdx, 0, moved)
+
+    // Preload remaining tasks so the backend renumbers every order in one shot;
+    // unsent IDs would keep stale orders and scramble the list on refresh.
+    const unloadedTasks = []
+    if (incompleteTasks.length < totalIncomplete) {
+      try {
+        let loadedIds = visibleTasks.map(t => t.id)
+        while (loadedIds.length < totalIncomplete) {
+          const res = await api.get(`projects/${projectId}/task-lists/${list.id}/more/tasks`, {
+            task_ids: loadedIds,
+            status: 0,
+          })
+          const newTasks = res?.data?.tasks?.data ?? res?.data ?? []
+          if (newTasks.length === 0) break
+          unloadedTasks.push(...newTasks)
+          loadedIds = [...loadedIds, ...newTasks.map(t => t.id)]
+        }
+      } catch {
+        // Fall back to visible-only ordering on preload failure.
+      }
+    }
+
+    // Backend stores `index` verbatim; load is ORDER BY order DESC — top needs
+    // highest index.
+    const allTasks = [...visibleTasks, ...unloadedTasks]
+    const lastIdx = allTasks.length - 1
+    const orders = allTasks.map((t, i) => ({ id: t.id, index: lastIdx - i }))
 
     try {
       await dispatch(sortTasks({ projectId, listId: list.id, taskId: moved.id, orders, receive: 0 })).unwrap()
@@ -201,7 +227,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
       dispatch(reorderTasksLocal({ listId: list.id, fromIndex: toIdx, toIndex: fromIdx }))
       toast.error(__('Failed to reorder tasks', 'wedevs-project-manager'))
     }
-  }, [dispatch, projectId, list.id, incompleteTasks, toast, __])
+  }, [dispatch, projectId, list.id, incompleteTasks, totalIncomplete, api, toast, __])
 
   const handleTaskDragEnd = useCallback(() => {
     dragTaskIdx.current = null
