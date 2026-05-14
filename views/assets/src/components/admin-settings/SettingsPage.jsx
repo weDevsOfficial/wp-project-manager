@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import React, { useState, lazy, Suspense } from 'react'
+import React, { useState, useMemo, lazy, Suspense } from 'react'
 import { usePermissions } from '@hooks/usePermissions'
 import ProBadge from '@components/common/ProBadge'
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
@@ -56,16 +56,17 @@ const tabComponents = {
 
 
 // Per-tab pro preview config — maps tab key → ProFeaturePlaceholder props
-const PRO_TAB_CONFIG = {
-  'invoices':    { title: 'Invoices',    description: 'Create and manage invoices for your projects.',          icon: FileText,    mockKey: 'invoices'     },
-  'pages':       { title: 'Pages',       description: 'Configure front-end pages for Project Manager.',         icon: FileText,    mockKey: 'settings'     },
-  'woo-project': { title: 'WooCommerce', description: 'Automatically create projects from WooCommerce orders.', icon: ShoppingCart, mockKey: 'woo-project'  },
-}
+const getProTabConfig = () => ({
+  'invoices':    { title: __('Invoices',    'wedevs-project-manager'), description: __('Create and manage invoices for your projects.',          'wedevs-project-manager'), icon: FileText,     mockKey: 'invoices'     },
+  'pages':       { title: __('Pages',       'wedevs-project-manager'), description: __('Configure front-end pages for Project Manager.',         'wedevs-project-manager'), icon: FileText,     mockKey: 'settings'     },
+  'woo-project': { title: __('WooCommerce', 'wedevs-project-manager'), description: __('Automatically create projects from WooCommerce orders.', 'wedevs-project-manager'), icon: ShoppingCart, mockKey: 'woo-project'  },
+})
 
 // ── Component ────────────────────────────────────────────────
 const SettingsPage = () => {
   const { isPro } = usePermissions()
   const [activeTab, setActiveTab] = useState('general')
+  const PRO_TAB_CONFIG = useMemo(() => getProTabConfig(), [])
 
   // Woo Project tab component — injected by pm-pro via filter (only when module is active)
   const WooProjectComponent = useFilter('settings.tab.woo-project.component', null)

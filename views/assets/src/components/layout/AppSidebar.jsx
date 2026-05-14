@@ -394,7 +394,7 @@ export function AppSidebar() {
                   )}
                 >
                   <SubIcon className={cn('h-4 w-4 shrink-0', subActive ? 'text-pm-accent' : 'text-pm-text-muted/70')} />
-                  <TruncText className="text-[14px]">{__(sub.label, 'wedevs-project-manager')}</TruncText>
+                  <TruncText className="text-[14px]">{sub.label}</TruncText>
                   {sub.proPreview && <span className="shrink-0 opacity-0 group-hover/sub:opacity-100 transition-opacity"><ProBadge /></span>}
                 </Link>
               )

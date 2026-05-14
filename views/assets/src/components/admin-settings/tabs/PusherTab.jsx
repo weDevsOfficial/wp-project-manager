@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { savePusher } from '@store/settingsSlice'
 import { useToast } from '@hooks/useToast'
@@ -10,20 +10,21 @@ import { Label } from '@components/ui/label'
 import { Switch } from '@components/ui/switch'
 import { Radio, Zap, Bell } from 'lucide-react'
 
-const TRIGGERS = [
-  { key: 'pusher_notify_task_assign',    label: 'Task assigned',           desc: 'Notify users when assigned to a task' },
-  { key: 'pusher_notify_task_status',    label: 'Task status changed',     desc: 'Notify on complete / re-open' },
-  { key: 'pusher_notify_task_update',    label: 'Task updated',            desc: 'Notify on title, description, or due date change' },
-  { key: 'pusher_notify_comment_new',    label: 'New comment',             desc: 'Notify on new comment' },
-  { key: 'pusher_notify_comment_update', label: 'Comment updated',         desc: 'Notify when a comment is edited' },
-  { key: 'pusher_notify_message_new',    label: 'New discussion message',  desc: 'Notify on new discussion board message' },
-  { key: 'pusher_notify_message_update', label: 'Discussion updated',      desc: 'Notify when a discussion message is edited' },
+const getTriggers = () => [
+  { key: 'pusher_notify_task_assign',    label: __('Task assigned',          'wedevs-project-manager'), desc: __('Notify users when assigned to a task',           'wedevs-project-manager') },
+  { key: 'pusher_notify_task_status',    label: __('Task status changed',    'wedevs-project-manager'), desc: __('Notify on complete / re-open',                   'wedevs-project-manager') },
+  { key: 'pusher_notify_task_update',    label: __('Task updated',           'wedevs-project-manager'), desc: __('Notify on title, description, or due date change', 'wedevs-project-manager') },
+  { key: 'pusher_notify_comment_new',    label: __('New comment',            'wedevs-project-manager'), desc: __('Notify on new comment',                          'wedevs-project-manager') },
+  { key: 'pusher_notify_comment_update', label: __('Comment updated',        'wedevs-project-manager'), desc: __('Notify when a comment is edited',                'wedevs-project-manager') },
+  { key: 'pusher_notify_message_new',    label: __('New discussion message', 'wedevs-project-manager'), desc: __('Notify on new discussion board message',         'wedevs-project-manager') },
+  { key: 'pusher_notify_message_update', label: __('Discussion updated',     'wedevs-project-manager'), desc: __('Notify when a discussion message is edited',     'wedevs-project-manager') },
 ]
 
 const PusherTab = () => {
   const toast  = useToast()
   const api    = useApi()
   const dispatch = useAppDispatch()
+  const TRIGGERS = useMemo(() => getTriggers(), [])
 
   const pusher       = useAppSelector((s) => s.settings.pusher)
   const pusherSaving = useAppSelector((s) => s.settings.pusherSaving)
@@ -153,10 +154,10 @@ const PusherTab = () => {
             <div className="flex items-center justify-between px-5 py-4">
               <div>
                 <Label htmlFor={t.key} className="text-sm font-medium text-pm-text">
-                  {__(t.label, 'wedevs-project-manager')}
+                  {t.label}
                 </Label>
                 <p className="text-sm text-pm-text-muted mt-0.5">
-                  {__(t.desc, 'wedevs-project-manager')}
+                  {t.desc}
                 </p>
               </div>
               <Switch

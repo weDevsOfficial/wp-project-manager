@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Sparkles,
   Calendar,
@@ -33,26 +33,26 @@ import {
 const UPGRADE_URL =
   "https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=wpdashboard&utm_medium=premium-page";
 
-const FEATURES = [
+const getFeatures = () => [
   {
-    title: "Calendar",
-    desc: "Get the birdseye view of all tasks from an interactive calendar.",
+    title: __("Calendar", 'wedevs-project-manager'),
+    desc: __("Get the birdseye view of all tasks from an interactive calendar.", 'wedevs-project-manager'),
     icon: Calendar,
     bg: "#E5E7FD",
     fg: "text-indigo-500",
     url: "https://wedevs.com/wp-project-manager-pro/features/",
   },
   {
-    title: "Report",
-    desc: "Generate actionable insights with built-in reporting system.",
+    title: __("Report", 'wedevs-project-manager'),
+    desc: __("Generate actionable insights with built-in reporting system.", 'wedevs-project-manager'),
     icon: BarChart3,
     bg: "#E7DAF3",
     fg: "text-purple-500",
     url: "https://wedevs.com/wp-project-manager-pro/features/",
   },
   {
-    title: "Progress",
-    desc: "Stay updated with the live progress of your projects. Plan ahead of deadline.",
+    title: __("Progress", 'wedevs-project-manager'),
+    desc: __("Stay updated with the live progress of your projects. Plan ahead of deadline.", 'wedevs-project-manager'),
     icon: TrendingUp,
     bg: "#DAEEF0",
     fg: "text-teal-500",
@@ -60,78 +60,81 @@ const FEATURES = [
   },
 ];
 
-const MODULES = [
+const getModules = () => [
   {
-    title: "Recurring Task",
-    desc: "Automate routine tasks with this super handy module. Just set the patterns & parameters and the tasks will repeat itself accordingly.",
+    title: __("Recurring Task", 'wedevs-project-manager'),
+    desc: __("Automate routine tasks with this super handy module. Just set the patterns & parameters and the tasks will repeat itself accordingly.", 'wedevs-project-manager'),
     icon: Repeat,
     url: "https://wedevs.com/products/plugins/wp-project-manager-pro/recurring-task/",
   },
   {
-    title: "BuddyPress",
-    desc: "Need to bring team networking in your project manager? You're good to go.",
+    title: __("BuddyPress", 'wedevs-project-manager'),
+    desc: __("Need to bring team networking in your project manager? You're good to go.", 'wedevs-project-manager'),
     icon: Users2,
     url: "https://wedevs.com/products/plugins/wp-project-manager-pro/buddypress/",
   },
   {
-    title: "Gantt Chart",
-    desc: "Get a graphical overview of task progress, deadline, sub-tasks, project dependencies - everything in one place.",
+    title: __("Gantt Chart", 'wedevs-project-manager'),
+    desc: __("Get a graphical overview of task progress, deadline, sub-tasks, project dependencies - everything in one place.", 'wedevs-project-manager'),
     icon: BarChart,
     url: "https://wedevs.com/products/plugins/wp-project-manager-pro/gantt-chart/",
   },
   {
-    title: "Kanban Board",
-    desc: "Organize your tasks in Kanban style to keep team-mates updated about task status.",
+    title: __("Kanban Board", 'wedevs-project-manager'),
+    desc: __("Organize your tasks in Kanban style to keep team-mates updated about task status.", 'wedevs-project-manager'),
     icon: Columns3,
     url: "https://wedevs.com/products/plugins/wp-project-manager-pro/kanban-board/",
   },
   {
-    title: "WooCommerce Order",
-    desc: "Integrate task management with your WooCommerce store and automate the workflow.",
+    title: __("WooCommerce Order", 'wedevs-project-manager'),
+    desc: __("Integrate task management with your WooCommerce store and automate the workflow.", 'wedevs-project-manager'),
     icon: ShoppingCart,
     url: "https://wedevs.com/products/plugins/wp-project-manager-pro/woocommerce-order/",
   },
   {
-    title: "Sub Task",
-    desc: "Break down your tasks into smaller ones to work more effectively. Keep track of every detail.",
+    title: __("Sub Task", 'wedevs-project-manager'),
+    desc: __("Break down your tasks into smaller ones to work more effectively. Keep track of every detail.", 'wedevs-project-manager'),
     icon: GitBranch,
     url: "https://wedevs.com/products/plugins/wp-project-manager-pro/sub-task/",
   },
   {
-    title: "Time Tracker",
-    desc: "Track the exact time you spend on specific tasks. With Interval option of course.",
+    title: __("Time Tracker", 'wedevs-project-manager'),
+    desc: __("Track the exact time you spend on specific tasks. With Interval option of course.", 'wedevs-project-manager'),
     icon: Clock,
     url: "https://wedevs.com/products/plugins/wp-project-manager-pro/time-tracker/",
   },
   {
-    title: "Invoice",
-    desc: "Invoice creation, payment collection have never been easier before.",
+    title: __("Invoice", 'wedevs-project-manager'),
+    desc: __("Invoice creation, payment collection have never been easier before.", 'wedevs-project-manager'),
     icon: Receipt,
     url: "https://wedevs.com/products/plugins/wp-project-manager-pro/invoice/",
   },
   {
-    title: "Stripe Gateway",
-    desc: "Enable the hassle-free and popular payment system with the minimum cost possible.",
+    title: __("Stripe Gateway", 'wedevs-project-manager'),
+    desc: __("Enable the hassle-free and popular payment system with the minimum cost possible.", 'wedevs-project-manager'),
     icon: CreditCard,
     url: "https://wedevs.com/products/plugins/wp-project-manager-pro/invoice-stripe-gateway/",
   },
 ];
 
-const MORE_FEATURES = [
-  { text: "Built-in private messenger", icon: MessageSquare },
-  { text: "Set the start & end date of the project", icon: CalendarRange },
-  { text: "Upload all files in one place", icon: Upload },
-  { text: "Create folders for files", icon: FolderOpen },
-  { text: "Link messages & task lists with files", icon: Link2 },
-  { text: "Project user permission", icon: Shield },
-  { text: "Team category permission", icon: Users2 },
-  { text: "Frontend projects and discussions", icon: Globe },
-  { text: "Automatic daily digest emails", icon: Bell },
-  { text: "Advanced filters for reports", icon: Filter },
-  { text: "Real-time updates", icon: Zap },
+const getMoreFeatures = () => [
+  { text: __("Built-in private messenger",              'wedevs-project-manager'), icon: MessageSquare },
+  { text: __("Set the start & end date of the project", 'wedevs-project-manager'), icon: CalendarRange },
+  { text: __("Upload all files in one place",           'wedevs-project-manager'), icon: Upload },
+  { text: __("Create folders for files",                'wedevs-project-manager'), icon: FolderOpen },
+  { text: __("Link messages & task lists with files",   'wedevs-project-manager'), icon: Link2 },
+  { text: __("Project user permission",                 'wedevs-project-manager'), icon: Shield },
+  { text: __("Team category permission",                'wedevs-project-manager'), icon: Users2 },
+  { text: __("Frontend projects and discussions",       'wedevs-project-manager'), icon: Globe },
+  { text: __("Automatic daily digest emails",           'wedevs-project-manager'), icon: Bell },
+  { text: __("Advanced filters for reports",            'wedevs-project-manager'), icon: Filter },
+  { text: __("Real-time updates",                       'wedevs-project-manager'), icon: Zap },
 ];
 
 export default function PremiumPage() {
+  const FEATURES = useMemo(() => getFeatures(), []);
+  const MODULES = useMemo(() => getModules(), []);
+  const MORE_FEATURES = useMemo(() => getMoreFeatures(), []);
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-8">
@@ -180,10 +183,10 @@ export default function PremiumPage() {
               <f.icon className={`h-5 w-5 ${f.fg}`} />
             </div>
             <h3 className="text-sm font-semibold text-pm-text-primary mb-1">
-              {__(f.title, 'wedevs-project-manager')}
+              {f.title}
             </h3>
             <p className="text-sm text-pm-text-muted leading-relaxed mb-2">
-              {__(f.desc, 'wedevs-project-manager')}
+              {f.desc}
             </p>
             <a
               href={f.url}
@@ -220,10 +223,10 @@ export default function PremiumPage() {
                 </div>
                 <div className="min-w-0">
                   <h4 className="text-sm font-semibold text-pm-text-primary mb-0.5">
-                    {__(m.title, 'wedevs-project-manager')}
+                    {m.title}
                   </h4>
                   <p className="text-[15px] text-pm-text-muted leading-relaxed">
-                    {__(m.desc, 'wedevs-project-manager')}
+                    {m.desc}
                   </p>
                   <a
                     href={m.url}
@@ -266,7 +269,7 @@ export default function PremiumPage() {
                   <Check className="h-3.5 w-3.5 text-emerald-500" strokeWidth={3} />
                 </span>
                 <span className="text-sm text-pm-text-primary">
-                  {__(f.text, 'wedevs-project-manager')}
+                  {f.text}
                 </span>
               </div>
             ))}

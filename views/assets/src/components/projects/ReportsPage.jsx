@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import React from "react";
+import React, { useMemo } from "react";
 import { usePermissions } from "@hooks/usePermissions";
 import { useLicenseGuard } from "@components/common/LicenseGuard";
 import { useProModal } from "@components/common/ProUpgradeModal";
@@ -17,46 +17,46 @@ import {
   Eye,
 } from "lucide-react";
 
-const REPORTS = [
+const getReports = () => [
   {
     id: "overdue",
-    title: "Overdue Task(s)",
-    desc: "Generate a report based on tasks which are pending beyond due dates.",
+    title: __("Overdue Task(s)", 'wedevs-project-manager'),
+    desc: __("Generate a report based on tasks which are pending beyond due dates.", 'wedevs-project-manager'),
     icon: AlertTriangle,
     color: "text-red-500 bg-red-50",
   },
   {
     id: "completed",
-    title: "Complete Task(s)",
-    desc: "Generate a report from tasks which were completed.",
+    title: __("Complete Task(s)", 'wedevs-project-manager'),
+    desc: __("Generate a report from tasks which were completed.", 'wedevs-project-manager'),
     icon: CheckCircle,
     color: "text-emerald-500 bg-emerald-50",
   },
   {
     id: "user-activities",
-    title: "User Activities",
-    desc: "Create a report based on an employee or all employee activity on tasks.",
+    title: __("User Activities", 'wedevs-project-manager'),
+    desc: __("Create a report based on an employee or all employee activity on tasks.", 'wedevs-project-manager'),
     icon: Users,
     color: "text-blue-500 bg-blue-50",
   },
   {
     id: "milestone",
-    title: "Task by Milestone",
-    desc: "Browse tasks reports according to Milestones (CSV exportable).",
+    title: __("Task by Milestone", 'wedevs-project-manager'),
+    desc: __("Browse tasks reports according to Milestones (CSV exportable).", 'wedevs-project-manager'),
     icon: Milestone,
     color: "text-purple-500 bg-purple-50",
   },
   {
     id: "unassigned",
-    title: "Unassigned Task",
-    desc: "Find out all tasks which were not assigned to any employee.",
+    title: __("Unassigned Task", 'wedevs-project-manager'),
+    desc: __("Find out all tasks which were not assigned to any employee.", 'wedevs-project-manager'),
     icon: UserX,
     color: "text-amber-500 bg-amber-50",
   },
   {
     id: "summary",
-    title: "Summary",
-    desc: "Browse summary reports with charts and estimation data (CSV exportable).",
+    title: __("Summary", 'wedevs-project-manager'),
+    desc: __("Browse summary reports with charts and estimation data (CSV exportable).", 'wedevs-project-manager'),
     icon: BarChart3,
     color: "text-indigo-500 bg-indigo-50",
   },
@@ -65,6 +65,7 @@ const REPORTS = [
 export default function ReportsPage() {
   const { isPro, isProLicensed } = usePermissions();
   const { setOpen } = useProModal();
+  const REPORTS = useMemo(() => getReports(), []);
 
   const licenseGuard = useLicenseGuard();
   if (licenseGuard) return licenseGuard;
@@ -105,13 +106,13 @@ export default function ReportsPage() {
 
                 {/* Title */}
                 <h3 className="text-sm font-semibold text-pm-text-primary">
-                  {__(r.title, 'wedevs-project-manager')}
+                  {r.title}
                   {!isPro && <ProBadge className="ml-2 align-middle" />}
                 </h3>
 
                 {/* Description */}
                 <p className="text-sm text-pm-text-muted leading-relaxed min-h-[40px]">
-                  {__(r.desc, 'wedevs-project-manager')}
+                  {r.desc}
                 </p>
 
                 {/* Action button */}

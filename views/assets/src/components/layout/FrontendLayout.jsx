@@ -16,19 +16,19 @@ const currentUser = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user : {}
 // Settings/Tools/Modules stay wp-admin-only.
 function getNavItems(isPro, isAdmin) {
   const items = [
-    { path: '/projects', label: 'Projects', icon: FolderKanban },
-    { path: '/my-tasks', label: 'My Tasks', icon: CheckSquare },
+    { path: '/projects', label: __('Projects', 'wedevs-project-manager'), icon: FolderKanban },
+    { path: '/my-tasks', label: __('My Tasks', 'wedevs-project-manager'), icon: CheckSquare },
   ]
   if (isPro) {
     items.push(
-      { path: '/calendar', label: 'Calendar', icon: Calendar },
-      { path: '/reports', label: 'Reports', icon: BarChart3 },
+      { path: '/calendar', label: __('Calendar', 'wedevs-project-manager'), icon: Calendar },
+      { path: '/reports',  label: __('Reports',  'wedevs-project-manager'), icon: BarChart3 },
     )
   }
   if (isAdmin) {
-    items.push({ path: '/categories', label: 'Categories', icon: Tag })
+    items.push({ path: '/categories', label: __('Categories', 'wedevs-project-manager'), icon: Tag })
   }
-  items.push({ path: '/premium', label: 'Upgrade', icon: Crown, hideWhenPro: true })
+  items.push({ path: '/premium', label: __('Upgrade', 'wedevs-project-manager'), icon: Crown, hideWhenPro: true })
   return items
 }
 
@@ -79,7 +79,7 @@ export function FrontendLayout() {
                       )}
                     >
                       <Icon className="h-4 w-4" />
-                      {__(item.label, 'wedevs-project-manager')}
+                      {item.label}
                     </button>
                   )
                 })}
@@ -128,7 +128,7 @@ export function FrontendLayout() {
                     )}
                   >
                     <Icon className="h-5 w-5" />
-                    {__(item.label, 'wedevs-project-manager')}
+                    {item.label}
                   </button>
                 )
               })}

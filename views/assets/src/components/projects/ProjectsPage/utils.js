@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import { unwrapData } from "@lib/pm-utils";
 
 export function getMeta(p) {
@@ -24,10 +25,10 @@ export function statusColor(p) {
 }
 
 export function statusLabel(p) {
-  if (isComplete(p)) return 'Completed';
-  if (p.status === 'archived' || p.status === '2' || p.status === 2) return 'Archived';
-  if (p.status === 'pending' || p.status === '3' || p.status === 3) return 'Pending';
-  return 'Active';
+  if (isComplete(p)) return __('Completed', 'wedevs-project-manager');
+  if (p.status === 'archived' || p.status === '2' || p.status === 2) return __('Archived', 'wedevs-project-manager');
+  if (p.status === 'pending' || p.status === '3' || p.status === 3) return __('Pending', 'wedevs-project-manager');
+  return __('Active', 'wedevs-project-manager');
 }
 
 export function userInitials(name) {
@@ -51,9 +52,9 @@ export function getDescriptionSnippet(project) {
   return raw ? stripHtml(raw).trim() : "";
 }
 
-export const FILTER_TABS = [
-  { key: "incomplete", label: "Active",    countKey: "total_incomplete", color: "#6366f1" },
-  { key: "complete",   label: "Completed", countKey: "total_complete",   color: "#10b981" },
-  { key: "favourite",  label: "Favourite", countKey: "total_favourite",  color: "#f59e0b" },
-  { key: "all",        label: "All",                                     color: "#6b7280" },
+export const getFilterTabs = () => [
+  { key: "incomplete", label: __("Active",    'wedevs-project-manager'), countKey: "total_incomplete", color: "#6366f1" },
+  { key: "complete",   label: __("Completed", 'wedevs-project-manager'), countKey: "total_complete",   color: "#10b981" },
+  { key: "favourite",  label: __("Favourite", 'wedevs-project-manager'), countKey: "total_favourite",  color: "#f59e0b" },
+  { key: "all",        label: __("All",       'wedevs-project-manager'),                               color: "#6b7280" },
 ];

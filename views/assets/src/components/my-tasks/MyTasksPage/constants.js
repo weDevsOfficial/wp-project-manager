@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import {
   CheckSquare, AlertTriangle, CheckCircle, Activity,
   MessageSquare, PieChart as PieChartIcon, Plus,
@@ -18,25 +19,36 @@ export const ACTIVITY_ICON_MAP = {
 };
 
 export const ACTIVITY_COLOR_MAP = { create: 'bg-emerald-500', update: 'bg-blue-500', delete: 'bg-red-500' };
-export const ACTIVITY_LABELS = { create: 'Created', update: 'Updated', delete: 'Deleted' };
 
-export const ACTIVITY_FALLBACKS = {
-  create_project: 'created a project', create_task: 'created a task', delete_task: 'deleted a task',
-  update_task_title: 'updated task title', update_task_status: 'updated task status',
-  update_task_start_at: 'updated task start date', update_task_due_date: 'updated task due date',
-  create_task_list: 'created a task list', create_milestone: 'created a milestone',
-  create_discussion_board: 'created a discussion', comment_on_task: 'commented on a task',
-};
+export const getActivityLabels = () => ({
+  create: __('Created', 'wedevs-project-manager'),
+  update: __('Updated', 'wedevs-project-manager'),
+  delete: __('Deleted', 'wedevs-project-manager'),
+});
+
+export const getActivityFallbacks = () => ({
+  create_project:          __('created a project', 'wedevs-project-manager'),
+  create_task:             __('created a task', 'wedevs-project-manager'),
+  delete_task:             __('deleted a task', 'wedevs-project-manager'),
+  update_task_title:       __('updated task title', 'wedevs-project-manager'),
+  update_task_status:      __('updated task status', 'wedevs-project-manager'),
+  update_task_start_at:    __('updated task start date', 'wedevs-project-manager'),
+  update_task_due_date:    __('updated task due date', 'wedevs-project-manager'),
+  create_task_list:        __('created a task list', 'wedevs-project-manager'),
+  create_milestone:        __('created a milestone', 'wedevs-project-manager'),
+  create_discussion_board: __('created a discussion', 'wedevs-project-manager'),
+  comment_on_task:         __('commented on a task', 'wedevs-project-manager'),
+});
 
 export const isPro = typeof PM_Vars !== "undefined" && !!PM_Vars.is_pro;
 
-export const TABS = [
-  { key: "current",     label: "Current Tasks", icon: CheckSquare,    taskType: "current" },
-  { key: "outstanding", label: "Outstanding",   icon: AlertTriangle,  taskType: "outstanding" },
-  { key: "complete",    label: "Completed",     icon: CheckCircle,    taskType: "complete" },
-  { key: "overview",    label: "Overview",      icon: PieChartIcon },
-  { key: "activities",  label: "Activities",    icon: Activity },
-  { key: "reports",     label: "Reports",       icon: BarChart3, pro: true },
+export const getTabs = () => [
+  { key: "current",     label: __('Current Tasks', 'wedevs-project-manager'), icon: CheckSquare,    taskType: "current" },
+  { key: "outstanding", label: __('Outstanding',   'wedevs-project-manager'), icon: AlertTriangle,  taskType: "outstanding" },
+  { key: "complete",    label: __('Completed',     'wedevs-project-manager'), icon: CheckCircle,    taskType: "complete" },
+  { key: "overview",    label: __('Overview',      'wedevs-project-manager'), icon: PieChartIcon },
+  { key: "activities",  label: __('Activities',    'wedevs-project-manager'), icon: Activity },
+  { key: "reports",     label: __('Reports',       'wedevs-project-manager'), icon: BarChart3, pro: true },
 ];
 
 export const PIE_COLORS = ["#61BD4F", "#EB5A46", "#0090D9"];
