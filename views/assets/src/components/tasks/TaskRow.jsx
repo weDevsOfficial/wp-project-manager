@@ -42,6 +42,7 @@ import {
   Unlock,
   Crown,
   Github,
+  Layers,
 } from 'lucide-react'
 import MoveTaskDialog from './MoveTaskDialog'
 import {
@@ -259,6 +260,13 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
         <Badge variant="destructive" className="text-[11px] px-1.5 py-0 h-4 shrink-0">
           Overdue
         </Badge>
+      )}
+
+      {(task.meta?.total_sub_task ?? 0) > 0 && (
+        <span className="flex items-center gap-0.5 text-[15px] text-pm-text-muted shrink-0">
+          <Layers className="h-3.5 w-3.5" />
+          {task.meta.total_sub_task}
+        </span>
       )}
 
       {/* Comment count */}

@@ -1252,7 +1252,8 @@ class Task_Controller {
                     ) SEPARATOR '|'
                 ) as assignees"
             )
-            ->selectRaw( "count($comment.id) as total_comment" )
+            // DISTINCT avoids cartesian inflation from sibling LEFT JOINs.
+            ->selectRaw( "count(DISTINCT $comment.id) as total_comment" )
             ->whereIn( $task . '.id', $task_ids )
 
             ->leftJoin( $list, function( $join ) use($task, $list) {
