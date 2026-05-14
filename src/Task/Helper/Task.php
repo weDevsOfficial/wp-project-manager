@@ -249,13 +249,16 @@ class Task {
 
 	private function set_item_meta( $item, $task ) {
 		$item['meta'] = empty( $task->meta ) ? [] : $task->meta;
-		
+
 		$item['meta']['total_comment']     = $task->total_comments;
 		$item['meta']['can_complete_task'] = $this->wedevs_pm_user_can_complete_task( $task );
 		$item['meta']['total_files']       = $task->total_files;
 		$item['meta']['total_assignee']    = count( $task->assignees['data'] );
+		if ( ! isset( $item['meta']['total_sub_task'] ) ) {
+			$item['meta']['total_sub_task'] = 0;
+		}
 		$item['meta']['privacy']           = $task->is_private;
-		
+
 		return $item;
 	}
 

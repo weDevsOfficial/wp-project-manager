@@ -125,6 +125,7 @@ class Task_Transformer extends TransformerAbstract {
             'total_files'       => $item->files->count(),
             'total_board'       => $item->boards->count(),
             'total_assignee'    => $item->assignees->count(),
+            'total_sub_task'    => 0,
             'can_complete_task' => wedevs_pm_user_can_complete_task( $item ),
         ] );
         
