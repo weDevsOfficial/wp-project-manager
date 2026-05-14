@@ -1,4 +1,4 @@
-import { ACTIVITY_FALLBACKS } from './constants';
+import { getActivityFallbacks } from './constants';
 
 export function parseActivityMessage(act) {
   const actor = act.actor?.data || {};
@@ -6,7 +6,7 @@ export function parseActivityMessage(act) {
   let msg = act.message || "";
 
   if (!msg) {
-    const fallback = ACTIVITY_FALLBACKS[act.action];
+    const fallback = getActivityFallbacks()[act.action];
     if (fallback) {
       const title = meta.task_title || meta.task_list_title || meta.project_title
         || meta.milestone_title || meta.discussion_board_title || '';

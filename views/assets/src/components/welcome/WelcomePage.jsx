@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@components/ui/button'
 import { Card, CardContent } from '@components/ui/card'
@@ -32,11 +32,10 @@ function getAssetUrl(path) {
   return assetsUrl + path
 }
 
-const FEATURES = [
+const getFeatures = () => [
   {
-    name: 'Overview',
-    description:
-      'In the overview section you will get a complete picture of your project. A chart for what has been done in the last 30 days, no of discussion, task lists, milestones and more.',
+    name: __('Overview', 'wedevs-project-manager'),
+    description: __('In the overview section you will get a complete picture of your project. A chart for what has been done in the last 30 days, no of discussion, task lists, milestones and more.', 'wedevs-project-manager'),
     video: 'rliDPp4sIyM',
     thumb: 'overview-thumb.jpg',
     icon: LayoutDashboard,
@@ -44,9 +43,8 @@ const FEATURES = [
     fg: 'text-blue-500',
   },
   {
-    name: 'Activities',
-    description:
-      'You will also get a complete activity log history from the activities section of your project. All the activity will also be divided by date so it is easier to keep track.',
+    name: __('Activities', 'wedevs-project-manager'),
+    description: __('You will also get a complete activity log history from the activities section of your project. All the activity will also be divided by date so it is easier to keep track.', 'wedevs-project-manager'),
     video: 'KarLsZ8FPQQ',
     thumb: 'activities-thumb.jpg',
     icon: Activity,
@@ -54,9 +52,8 @@ const FEATURES = [
     fg: 'text-purple-500',
   },
   {
-    name: 'Team Discussion',
-    description:
-      'There is a built-in discussion panel right inside your projects. Consisting open, group discussion feature. Making team collaboration much more effective.',
+    name: __('Team Discussion', 'wedevs-project-manager'),
+    description: __('There is a built-in discussion panel right inside your projects. Consisting open, group discussion feature. Making team collaboration much more effective.', 'wedevs-project-manager'),
     video: 'uCXHBIa-1Eg',
     thumb: 'discussion-thumb.jpg',
     icon: MessageSquare,
@@ -64,9 +61,8 @@ const FEATURES = [
     fg: 'text-indigo-500',
   },
   {
-    name: 'To-do Lists',
-    description:
-      'In your projects you get a separate Task List tab to divide your work. You will be able to set due date for a task, set milestone, categorize and more.',
+    name: __('To-do Lists', 'wedevs-project-manager'),
+    description: __('In your projects you get a separate Task List tab to divide your work. You will be able to set due date for a task, set milestone, categorize and more.', 'wedevs-project-manager'),
     video: 'mZS-GWiB1WQ',
     thumb: 'task-thumb.jpg',
     icon: ListChecks,
@@ -74,9 +70,8 @@ const FEATURES = [
     fg: 'text-green-500',
   },
   {
-    name: 'Milestone',
-    description:
-      'In the Milestones tab you will be able to set a specific milestone you want to reach. Set the name, due date, details. You will also see tasks set under each milestone.',
+    name: __('Milestone', 'wedevs-project-manager'),
+    description: __('In the Milestones tab you will be able to set a specific milestone you want to reach. Set the name, due date, details. You will also see tasks set under each milestone.', 'wedevs-project-manager'),
     video: 'umJozhMjkho',
     thumb: 'milestone-thumb.jpg',
     icon: Milestone,
@@ -84,9 +79,8 @@ const FEATURES = [
     fg: 'text-amber-600',
   },
   {
-    name: 'Manage Files',
-    description:
-      "You don't need to rely on a separate file manager. WP Project Manager's Files feature will let you store all your files and see it in one place.",
+    name: __('Manage Files', 'wedevs-project-manager'),
+    description: __("You don't need to rely on a separate file manager. WP Project Manager's Files feature will let you store all your files and see it in one place.", 'wedevs-project-manager'),
     video: 'i1F3MNwrJbM',
     thumb: 'file-thumb.jpg',
     icon: FolderOpen,
@@ -95,30 +89,27 @@ const FEATURES = [
   },
 ]
 
-const RESOURCES = [
+const getResources = () => [
   {
-    title: 'Upgrade',
-    description:
-      'Get upgraded to Pro version to unlock endless opportunities of managing your project better.',
-    buttonLabel: 'Upgrade to Pro',
+    title: __('Upgrade', 'wedevs-project-manager'),
+    description: __('Get upgraded to Pro version to unlock endless opportunities of managing your project better.', 'wedevs-project-manager'),
+    buttonLabel: __('Upgrade to Pro', 'wedevs-project-manager'),
     buttonUrl: 'https://wedevs.com/wp-project-manager-pro/pricing/',
     icon: Crown,
     gradient: 'from-emerald-400 to-teal-500',
   },
   {
-    title: 'Pro Features',
-    description:
-      'Enhance your project management performance with extended features in the pro version.',
-    buttonLabel: 'View Pro Features',
+    title: __('Pro Features', 'wedevs-project-manager'),
+    description: __('Enhance your project management performance with extended features in the pro version.', 'wedevs-project-manager'),
+    buttonLabel: __('View Pro Features', 'wedevs-project-manager'),
     buttonUrl: 'https://wedevs.com/wp-project-manager-pro/extensions/',
     icon: Sparkles,
     gradient: 'from-yellow-400 to-orange-500',
   },
   {
-    title: 'Module',
-    description:
-      'Check out all the useful modules that would take your project management experience to a whole new level.',
-    buttonLabel: 'Go to Modules',
+    title: __('Module', 'wedevs-project-manager'),
+    description: __('Check out all the useful modules that would take your project management experience to a whole new level.', 'wedevs-project-manager'),
+    buttonLabel: __('Go to Modules', 'wedevs-project-manager'),
     buttonUrl: 'https://wedevs.com/wp-project-manager-pro/extensions/',
     icon: Package,
     gradient: 'from-violet-400 to-blue-500',
@@ -167,7 +158,7 @@ function FeatureCard({ feature, __ }) {
         >
           <img
             src={getAssetUrl('images/welcome/' + feature.thumb)}
-            alt={__(feature.name, 'wedevs-project-manager')}
+            alt={feature.name}
             className="w-full h-auto block"
           />
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
@@ -184,10 +175,10 @@ function FeatureCard({ feature, __ }) {
             <feature.icon className={`h-5 w-5 ${feature.fg}`} />
           </div>
           <h3 className="text-base font-semibold text-pm-text-primary mb-2">
-            {__(feature.name, 'wedevs-project-manager')}
+            {feature.name}
           </h3>
           <p className="text-sm text-pm-text-muted leading-relaxed">
-            {__(feature.description, 'wedevs-project-manager')}
+            {feature.description}
           </p>
         </CardContent>
       </Card>
@@ -198,6 +189,8 @@ function FeatureCard({ feature, __ }) {
 export default function WelcomePage() {
   const navigate = useNavigate()
   const [bannerVideoOpen, setBannerVideoOpen] = useState(false)
+  const FEATURES = useMemo(() => getFeatures(), [])
+  const RESOURCES = useMemo(() => getResources(), [])
 
   return (
     <div className="max-w-[960px] mx-auto p-4 sm:p-6 space-y-12">
@@ -314,10 +307,10 @@ export default function WelcomePage() {
                   <resource.icon className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="text-lg font-semibold text-pm-text-primary mb-2">
-                  {__(resource.title, 'wedevs-project-manager')}
+                  {resource.title}
                 </h3>
                 <p className="text-sm text-pm-text-muted leading-relaxed mb-4">
-                  {__(resource.description, 'wedevs-project-manager')}
+                  {resource.description}
                 </p>
                 <Button asChild size="sm" variant="default" className="font-medium">
                   <a
@@ -326,7 +319,7 @@ export default function WelcomePage() {
                     rel="noopener noreferrer"
                     className="no-underline"
                   >
-                    {__(resource.buttonLabel, 'wedevs-project-manager')}
+                    {resource.buttonLabel}
                     <ArrowRight className="h-4 w-4 ml-1.5" />
                   </a>
                 </Button>

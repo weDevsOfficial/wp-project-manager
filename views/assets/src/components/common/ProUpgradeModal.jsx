@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -32,34 +32,34 @@ export function useProModal() {
 
 // ── Checklist data (matches Vue 2 popup.vue exactly) ──
 
-const checklistItems = [
+const getChecklistItems = () => [
   {
-    text: 'Give your team & projects additional pace with 10+ premium modules such as - ',
-    bold: 'Stripe Gateway, Time Tracker, Sub Task, Invoice, Kanban Board, Gantt Chart, WooCommerce Order, BuddyPress',
-    suffix: ' etc',
+    text: __('Give your team & projects additional pace with 10+ premium modules such as - ', 'wedevs-project-manager'),
+    bold: __('Stripe Gateway, Time Tracker, Sub Task, Invoice, Kanban Board, Gantt Chart, WooCommerce Order, BuddyPress', 'wedevs-project-manager'),
+    suffix: __(' etc', 'wedevs-project-manager'),
   },
   {
-    text: 'Experience the ',
-    bold: 'Advanced Files Manager',
-    mid: ' that helps you to ',
-    bold2: 'upload, store',
-    mid2: ' or ',
-    bold3: 'create files, documents, custom fields,',
-    mid3: ' and ',
-    bold4: 'images',
-    suffix: ' from one place and keeps you hassle-free',
+    text: __('Experience the ', 'wedevs-project-manager'),
+    bold: __('Advanced Files Manager', 'wedevs-project-manager'),
+    mid: __(' that helps you to ', 'wedevs-project-manager'),
+    bold2: __('upload, store', 'wedevs-project-manager'),
+    mid2: __(' or ', 'wedevs-project-manager'),
+    bold3: __('create files, documents, custom fields,', 'wedevs-project-manager'),
+    mid3: __(' and ', 'wedevs-project-manager'),
+    bold4: __('images', 'wedevs-project-manager'),
+    suffix: __(' from one place and keeps you hassle-free', 'wedevs-project-manager'),
   },
   {
-    text: 'Get more ',
-    bold: 'Advanced Reporting, Automatic',
-    mid: ' Daily Digest Mail, and ',
-    bold2: 'Real-Time Updates',
+    text: __('Get more ', 'wedevs-project-manager'),
+    bold: __('Advanced Reporting, Automatic', 'wedevs-project-manager'),
+    mid: __(' Daily Digest Mail, and ', 'wedevs-project-manager'),
+    bold2: __('Real-Time Updates', 'wedevs-project-manager'),
   },
   {
     text: '',
-    bold: 'Collaborate',
-    mid: ' with your team members privately with ',
-    bold2: 'Built-in Private Messenger',
+    bold: __('Collaborate', 'wedevs-project-manager'),
+    mid: __(' with your team members privately with ', 'wedevs-project-manager'),
+    bold2: __('Built-in Private Messenger', 'wedevs-project-manager'),
   },
 ]
 
@@ -119,6 +119,7 @@ function FeatureSlider() {
 
 function ProUpgradeModal() {
   const { open, setOpen } = useProModal()
+  const checklistItems = useMemo(() => getChecklistItems(), [])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -157,15 +158,15 @@ function ProUpgradeModal() {
                 <div key={i} className="flex" style={{ alignItems: 'flex-start' }}>
                   <img src={`${typeof PM_Vars !== 'undefined' ? PM_Vars.dir_url : '/wp-content/plugins/wedevs-project-manager/'}views/assets/images/modules/check.svg`} alt="" style={{ margin: '1em 14px 0 0', padding: '6px 5px', background: '#139F84', borderRadius: '20px', flexShrink: 0, width: '24px', height: '24px' }} />
                   <p style={{ color: 'var(--pm-text-muted)', marginBottom: '2px', paddingRight: '32px', lineHeight: '1.6', fontSize: '14px' }}>
-                    {item.text && __(item.text, 'wedevs-project-manager')}
-                    {item.bold && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold, 'wedevs-project-manager')}</span>}
-                    {item.mid && __(item.mid, 'wedevs-project-manager')}
-                    {item.bold2 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold2, 'wedevs-project-manager')}</span>}
-                    {item.mid2 && __(item.mid2, 'wedevs-project-manager')}
-                    {item.bold3 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold3, 'wedevs-project-manager')}</span>}
-                    {item.mid3 && __(item.mid3, 'wedevs-project-manager')}
-                    {item.bold4 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold4, 'wedevs-project-manager')}</span>}
-                    {item.suffix && __(item.suffix, 'wedevs-project-manager')}
+                    {item.text && item.text}
+                    {item.bold && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{item.bold}</span>}
+                    {item.mid && item.mid}
+                    {item.bold2 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{item.bold2}</span>}
+                    {item.mid2 && item.mid2}
+                    {item.bold3 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{item.bold3}</span>}
+                    {item.mid3 && item.mid3}
+                    {item.bold4 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{item.bold4}</span>}
+                    {item.suffix && item.suffix}
                   </p>
                 </div>
               ))}

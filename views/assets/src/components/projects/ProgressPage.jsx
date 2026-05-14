@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePermissions } from '@hooks/usePermissions'
 import { useLicenseGuard } from '@components/common/LicenseGuard'
@@ -11,9 +11,9 @@ import { Badge } from '@components/ui/badge'
 import { Separator } from '@components/ui/separator'
 
 // Mock activity data for the preview
-const MOCK_ACTIVITIES = [
+const getMockActivities = () => [
   {
-    date: 'Today',
+    date: __('Today', 'wedevs-project-manager'),
     items: [
       { id: 1, user: 'Sarah K.', initials: 'SK', action: 'create', type: 'task', message: 'created a task "Update homepage design"', project: 'Website Redesign', time: '2 hours ago', color: 'bg-emerald-500' },
       { id: 2, user: 'John D.', initials: 'JD', action: 'update', type: 'task', message: 'completed task "Fix login bug"', project: 'Backend API', time: '3 hours ago', color: 'bg-blue-500' },
@@ -22,7 +22,7 @@ const MOCK_ACTIVITIES = [
     ],
   },
   {
-    date: 'Yesterday',
+    date: __('Yesterday', 'wedevs-project-manager'),
     items: [
       { id: 5, user: 'Sarah K.', initials: 'SK', action: 'update', type: 'milestone', message: 'updated milestone "Phase 2 Launch"', project: 'Mobile App', time: '1 day ago', color: 'bg-blue-500' },
       { id: 6, user: 'Alex W.', initials: 'AW', action: 'create', type: 'project', message: 'created project "Q2 Marketing Campaign"', project: 'Q2 Marketing Campaign', time: '1 day ago', color: 'bg-emerald-500' },
@@ -95,6 +95,7 @@ function MockActivityItem({ item }) {
 export default function ProgressPage() {
   const { isPro, isProLicensed } = usePermissions()
   const { setOpen } = useProModal()
+  const MOCK_ACTIVITIES = useMemo(() => getMockActivities(), [])
 
   const licenseGuard = useLicenseGuard()
   if (licenseGuard) return licenseGuard
@@ -142,7 +143,7 @@ export default function ProgressPage() {
             {MOCK_ACTIVITIES.map((group) => (
               <div key={group.date}>
                 <div className="flex items-center gap-3 mb-2 px-1">
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-pm-text-muted/70">{__(group.date, 'wedevs-project-manager')}</h3>
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-pm-text-muted/70">{group.date}</h3>
                   <Separator className="flex-1" />
                 </div>
                 <div className="space-y-0.5">

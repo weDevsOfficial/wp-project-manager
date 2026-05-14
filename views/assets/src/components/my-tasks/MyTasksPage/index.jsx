@@ -70,9 +70,9 @@ import { cn } from "@lib/utils";
 import {
   ACTIVITY_ICON_MAP,
   ACTIVITY_COLOR_MAP,
-  ACTIVITY_LABELS,
+  getActivityLabels,
   isPro,
-  TABS,
+  getTabs,
   PIE_COLORS,
 } from "./constants";
 import { parseActivityMessage } from "./utils";
@@ -88,6 +88,9 @@ export default function MyTasksPage() {
   const toast = useToast();
   const { canManage } = usePermissions();
   const { setOpen: setProModalOpen } = useProModal();
+
+  const TABS = useMemo(() => getTabs(), []);
+  const ACTIVITY_LABELS = useMemo(() => getActivityLabels(), []);
 
   const [activeTab, setActiveTab] = useState("current");
   const [loading, setLoading] = useState(true);
@@ -510,7 +513,7 @@ export default function MyTasksPage() {
               }`}
             >
               <Icon className="h-4 w-4" />
-              {__(tab.label, 'wedevs-project-manager')}
+              {tab.label}
               {tab.pro && !isPro && (
                 <span className="inline-flex items-center gap-0.5 bg-pm-accent/10 text-pm-accent text-[11px] font-semibold px-1.5 py-0.5 rounded">
                   <Crown className="h-3 w-3" />PRO
