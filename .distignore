@@ -56,3 +56,11 @@ vendor/doctrine/deprecations/src/PHPUnit
 vendor/doctrine/deprecations/test_fixtures
 vendor/doctrine/deprecations/tests
 /.claude
+
+# Dev tooling + AI agent files (must not ship to wp.org)
+CLAUDE.md
+CLAUDE.local.md
+CLAUDE.local.md.example
+.npmrc
+.nvmrc
+.env.example
