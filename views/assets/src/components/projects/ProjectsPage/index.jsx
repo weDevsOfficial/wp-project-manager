@@ -87,6 +87,10 @@ import {
   Pencil,
   Settings,
   Search,
+  CheckSquare,
+  ListChecks,
+  FileCheck2,
+  MessageSquareText,
 } from "lucide-react";
 
 import AiCreateDialog from "../AiCreateDialog";
@@ -276,27 +280,30 @@ export default function ProjectsPage() {
 
     const pid = project.id;
     const items = [
-      { icon: ClipboardList, label: __("Tasks", 'wedevs-project-manager'), value: meta.total_tasks, route: `/projects/${pid}/task-lists` },
-      { icon: MessageSquare, label: __("Discussions", 'wedevs-project-manager'), value: meta.total_discussion_boards, route: `/projects/${pid}/discussions` },
-      { icon: LayoutList, label: __("Task Lists", 'wedevs-project-manager'), value: meta.total_task_lists, route: `/projects/${pid}/task-lists` },
-      { icon: FileText, label: __("Files", 'wedevs-project-manager'), value: meta.total_files, route: `/projects/${pid}/files` },
-      { icon: Milestone, label: __("Milestones", 'wedevs-project-manager'), value: meta.total_milestones, route: `/projects/${pid}/milestones` },
-      { icon: MessagesSquare, label: __("Comments", 'wedevs-project-manager'), value: meta.total_comments, route: `/projects/${pid}/task-lists` },
+      { icon: ClipboardList, value: meta?.total_tasks ?? 0, label: __('Total Tasks', 'wedevs-project-manager'), color: "text-[#7a3ae9] dark:text-[#a78bfa]", bg: "bg-[#f1e8ff] dark:bg-[#7a3ae9]/10", route: `/projects/${pid}/task-lists` },
+      { icon: MessageSquare, value: meta?.total_discussion_boards ?? 0, label: __('Discussions', 'wedevs-project-manager'), color: "text-[#b59a00] dark:text-[#eab308]", bg: "bg-[#fff4bc] dark:bg-[#b59a00]/10", route: `/projects/${pid}/discussions` },
+      { icon: ListChecks, value: meta?.total_task_lists ?? 0, label: __('Task Lists', 'wedevs-project-manager'), color: "text-[#1d6fdb] dark:text-[#60a5fa]", bg: "bg-[#e8f2ff] dark:bg-[#1d6fdb]/10", route: `/projects/${pid}/task-lists` },
+      { icon: FileCheck2, value: meta?.total_complete_tasks ?? 0, label: __('Complete Tasks', 'wedevs-project-manager'), color: "text-[#d9414a] dark:text-[#f87171]", bg: "bg-[#ffe8e9] dark:bg-[#d9414a]/10", route: `/projects/${pid}/task-lists` },
+      { icon: MessageSquareText, value: meta?.total_comments ?? 0, label: __('Comments', 'wedevs-project-manager'), color: "text-[#1a9e28] dark:text-[#4ade80]", bg: "bg-[#cdffd0] dark:bg-[#1a9e28]/10", route: `/projects/${pid}/task-lists` },
+      { icon: Milestone, value: meta?.total_milestones ?? 0, label: __('Milestones', 'wedevs-project-manager'), color: "text-[#c87028] dark:text-[#fb923c]", bg: "bg-[#fff2e8] dark:bg-[#c87028]/10", route: `/projects/${pid}/milestones` },
     ];
 
     return (
       <TooltipProvider delayDuration={200}>
-        <div className="flex items-center gap-3 text-pm-text-muted">
+        <div className="flex flex-wrap items-center gap-[12px] content-center">
           {items.map((item) => (
             <Tooltip key={item.label}>
               <TooltipTrigger asChild>
-                <button
-                  type="button"
-                  className="flex items-center gap-1 text-sm hover:text-pm-accent transition-colors"
+                <button 
+                  className="flex items-center justify-start gap-[8px] transition-opacity hover:opacity-80"
                   onClick={(e) => { e.stopPropagation(); navigate(item.route) }}
                 >
-                  <item.icon className="h-5 w-5" />
-                  <span>{item.value ?? 0}</span>
+                  <div className={cn("p-[6px] rounded-[4px] flex items-center justify-start", item.bg, item.color)}>
+                    <item.icon className="h-4 w-4" strokeWidth={1.5} />
+                  </div>
+                  <span className="text-[#6B7280] dark:text-gray-400 text-[14px] font-normal leading-[22.75px] break-words">
+                    {String(item.value ?? 0).padStart(2, '0')}
+                  </span>
                 </button>
               </TooltipTrigger>
               <TooltipContent side="bottom">
@@ -315,16 +322,14 @@ export default function ProjectsPage() {
     const overflow = users.length - 6;
 
     return (
-      <div className="flex items-center -space-x-2">
+      <div className="flex items-center -space-x-2.5 overflow-hidden p-1 pl-2">
         {visible.map((user) => (
-          <UserAvatar key={user.id} user={user} size="md" className="border-2 border-background" />
+          <UserAvatar key={user.id} user={user} className="h-[28px] w-[28px] border-2 border-white bg-[#e5e7eb] shrink-0 overflow-hidden" />
         ))}
         {overflow > 0 && (
-          <Avatar className="h-7 w-7 border-2 border-background">
-            <AvatarFallback className="text-[14px] bg-muted">
-              +{overflow}
-            </AvatarFallback>
-          </Avatar>
+          <div className="flex items-center justify-center h-[28px] w-[28px] rounded-full bg-muted border-2 border-white text-[12px] font-medium text-muted-foreground z-10 shrink-0">
+            +{overflow}
+          </div>
         )}
       </div>
     );
@@ -385,22 +390,13 @@ export default function ProjectsPage() {
         return (
           <div
             key={project.id}
-            className="group relative rounded-xl border bg-card overflow-hidden hover:shadow-lg hover:border-border/80 transition-all duration-200"
+            className="group relative rounded-xl border bg-card overflow-hidden transition-all duration-200 flex flex-col"
           >
-            <div
-              className="absolute left-0 top-0 bottom-0 w-1 rounded-l-xl"
-              style={{ backgroundColor: projectColor }}
-            />
-
-            <div className="pl-5 pr-4 py-4 space-y-3">
+            <div className="p-5 space-y-6 flex-1">
               <div className="flex items-start justify-between gap-2">
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <span
-                    className="h-2 w-2 rounded-full shrink-0 ring-2 ring-background"
-                    style={{ backgroundColor: projectColor }}
-                  />
+                <div className="flex flex-col gap-2 flex-1 min-w-0">
                   <h3
-                    className="font-semibold text-sm text-pm-text-primary line-clamp-1 cursor-pointer hover:text-pm-accent transition-colors"
+                    className="font-bold text-[16px] text-pm-text-primary line-clamp-1 cursor-pointer hover:text-pm-accent transition-colors"
                     role="button"
                     tabIndex={0}
                     onClick={() =>
@@ -415,44 +411,40 @@ export default function ProjectsPage() {
                   >
                     {project.title}
                   </h3>
+                  {getDescriptionSnippet(project) && (
+                    <p className="text-[14px] text-pm-text-muted truncate leading-[22.75px]">
+                      {getDescriptionSnippet(project)}
+                    </p>
+                  )}
                 </div>
-                <div className="flex items-center gap-0.5 shrink-0">
+                <div className="flex items-center gap-1 shrink-0 -mt-1 -mr-1">
                   <Button
                     variant="ghost"
                     size="icon"
-                    className={cn(
-                      "h-7 w-7 transition-opacity",
-                      !project.favourite && "opacity-0 group-hover:opacity-100",
-                    )}
+                    className="h-8 w-8 transition-opacity"
                     onClick={() => handleToggleFavourite(project.id)}
                   >
                     <Star
                       className={cn(
-                        "h-4 w-4",
+                        "h-4 w-4 transition-colors",
                         project.favourite
-                          ? "fill-yellow-400 text-yellow-400"
+                          ? "fill-[#ff8d14] text-[#ff8d14]"
                           : "text-muted-foreground",
                       )}
                     />
                   </Button>
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div>
                     {renderProjectDropdown(project)}
                   </div>
                 </div>
               </div>
 
-              {getDescriptionSnippet(project) && (
-                <p className="text-sm text-pm-text-muted truncate leading-relaxed">
-                  {getDescriptionSnippet(project)}
-                </p>
-              )}
-
               {renderMetaCounters(project)}
 
-              <div className="space-y-1">
+              <div className="flex flex-col gap-[3px]">
                 <div className="flex items-center gap-2.5">
-                  <Progress value={progress} className="h-1 flex-1" />
-                  <span className="text-[14px] font-medium text-pm-text-muted tabular-nums w-7 text-right">
+                  <Progress value={progress} className="h-1 flex-1 [&>div]:bg-[#7a3ae9]" />
+                  <span className="text-[14px] font-medium text-pm-text-muted tabular-nums w-[36px] text-right">
                     {progress}%
                   </span>
                 </div>
@@ -462,27 +454,27 @@ export default function ProjectsPage() {
                   </p>
                 )}
               </div>
+            </div>
 
-              <div className="flex items-center justify-between pt-1">
-                <div className="flex items-center gap-3">
-                  {renderAssignees(project)}
-                  {project.created_at && (
-                    <span className="text-[13px] text-pm-text-muted">
-                      {formatPmDate(project.created_at)}
-                    </span>
-                  )}
-                </div>
-                <span
-                  className="inline-flex items-center gap-1 text-[15px] font-medium px-2 py-0.5 rounded-full"
-                  style={{ backgroundColor: statusColor(project) + '12', color: statusColor(project) }}
-                >
-                  <span
-                    className="h-1.5 w-1.5 rounded-full"
-                    style={{ backgroundColor: statusColor(project) }}
-                  />
-                  {__(statusLabel(project), 'wedevs-project-manager')}
-                </span>
+            <div className="px-5 py-4 border-t border-border bg-card flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-3">
+                {renderAssignees(project)}
+                {project.created_at && (
+                  <span className="text-[13px] text-pm-text-muted">
+                    {formatPmDate(project.created_at)}
+                  </span>
+                )}
               </div>
+              <span
+                className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 h-7 text-[12px] font-medium"
+                style={{ 
+                  backgroundColor: statusColor(project) + '10', 
+                  color: statusColor(project),
+                  boxShadow: `inset 0 0 0 1px ${statusColor(project)}20`
+                }}
+              >
+                {__(statusLabel(project), 'wedevs-project-manager')}
+              </span>
             </div>
           </div>
         );

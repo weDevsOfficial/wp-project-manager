@@ -6,11 +6,11 @@ import { usePermissions } from '@hooks/usePermissions'
 import { useActiveProModules, isProModuleActive, isProPluginInstalled } from '@hooks/useActiveProModules'
 import ProBadge from '@components/common/ProBadge'
 import {
-  FolderKanban, CheckSquare, Calendar, BarChart3,
+  FolderKanban, ClipboardList, Calendar, FileText,
   Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen,
   ChevronDown, Star, LayoutList, Layout, MessageSquare,
-  Milestone, FileText, Activity, Tag, Crown, Layers,
-  Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
+  Milestone, Activity, Crown, Layers, Minus, LayoutGrid,
+  Columns3, GitBranch, Receipt, History, FolderKey, Wrench, Folder
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
@@ -45,11 +45,11 @@ export function AppSidebar() {
 
   // ── Project sub-nav items — inside component so __() is extractable by make-pot ──
   const projectSubNav_FREE = useMemo(() => [
-    { key: 'task-lists',   label: __('Task Lists', 'wedevs-project-manager'),   icon: LayoutList,     path: (pid) => `/projects/${pid}/task-lists` },
-    { key: 'overview',     label: __('Overview', 'wedevs-project-manager'),      icon: Layout,         path: (pid) => `/projects/${pid}/overview` },
-    { key: 'discussions',  label: __('Discussions', 'wedevs-project-manager'),   icon: MessageSquare,  path: (pid) => `/projects/${pid}/discussions` },
-    { key: 'milestones',   label: __('Milestones', 'wedevs-project-manager'),    icon: Milestone,      path: (pid) => `/projects/${pid}/milestones` },
-    { key: 'files',        label: __('Files', 'wedevs-project-manager'),         icon: FileText,       path: (pid) => `/projects/${pid}/files` },
+    { key: 'task-lists', label: __('Task Lists', 'wedevs-project-manager'), icon: LayoutList, path: (pid) => `/projects/${pid}/task-lists` },
+    { key: 'overview', label: __('Overview', 'wedevs-project-manager'), icon: Layout, path: (pid) => `/projects/${pid}/overview` },
+    { key: 'discussions', label: __('Discussions', 'wedevs-project-manager'), icon: MessageSquare, path: (pid) => `/projects/${pid}/discussions` },
+    { key: 'milestones', label: __('Milestones', 'wedevs-project-manager'), icon: Milestone, path: (pid) => `/projects/${pid}/milestones` },
+    { key: 'files', label: __('Files', 'wedevs-project-manager'), icon: FileText, path: (pid) => `/projects/${pid}/files` },
   ], [__])
 
   // Pro sub-nav items — filtered by the provided active module paths
@@ -57,17 +57,17 @@ export function AppSidebar() {
     const isActive = (dir) => isProModuleActive(modulePaths, dir)
     const items = []
     // Activities is not a module, always show when pro is active
-    items.push({ key: 'activities', label: __('Activities', 'wedevs-project-manager'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
-    if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: __('Kanban Board', 'wedevs-project-manager'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
-    if (isActive('Gantt'))     items.push({ key: 'gantt',    label: __('Gantt Chart', 'wedevs-project-manager'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
+    items.push({ key: 'activities', label: __('Activities', 'wedevs-project-manager'), icon: Activity, path: (pid) => `/projects/${pid}/activities` })
+    if (isActive('Kanboard')) items.push({ key: 'kanban', label: __('Kanban Board', 'wedevs-project-manager'), icon: Columns3, path: (pid) => `/projects/${pid}/kanban` })
+    if (isActive('Gantt')) items.push({ key: 'gantt', label: __('Gantt Chart', 'wedevs-project-manager'), icon: GitBranch, path: (pid) => `/projects/${pid}/gantt` })
     const canSeeManagerItems = canManage || isManagerAnywhere
-    if (isActive('Invoice') && canSeeManagerItems) items.push({ key: 'invoices', label: __('Invoices', 'wedevs-project-manager'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
+    if (isActive('Invoice') && canSeeManagerItems) items.push({ key: 'invoices', label: __('Invoices', 'wedevs-project-manager'), icon: Receipt, path: (pid) => `/projects/${pid}/invoices` })
     if (canSeeManagerItems) items.push({ key: 'settings', label: __('Settings', 'wedevs-project-manager'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
     return items
   }, [__, canManage, isManagerAnywhere])
   const location = useLocation()
   const navigate = useNavigate()
-  const api      = useApi()
+  const api = useApi()
 
   const activeModulePaths = useActiveProModules()
 
@@ -76,13 +76,13 @@ export function AppSidebar() {
   const projectSubNav = useMemo(() => {
     if (isPro) return [...projectSubNav_FREE, ...getProSubNav(activeModulePaths)]
     const proItems = [
-      { key: 'activities', label: __('Activities', 'wedevs-project-manager'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities`, proPreview: true },
-      { key: 'kanban',   label: __('Kanban Board', 'wedevs-project-manager'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
-      { key: 'gantt',    label: __('Gantt Chart', 'wedevs-project-manager'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
+      { key: 'activities', label: __('Activities', 'wedevs-project-manager'), icon: Activity, path: (pid) => `/projects/${pid}/activities`, proPreview: true },
+      { key: 'kanban', label: __('Kanban Board', 'wedevs-project-manager'), icon: Columns3, path: (pid) => `/projects/${pid}/kanban`, proPreview: true },
+      { key: 'gantt', label: __('Gantt Chart', 'wedevs-project-manager'), icon: GitBranch, path: (pid) => `/projects/${pid}/gantt`, proPreview: true },
     ]
     if (canManage || isManagerAnywhere) {
-      proItems.push({ key: 'invoices', label: __('Invoices', 'wedevs-project-manager'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices`, proPreview: true })
-      proItems.push({ key: 'settings', label: __('Settings', 'wedevs-project-manager'),     icon: Settings,   path: (pid) => `/projects/${pid}/settings`, proPreview: true })
+      proItems.push({ key: 'invoices', label: __('Invoices', 'wedevs-project-manager'), icon: Receipt, path: (pid) => `/projects/${pid}/invoices`, proPreview: true })
+      proItems.push({ key: 'settings', label: __('Settings', 'wedevs-project-manager'), icon: Settings, path: (pid) => `/projects/${pid}/settings`, proPreview: true })
     }
     return [...projectSubNav_FREE, ...proItems]
   }, [isPro, activeModulePaths, canManage, isManagerAnywhere])
@@ -218,7 +218,7 @@ export function AppSidebar() {
 
   const topNavItems = useMemo(() => [
     { key: 'projects', label: __('Projects', 'wedevs-project-manager'), short: __('Proj', 'wedevs-project-manager'), icon: FolderKanban, route: '/projects' },
-    { key: 'my-tasks', label: __('My Tasks', 'wedevs-project-manager'), short: __('Tasks', 'wedevs-project-manager'), icon: CheckSquare,  route: '/my-tasks' },
+    { key: 'my-tasks', label: __('My Tasks', 'wedevs-project-manager'), short: __('Tasks', 'wedevs-project-manager'), icon: ClipboardList, route: '/my-tasks' },
   ], [__])
 
   // Pro plugin installed (pm-pro.js loaded) — may or may not be licensed
@@ -227,15 +227,15 @@ export function AppSidebar() {
   const viewNavItems = useMemo(() => {
     const isModuleActive = (dir) => isProModuleActive(activeModulePaths, dir)
     const items = [
-      { key: 'calendar', label: __('Calendar', 'wedevs-project-manager'), short: __('Cal', 'wedevs-project-manager'),     icon: Calendar,      route: '/calendar', pro: !isPro },
-      { key: 'progress', label: __('Progress', 'wedevs-project-manager'), short: __('Prog', 'wedevs-project-manager'),    icon: Activity,      route: '/progress', pro: !isPro },
-      { key: 'reports',  label: __('Reports', 'wedevs-project-manager'),  short: __('Rep', 'wedevs-project-manager'),     icon: BarChart3,     route: '/reports',  pro: !isPro },
+      { key: 'calendar', label: __('Calendar', 'wedevs-project-manager'), short: __('Cal', 'wedevs-project-manager'), icon: Calendar, route: '/calendar', pro: !isPro },
+      { key: 'progress', label: __('Progress', 'wedevs-project-manager'), short: __('Prog', 'wedevs-project-manager'), icon: Activity, route: '/progress', pro: !isPro },
+      { key: 'reports', label: __('Reports', 'wedevs-project-manager'), short: __('Rep', 'wedevs-project-manager'), icon: FileText, route: '/reports', pro: !isPro },
     ]
     // Non-pro: show as upgrade preview only to users who could use it (managers/admins).
     // Pro: only show when the Sprint module is active, and only to managers/admins.
     if (canManage || isManagerAnywhere) {
       if (!isPro || isModuleActive('Sprint')) {
-        items.push({ key: 'sprints', label: __('Sprints', 'wedevs-project-manager'), short: __('Sprint', 'wedevs-project-manager'), icon: Timer, route: '/sprints', pro: !isPro })
+        items.push({ key: 'sprints', label: __('Sprints', 'wedevs-project-manager'), short: __('Sprint', 'wedevs-project-manager'), icon: History, route: '/sprints', pro: !isPro })
       }
     }
     return items
@@ -282,8 +282,8 @@ export function AppSidebar() {
     if (path.startsWith('/my-tasks')) return 'my-tasks'
     if (path.startsWith('/calendar')) return 'calendar'
     if (path.startsWith('/progress')) return 'progress'
-    if (path.startsWith('/reports'))  return 'reports'
-    if (path.startsWith('/sprints'))  return 'sprints'
+    if (path.startsWith('/reports')) return 'reports'
+    if (path.startsWith('/sprints')) return 'sprints'
     if (path.startsWith('/importtools')) return 'importtools'
     if (path.startsWith('/license')) return 'license'
     return 'projects'
@@ -306,18 +306,20 @@ export function AppSidebar() {
         key={item.key}
         to={item.route}
         className={cn(
-          'w-full flex items-center min-w-0 rounded-md transition-colors text-left mb-0.5 group/nav',
-          collapsed ? 'flex-col justify-center px-0 py-1.5 gap-0.5' : 'gap-2.5 px-2.5 py-[7px]',
+          'w-full flex items-center min-w-0 rounded-md transition-colors text-left group/nav',
+          collapsed ? 'flex-col justify-center px-0 py-1.5 gap-0.5' : 'gap-[12px] px-[12px] py-2',
           isActive
-            ? 'bg-pm-accent/10 text-pm-accent font-medium'
-            : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text',
+            ? 'bg-pm-accent/5'
+            : 'hover:bg-pm-hover hover:text-pm-text',
         )}
         title={item.label}
       >
-        <Icon className={cn('shrink-0', collapsed ? 'w-[18px] h-[18px]' : 'w-[18px] h-[18px]', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
+        <div className="w-[24px] h-[24px] flex items-center justify-center shrink-0">
+          <Icon className={cn('w-5 h-5', isActive ? 'text-[#7A3AE9]' : 'text-[#A3A3A3]')} strokeWidth={1.5} />
+        </div>
         {collapsed
-          ? <span className={cn('text-[10px] font-medium leading-none', isActive ? 'text-pm-accent' : 'text-pm-text-muted')}>{item.short ?? item.label}</span>
-          : <TruncText className="text-[15px]">{item.label}</TruncText>
+          ? <span className={cn('text-[10px] font-medium leading-none', isActive ? 'text-[#7A3AE9]' : 'text-[#A3A3A3]')}>{item.short ?? item.label}</span>
+          : <TruncText className={cn('text-[16px] font-normal leading-[24px]', isActive ? 'text-[#7A3AE9]' : 'text-[#111827] dark:text-gray-200')}>{item.label}</TruncText>
         }
         {!collapsed && item.pro && <span className="shrink-0 opacity-0 group-hover/nav:opacity-100 transition-opacity"><ProBadge /></span>}
       </Link>
@@ -330,15 +332,15 @@ export function AppSidebar() {
     const color = project.color_code || statusColor(project)
 
     return (
-      <div key={project.id} className="mb-0.5">
+      <div key={project.id}>
         {/* Project row */}
         <button
           className={cn(
             'w-full flex items-center min-w-0 rounded-md transition-colors text-left',
-            collapsed ? 'flex-col justify-center px-0 py-1.5 gap-0.5' : 'gap-1.5 pl-2 pr-1.5 py-[6px]',
+            collapsed ? 'flex-col justify-center px-0 py-1.5 gap-0.5' : 'gap-[12px] px-[12px] py-2',
             isActive
-              ? 'bg-pm-accent/5 text-pm-text-primary'
-              : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text',
+              ? 'bg-pm-accent/5'
+              : 'hover:bg-pm-hover hover:text-pm-text',
           )}
           title={project.title}
           onClick={() => {
@@ -350,34 +352,37 @@ export function AppSidebar() {
             if (!isExpanded) navigate(`/projects/${project.id}/task-lists`)
           }}
         >
-          {!collapsed && (
-            <ChevronDown
-              className="h-3.5 w-3.5 shrink-0 text-pm-text-muted/50 transition-transform duration-200"
-              style={{ transform: isExpanded ? 'rotate(0deg)' : 'rotate(-90deg)' }}
+          {collapsed ? (
+            <span
+              className="rounded-sm shrink-0 h-3 w-3"
+              style={{ backgroundColor: color }}
             />
+          ) : (
+            <div className="w-[24px] h-[24px] flex items-center justify-center shrink-0">
+              <Folder className={cn('w-5 h-5', isActive ? 'text-[#7A3AE9]' : 'text-[#A3A3A3]')} strokeWidth={1.5} />
+            </div>
           )}
-          <span
-            className={cn('rounded-sm shrink-0', collapsed ? 'h-3 w-3' : 'h-2 w-2')}
-            style={{ backgroundColor: color }}
-          />
+
           {collapsed
             ? <span className="text-[10px] font-medium leading-none text-pm-text-muted w-full text-center truncate px-0.5">
-                {project.title.substring(0, 4)}
-              </span>
+              {project.title.substring(0, 4)}
+            </span>
             : <>
-                <TruncText className={cn('text-[15px]', isActive && 'font-medium')}>
-                  {project.title}
-                </TruncText>
-                {project.favourite && (
-                  <Star className="h-3.5 w-3.5 shrink-0 fill-yellow-400 text-yellow-400" />
-                )}
-              </>
+              <TruncText className={cn('text-[16px] font-normal leading-[24px]', isActive ? 'text-[#7A3AE9]' : 'text-[#111827] dark:text-gray-200')}>
+                {project.title}
+              </TruncText>
+              {project.favourite && (
+                <div className="w-[24px] h-[24px] flex items-center justify-center shrink-0">
+                  <Star className="w-[20px] h-[20px] shrink-0 fill-[#FACC15] text-[#FACC15]" strokeWidth={1.5} />
+                </div>
+              )}
+            </>
           }
         </button>
 
         {/* Sub-nav (expanded, not collapsed) */}
         {isExpanded && !collapsed && (
-          <div className="ml-5 pl-2.5 border-l border-border/50 mt-0.5 mb-1 space-y-0.5">
+          <div className="ml-7 pl-3 border-l border-border/50 mt-1 mb-1.5 space-y-0.5">
             {projectSubNav.map(sub => {
               const SubIcon = sub.icon
               const subActive = isActive && activeSubKey === sub.key
@@ -387,14 +392,14 @@ export function AppSidebar() {
                   key={sub.key}
                   to={sub.path(project.id)}
                   className={cn(
-                    'w-full flex items-center min-w-0 gap-2 rounded-md px-2 py-[5px] text-left transition-colors group/sub',
+                    'w-full flex items-center min-w-0 gap-3 rounded-md px-3 py-1.5 text-left transition-colors group/sub',
                     subActive
-                      ? 'bg-pm-accent/10 text-pm-accent font-medium'
+                      ? 'text-pm-accent font-medium bg-pm-accent/5'
                       : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text',
                   )}
                 >
-                  <SubIcon className={cn('h-4 w-4 shrink-0', subActive ? 'text-pm-accent' : 'text-pm-text-muted/70')} />
-                  <TruncText className="text-[14px]">{__(sub.label, 'wedevs-project-manager')}</TruncText>
+                  <SubIcon className={cn('h-5 w-5 shrink-0', subActive ? 'text-pm-accent' : 'text-pm-text-muted/70')} />
+                  <TruncText className="text-[15px]">{__(sub.label, 'wedevs-project-manager')}</TruncText>
                   {sub.proPreview && <span className="shrink-0 opacity-0 group-hover/sub:opacity-100 transition-opacity"><ProBadge /></span>}
                 </Link>
               )
@@ -407,12 +412,45 @@ export function AppSidebar() {
 
   // ── Main render ─────────────────────────────────────
 
-  const sidebarWidth = sidebarMode === 'wordpress' ? 0 : (collapsed ? 64 : 240)
+  const sidebarWidth = sidebarMode === 'wordpress' ? 0 : (collapsed ? 64 : 260)
+
+  const SectionHeader = ({ title }) => (
+    collapsed ? (
+      <div className="border-t border-pm-border my-2 mx-1" />
+    ) : (
+      <div className="flex items-center gap-[12px] px-[12px] py-2">
+        <div className="w-[24px] h-[24px] flex items-center justify-center shrink-0">
+          <Minus className="w-4 h-4 text-[#B8B8B8]" strokeWidth={2} />
+        </div>
+        <span className="text-[14px] font-medium text-[#B8B8B8] uppercase tracking-[0.7px] leading-[21px]">
+          {title}
+        </span>
+      </div>
+    )
+  )
+
+  const CollapsibleSectionHeader = ({ title, isOpen, onClick }) => (
+    collapsed ? (
+      <div className="border-t border-pm-border my-2 mx-1" />
+    ) : (
+      <button
+        className="w-full flex items-center gap-[12px] px-[12px] py-2 group/sec hover:bg-pm-hover rounded-md transition-colors"
+        onClick={onClick}
+      >
+        <div className="w-[24px] h-[24px] flex items-center justify-center shrink-0">
+          <Minus className="w-4 h-4 text-[#B8B8B8]" strokeWidth={2} />
+        </div>
+        <span className="text-[14px] font-medium text-[#B8B8B8] uppercase tracking-[0.7px] leading-[21px] flex-1 text-left">
+          {title}
+        </span>
+      </button>
+    )
+  )
 
   return (
     <aside
       className={cn(
-        'shrink-0 bg-pm-surface border-r border-pm-border flex flex-col transition-all duration-200',
+        'shrink-0 bg-white dark:bg-slate-900 border-r border-pm-border flex flex-col transition-all duration-200',
         sidebarMode === 'wordpress' && 'overflow-hidden',
       )}
       style={{ width: sidebarWidth, minWidth: sidebarWidth, maxWidth: sidebarWidth }}
@@ -421,178 +459,144 @@ export function AppSidebar() {
         /* Hidden in WP mode — toggle is in TopBar */
         null
       ) : (
-      <>
-      {/* Header */}
-      <div className={cn('pt-3 pb-2', collapsed ? 'px-2' : 'px-4')}>
-        <div className={cn('flex items-center', collapsed ? 'justify-center' : 'justify-between')}>
-          {!collapsed && (
-            <button
-              className="flex items-center gap-1.5 text-sm text-pm-text-muted hover:text-pm-accent transition-colors"
-              onClick={goBack}
-            >
-              <ArrowLeft className="w-4 h-4" />
-              {__('Back to WP Admin', 'wedevs-project-manager')}
-            </button>
-          )}
-          <div className="flex items-center gap-0.5">
-            <button
-              className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors"
-              title={collapsed ? __('Expand sidebar', 'wedevs-project-manager') : __('Collapse sidebar', 'wedevs-project-manager')}
-              onClick={toggleCollapse}
-            >
-              {collapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-        {!collapsed && (
-          <h1 className="text-pm-text font-semibold text-base mt-2">
-            {__('Project Manager', 'wedevs-project-manager')}
-          </h1>
-        )}
-      </div>
-
-      {/* Scrollable nav — overflow-y for scroll, overflow-x hidden to contain content */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden pm-sidebar-scroll">
-        <nav className={cn('pb-4 pt-1', collapsed ? 'px-1.5' : 'px-3')}>
-          {/* Main nav */}
-          <div className="mb-3">
+        <>
+          {/* Header */}
+          <div className={cn('pt-4 pb-2', collapsed ? 'px-2' : 'px-4')}>
+            <div className={cn('flex items-center', collapsed ? 'justify-center' : 'justify-between')}>
+              {!collapsed && (
+                <button
+                  className="flex items-center gap-[12px] text-sm text-[#6B7280] hover:text-pm-accent transition-colors"
+                  onClick={goBack}
+                >
+                  <div className="w-[24px] h-[24px] flex items-center justify-center">
+                    <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
+                  </div>
+                  <span className="text-[14px] text-[#6B7280] font-normal leading-[20px]">{__('Back to WP Admin', 'wedevs-project-manager')}</span>
+                </button>
+              )}
+              <div className="flex items-center gap-0.5">
+                <button
+                  className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors"
+                  title={collapsed ? __('Expand sidebar', 'wedevs-project-manager') : __('Collapse sidebar', 'wedevs-project-manager')}
+                  onClick={toggleCollapse}
+                >
+                  {collapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
             {!collapsed && (
-              <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
-                {__('Workspace', 'wedevs-project-manager')}
-              </p>
+              <h1 className="text-[#1F2937] dark:text-gray-100 font-semibold text-[16px] leading-[24px] mt-4">
+                {__('Project Manager', 'wedevs-project-manager')}
+              </h1>
             )}
-            {topNavItems.map(renderNavItem)}
           </div>
 
-          {/* Favourites */}
-          {favouriteProjects.length > 0 && (
-            <div className="mb-3">
-              {!collapsed ? (
-                <button
-                  className="w-full flex items-center justify-between px-2 mb-1.5 group/sec"
-                  onClick={() => setShowFavourites(v => !v)}
-                >
-                  <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider">
-                    {__('Favourites', 'wedevs-project-manager')}
-                  </p>
-                  <ChevronDown className="h-3.5 w-3.5 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showFavourites ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
-                </button>
-              ) : (
-                <div className="border-t border-pm-border my-2 mx-1" />
-              )}
-              {showFavourites && favouriteProjects.map(renderProjectItem)}
-            </div>
-          )}
+          {/* Scrollable nav — overflow-y for scroll, overflow-x hidden to contain content */}
+          <div className="flex-1 overflow-y-auto overflow-x-hidden pm-sidebar-scroll">
+            <nav className={cn('pb-4 pt-1 flex flex-col gap-[4px] w-full', collapsed ? 'px-1.5' : '')}>
+              {/* Main nav */}
+              <div className="flex flex-col gap-[4px] w-full">
+                <SectionHeader title={__('Workspace', 'wedevs-project-manager')} />
+                {topNavItems.map(renderNavItem)}
+              </div>
 
-          {/* Recent Projects */}
-          {recentProjects.length > 0 && (
-            <div className="mb-3">
-              {!collapsed ? (
-                <button
-                  className="w-full flex items-center justify-between px-2 mb-1.5 group/sec"
-                  onClick={() => setShowRecent(v => !v)}
-                >
-                  <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider">
-                    {__('Recent', 'wedevs-project-manager')}
-                  </p>
-                  <ChevronDown className="h-3.5 w-3.5 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showRecent ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
-                </button>
-              ) : (
-                <div className="border-t border-pm-border my-2 mx-1" />
+              {/* Favourites */}
+              {favouriteProjects.length > 0 && (
+                <div className="flex flex-col gap-[4px] w-full">
+                  <CollapsibleSectionHeader
+                    title={__('Favourites', 'wedevs-project-manager')}
+                    isOpen={showFavourites}
+                    onClick={() => setShowFavourites(v => !v)}
+                  />
+                  {showFavourites && favouriteProjects.map(renderProjectItem)}
+                </div>
               )}
-              {showRecent && recentProjects.map(renderProjectItem)}
-            </div>
-          )}
 
-          {/* Views */}
-          <div className="mb-3">
-            {!collapsed ? (
-              <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
-                {__('Views', 'wedevs-project-manager')}
-              </p>
-            ) : (
-              <div className="border-t border-pm-border my-2 mx-1" />
-            )}
-            {viewNavItems.map(renderNavItem)}
+              {/* Recent Projects */}
+              {recentProjects.length > 0 && (
+                <div className="flex flex-col gap-[4px] w-full">
+                  <CollapsibleSectionHeader
+                    title={__('Recent', 'wedevs-project-manager')}
+                    isOpen={showRecent}
+                    onClick={() => setShowRecent(v => !v)}
+                  />
+                  {showRecent && recentProjects.map(renderProjectItem)}
+                </div>
+              )}
+
+              {/* Views */}
+              <div className="flex flex-col gap-[4px] w-full">
+                <SectionHeader title={__('Views', 'wedevs-project-manager')} />
+                {viewNavItems.map(renderNavItem)}
+              </div>
+
+              {/* Modules + Premium */}
+              {!isFrontend && (
+                <div className="flex flex-col gap-[4px] w-full">
+                  <SectionHeader title={__('Modules', 'wedevs-project-manager')} />
+                  {renderNavItem({ key: 'modules', label: __('Modules', 'wedevs-project-manager'), icon: Layers, route: '/modules', pro: !isPro })}
+                  {!isPro && (
+                    collapsed ? (
+                      <button
+                        className="w-full flex justify-center py-2 text-pm-accent hover:bg-pm-accent/5 rounded-md transition-colors"
+                        title={__('Upgrade to Pro', 'wedevs-project-manager')}
+                        onClick={() => navigate('/premium')}
+                      >
+                        <Crown className="w-5 h-5" />
+                      </button>
+                    ) : (
+                      <button
+                        className="w-full flex items-center min-w-0 gap-[12px] rounded-md px-[12px] py-2 text-left transition-colors text-[#7A3AE9] hover:bg-pm-accent/5"
+                        onClick={() => navigate('/premium')}
+                      >
+                        <div className="w-[24px] h-[24px] flex items-center justify-center shrink-0">
+                          <Crown className="w-5 h-5 shrink-0" strokeWidth={1.5} />
+                        </div>
+                        <TruncText className="text-[16px] font-normal leading-[24px] text-[#7A3AE9]">{__('Upgrade to Pro', 'wedevs-project-manager')}</TruncText>
+                      </button>
+                    )
+                  )}
+                </div>
+              )}
+
+              {/* Admin */}
+              {isAdmin && (
+                <div className="flex flex-col gap-[4px] w-full">
+                  <SectionHeader title={__('Administration', 'wedevs-project-manager')} />
+                  {/* Categories available in both wp-admin AND frontend for admins */}
+                  {renderNavItem({ key: 'categories', label: __('Categories', 'wedevs-project-manager'), short: __('Cat', 'wedevs-project-manager'), icon: LayoutGrid, route: '/categories', adminOnly: true })}
+                  {/* Settings / Tools / License remain wp-admin-only */}
+                  {!isFrontend && renderNavItem({ key: 'settings', label: __('Settings', 'wedevs-project-manager'), short: __('Set', 'wedevs-project-manager'), icon: Settings, route: '/settings', adminOnly: true })}
+                  {!isFrontend && renderNavItem({ key: 'importtools', label: __('Tools', 'wedevs-project-manager'), short: __('Tools', 'wedevs-project-manager'), icon: Wrench, route: '/importtools', adminOnly: true })}
+                  {!isFrontend && isProInstalled && canManageLicense && renderNavItem({ key: 'license', label: __('License', 'wedevs-project-manager'), short: __('Lic', 'wedevs-project-manager'), icon: FolderKey, route: '/license' })}
+                </div>
+              )}
+            </nav>
           </div>
 
-          {/* Modules + Premium */}
+          {/* Footer */}
           {!isFrontend && (
-          <div className="mb-3">
-            {!collapsed ? (
-              <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
-                {__('Modules', 'wedevs-project-manager')}
-              </p>
-            ) : (
-              <div className="border-t border-pm-border my-2 mx-1" />
-            )}
-            {renderNavItem({ key: 'modules', label: __('Modules', 'wedevs-project-manager'), icon: Layers, route: '/modules', pro: !isPro })}
-            {!isPro && (
-              collapsed ? (
+            <div className={cn('border-t border-pm-border py-4', collapsed ? 'px-2' : 'px-4')}>
+              {collapsed ? (
                 <button
-                  className="w-full flex justify-center py-2 text-pm-accent hover:bg-pm-accent/5 rounded-md transition-colors"
-                  title={__('Upgrade to Pro', 'wedevs-project-manager')}
-                  onClick={() => navigate('/premium')}
+                  className="w-full flex justify-center p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-accent transition-colors"
+                  title={__('Back to WP Admin', 'wedevs-project-manager')}
+                  onClick={goBack}
                 >
-                  <Crown className="w-5 h-5" />
+                  <ArrowLeft className="w-5 h-5" />
                 </button>
               ) : (
-                <button
-                  className="w-full flex items-center min-w-0 gap-2.5 rounded-md px-2.5 py-[7px] text-left mb-0.5 transition-colors text-pm-accent hover:bg-pm-accent/5"
-                  onClick={() => navigate('/premium')}
-                >
-                  <Crown className="w-5 h-5 shrink-0" />
-                  <TruncText className="text-[15px] font-medium">{__('Upgrade to Pro', 'wedevs-project-manager')}</TruncText>
-                </button>
-              )
-            )}
-          </div>
-          )}
-
-          {/* Admin */}
-          {isAdmin && (
-            <div className="mb-3">
-              {!collapsed ? (
-                <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
-                  {__('Administration', 'wedevs-project-manager')}
-                </p>
-              ) : (
-                <div className="border-t border-pm-border my-2 mx-1" />
+                <div className="flex justify-center px-2">
+                  <img
+                    src={`${typeof PM_Vars !== 'undefined' ? PM_Vars.dir_url : '/wp-content/plugins/wedevs-project-manager/'}views/assets/images/pm-logo.svg`}
+                    alt="WP Project Manager"
+                    className="h-[28px] opacity-80"
+                  />
+                </div>
               )}
-              {/* Categories available in both wp-admin AND frontend for admins */}
-              {renderNavItem({ key: 'categories', label: __('Categories', 'wedevs-project-manager'), short: __('Cat', 'wedevs-project-manager'),   icon: Tag,     route: '/categories', adminOnly: true })}
-              {/* Settings / Tools / License remain wp-admin-only */}
-              {!isFrontend && renderNavItem({ key: 'settings',   label: __('Settings', 'wedevs-project-manager'),   short: __('Set', 'wedevs-project-manager'),   icon: Settings, route: '/settings',   adminOnly: true })}
-              {!isFrontend && renderNavItem({ key: 'importtools', label: __('Tools', 'wedevs-project-manager'),     short: __('Tools', 'wedevs-project-manager'), icon: Wrench,  route: '/importtools', adminOnly: true })}
-              {!isFrontend && isProInstalled && canManageLicense && renderNavItem({ key: 'license', label: __('License', 'wedevs-project-manager'), short: __('Lic', 'wedevs-project-manager'), icon: Shield, route: '/license' })}
             </div>
           )}
-        </nav>
-      </div>
-
-      {/* Footer */}
-      {!isFrontend && (
-        <div className={cn('border-t border-pm-border py-3', collapsed ? 'px-2' : 'px-4')}>
-          {collapsed ? (
-            <button
-              className="w-full flex justify-center p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-accent transition-colors"
-              title={__('Back to WP Admin', 'wedevs-project-manager')}
-              onClick={goBack}
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-          ) : (
-            <div className="flex justify-center px-2">
-              <img
-                src={`${typeof PM_Vars !== 'undefined' ? PM_Vars.dir_url : '/wp-content/plugins/wedevs-project-manager/'}views/assets/images/pm-logo.svg`}
-                alt="WP Project Manager"
-                className="h-6 opacity-60"
-              />
-            </div>
-          )}
-        </div>
-      )}
-      </>
+        </>
       )}
     </aside>
   )
