@@ -758,7 +758,8 @@ body.admin-bar [data-sonner-toaster] {
   border: 1px solid hsl(var(--border));
   padding: 6px 10px;
   vertical-align: top;
-  word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 #wedevs-project-manager .prose table th,
 #wedevs-project-manager .ProseMirror table th {

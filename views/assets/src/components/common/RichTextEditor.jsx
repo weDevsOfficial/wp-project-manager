@@ -421,7 +421,7 @@ export default function RichTextEditor({
             icon={Highlighter}
             label={__('Highlight', 'wedevs-project-manager')}
             value={currentHighlight}
-            onChange={(c) => editor.chain().focus().toggleHighlight({ color: c }).run()}
+            onChange={(c) => editor.chain().focus().setHighlight({ color: c }).run()}
           />
 
           <span className="w-px h-4 bg-border mx-0.5" />
