@@ -1,8 +1,0 @@
-node_modules/
-.env
-test-results/
-playwright-report/
-setup/
-parallel-one/
-parallel-two/
-*.log

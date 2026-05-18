@@ -152,7 +152,7 @@ export default function TaskListSidebarItem({ list, isActive, onClick, projectId
 
         {/* Done / total below bar */}
         <span className="text-[12px] text-pm-text-muted">
-          {completed}/{total} {__('done', 'wedevs-project-manager')} / {total} {__('total', 'wedevs-project-manager')}
+          {completed}/{total} {__('Done', 'wedevs-project-manager')}
         </span>
       </div>
     </>

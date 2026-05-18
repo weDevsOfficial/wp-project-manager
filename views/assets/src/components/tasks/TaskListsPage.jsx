@@ -61,7 +61,7 @@ export default function TaskListsPage() {
 
   // Stats from project meta
   const stats = useMemo(() => {
-    const meta = project?.meta || {}
+    const meta = project?.meta?.data || {}
     return [
       { label: __('Task List', 'wedevs-project-manager'), value: meta.total_task_lists || 0, icon: ClipboardList, color: 'text-blue-500', bg: 'bg-blue-50' },
       { label: __('Tasks', 'wedevs-project-manager'), value: meta.total_tasks || 0, icon: ListChecks, color: 'text-purple-500', bg: 'bg-purple-50' },
