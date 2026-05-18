@@ -10,7 +10,6 @@ import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
 import { useCurrentProject } from '@hooks/useCurrentProject'
 import { Button } from '@components/ui/button'
-import { Avatar, AvatarFallback } from '@components/ui/avatar'
 import { UserAvatar } from '@components/common/UserAvatar'
 import {
   Tooltip,
@@ -24,13 +23,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu'
-import { Badge } from '@components/ui/badge'
 import TaskLabelBadges from '@components/tasks/TaskLabelBadges'
 import {
   Calendar,
   MessageSquare,
   MoreHorizontal,
-  Lock,
   Copy,
   Trash2,
   Flag,
@@ -47,7 +44,6 @@ import MoveTaskDialog from './MoveTaskDialog'
 import {
   isTaskComplete,
   formatPmDate,
-  dueDateColorClass,
   isOverdue,
 } from '@lib/pm-utils'
 
@@ -73,7 +69,8 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
   const overflow = assignees.length - 3
   const dueDateStr = formatPmDate(task.due_date)
 
-  const handleToggle = useCallback(async () => {
+  const handleToggle = useCallback(async (e) => {
+    e.stopPropagation()
     if (toggling || !mayComplete) return
     setToggling(true)
     const newStatus = isComplete ? 0 : 1
@@ -132,203 +129,196 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
     dispatch(removeTaskFromList({ listId: fromListId, taskId }))
   }, [dispatch])
 
-  const priorityColor = task.priority >= 3 ? 'text-red-500' : task.priority === 2 ? 'text-amber-500' : task.priority === 1 ? 'text-blue-500' : ''
+  const priorityColor = task.priority >= 3 ? 'text-rose-500' : task.priority === 2 ? 'text-amber-500' : task.priority === 1 ? 'text-sky-500' : 'text-pm-text-muted'
 
   return (
     <div
       className={cn(
-        'group flex items-center gap-2.5 px-3 py-2 border-b border-border/40 last:border-b-0',
-        'hover:bg-muted/20 transition-colors',
-        isComplete && 'opacity-50',
-        isDragOver && 'border-t-2 border-t-pm-accent',
+        'group flex items-center gap-4 px-6 py-3.5 transition-all duration-200 border-b border-pm-border last:border-b-0',
+        'hover:bg-pm-accent/[0.02] dark:hover:bg-pm-accent/[0.05]',
+        isComplete && 'opacity-60',
+        isDragOver && 'bg-pm-accent/5 ring-1 ring-pm-accent ring-inset',
       )}
       draggable={isDraggable}
       onDragStart={onDragStart}
       onDragOver={onDragOver}
       onDrop={onDrop}
       onDragEnd={onDragEnd}
+      onClick={handleOpen}
     >
       {/* Drag handle */}
       {isDraggable && (
-        <GripVertical className="h-4 w-4 text-pm-text-muted/30 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab shrink-0" />
+        <GripVertical className="h-4 w-4 text-pm-text-muted/20 group-hover:text-pm-text-muted/50 transition-colors cursor-grab shrink-0 -ml-2" />
       )}
 
-      {/* ClickUp-style circle checkbox */}
+      {/* Checkbox */}
       <button
         type="button"
         onClick={handleToggle}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="shrink-0 focus:outline-none"
+        className="relative shrink-0 focus:outline-none z-10"
         disabled={toggling}
       >
-        {isComplete ? (
-          /* Filled circle with check — uses brand color */
-          <span className="flex items-center justify-center h-[18px] w-[18px] rounded-full bg-pm-accent text-white">
-            <Check className="h-3.5 w-3.5" strokeWidth={3} />
-          </span>
-        ) : hovered ? (
-          /* Solid border on hover */
-          <span className="flex items-center justify-center h-[18px] w-[18px] rounded-full border-2 border-pm-accent text-pm-accent">
-            <Check className="h-3.5 w-3.5" strokeWidth={3} />
-          </span>
-        ) : (
-          /* Dashed border — pending state */
-          <span className="h-[18px] w-[18px] rounded-full border-[1.5px] border-dashed border-pm-text-muted/40 block" />
-        )}
+        <div className={cn(
+          "flex items-center justify-center h-5 w-5 rounded-full border-2 transition-all duration-300",
+          isComplete 
+            ? "bg-pm-accent border-pm-accent scale-100" 
+            : hovered 
+              ? "border-pm-accent bg-pm-accent/5 scale-110" 
+              : "border-pm-text-muted/30 scale-100"
+        )}>
+          {isComplete ? (
+            <Check className="h-3 w-3 text-white" strokeWidth={4} />
+          ) : hovered ? (
+            <Check className="h-3 w-3 text-pm-accent opacity-50" strokeWidth={4} />
+          ) : null}
+        </div>
       </button>
 
-      {/* Title */}
-      <button
-        type="button"
-        className={cn(
-          'flex-1 text-left text-sm text-pm-text-primary truncate hover:text-pm-accent transition-colors',
-          isComplete && 'line-through text-pm-text-muted',
-        )}
-        onClick={handleOpen}
-      >
-        {task.title}
-      </button>
-
-      {/* Task type pill */}
-      {task.type?.title && (
-        <Badge variant="outline" className="text-[14px] px-1.5 py-0 h-4 shrink-0 font-normal text-muted-foreground">
-          {task.type.title}
-        </Badge>
-      )}
-
-      {/* GitHub/Bitbucket sync indicator */}
-      {task.github_issue && (
-        <TooltipProvider delayDuration={200}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className="shrink-0">
-                <Github className="h-3.5 w-3.5 text-pm-text-muted" />
-              </span>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">
-              <p>{task.github_issue.source}{task.github_issue.issue_number ? ` #${task.github_issue.issue_number}` : ''}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      )}
-
-      {/* Labels (when "Show Labels in Tasks List" is enabled in project settings) */}
-      {showLabels && <TaskLabelBadges task={task} variant="full" />}
-
-      {/* Priority flag */}
-      {task.priority > 0 && (
-        <TooltipProvider delayDuration={200}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className="shrink-0">
-                <Flag className={cn('h-4 w-4', priorityColor)} />
-              </span>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">
-              <p>{task.priority >= 3 ? __('Urgent', 'wedevs-project-manager') : task.priority === 2 ? __('High', 'wedevs-project-manager') : __('Normal', 'wedevs-project-manager')}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      )}
-
-      {/* Assignees */}
-      {visibleAssignees.length > 0 && (
-        <div className="flex items-center -space-x-1.5 shrink-0">
-          {visibleAssignees.map((user) => (
-            <UserAvatar key={user.id} user={user} size="md" className="border-2 border-background" />
-          ))}
-          {overflow > 0 && (
-            <Avatar className="h-6 w-6 border-2 border-background">
-              <AvatarFallback className="text-[11px] bg-muted">+{overflow}</AvatarFallback>
-            </Avatar>
+      {/* Title & Info */}
+      <div className="flex-1 min-w-0 space-y-0.5">
+        <div className="flex items-center gap-2">
+          <span className={cn(
+            'text-[15px] font-medium transition-all truncate',
+            isComplete ? 'text-pm-text-muted line-through' : 'text-pm-text-primary group-hover:text-pm-accent'
+          )}>
+            {task.title}
+          </span>
+          {task.meta?.privacy === 1 && <LockIcon className="h-3.5 w-3.5 text-amber-500 shrink-0" />}
+        </div>
+        
+        <div className="flex items-center gap-3 text-xs text-pm-text-muted">
+           {/* Task type */}
+          {task.type?.title && (
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-pm-accent/40" />
+              {task.type.title}
+            </span>
           )}
+
+          {/* GitHub info */}
+          {task.github_issue && (
+            <span className="flex items-center gap-1">
+              <Github className="h-3 w-3" />
+              {task.github_issue.issue_number ? `#${task.github_issue.issue_number}` : task.github_issue.source}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Labels */}
+      {showLabels && (
+        <div className="hidden lg:flex items-center gap-1.5">
+          <TaskLabelBadges task={task} variant="compact" />
         </div>
       )}
 
-      {/* Due date + overdue badge */}
-      {dueDateStr && (
-        <span className={cn('flex items-center gap-1 text-[15px] shrink-0', dueDateColorClass(task.due_date))}>
-          <Calendar className="h-3.5 w-3.5" />
-          {formatPmDate(task.start_at) && !isComplete
-            ? `${formatPmDate(task.start_at)} → ${dueDateStr}`
-            : dueDateStr}
+      {/* Right Actions / Info */}
+      <div className="flex items-center gap-6 shrink-0">
+        {/* Priority */}
+        {task.priority > 0 && (
+          <TooltipProvider delayDuration={200}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className={cn('p-1.5 rounded-lg bg-current/5', priorityColor)}>
+                  <Flag className="h-4 w-4" fill="currentColor" />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="top">
+                <p className="font-semibold">{task.priority >= 3 ? __('Urgent', 'wedevs-project-manager') : task.priority === 2 ? __('High', 'wedevs-project-manager') : __('Normal', 'wedevs-project-manager')}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+
+        {/* Due date */}
+        {dueDateStr && (
+          <div className={cn(
+            'flex items-center gap-2 px-3 py-1.5 rounded-xl text-[13px] font-semibold border transition-colors',
+            isOverdue(task.due_date, task.status)
+              ? "bg-rose-50 border-rose-100 text-rose-600 dark:bg-rose-950/20 dark:border-rose-900/50"
+              : "bg-pm-surface border-pm-border text-pm-text-muted"
+          )}>
+            <Calendar className="h-3.5 w-3.5" />
+            {dueDateStr}
+          </div>
+        )}
+
+        {/* Comment count */}
+        <span className="flex items-center gap-[5px] text-xs text-pm-text-muted bg-[#f1e8ff] rounded-[4px] px-[6px] py-[6px]">
+          <MessageSquare className="h-3.5 w-3.5 text-pm-accent" />
+          {task.meta?.total_comment ?? 0}
         </span>
-      )}
-      {isOverdue(task.due_date, task.status) && (
-        <Badge variant="destructive" className="text-[11px] px-1.5 py-0 h-4 shrink-0">
-          Overdue
-        </Badge>
-      )}
 
-      {/* Comment count */}
-      {(task.meta?.total_comment ?? 0) > 0 && (
-        <span className="flex items-center gap-0.5 text-[15px] text-pm-text-muted shrink-0">
-          <MessageSquare className="h-3.5 w-3.5" />
-          {task.meta?.total_comment}
-        </span>
-      )}
+        {/* Assignees */}
+        {visibleAssignees.length > 0 && (
+          <div className="flex items-center -space-x-2">
+            {visibleAssignees.map((user) => (
+              <div key={user.id} className="relative transition-transform hover:scale-110 hover:z-20">
+                <UserAvatar user={user} size="sm" className="ring-2 ring-white dark:ring-slate-900" />
+              </div>
+            ))}
+            {overflow > 0 && (
+              <div className="h-7 w-7 rounded-full bg-pm-surface border-2 border-white dark:border-slate-900 flex items-center justify-center text-[10px] font-bold text-pm-text-muted">
+                +{overflow}
+              </div>
+            )}
+          </div>
+        )}
 
-      {/* Privacy */}
-      {taskIsPrivate && (
-        <TooltipProvider delayDuration={200}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Lock className="h-3.5 w-3.5 text-amber-500 shrink-0" />
-            </TooltipTrigger>
-            <TooltipContent side="top" className="text-[14px]">
-              {__('Private task', 'wedevs-project-manager')}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      )}
-
-      {/* Actions */}
-      <div className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-6 w-6">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={handleOpen}>
-              <Pencil className="h-4 w-4 mr-2" />
-              {__('Edit', 'wedevs-project-manager')}
-            </DropdownMenuItem>
-            {mayEdit && (
-              <DropdownMenuItem onClick={handleDuplicate}>
-                <Copy className="h-4 w-4 mr-2" />
-                {__('Duplicate', 'wedevs-project-manager')}
-              </DropdownMenuItem>
-            )}
-            {mayEdit && (
-              <DropdownMenuItem onClick={() => setMoveDialogOpen(true)}>
-                <ArrowRightLeft className="h-4 w-4 mr-2" />
-                {__('Move', 'wedevs-project-manager')}
-              </DropdownMenuItem>
-            )}
-            {mayEdit && (
-              <DropdownMenuItem onClick={() => isPro && handleTogglePrivacy()} disabled={!isPro}>
-                {taskIsPrivate ? (
-                  <><Unlock className="h-4 w-4 mr-2" />{__('Make Public', 'wedevs-project-manager')}</>
-                ) : (
-                  <><LockIcon className="h-4 w-4 mr-2" />{__('Make Private', 'wedevs-project-manager')}</>
-                )}
-                {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
-              </DropdownMenuItem>
-            )}
-            {mayEdit && (
-              <DropdownMenuItem
-                className="text-destructive focus:text-destructive"
-                onClick={handleDelete}
+        {/* Menu */}
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8 rounded-full hover:bg-pm-accent/10 hover:text-pm-accent"
+                onClick={e => e.stopPropagation()}
               >
-                <Trash2 className="h-4 w-4 mr-2" />
-                {__('Delete', 'wedevs-project-manager')}
+                <MoreHorizontal className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48 rounded-xl border-pm-border">
+              <DropdownMenuItem onClick={handleOpen} className="rounded-lg">
+                <Pencil className="h-4 w-4 mr-2" />
+                {__('Edit Task', 'wedevs-project-manager')}
               </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+              {mayEdit && (
+                <DropdownMenuItem onClick={handleDuplicate} className="rounded-lg">
+                  <Copy className="h-4 w-4 mr-2" />
+                  {__('Duplicate', 'wedevs-project-manager')}
+                </DropdownMenuItem>
+              )}
+              {mayEdit && (
+                <DropdownMenuItem onClick={() => setMoveDialogOpen(true)} className="rounded-lg">
+                  <ArrowRightLeft className="h-4 w-4 mr-2" />
+                  {__('Move Task', 'wedevs-project-manager')}
+                </DropdownMenuItem>
+              )}
+              {mayEdit && (
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); isPro && handleTogglePrivacy() }} disabled={!isPro} className="rounded-lg">
+                  {taskIsPrivate ? (
+                    <><Unlock className="h-4 w-4 mr-2" />{__('Make Public', 'wedevs-project-manager')}</>
+                  ) : (
+                    <><LockIcon className="h-4 w-4 mr-2" />{__('Make Private', 'wedevs-project-manager')}</>
+                  )}
+                  {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
+                </DropdownMenuItem>
+              )}
+              {mayEdit && (
+                <DropdownMenuItem
+                  className="text-destructive focus:text-destructive focus:bg-destructive/5 rounded-lg"
+                  onClick={handleDelete}
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  {__('Delete Task', 'wedevs-project-manager')}
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
 
       <MoveTaskDialog

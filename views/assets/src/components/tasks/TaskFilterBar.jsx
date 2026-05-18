@@ -13,6 +13,7 @@ import {
 } from '@components/ui/select'
 import { UserAvatar } from '@components/common/UserAvatar'
 import { Search, X, Filter } from 'lucide-react'
+import { cn } from '@lib/utils'
 
 export default function TaskFilterBar({ projectId, lists, onFilterResults, onClear }) {
   const api = useApi()
@@ -67,7 +68,6 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
     setFiltering(true)
     try {
       const res = await api.post(`projects/${projectId}/tasks/filter`, params)
-      // API returns task lists with embedded tasks — extract flat task array
       const lists = res.data ?? []
       const tasks = []
       lists.forEach(list => {
@@ -109,44 +109,46 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
 
   if (!isOpen) {
     return (
-      <div className="flex items-center gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          className="gap-1.5 h-8 text-sm"
-          onClick={() => setIsOpen(true)}
-        >
-          <Filter className="h-4 w-4" />
-          {__('Filter', 'wedevs-project-manager')}
-          {activeCount > 0 && (
-            <Badge variant="secondary" className="h-4 px-1 text-[14px] rounded-full ml-0.5">
-              {activeCount}
-            </Badge>
-          )}
-        </Button>
-      </div>
+      <Button
+        variant="outline"
+        className={cn(
+          "gap-2 h-10 rounded-[6px] px-4 border-pm-border hover:bg-pm-surface transition-all",
+          hasActiveFilter && "border-pm-accent bg-pm-accent/5 text-pm-accent"
+        )}
+        onClick={() => setIsOpen(true)}
+      >
+        <Filter className="h-4 w-4" />
+        <span className="font-semibold">{__('Filter', 'wedevs-project-manager')}</span>
+        {activeCount > 0 && (
+          <Badge variant="pm-accent" className="h-5 px-1.5 text-[14px] rounded-full ml-1">
+            {activeCount}
+          </Badge>
+        )}
+      </Button>
     )
   }
 
   return (
-    <div className="rounded-lg border bg-card px-3 py-2.5 flex items-center gap-2 flex-wrap">
+    <div className="flex items-center gap-2 flex-wrap bg-white dark:bg-slate-900 border border-pm-border p-1.5 rounded-2xl shadow-sm animate-in fade-in zoom-in duration-200">
       {/* Search */}
-      <div className="flex items-center gap-1.5 flex-1 min-w-[160px] max-w-[240px] h-8 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent">
+      <div className="flex items-center gap-2 px-3 h-10 rounded-xl bg-pm-surface/50 border border-transparent focus-within:border-pm-accent/20 focus-within:bg-white transition-all min-w-[200px]">
         <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
         <input
           value={searchTitle}
           onChange={(e) => handleSearchChange(e.target.value)}
           placeholder={__('Search tasks...', 'wedevs-project-manager')}
-          className="flex-1 min-w-0 h-full bg-transparent text-sm text-pm-text-primary placeholder:text-muted-foreground focus:outline-none !border-0 !p-0 !shadow-none"
+          className="flex-1 bg-transparent text-sm font-medium text-pm-text-primary placeholder:text-pm-text-muted focus:outline-none border-0 p-0 shadow-none ring-0"
         />
       </div>
 
+      <div className="h-6 w-px bg-pm-border mx-1 hidden sm:block" />
+
       {/* Status */}
       <Select value={status} onValueChange={(v) => { setStatus(v); applyFilter({ status: v }) }}>
-        <SelectTrigger className="h-8 w-auto sm:w-[120px] text-sm">
+        <SelectTrigger className="h-10 border-0 bg-transparent hover:bg-pm-surface rounded-xl px-3 gap-2 font-medium text-sm focus:ring-0 shadow-none">
           <SelectValue placeholder={__('Status', 'wedevs-project-manager')} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="rounded-xl border-pm-border">
           <SelectItem value="incomplete">{__('Incomplete', 'wedevs-project-manager')}</SelectItem>
           <SelectItem value="complete">{__('Complete', 'wedevs-project-manager')}</SelectItem>
         </SelectContent>
@@ -154,10 +156,10 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
 
       {/* Due date */}
       <Select value={dueDate} onValueChange={(v) => { setDueDate(v); applyFilter({ dueDate: v }) }}>
-        <SelectTrigger className="h-8 w-auto sm:w-[120px] text-sm">
+        <SelectTrigger className="h-10 border-0 bg-transparent hover:bg-pm-surface rounded-xl px-3 gap-2 font-medium text-sm focus:ring-0 shadow-none">
           <SelectValue placeholder={__('Due Date', 'wedevs-project-manager')} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="rounded-xl border-pm-border">
           <SelectItem value="overdue">{__('Overdue', 'wedevs-project-manager')}</SelectItem>
           <SelectItem value="today">{__('Today', 'wedevs-project-manager')}</SelectItem>
           <SelectItem value="week">{__('This Week', 'wedevs-project-manager')}</SelectItem>
@@ -167,10 +169,10 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {/* List */}
       {lists?.length > 0 && (
         <Select value={listId} onValueChange={(v) => { setListId(v); applyFilter({ listId: v }) }}>
-          <SelectTrigger className="h-8 w-auto sm:w-[140px] text-sm">
+          <SelectTrigger className="h-10 border-0 bg-transparent hover:bg-pm-surface rounded-xl px-3 gap-2 font-medium text-sm focus:ring-0 shadow-none">
             <SelectValue placeholder={__('Task List', 'wedevs-project-manager')} />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="rounded-xl border-pm-border">
             {lists.map((l) => (
               <SelectItem key={l.id} value={String(l.id)}>{l.title}</SelectItem>
             ))}
@@ -181,33 +183,31 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {/* Assignee */}
       {allAssignees.length > 0 && (
         <Select value={assigneeId} onValueChange={(v) => { setAssigneeId(v); applyFilter({ assigneeId: v }) }}>
-          <SelectTrigger className="h-8 w-auto sm:w-[140px] text-sm">
+          <SelectTrigger className="h-10 border-0 bg-transparent hover:bg-pm-surface rounded-xl px-3 gap-2 font-medium text-sm focus:ring-0 shadow-none">
             <SelectValue placeholder={__('Assignee', 'wedevs-project-manager')} />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="rounded-xl border-pm-border">
             {allAssignees.map((u) => (
               <SelectItem key={u.id} value={String(u.id)}>
-                <span className="flex items-center gap-1.5">
-                  <UserAvatar user={u} size="sm" />
-                  {u.display_name}
-                </span>
+                <div className="flex items-center gap-2">
+                  <UserAvatar user={u} size="xs" />
+                  <span>{u.display_name}</span>
+                </div>
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       )}
 
-      {/* Clear */}
       {hasActiveFilter && (
-        <Button variant="outline" size="sm" className="h-8 text-sm gap-1" onClick={handleClear}>
-          <X className="h-3.5 w-3.5" />
-          {__('Clear', 'wedevs-project-manager')}
+        <Button variant="ghost" size="sm" className="h-10 text-destructive hover:bg-destructive/5 rounded-[6px] px-3 gap-1.5 font-semibold" onClick={handleClear}>
+          <X className="h-4 w-4" />
+          {__('Reset', 'wedevs-project-manager')}
         </Button>
       )}
 
-      {/* Close */}
-      <Button variant="ghost" size="icon" className="h-7 w-7 ml-auto shrink-0" onClick={() => { setIsOpen(false); if (!hasActiveFilter) onClear?.() }}>
-        <X className="h-4 w-4" />
+      <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl ml-auto" onClick={() => { setIsOpen(false); if (!hasActiveFilter) onClear?.() }}>
+        <X className="h-5 w-5 text-pm-text-muted" />
       </Button>
     </div>
   )

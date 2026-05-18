@@ -1,14 +1,10 @@
 import { __ } from '@wordpress/i18n';
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector, resetProjectState } from "@store/index";
 import {
   fetchTaskLists,
   createTaskList,
-  reorderLists,
-  reorderListsLocal,
-  expandAll,
-  collapseAll,
 } from "@store/taskListsSlice";
 import { cn } from "@lib/utils";
 import { useToast } from "@hooks/useToast";
@@ -22,15 +18,23 @@ import { Checkbox } from "@components/ui/checkbox";
 import { Skeleton } from "@components/ui/skeleton";
 import {
   Pagination, PaginationContent, PaginationItem,
-  PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis,
+  PaginationNext, PaginationPrevious,
 } from "@components/ui/pagination";
-import { Plus, ChevronsUpDown, ListTodo, Crown } from "lucide-react";
-import BackButton from '@components/common/BackButton';
-import { Slot } from "@hooks/useSlot";
+import {
+  Plus,
+  ClipboardList,
+  ListChecks,
+  ListTodo,
+  LoaderCircle,
+  CircleCheck,
+  ArrowLeft,
+  Crown
+} from "lucide-react";
 import TaskListSection from "./TaskListSection";
 import TaskDetailSheet from "./TaskDetailSheet";
 import TaskFilterBar from "./TaskFilterBar";
 import TaskRow from "./TaskRow";
+import TaskListSidebarItem from "./TaskListSidebarItem";
 
 export default function TaskListsPage() {
   const { projectId: pidParam } = useParams();
@@ -43,13 +47,9 @@ export default function TaskListsPage() {
   const { isPro, userCan, isManager } = usePermissions(project);
   const canCreateList = isManager || userCan('create_task_list');
 
-  const { lists, loading, expandedIds, listsMeta } = useAppSelector((s) => s.taskLists);
+  const { lists, loading, listsMeta } = useAppSelector((s) => s.taskLists);
 
-  const handlePageChange = useCallback((page) => {
-    if (page < 1 || page > listsMeta.total_pages || page === listsMeta.current_page) return
-    dispatch(fetchTaskLists({ projectId, page }))
-  }, [dispatch, projectId, listsMeta.total_pages, listsMeta.current_page])
-
+  const [selectedListId, setSelectedListId] = useState(null);
   const [showNewList, setShowNewList] = useState(false);
   const [newListTitle, setNewListTitle] = useState("");
   const [newListDesc, setNewListDesc] = useState("");
@@ -59,54 +59,29 @@ export default function TaskListsPage() {
   const [showLabels, setShowLabels] = useState(false);
   const [inboxListId, setInboxListId] = useState(null);
 
-  // ── List drag-drop ────────────────────────────────
-  const dragListIdx = useRef(null);
-  const [dragOverIdx, setDragOverIdx] = useState(null);
+  // Stats from project meta
+  const stats = useMemo(() => {
+    const meta = project?.meta || {}
+    return [
+      { label: __('Task List', 'wedevs-project-manager'), value: meta.total_task_lists || 0, icon: ClipboardList, color: 'text-blue-500', bg: 'bg-blue-50' },
+      { label: __('Tasks', 'wedevs-project-manager'), value: meta.total_tasks || 0, icon: ListChecks, color: 'text-purple-500', bg: 'bg-purple-50' },
+      { label: __('Current', 'wedevs-project-manager'), value: meta.total_incomplete_tasks || 0, icon: ListTodo, color: 'text-orange-500', bg: 'bg-orange-50' },
+      { label: __('Outstanding', 'wedevs-project-manager'), value: meta.total_incomplete_tasks || 0, icon: LoaderCircle, color: 'text-amber-500', bg: 'bg-amber-50' },
+      { label: __('Completed', 'wedevs-project-manager'), value: meta.total_complete_tasks || 0, icon: CircleCheck, color: 'text-emerald-500', bg: 'bg-emerald-50' },
+    ]
+  }, [project])
 
-  const handleListDragStart = useCallback((idx) => {
-    dragListIdx.current = idx;
-  }, []);
-
-  const handleListDragOver = useCallback((e, idx) => {
-    e.preventDefault();
-    if (dragListIdx.current !== null && dragListIdx.current !== idx) {
-      setDragOverIdx(idx);
-    }
-  }, []);
-
-  const handleListDrop = useCallback((e, toIdx) => {
-    e.preventDefault();
-    const fromIdx = dragListIdx.current;
-    if (fromIdx === null || fromIdx === toIdx) {
-      dragListIdx.current = null;
-      setDragOverIdx(null);
-      return;
-    }
-    // Optimistic reorder
-    dispatch(reorderListsLocal({ fromIndex: fromIdx, toIndex: toIdx }));
-    // Build orders array for API
-    const reordered = [...lists];
-    const [moved] = reordered.splice(fromIdx, 1);
-    reordered.splice(toIdx, 0, moved);
-    const orders = reordered.map((l, i) => ({ id: l.id, index: i }));
-    dispatch(reorderLists({ projectId, orders }));
-
-    dragListIdx.current = null;
-    setDragOverIdx(null);
-  }, [dispatch, lists, projectId]);
-
-  const handleListDragEnd = useCallback(() => {
-    dragListIdx.current = null;
-    setDragOverIdx(null);
-  }, []);
+  const handlePageChange = useCallback((page) => {
+    if (page < 1 || page > listsMeta.total_pages || page === listsMeta.current_page) return
+    dispatch(fetchTaskLists({ projectId, page }))
+  }, [dispatch, projectId, listsMeta.total_pages, listsMeta.current_page])
 
   // Fetch task lists on mount / project change
   useEffect(() => {
-    setShowLabels(false) // Reset for new project
-    dispatch(resetProjectState()) // Clear all project-scoped Redux state
+    setShowLabels(false)
+    dispatch(resetProjectState())
     if (projectId) {
       dispatch(fetchTaskLists({ projectId }));
-      // Check label_in_tasks_list project setting
       api.get(`projects/${projectId}`, { with: 'labels' })
         .then(res => {
           const proj = res?.data ?? res
@@ -117,7 +92,14 @@ export default function TaskListsPage() {
         })
         .catch(() => {})
     }
-  }, [dispatch, projectId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [dispatch, projectId]);
+
+  // Set initial selected list
+  useEffect(() => {
+    if (lists.length > 0 && !selectedListId) {
+      setSelectedListId(lists[0].id)
+    }
+  }, [lists, selectedListId])
 
   const handleCreateList = useCallback(
     async (e) => {
@@ -125,7 +107,7 @@ export default function TaskListsPage() {
       if (!newListTitle.trim() || creatingList) return;
       setCreatingList(true);
       try {
-        await dispatch(
+        const result = await dispatch(
           createTaskList({
             projectId,
             title: newListTitle.trim(),
@@ -133,6 +115,9 @@ export default function TaskListsPage() {
             privacy: newListPrivate ? 1 : 0,
           }),
         ).unwrap();
+        
+        if (result?.id) setSelectedListId(result.id)
+        
         setNewListTitle("");
         setNewListDesc("");
         setNewListPrivate(false);
@@ -143,43 +128,51 @@ export default function TaskListsPage() {
       }
       setCreatingList(false);
     },
-    [
-      dispatch,
-      projectId,
-      newListTitle,
-      newListDesc,
-      newListPrivate,
-      creatingList,
-      toast,
-      __,
-    ],
+    [dispatch, projectId, newListTitle, newListDesc, newListPrivate, creatingList, toast, __]
   );
 
-  const allExpanded = expandedIds.length === lists.length && lists.length > 0;
+  const selectedList = useMemo(() => 
+    lists.find(l => l.id === selectedListId), 
+  [lists, selectedListId])
 
-  // ── Skeleton ────────────────────────────────
+  // ── Render helpers ────────────────────────────────
+
+  const renderStats = () => (
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      {stats.map((s, i) => {
+        const Icon = s.icon
+        return (
+          <div key={i} className="bg-white dark:bg-slate-900 rounded-lg p-5 border border-pm-border flex flex-col gap-6">
+            <div className={cn('p-2 rounded-full flex items-center justify-center self-start', s.bg)}>
+              <Icon className={cn('w-5 h-5', s.color)} />
+            </div>
+            <div className="flex items-end justify-between gap-1">
+              <span className="text-sm text-pm-text-muted leading-tight">{s.label}</span>
+              <span className="text-3xl font-bold text-pm-text-primary tabular-nums leading-none shrink-0">
+                {s.value}
+              </span>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
 
   const renderSkeleton = () => (
-    <div className="space-y-4">
-      {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className="rounded-xl border bg-card overflow-hidden">
-          <div className="px-4 py-3 bg-muted/30 border-b">
-            <Skeleton className="h-5 w-1/3" />
-          </div>
-          <div className="p-3 space-y-2">
-            {Array.from({ length: 3 }).map((_, j) => (
-              <Skeleton key={j} className="h-9 w-full" />
-            ))}
-          </div>
-        </div>
-      ))}
+    <div className="flex flex-col lg:flex-row rounded-lg border border-pm-border overflow-hidden min-h-[600px]">
+      <div className="lg:w-[350px] shrink-0 border-b lg:border-b-0 lg:border-r border-pm-border p-[21px] flex flex-col gap-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Skeleton key={i} className="h-24 w-full rounded-lg" />
+        ))}
+      </div>
+      <div className="flex-1">
+        <Skeleton className="h-full w-full min-h-[600px]" />
+      </div>
     </div>
   );
 
-  // ── Empty state ─────────────────────────────
-
   const renderEmpty = () => (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
+    <div className="flex flex-col items-center justify-center py-20 text-center bg-white dark:bg-slate-900 rounded-xl border border-pm-border">
       <ListTodo className="h-16 w-16 text-muted-foreground/40 mb-4" />
       <h3 className="text-lg font-medium text-pm-text-primary mb-1">
         {__("No task lists yet", 'wedevs-project-manager')}
@@ -188,7 +181,7 @@ export default function TaskListsPage() {
         {__("Create your first task list to start organizing work.", 'wedevs-project-manager')}
       </p>
       {canCreateList && (
-        <Button onClick={() => setShowNewList(true)}>
+        <Button onClick={() => setShowNewList(true)} className="rounded-[6px] px-5">
           <Plus className="h-5 w-5 mr-2" />
           {__("New Task List", 'wedevs-project-manager')}
         </Button>
@@ -196,226 +189,220 @@ export default function TaskListsPage() {
     </div>
   );
 
-  // ── Main render ─────────────────────────────
-
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
-      {/* Header */}
-      <div className="flex items-center justify-between flex-wrap gap-2">
-        <div className="flex items-center gap-3">
-          <BackButton fallback="/projects" />
-          <h1 className="text-xl font-bold text-pm-text-primary">
-            {__("Task Lists", 'wedevs-project-manager')}
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+      {/* Page Header */}
+      <div className="space-y-2">
+        <button
+          onClick={() => navigate('/projects')}
+          className="flex items-center gap-1.5 text-sm text-pm-text-muted hover:text-pm-accent transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>{__('Back to Projects', 'wedevs-project-manager')}</span>
+        </button>
+        <div className="flex items-center justify-between gap-4">
+          <h1 className="text-[28px] font-bold text-pm-text-primary leading-tight">
+            {__("Task List", 'wedevs-project-manager')}
           </h1>
-          {lists.length > 0 && (
-            <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
-              {lists.length} {lists.length === 1 ? __("list", 'wedevs-project-manager') : __("lists", 'wedevs-project-manager')}
-            </span>
-          )}
-        </div>
-
-        <div className="flex items-center gap-2">
-          {/* Expand/Collapse all */}
-          {lists.length > 0 && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-sm gap-1.5 h-8 px-3"
-              onClick={() =>
-                allExpanded ? dispatch(collapseAll()) : dispatch(expandAll())
-              }
-            >
-              <ChevronsUpDown className="h-4 w-4" />
-              {allExpanded ? __("Collapse all", 'wedevs-project-manager') : __("Expand all", 'wedevs-project-manager')}
-            </Button>
-          )}
-
-          {/* Pro slot: archive button, etc. */}
-          <Slot name="tasklist.header.actions" projectId={projectId} />
-
-          {/* New list button */}
-          {canCreateList && (
-            <Button
-              size="sm"
-              className="text-sm gap-1.5 h-8 px-3"
-              onClick={() => setShowNewList((v) => !v)}
-            >
-              <Plus className="h-4 w-4" />
-              {__("New List", 'wedevs-project-manager')}
-            </Button>
-          )}
+          <div className="flex items-center gap-3">
+            <TaskFilterBar
+              projectId={projectId}
+              lists={lists}
+              onFilterResults={(tasks) => setFilteredTasks(tasks)}
+              onClear={() => setFilteredTasks(null)}
+            />
+            {canCreateList && (
+              <Button
+                className="rounded-[6px] px-4 h-10 bg-pm-accent hover:bg-pm-accent/90"
+                onClick={() => setShowNewList(true)}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                {__('New List', 'wedevs-project-manager')}
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* New list form */}
-      {showNewList && (
-        <form
-          onSubmit={handleCreateList}
-          className="rounded-xl border bg-card p-4 space-y-3"
-        >
-          <Input
-            autoFocus
-            value={newListTitle}
-            onChange={(e) => setNewListTitle(e.target.value)}
-            placeholder={__("Task list name", 'wedevs-project-manager')}
-            className="h-9 text-sm"
-            onKeyDown={(e) => {
-              if (e.key === "Escape") {
-                setShowNewList(false);
-                setNewListTitle("");
-                setNewListDesc("");
-                setNewListPrivate(false);
-              }
-            }}
-          />
-          <RichTextEditor
-            content={newListDesc}
-            onChange={setNewListDesc}
-            placeholder={__("Task list details", 'wedevs-project-manager')}
-            minHeight="80px"
-          />
-          <div className="flex items-center gap-2">
-            <Checkbox
-              id="new-list-private"
-              checked={newListPrivate}
-              onCheckedChange={(v) => setNewListPrivate(!!v)}
-              disabled={!isPro}
-            />
-            <label
-              htmlFor="new-list-private"
-              className={cn("text-sm cursor-pointer", isPro ? 'text-pm-text-primary' : 'text-pm-text-muted')}
-            >
-              {__("Private", 'wedevs-project-manager')}
-            </label>
-            {!isPro && <Crown className="h-3.5 w-3.5 text-pm-accent" />}
-          </div>
-          <div className="flex items-center gap-2 pt-1">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setShowNewList(false);
-                setNewListTitle("");
-                setNewListDesc("");
-                setNewListPrivate(false);
-              }}
-            >
-              {__("Cancel", 'wedevs-project-manager')}
-            </Button>
-            <Button
-              type="submit"
-              size="sm"
-              disabled={!newListTitle.trim() || creatingList}
-            >
-              {creatingList ? __("Creating...", 'wedevs-project-manager') : __("Add List", 'wedevs-project-manager')}
-            </Button>
-          </div>
-        </form>
-      )}
+      {/* Stats Cards */}
+      {!loading && lists.length > 0 && renderStats()}
 
-      {/* Filter bar */}
-      {!loading && lists.length > 0 && (
-        <TaskFilterBar
-          projectId={projectId}
-          lists={lists}
-          onFilterResults={(tasks) => setFilteredTasks(tasks)}
-          onClear={() => setFilteredTasks(null)}
-        />
-      )}
-
-      {/* Content */}
+      {/* Main Content Area */}
       {loading ? (
         renderSkeleton()
       ) : lists.length === 0 ? (
         renderEmpty()
-      ) : filteredTasks ? (
-        /* Filtered results — flat task list */
-        <div className="rounded-xl border bg-card overflow-hidden">
-          <div className="px-4 py-2.5 bg-muted/30 border-b">
-            <span className="text-sm font-medium text-pm-text-muted">
-              {filteredTasks.length} {filteredTasks.length === 1 ? __("result", 'wedevs-project-manager') : __("results", 'wedevs-project-manager')}
-            </span>
-          </div>
-          {filteredTasks.length === 0 ? (
-            <div className="py-8 text-center text-sm text-pm-text-muted">
-              {__("No tasks match your filters.", 'wedevs-project-manager')}
-            </div>
-          ) : (
-            <div>
-              {filteredTasks.map((task) => (
-                  <TaskRow
-                    key={task.id}
-                    task={task}
-                    projectId={projectId}
-                    listId={task.task_list_id ?? task.board_id ?? 0}
-                    showLabels={showLabels}
-                  />
+      ) : (
+        <div className="flex flex-col lg:flex-row rounded-lg border border-pm-border overflow-hidden bg-white dark:bg-slate-900 min-h-[600px]">
+          {/* Sidebar: List of Task Lists */}
+          <div className="lg:w-[350px] shrink-0 border-b lg:border-b-0 lg:border-r border-pm-border flex flex-col">
+            <div className="flex-1 overflow-y-auto p-[21px] flex flex-col gap-4 custom-scrollbar">
+              {lists.map((list) => (
+                <TaskListSidebarItem
+                  key={list.id}
+                  list={list}
+                  projectId={projectId}
+                  isActive={selectedListId === list.id && !filteredTasks}
+                  onClick={() => { setSelectedListId(list.id); setFilteredTasks(null); }}
+                />
               ))}
             </div>
-          )}
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {lists.map((list, idx) => (
-            <div
-              key={list.id}
-              draggable
-              onDragStart={() => handleListDragStart(idx)}
-              onDragOver={(e) => handleListDragOver(e, idx)}
-              onDrop={(e) => handleListDrop(e, idx)}
-              onDragEnd={handleListDragEnd}
-              className={dragOverIdx === idx ? "ring-2 ring-pm-accent/40 rounded-xl transition-shadow" : ""}
-            >
-              <TaskListSection list={list} projectId={projectId} showLabels={showLabels} isInbox={inboxListId && parseInt(list.id, 10) === inboxListId} />
-            </div>
-          ))}
+
+            {/* Pagination for lists if many */}
+            {listsMeta.total_pages > 1 && (
+              <div className="p-4 border-t border-pm-border">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() => handlePageChange(listsMeta.current_page - 1)}
+                        className={listsMeta.current_page <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                    <PaginationItem>
+                      <span className="text-xs font-bold text-pm-text-muted px-2">
+                        {listsMeta.current_page} / {listsMeta.total_pages}
+                      </span>
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => handlePageChange(listsMeta.current_page + 1)}
+                        className={listsMeta.current_page >= listsMeta.total_pages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
+          </div>
+
+          {/* Main: Tasks for Selected List */}
+          <div className="flex-1 overflow-hidden">
+            {filteredTasks ? (
+              <div className="flex flex-col h-full">
+                <div className="p-6 border-b border-pm-border flex items-center justify-between bg-pm-surface/30">
+                  <div>
+                    <h2 className="text-xl font-bold text-pm-text-primary">{__('Filtered Results', 'wedevs-project-manager')}</h2>
+                    <p className="text-sm text-pm-text-muted mt-0.5">{__('Showing matching tasks from all lists', 'wedevs-project-manager')}</p>
+                  </div>
+                  <Button variant="ghost" onClick={() => setFilteredTasks(null)} className="text-pm-accent font-bold hover:bg-pm-accent/5">
+                    {__('Back to list', 'wedevs-project-manager')}
+                  </Button>
+                </div>
+                <div className="flex-1 overflow-y-auto divide-y divide-pm-border">
+                  {filteredTasks.length > 0 ? (
+                    filteredTasks.map(task => (
+                      <TaskRow 
+                        key={task.id} 
+                        task={task} 
+                        projectId={projectId} 
+                        listId={task.task_list_id || task.board_id} 
+                        showLabels={showLabels} 
+                      />
+                    ))
+                  ) : (
+                    <div className="py-40 text-center flex flex-col items-center">
+                      <ListTodo className="h-12 w-12 text-pm-text-muted/20 mb-3" />
+                      <p className="text-pm-text-muted font-medium">{__('No tasks match your filters', 'wedevs-project-manager')}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : selectedList ? (
+              <TaskListSection 
+                list={selectedList} 
+                projectId={projectId} 
+                showLabels={showLabels} 
+                isInbox={inboxListId && parseInt(selectedList.id, 10) === inboxListId}
+                variant="expanded"
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center py-40 text-center">
+                <ListTodo className="h-16 w-16 text-pm-text-muted/10 mb-4" />
+                <p className="text-pm-text-muted font-bold text-lg">{__('Select a task list', 'wedevs-project-manager')}</p>
+                <p className="text-pm-text-muted/60 text-sm mt-1">{__('Choose a list from the sidebar to manage its tasks', 'wedevs-project-manager')}</p>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
-      {/* Task list pagination */}
-      {!loading && listsMeta.total_pages > 1 && (
-        <Pagination className="mt-4">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => handlePageChange(listsMeta.current_page - 1)}
-                className={listsMeta.current_page <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-              />
-            </PaginationItem>
-            {Array.from({ length: listsMeta.total_pages }, (_, i) => i + 1).map((page) => {
-              const current = listsMeta.current_page
-              const total = listsMeta.total_pages
-              // Show first, last, current, and neighbors; ellipsis for gaps
-              if (page === 1 || page === total || (page >= current - 1 && page <= current + 1)) {
-                return (
-                  <PaginationItem key={page}>
-                    <PaginationLink
-                      isActive={page === current}
-                      onClick={() => handlePageChange(page)}
-                      className="cursor-pointer"
-                    >
-                      {page}
-                    </PaginationLink>
-                  </PaginationItem>
-                )
-              }
-              if (page === 2 && current > 3) {
-                return <PaginationItem key="start-ellipsis"><PaginationEllipsis /></PaginationItem>
-              }
-              if (page === total - 1 && current < total - 2) {
-                return <PaginationItem key="end-ellipsis"><PaginationEllipsis /></PaginationItem>
-              }
-              return null
-            })}
-            <PaginationItem>
-              <PaginationNext
-                onClick={() => handlePageChange(listsMeta.current_page + 1)}
-                className={listsMeta.current_page >= listsMeta.total_pages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+      {/* New list form modal/sheet can be added here if needed, 
+          for now using the existing form logic but could be a dialog */}
+      {showNewList && (
+        <div className="fixed inset-0 z-[100100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+           <form
+            onSubmit={handleCreateList}
+            className="w-full max-w-lg rounded-xl border bg-white dark:bg-slate-900 p-6 space-y-4 shadow-2xl"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold text-pm-text-primary">{__('New Task List', 'wedevs-project-manager')}</h3>
+              <button type="button" onClick={() => setShowNewList(false)} className="text-pm-text-muted hover:text-pm-text-primary">
+                <Plus className="w-6 h-6 rotate-45" />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-pm-text-primary">{__('List Name', 'wedevs-project-manager')}</label>
+                <Input
+                  autoFocus
+                  value={newListTitle}
+                  onChange={(e) => setNewListTitle(e.target.value)}
+                  placeholder={__("Enter list name", 'wedevs-project-manager')}
+                  className="h-11 rounded-xl"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-pm-text-primary">{__('Description', 'wedevs-project-manager')}</label>
+                <RichTextEditor
+                  content={newListDesc}
+                  onChange={setNewListDesc}
+                  placeholder={__("Add some details...", 'wedevs-project-manager')}
+                  minHeight="100px"
+                />
+              </div>
+
+              <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-xl">
+                <Checkbox
+                  id="new-list-private"
+                  checked={newListPrivate}
+                  onCheckedChange={(v) => setNewListPrivate(!!v)}
+                  disabled={!isPro}
+                />
+                <div className="flex-1">
+                  <label
+                    htmlFor="new-list-private"
+                    className={cn("text-sm font-medium cursor-pointer", isPro ? 'text-pm-text-primary' : 'text-pm-text-muted')}
+                  >
+                    {__("Make this list private", 'wedevs-project-manager')}
+                  </label>
+                  <p className="text-xs text-pm-text-muted">{__('Only assigned users can see this list.', 'wedevs-project-manager')}</p>
+                </div>
+                {!isPro && <Crown className="h-4 w-4 text-pm-accent" />}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <Button
+                type="button"
+                variant="outline"
+                className="flex-1 rounded-[6px] h-11 border-pm-border"
+                onClick={() => setShowNewList(false)}
+              >
+                {__("Cancel", 'wedevs-project-manager')}
+              </Button>
+              <Button
+                type="submit"
+                className="flex-1 rounded-[6px] h-11 bg-pm-accent hover:bg-pm-accent/90"
+                disabled={!newListTitle.trim() || creatingList}
+              >
+                {creatingList ? __("Creating...", 'wedevs-project-manager') : __("Create List", 'wedevs-project-manager')}
+              </Button>
+            </div>
+          </form>
+        </div>
       )}
 
       {/* Task detail sheet */}

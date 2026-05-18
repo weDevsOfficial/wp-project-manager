@@ -34,6 +34,7 @@ import {
   Archive,
   Copy,
   Crown,
+  ListChecks,
 } from 'lucide-react'
 import { Slot } from '@hooks/useSlot'
 import { usePermissions } from '@hooks/usePermissions'
@@ -42,11 +43,16 @@ import { useProModal } from '@components/common/ProUpgradeModal'
 import TaskRow from './TaskRow'
 import { sanitizeHtml } from '@lib/sanitize'
 
-export default function TaskListSection({ list, projectId, showLabels, isInbox = false }) {
+export default function TaskListSection({ list, projectId, showLabels, isInbox = false, variant = 'default' }) {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const toast = useToast()
-  const expanded = useAppSelector(s => s.taskLists.expandedIds.includes(list.id))
+  
+  // In expanded variant, we don't use the store's expanded state, we force it open
+  const isExpandedVariant = variant === 'expanded'
+  const expandedStore = useAppSelector(s => s.taskLists.expandedIds.includes(list.id))
+  const expanded = isExpandedVariant ? true : expandedStore
+
   const project = useCurrentProject(projectId)
   const { isPro, userCan, isManager } = usePermissions(project)
   const { setOpen: openProModal } = useProModal()
@@ -122,8 +128,9 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
   const progress = total > 0 ? Math.round((totalComplete / total) * 100) : 0
 
   const handleToggle = useCallback(() => {
+    if (isExpandedVariant) return
     dispatch(toggleExpand(list.id))
-  }, [dispatch, list.id])
+  }, [dispatch, list.id, isExpandedVariant])
 
   const handleCreateTask = useCallback(async (e) => {
     e.preventDefault()
@@ -157,7 +164,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
       toast.error(__('Failed to create task', 'wedevs-project-manager'))
     }
     setCreating(false)
-  }, [dispatch, projectId, list.id, newTitle, newDesc, newDueDate, selectedAssignees, creating, toast, __, resetForm])
+  }, [dispatch, projectId, list.id, newTitle, newDesc, newDueDate, selectedAssignees, creating, toast, __, resetForm, selectedMilestone, api])
 
   // ── Task drag-drop within list ──────────────────
   const dragTaskIdx = useRef(null)
@@ -181,7 +188,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
     if (fromIdx === null || fromIdx === toIdx) {
       dragTaskIdx.current = null
       setDragOverTaskIdx(null)
-      return
+      return;
     }
     // Optimistic reorder
     dispatch(reorderTasksLocal({ listId: list.id, fromIndex: fromIdx, toIndex: toIdx }))
@@ -258,6 +265,264 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
     if (isComplete) setLoadingMoreComplete(false)
     else setLoadingMore(false)
   }, [api, projectId, list.id, incompleteTasks, completeTasks, dispatch, toast, __])
+
+  if (isExpandedVariant) {
+    return (
+      <div className="flex flex-col h-full bg-white dark:bg-slate-900">
+        <ConfirmDialog />
+        {/* Expanded Header */}
+        <div className="flex items-center justify-between p-6 border-b border-pm-border">
+          <div className="space-y-1">
+             {renaming ? (
+              <div className="flex items-center gap-1.5 flex-1">
+                <input
+                  autoFocus
+                  value={renameTitle}
+                  onChange={(e) => setRenameTitle(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') setRenaming(false); }}
+                  className="text-xl font-bold text-pm-text-primary flex-1 bg-transparent border-b border-pm-accent outline-none px-0 py-0"
+                />
+                <button type="button" onClick={handleRename} className="text-pm-accent hover:text-pm-accent/80 p-1 rounded hover:bg-muted transition-colors"><Check className="h-5 w-5" /></button>
+                <button type="button" onClick={() => setRenaming(false)} className="text-pm-text-muted hover:text-pm-text p-1 rounded hover:bg-muted transition-colors"><X className="h-5 w-5" /></button>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-bold text-pm-text-primary" dangerouslySetInnerHTML={{ __html: sanitizeHtml(list.title) }} />
+                  {list.meta?.privacy === 1 && <Lock className="h-4 w-4 text-amber-500" />}
+                </div>
+                {list.description && (
+                  <p className="text-sm text-pm-text-muted leading-relaxed line-clamp-2" dangerouslySetInnerHTML={{ __html: sanitizeHtml(list.description) }} />
+                )}
+              </div>
+            )}
+            <div className="flex items-center gap-3 text-sm text-pm-text-muted">
+              <span className="font-medium">{totalComplete}/{total} {__('tasks completed', 'wedevs-project-manager')}</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-border" />
+              <button 
+                onClick={() => setShowCompleted(!showCompleted)}
+                className="hover:text-pm-accent transition-colors font-medium"
+              >
+                {showCompleted ? __('Hide completed', 'wedevs-project-manager') : __('Show completed', 'wedevs-project-manager')}
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {canCreateTask && (
+              <Button
+                onClick={() => setShowNewTask(true)}
+                className="rounded-[6px] bg-pm-accent hover:bg-pm-accent/90 px-4"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                {__('Add Task', 'wedevs-project-manager')}
+              </Button>
+            )}
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon" className="rounded-full border-pm-border">
+                  <MoreHorizontal className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                {canEditTaskList && (
+                  <DropdownMenuItem onClick={startRename}>
+                    <Pencil className="h-4 w-4 mr-2" />
+                    {__('Rename List', 'wedevs-project-manager')}
+                  </DropdownMenuItem>
+                )}
+                <Slot name="tasklist.section.menu" listId={list.id} projectId={projectId} list={list} isInbox={isInbox} />
+                {!isInbox && canDeleteTaskList && (
+                  <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleDeleteList}>
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    {__('Delete List', 'wedevs-project-manager')}
+                  </DropdownMenuItem>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+
+        {/* Task List Content */}
+        <div className="flex-1 overflow-y-auto">
+          {/* Inline add task (Top) */}
+          {showNewTask && canCreateTask && (
+            <div className="p-4 border-b border-pm-border bg-pm-accent/[0.02]">
+              <form onSubmit={handleCreateTask} className="space-y-3">
+                 <div className="flex items-center gap-3">
+                  <div className="h-5 w-5 rounded-full border-2 border-dashed border-pm-text-muted/30 shrink-0" />
+                  <Input
+                    autoFocus
+                    value={newTitle}
+                    onChange={e => setNewTitle(e.target.value)}
+                    placeholder={__('What needs to be done?', 'wedevs-project-manager')}
+                    className="h-10 text-[15px] flex-1 rounded-xl border-pm-border bg-white"
+                    onKeyDown={e => { if (e.key === 'Escape') resetForm() }}
+                  />
+                </div>
+                
+                <div className="pl-8 space-y-3">
+                   <RichTextEditor
+                    content={newDesc}
+                    onChange={setNewDesc}
+                    placeholder={__('Add notes or description...', 'wedevs-project-manager')}
+                    minHeight="80px"
+                    users={project?.assignees?.data ?? []}
+                  />
+
+                  <div className="flex items-center gap-4 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <Input
+                        type="date"
+                        value={newDueDate}
+                        onChange={e => setNewDueDate(e.target.value)}
+                        className="h-9 text-sm w-40 rounded-lg border-pm-border"
+                      />
+                    </div>
+
+                    {milestones.length > 0 && (
+                      <select
+                        value={selectedMilestone}
+                        onChange={e => setSelectedMilestone(e.target.value)}
+                        className="h-9 text-sm text-foreground rounded-lg border border-pm-border bg-white px-3 focus:outline-none focus:ring-1 focus:ring-pm-accent w-44"
+                      >
+                        <option value="">{__('No Milestone', 'wedevs-project-manager')}</option>
+                        {milestones.map(m => (
+                          <option key={m.id} value={String(m.id)}>{m.title}</option>
+                        ))}
+                      </select>
+                    )}
+
+                    <div className="relative flex-1 max-w-[240px]">
+                        <Input
+                          value={assigneeSearch}
+                          onChange={e => handleSearchUsers(e.target.value)}
+                          placeholder={__('Assign to...', 'wedevs-project-manager')}
+                          className="h-9 text-sm rounded-lg border-pm-border"
+                        />
+                        {assigneeResults.length > 0 && assigneeSearch && (
+                          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-pm-border rounded-xl shadow-xl z-50 max-h-48 overflow-y-auto">
+                            {assigneeResults.map(user => {
+                              const isSelected = selectedAssignees.some(u => parseInt(u.id) === parseInt(user.id))
+                              return (
+                                <button
+                                  key={user.id}
+                                  type="button"
+                                  className={cn("w-full flex items-center gap-2 px-3 py-2 text-sm text-left hover:bg-pm-accent/5", isSelected && "text-pm-accent")}
+                                  onClick={() => isSelected ? removeAssignee(user.id) : addAssignee(user)}
+                                >
+                                  <UserAvatar user={user} size="xs" />
+                                  <span className="flex-1 truncate font-medium">{user.display_name}</span>
+                                  {isSelected && <Check className="h-4 w-4 shrink-0" />}
+                                </button>
+                              )
+                            })}
+                          </div>
+                        )}
+                    </div>
+                  </div>
+
+                  {selectedAssignees.length > 0 && (
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {selectedAssignees.map(user => (
+                        <div key={user.id} className="flex items-center gap-1 bg-pm-accent/5 text-pm-accent text-xs font-semibold px-2 py-1 rounded-full border border-pm-accent/10">
+                          <UserAvatar user={user} size="xs" />
+                          {user.display_name}
+                          <button onClick={() => removeAssignee(user.id)} className="ml-1 hover:text-red-500"><X className="w-3 h-3" /></button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-2 pt-2">
+                    <Button type="submit" size="sm" className="bg-pm-accent hover:bg-pm-accent/90 rounded-lg px-4" disabled={!newTitle.trim() || creating}>
+                      {creating ? __('Adding...', 'wedevs-project-manager') : __('Add Task', 'wedevs-project-manager')}
+                    </Button>
+                    <Button type="button" variant="ghost" size="sm" onClick={resetForm} className="rounded-lg">{__('Cancel', 'wedevs-project-manager')}</Button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {/* Task List */}
+          <div className="divide-y divide-pm-border">
+            {incompleteTasks.length > 0 ? (
+              incompleteTasks.map((task, idx) => (
+                <TaskRow
+                  key={task.id}
+                  task={task}
+                  projectId={projectId}
+                  listId={list.id}
+                  showLabels={showLabels}
+                  draggable
+                  onDragStart={() => handleTaskDragStart(idx)}
+                  onDragOver={(e) => handleTaskDragOver(e, idx)}
+                  onDrop={(e) => handleTaskDrop(e, idx)}
+                  onDragEnd={handleTaskDragEnd}
+                  isDragOver={dragOverTaskIdx === idx}
+                />
+              ))
+            ) : !showNewTask && (
+              <div className="py-20 text-center flex flex-col items-center">
+                <ListChecks className="h-12 w-12 text-pm-text-muted/20 mb-3" />
+                <p className="text-pm-text-muted font-medium">{__('No active tasks', 'wedevs-project-manager')}</p>
+                {canCreateTask && (
+                   <button 
+                    onClick={() => setShowNewTask(true)}
+                    className="mt-4 text-pm-accent hover:underline text-sm font-semibold"
+                  >
+                    + {__('Add your first task', 'wedevs-project-manager')}
+                  </button>
+                )}
+              </div>
+            )}
+
+            {hasMoreIncomplete && (
+              <div className="p-4 text-center">
+                <Button variant="ghost" onClick={() => handleLoadMore(0)} disabled={loadingMore} className="text-pm-accent">
+                  {loadingMore ? __('Loading...', 'wedevs-project-manager') : __('Load more tasks', 'wedevs-project-manager')}
+                </Button>
+              </div>
+            )}
+
+            {/* Bottom add task pill */}
+            {canCreateTask && !showNewTask && (
+              <div className="p-4">
+                <Button
+                  onClick={() => setShowNewTask(true)}
+                  className="rounded-[6px] bg-pm-accent hover:bg-pm-accent/90 px-4"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  {__('Add Task', 'wedevs-project-manager')}
+                </Button>
+              </div>
+            )}
+
+            {/* Completed Tasks */}
+            {showCompleted && totalComplete > 0 && (
+              <div className="bg-muted/5">
+                <div className="px-4 py-3 bg-muted/10 font-semibold text-xs text-pm-text-muted uppercase tracking-wider">
+                  {__('Completed Tasks', 'wedevs-project-manager')}
+                </div>
+                {completeTasks.map(task => (
+                  <TaskRow key={task.id} task={task} projectId={projectId} listId={list.id} showLabels={showLabels} />
+                ))}
+                {hasMoreComplete && (
+                  <div className="p-4 text-center">
+                    <Button variant="ghost" onClick={() => handleLoadMore(1)} disabled={loadingMoreComplete} className="text-pm-accent">
+                      {loadingMoreComplete ? __('Loading...', 'wedevs-project-manager') : __('Load more completed', 'wedevs-project-manager')}
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="rounded-xl border bg-card">
