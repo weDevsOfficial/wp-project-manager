@@ -13,10 +13,14 @@ export const sanitizeHtml = (html) =>
   DOMPurify.sanitize(html ?? '', {
     ALLOWED_TAGS: [
       'p', 'br', 'strong', 'em', 'u', 's', 'a',
-      'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4',
+      'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
       'blockquote', 'code', 'pre', 'img',
-      'table', 'thead', 'tbody', 'tr', 'th', 'td',
-      'span', 'div', 'sub', 'sup', 'hr',
+      'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'caption', 'col', 'colgroup',
+      'span', 'div', 'sub', 'sup', 'hr', 'mark',
     ],
-    ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'target', 'rel', 'style'],
+    ALLOWED_ATTR: [
+      'href', 'src', 'alt', 'class', 'target', 'rel', 'style', 'title', 'id',
+      'colspan', 'rowspan', 'width', 'height', 'align', 'valign',
+      'bgcolor', 'border', 'cellpadding', 'cellspacing', 'scope',
+    ],
   })

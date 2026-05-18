@@ -84,6 +84,9 @@ export default function DiscussionDetailPage() {
   const [editTitle, setEditTitle] = useState("");
   const [editDesc, setEditDesc] = useState("");
   const [editMilestone, setEditMilestone] = useState("-1");
+  const [editNewFiles, setEditNewFiles] = useState([]);
+  const [editDeletedFileIds, setEditDeletedFileIds] = useState([]);
+  const [savingDiscussion, setSavingDiscussion] = useState(false);
   const [milestones, setMilestones] = useState([]);
 
   const [newComment, setNewComment] = useState("");
@@ -93,6 +96,9 @@ export default function DiscussionDetailPage() {
 
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editCommentText, setEditCommentText] = useState("");
+  const [editCommentNewFiles, setEditCommentNewFiles] = useState([]);
+  const [editCommentDeletedFileIds, setEditCommentDeletedFileIds] = useState([]);
+  const [savingEditComment, setSavingEditComment] = useState(false);
 
   const fetchDiscussion = useCallback(async () => {
     setLoading(true);
@@ -123,8 +129,10 @@ export default function DiscussionDetailPage() {
 
   const startEdit = () => {
     setEditTitle(discussion.title || "");
-    setEditDesc(discussion.description?.content || "");
+    setEditDesc(typeof discussion.description === 'string' ? discussion.description : (discussion.description?.content || discussion.description?.html || ""));
     setEditMilestone(discussion.milestone?.data?.id ? String(discussion.milestone.data.id) : "-1");
+    setEditNewFiles([]);
+    setEditDeletedFileIds([]);
     setEditing(true);
   };
 
@@ -133,34 +141,44 @@ export default function DiscussionDetailPage() {
     setEditTitle("");
     setEditDesc("");
     setEditMilestone("-1");
+    setEditNewFiles([]);
+    setEditDeletedFileIds([]);
+  };
+
+  const markDeleteDiscussionFile = (fileId) => {
+    setEditDeletedFileIds((prev) => (prev.includes(fileId) ? prev : [...prev, fileId]));
   };
 
   const handleUpdate = useCallback(async () => {
     if (!editTitle.trim()) return;
+    setSavingDiscussion(true);
     try {
-      const payload = {
-        title: editTitle.trim(),
-        description: editDesc.trim(),
-        project_id: projectId,
-        milestone_id: editMilestone !== "-1" ? editMilestone : "",
-      };
-      await api.post(`projects/${projectId}/discussion-boards/${discussionId}`, payload);
-      const milestone =
-        editMilestone !== "-1"
-          ? milestones.find((m) => String(m.id) === editMilestone)
-          : null;
-      setDiscussion((prev) => ({
-        ...prev,
-        title: editTitle.trim(),
-        description: { ...prev.description, content: editDesc.trim(), html: editDesc.trim() },
-        milestone: milestone ? { data: milestone } : null,
-      }));
+      const hasFileChange = editNewFiles.length > 0 || editDeletedFileIds.length > 0;
+      if (hasFileChange) {
+        const fd = new FormData();
+        fd.append("title", editTitle.trim());
+        fd.append("description", editDesc.trim());
+        fd.append("project_id", projectId);
+        fd.append("milestone_id", editMilestone !== "-1" ? editMilestone : "");
+        editNewFiles.forEach((f) => fd.append("files[]", f));
+        editDeletedFileIds.forEach((id) => fd.append("files_to_delete[]", String(id)));
+        await api.upload(`projects/${projectId}/discussion-boards/${discussionId}`, fd);
+      } else {
+        await api.post(`projects/${projectId}/discussion-boards/${discussionId}`, {
+          title: editTitle.trim(),
+          description: editDesc.trim(),
+          project_id: projectId,
+          milestone_id: editMilestone !== "-1" ? editMilestone : "",
+        });
+      }
+      await fetchDiscussion();
       cancelEdit();
       toast.success(__("Discussion updated", 'wedevs-project-manager'));
     } catch {
       toast.error(__("Failed to update discussion", 'wedevs-project-manager'));
     }
-  }, [api, projectId, discussionId, editTitle, editDesc, editMilestone, milestones, toast, __]);
+    setSavingDiscussion(false);
+  }, [api, projectId, discussionId, editTitle, editDesc, editMilestone, editNewFiles, editDeletedFileIds, fetchDiscussion, toast, __]);
 
   const handleDelete = async () => {
     const ok = await confirm(__("Are you sure?", 'wedevs-project-manager'), __("Delete Discussion", 'wedevs-project-manager'));
@@ -215,34 +233,62 @@ export default function DiscussionDetailPage() {
   const startEditComment = (c) => {
     setEditingCommentId(c.id);
     setEditCommentText(c.content || "");
+    setEditCommentNewFiles([]);
+    setEditCommentDeletedFileIds([]);
   };
 
   const cancelEditComment = () => {
     setEditingCommentId(null);
     setEditCommentText("");
+    setEditCommentNewFiles([]);
+    setEditCommentDeletedFileIds([]);
+  };
+
+  const markDeleteCommentFile = (fileId) => {
+    setEditCommentDeletedFileIds((prev) => (prev.includes(fileId) ? prev : [...prev, fileId]));
   };
 
   const handleUpdateComment = useCallback(async () => {
     if (!editCommentText.trim() || !editingCommentId) return;
+    setSavingEditComment(true);
     const mentionedUsers = extractMentionedUsers(editCommentText);
     try {
-      await api.post(`projects/${projectId}/comments/${editingCommentId}`, {
-        content: editCommentText.trim(),
-        project_id: projectId,
-        mentioned_users: mentionedUsers,
-        notify_users: '',
-      });
-      setComments((prev) =>
-        prev.map((c) =>
-          c.id === editingCommentId ? { ...c, content: editCommentText.trim() } : c
-        )
-      );
+      const hasFileChange = editCommentNewFiles.length > 0 || editCommentDeletedFileIds.length > 0;
+      let res;
+      if (hasFileChange) {
+        const fd = new FormData();
+        fd.append("content", editCommentText.trim());
+        fd.append("project_id", projectId);
+        fd.append("mentioned_users", mentionedUsers);
+        fd.append("notify_users", "");
+        editCommentNewFiles.forEach((f) => fd.append("files[]", f));
+        editCommentDeletedFileIds.forEach((id) => fd.append("files_to_delete[]", String(id)));
+        res = await api.upload(`projects/${projectId}/comments/${editingCommentId}`, fd);
+      } else {
+        res = await api.post(`projects/${projectId}/comments/${editingCommentId}`, {
+          content: editCommentText.trim(),
+          project_id: projectId,
+          mentioned_users: mentionedUsers,
+          notify_users: '',
+        });
+      }
+      if (res?.data) {
+        setComments((prev) => prev.map((c) => (c.id === editingCommentId ? res.data : c)));
+      } else {
+        setComments((prev) =>
+          prev.map((c) =>
+            c.id === editingCommentId ? { ...c, content: editCommentText.trim() } : c
+          )
+        );
+      }
+      await fetchDiscussion();
       cancelEditComment();
       toast.success(__("Comment updated", 'wedevs-project-manager'));
     } catch {
       toast.error(__("Failed to update comment", 'wedevs-project-manager'));
     }
-  }, [api, projectId, editingCommentId, editCommentText, toast, __]);
+    setSavingEditComment(false);
+  }, [api, projectId, editingCommentId, editCommentText, editCommentNewFiles, editCommentDeletedFileIds, fetchDiscussion, toast, __]);
 
   const handleDeleteComment = useCallback(
     async (commentId) => {
@@ -315,12 +361,37 @@ export default function DiscussionDetailPage() {
                   ))}
                 </SelectContent>
               </Select>
+              {discussion.files?.data?.filter((f) => !editDeletedFileIds.includes(f.id)).length > 0 && (
+                <div className="flex gap-2 flex-wrap">
+                  {discussion.files.data.filter((f) => !editDeletedFileIds.includes(f.id)).map((f) => {
+                    const isImg = (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)
+                    return (
+                      <div key={f.id} className={`relative inline-flex items-center gap-1.5 text-sm border border-border/50 bg-muted/30 rounded-md ${isImg ? 'p-0' : 'px-2 py-1 pr-6'}`}>
+                        {isImg ? (
+                          <img src={f.thumb || f.url} alt={f.name} className="h-12 w-12 rounded object-cover" />
+                        ) : (
+                          <span className="truncate max-w-[140px]">{f.name}</span>
+                        )}
+                        <button
+                          type="button"
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); markDeleteDiscussionFile(f.id); }}
+                          className="absolute -top-1.5 -right-1.5 z-10 bg-background border border-border/60 rounded-full p-0.5 text-pm-text-muted hover:text-destructive hover:border-destructive/40 shadow-sm cursor-pointer"
+                          title={__('Remove', 'wedevs-project-manager')}
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+              <FileUploadArea files={editNewFiles} onFilesChange={setEditNewFiles} compact />
               <div className="flex gap-2">
-                <Button size="sm" className="gap-1" onClick={handleUpdate} disabled={!editTitle.trim()}>
+                <Button size="sm" className="gap-1" onClick={handleUpdate} disabled={savingDiscussion || !editTitle.trim()}>
                   <Check className="h-3.5 w-3.5" />
-                  {__("Save", 'wedevs-project-manager')}
+                  {savingDiscussion ? __("Saving...", 'wedevs-project-manager') : __("Save", 'wedevs-project-manager')}
                 </Button>
-                <Button size="sm" variant="outline" className="gap-1" onClick={cancelEdit}>
+                <Button size="sm" variant="outline" className="gap-1" onClick={cancelEdit} disabled={savingDiscussion}>
                   <X className="h-3.5 w-3.5" />
                   {__("Cancel", 'wedevs-project-manager')}
                 </Button>
@@ -390,19 +461,25 @@ export default function DiscussionDetailPage() {
                 )}
               </div>
 
-              {discussion.description?.html && (
-                <div className="mt-3">
-                  <div
-                    className="prose prose-sm max-w-none text-foreground text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
-                    dangerouslySetInnerHTML={{
-                      __html: sanitizeHtml(stripAllPreviewUrls(discussion.description.html)),
-                    }}
-                  />
-                  <GitHubPreviewContainer content={discussion.description.html} />
-                  <NotionPreviewContainer content={discussion.description.html} />
-                  <LoomPreviewContainer content={discussion.description.html} />
-                </div>
-              )}
+              {(() => {
+                const descHtml = typeof discussion.description === 'string'
+                  ? discussion.description
+                  : (discussion.description?.html || discussion.description?.content || "");
+                if (!descHtml) return null;
+                return (
+                  <div className="mt-3">
+                    <div
+                      className="prose prose-sm max-w-none text-foreground text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeHtml(stripAllPreviewUrls(descHtml)),
+                      }}
+                    />
+                    <GitHubPreviewContainer content={descHtml} />
+                    <NotionPreviewContainer content={descHtml} />
+                    <LoomPreviewContainer content={descHtml} />
+                  </div>
+                );
+              })()}
 
               <DiscussionFiles files={discussion.files} />
             </>
@@ -459,21 +536,47 @@ export default function DiscussionDetailPage() {
                           minHeight="36px"
                           users={projectUsers}
                         />
+                        {c.files?.data?.filter((f) => !editCommentDeletedFileIds.includes(f.id)).length > 0 && (
+                          <div className="flex gap-2 flex-wrap">
+                            {c.files.data.filter((f) => !editCommentDeletedFileIds.includes(f.id)).map((f) => {
+                              const isImg = (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)
+                              return (
+                                <div key={f.id} className={`relative inline-flex items-center gap-1.5 text-sm border border-border/50 bg-muted/30 rounded-md ${isImg ? 'p-0' : 'px-2 py-1 pr-6'}`}>
+                                  {isImg ? (
+                                    <img src={f.thumb || f.url} alt={f.name} className="h-12 w-12 rounded object-cover" />
+                                  ) : (
+                                    <span className="truncate max-w-[140px]">{f.name}</span>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); markDeleteCommentFile(f.id); }}
+                                    className="absolute -top-1.5 -right-1.5 z-10 bg-background border border-border/60 rounded-full p-0.5 text-pm-text-muted hover:text-destructive hover:border-destructive/40 shadow-sm cursor-pointer"
+                                    title={__('Remove', 'wedevs-project-manager')}
+                                  >
+                                    <X className="h-3 w-3" />
+                                  </button>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )}
+                        <FileUploadArea files={editCommentNewFiles} onFilesChange={setEditCommentNewFiles} compact />
                         <div className="flex gap-1">
                           <Button
                             size="sm"
                             className="h-6 text-[13px] gap-1 px-2"
                             onClick={handleUpdateComment}
-                            disabled={!editCommentText.trim()}
+                            disabled={savingEditComment || !editCommentText.trim()}
                           >
                             <Check className="h-3 w-3" />
-                            {__("Save", 'wedevs-project-manager')}
+                            {savingEditComment ? __("Saving...", 'wedevs-project-manager') : __("Save", 'wedevs-project-manager')}
                           </Button>
                           <Button
                             size="sm"
                             variant="ghost"
                             className="h-6 text-[13px] px-2"
                             onClick={cancelEditComment}
+                            disabled={savingEditComment}
                           >
                             {__("Cancel", 'wedevs-project-manager')}
                           </Button>

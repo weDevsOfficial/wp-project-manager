@@ -235,7 +235,15 @@ class Frontend {
 
     function project_text_editor($config) {
     $config['external_plugins']['placeholder'] = wedevs_pm_config('frontend.assets_url') . 'vendor/tinymce/plugins/placeholder/plugin.min.js';
-    $config['plugins'] = 'placeholder textcolor colorpicker wplink wordpress';
+    $config['plugins'] = 'placeholder textcolor colorpicker wplink wordpress paste table lists';
+    $config['paste_data_images']         = true;
+    $config['paste_as_text']             = false;
+    $config['paste_retain_style_properties'] = 'all';
+    $config['paste_merge_formats']       = true;
+    // Keep table/list markup when pasting from Excel, Word, Google Sheets.
+    $config['paste_word_valid_elements'] = 'table[width|border|cellspacing|cellpadding|style|class],thead,tbody,tfoot,tr,td[colspan|rowspan|width|height|style|class|valign|align|bgcolor],th[colspan|rowspan|width|height|style|class|valign|align|scope|bgcolor],caption,col,colgroup,p,br,strong,b,em,i,u,strike,sub,sup,a[href|title|target],ul,ol,li,h1,h2,h3,h4,h5,h6,blockquote,pre,code,span[style|class]';
+    $config['extended_valid_elements']   = 'table[width|border|cellspacing|cellpadding|style|class],thead,tbody,tfoot,tr,td[colspan|rowspan|width|height|style|class|valign|align|bgcolor],th[colspan|rowspan|width|height|style|class|valign|align|scope|bgcolor]';
+    $config['table_default_attributes']  = [ 'border' => '1' ];
     return $config;
 }
 
