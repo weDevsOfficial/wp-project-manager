@@ -3,7 +3,6 @@
 /views/assets/js/
 /views/assets/css/pm-style.css
 /.idea
-.env
 .DS_Store
 .travis.yml
 npm-debug.log
@@ -28,3 +27,4 @@ wp-project-manager.zip
 CLAUDE.local.md
 .claude/settings.local.json
 .claude/agent-memory/
+config.bat
