@@ -34,7 +34,8 @@ import TaskListSection from "./TaskListSection";
 import TaskDetailSheet from "./TaskDetailSheet";
 import TaskFilterBar from "./TaskFilterBar";
 import TaskRow from "./TaskRow";
-import TaskListSidebarItem from "./TaskListSidebarItem";
+import TaskListSidebarItem from "./TaskListSidebarItem"
+import StatCard from "./StatCard";
 
 export default function TaskListsPage() {
   const { projectId: pidParam } = useParams();
@@ -139,30 +140,17 @@ export default function TaskListsPage() {
 
   const renderStats = () => (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      {stats.map((s, i) => {
-        const Icon = s.icon
-        return (
-          <div key={i} className="bg-white dark:bg-slate-900 rounded-lg p-5 border border-pm-border flex flex-col gap-6">
-            <div className={cn('p-2 rounded-full flex items-center justify-center self-start', s.bg)}>
-              <Icon className={cn('w-5 h-5', s.color)} />
-            </div>
-            <div className="flex items-end justify-between gap-1">
-              <span className="text-sm text-pm-text-muted leading-tight">{s.label}</span>
-              <span className="text-3xl font-bold text-pm-text-primary tabular-nums leading-none shrink-0">
-                {s.value}
-              </span>
-            </div>
-          </div>
-        )
-      })}
+      {stats.map((s, i) => (
+        <StatCard key={i} label={s.label} value={s.value} icon={s.icon} color={s.color} bg={s.bg} />
+      ))}
     </div>
   )
 
   const renderSkeleton = () => (
-    <div className="flex flex-col lg:flex-row rounded-lg border border-pm-border overflow-hidden min-h-[600px]">
+    <div className="flex flex-col lg:flex-row rounded-xl border border-pm-border overflow-hidden min-h-[600px]">
       <div className="lg:w-[350px] shrink-0 border-b lg:border-b-0 lg:border-r border-pm-border p-[21px] flex flex-col gap-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <Skeleton key={i} className="h-24 w-full rounded-lg" />
+          <Skeleton key={i} className="h-24 w-full rounded-xl" />
         ))}
       </div>
       <div className="flex-1">
@@ -233,7 +221,7 @@ export default function TaskListsPage() {
       ) : lists.length === 0 ? (
         renderEmpty()
       ) : (
-        <div className="flex flex-col lg:flex-row rounded-lg border border-pm-border overflow-hidden bg-white dark:bg-slate-900 min-h-[600px]">
+        <div className="flex flex-col lg:flex-row rounded-xl border border-pm-border overflow-hidden bg-white dark:bg-slate-900 min-h-[600px]">
           {/* Sidebar: List of Task Lists */}
           <div className="lg:w-[350px] shrink-0 border-b lg:border-b-0 lg:border-r border-pm-border flex flex-col">
             <div className="flex-1 overflow-y-auto p-[21px] flex flex-col gap-4 custom-scrollbar">

@@ -75,7 +75,7 @@ export default function TaskListSidebarItem({ list, isActive, onClick, projectId
         onClick={!renaming ? onClick : undefined}
         onKeyDown={!renaming ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick?.() : undefined}
         className={cn(
-          'group w-full flex flex-col gap-3 p-5 rounded-lg transition-all text-left cursor-pointer',
+          'group w-full flex flex-col gap-3 p-5 rounded-xl transition-all text-left cursor-pointer',
           isActive
             ? 'bg-white border border-pm-accent shadow-sm'
             : 'bg-white border border-pm-border/50 hover:border-pm-border hover:shadow-sm'
@@ -109,7 +109,7 @@ export default function TaskListSidebarItem({ list, isActive, onClick, projectId
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 shrink-0 rounded-lg hover:bg-pm-surface"
+                    className="h-6 w-6 shrink-0 rounded-xl hover:bg-pm-surface"
                     onClick={e => e.stopPropagation()}
                   >
                     <MoreHorizontal className="h-4 w-4" />
@@ -117,7 +117,7 @@ export default function TaskListSidebarItem({ list, isActive, onClick, projectId
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-40 rounded-xl border-pm-border">
                   {canEdit && (
-                    <DropdownMenuItem onClick={startRename} className="rounded-lg">
+                    <DropdownMenuItem onClick={startRename} className="rounded-xl">
                       <Pencil className="h-4 w-4 mr-2" />
                       {__('Rename', 'wedevs-project-manager')}
                     </DropdownMenuItem>
@@ -125,7 +125,7 @@ export default function TaskListSidebarItem({ list, isActive, onClick, projectId
                   {canDelete && (
                     <DropdownMenuItem
                       onClick={handleDelete}
-                      className="text-destructive focus:text-destructive focus:bg-destructive/5 rounded-lg"
+                      className="text-destructive focus:text-destructive focus:bg-destructive/5 rounded-xl"
                     >
                       <Trash2 className="h-4 w-4 mr-2" />
                       {__('Delete', 'wedevs-project-manager')}
