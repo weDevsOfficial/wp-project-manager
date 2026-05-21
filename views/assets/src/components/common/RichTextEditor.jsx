@@ -8,6 +8,7 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Mention from '@tiptap/extension-mention'
 import { cn } from '@lib/utils'
 import { Button } from '@components/ui/button'
+import { UserAvatar } from '@components/common/UserAvatar'
 import {
   Tooltip,
   TooltipContent,
@@ -144,13 +145,8 @@ const MentionList = forwardRef(({ items, command, clientRect, editorElement }, r
           }}
           onMouseDown={(e) => { e.preventDefault(); command(user) }}
         >
-          {user.avatar_url ? (
-            <img src={user.avatar_url} alt="" style={{ height: 24, width: 24, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
-          ) : (
-            <span style={{ height: 24, width: 24, borderRadius: '50%', background: 'hsl(var(--muted))', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 11, fontWeight: 600, color: 'hsl(var(--muted-foreground))' }}>
-              {(user.display_name || user.name || '?')[0].toUpperCase()}
-            </span>
-          )}
+          <UserAvatar user={{ avatar_url: user.avatar_url, display_name: user.display_name || user.name }} size="md" />
+
           <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.display_name || user.name}</span>
         </button>
       ))}

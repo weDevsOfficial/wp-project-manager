@@ -480,11 +480,7 @@ export function TopBar() {
                   const actor = n.actor?.data || n.actor || {}
                   return (
                     <div key={n.id} className="flex items-start gap-3 px-5 py-3 hover:bg-muted/20 transition-colors">
-                      {actor.avatar_url ? (
-                        <img src={actor.avatar_url} className="h-7 w-7 rounded-full shrink-0 mt-0.5" alt="" />
-                      ) : (
-                        <div className="h-7 w-7 rounded-full bg-muted shrink-0 mt-0.5" />
-                      )}
+                      <UserAvatar user={actor} size="md" className="mt-0.5" />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm text-pm-text-primary leading-relaxed">{msg}</p>
                         {n.created_at && (
