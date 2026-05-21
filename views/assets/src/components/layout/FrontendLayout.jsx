@@ -5,6 +5,7 @@ import { usePermissions } from '@hooks/usePermissions'
 import { cn } from '@lib/utils'
 import { UserAvatar } from '@components/common/UserAvatar'
 import { AppSidebar } from '@components/layout/AppSidebar'
+import { useHideSidebar } from '@/router/routeRegistry'
 import {
   FolderKanban, CheckSquare, Calendar, BarChart3,
   Menu, X, LogOut, Crown, Tag,
@@ -41,6 +42,8 @@ export function FrontendLayout() {
   const navItems = getNavItems(isPro, isAdmin || canManage).filter(item => !(item.hideWhenPro && isPro))
   const userName = currentUser?.data?.display_name || currentUser?.display_name || 'User'
   const userAvatar = currentUser?.data?.avatar_url || currentUser?.avatar_url || ''
+
+  const hideSidebar = useHideSidebar()
 
   const isActive = (path) => location.pathname.startsWith(path) || location.hash?.includes(path)
 
@@ -139,7 +142,7 @@ export function FrontendLayout() {
 
       {/* Sidebar + Main content */}
       <div className="flex min-h-[calc(100vh-56px)]">
-        <AppSidebar />
+        {!hideSidebar && <AppSidebar />}
         <main className="flex-1 overflow-auto p-6">
           <Outlet />
         </main>

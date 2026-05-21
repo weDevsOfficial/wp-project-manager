@@ -156,7 +156,11 @@ function AppRoutes() {
           <Route path="woo-project" element={<ProFeaturePlaceholder title={__("WooCommerce Project", 'wedevs-project-manager')} description={__("Automatically create projects from WooCommerce orders with product-based templates.", 'wedevs-project-manager')} icon={ShoppingCart} mockKey="woo-project" />} />
         )}
 
-        <Route path="*" element={<Navigate to="/projects" replace />} />
+        <Route path="*" element={
+          isProInstalled && dynamicRoutes.length === 0
+            ? null
+            : <Navigate to="/projects" replace />
+        } />
       </Route>
     </Routes>
   )

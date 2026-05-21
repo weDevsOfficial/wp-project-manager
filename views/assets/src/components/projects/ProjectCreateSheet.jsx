@@ -39,12 +39,12 @@ import {
 } from '@components/ui/popover'
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
 } from '@components/ui/command'
+import CreateUserDialog from '@components/common/CreateUserDialog'
 
 import { Plus, X, Loader2, UserPlus } from 'lucide-react'
 
@@ -82,6 +82,9 @@ export function ProjectCreateSheet() {
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [selectedUsers, setSelectedUsers] = useState([])
+
+  // ── Create-user dialog state ────────────────────────────
+  const [createUserOpen, setCreateUserOpen] = useState(false)
   const [popoverOpen, setPopoverOpen] = useState(false)
 
   const searchTimerRef = useRef(null)
@@ -89,6 +92,12 @@ export function ProjectCreateSheet() {
   // ── Reset form when sheet opens ─────────────────────────
 
   useEffect(() => {
+    if (!isOpen) {
+      // Sheet closed (X, ESC, parent dispatch): drop any open child dialog so
+      // it doesn't flash open next time the sheet mounts.
+      setCreateUserOpen(false)
+      return
+    }
     if (isOpen) {
       setTitleError('')
       setSearchQuery('')
@@ -187,6 +196,21 @@ export function ProjectCreateSheet() {
   const handleRemoveUser = useCallback((userId) => {
     setSelectedUsers((prev) => prev.filter((u) => u.id !== userId))
   }, [])
+
+  const openCreateUserDialog = useCallback(() => {
+    setPopoverOpen(false)
+    setCreateUserOpen(true)
+  }, [])
+
+  const handleUserCreated = useCallback(
+    (created) => {
+      const defaultRoleId = roles.length > 0 ? roles[0].id : 1
+      setSelectedUsers((prev) => [...prev, { ...created, roleId: defaultRoleId }])
+      setSearchQuery('')
+      setSearchResults([])
+    },
+    [roles],
+  )
 
   // ── Change user role ────────────────────────────────────
 
@@ -365,7 +389,15 @@ export function ProjectCreateSheet() {
                     )}
 
                     {!searchingUsers && searchQuery.trim().length >= 2 && searchResults.length === 0 && (
-                      <CommandEmpty>{__('No users found', 'wedevs-project-manager')}</CommandEmpty>
+                      <div className="px-3 py-4 text-center space-y-2">
+                        <p className="text-sm text-muted-foreground">
+                          {__('No user found named', 'wedevs-project-manager')}{' '}
+                          <span className="font-medium text-pm-text-primary">&quot;{searchQuery}&quot;</span>
+                        </p>
+                        <Button type="button" size="sm" onClick={openCreateUserDialog}>
+                          <UserPlus className="h-4 w-4 mr-1" />{__('Create User', 'wedevs-project-manager')}
+                        </Button>
+                      </div>
                     )}
 
                     {searchResults.length > 0 && (
@@ -483,6 +515,13 @@ export function ProjectCreateSheet() {
           </Button>
         </SheetFooter>
       </SheetContent>
+
+      <CreateUserDialog
+        open={createUserOpen}
+        onOpenChange={setCreateUserOpen}
+        defaultSeed={searchQuery}
+        onCreated={handleUserCreated}
+      />
     </Sheet>
   )
 }

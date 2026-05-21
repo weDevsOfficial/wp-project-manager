@@ -17,10 +17,23 @@ function getInitials(name) {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
+function normalizeAvatarUrl(url) {
+  if (!url) return '';
+  if (!/gravatar\.com\/avatar/i.test(url)) return url;
+  // Force `d=404` so missing gravatars return HTTP 404. Radix AvatarImage
+  // then fires onError and the AvatarFallback (initials) renders. Any other
+  // default (blank/mp/identicon/custom URL) loads successfully and would
+  // suppress the fallback.
+  if (/[?&]d=/i.test(url)) {
+    return url.replace(/([?&])d=[^&#]*/i, '$1d=404');
+  }
+  return url + (url.includes('?') ? '&' : '?') + 'd=404';
+}
+
 export function UserAvatar({ user, size = 'md', className, fallbackClassName, ...props }) {
   const s = sizeMap[size] || sizeMap.md;
   const name = user?.display_name || user?.username || '';
-  const avatarUrl = user?.avatar_url || '';
+  const avatarUrl = normalizeAvatarUrl(user?.avatar_url || '');
 
   return (
     <Avatar className={cn(s.avatar, 'shrink-0', className)} {...props}>
