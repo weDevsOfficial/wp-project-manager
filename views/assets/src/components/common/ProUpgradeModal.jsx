@@ -145,7 +145,7 @@ function ProUpgradeModal() {
                 <span style={{ color: '#ff9000', fontSize: '30px', fontWeight: 500, lineHeight: '1.6' }}>{__('Upgrade to', 'wedevs-project-manager')}</span>
               </div>
               <h2 style={{ fontSize: '30px', fontWeight: 400, lineHeight: '1.6', margin: 0, color: 'var(--pm-text-primary)' }}>
-                {__('WP Project Manager', 'wedevs-project-manager')} <span style={{ fontWeight: 700 }}>{__('Pro', 'wedevs-project-manager')}</span>
+                {__('Project Manager', 'wedevs-project-manager')} <span style={{ fontWeight: 700 }}>{__('Pro', 'wedevs-project-manager')}</span>
               </h2>
               <p style={{ fontSize: '20px', fontWeight: 400, color: 'var(--pm-text-muted)', lineHeight: '1.6', margin: 0 }}>
                 {__('unlock and take advantage of our premium features', 'wedevs-project-manager')} 🎉
