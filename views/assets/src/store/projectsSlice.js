@@ -165,6 +165,18 @@ export const searchUsers = createAsyncThunk(
   }
 )
 
+export const createUser = createAsyncThunk(
+  'projects/createUser',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const res = await api.post('users', payload)
+      return res?.data ?? res
+    } catch (e) {
+      return rejectWithValue(e?.message || e?.data?.message || 'create_user_failed')
+    }
+  }
+)
+
 export const fetchProjectAssignees = createAsyncThunk(
   'projects/fetchProjectAssignees',
   async (projectId, { getState, rejectWithValue }) => {
