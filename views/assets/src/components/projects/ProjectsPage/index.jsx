@@ -91,6 +91,7 @@ import {
 
 import AiCreateDialog from "../AiCreateDialog";
 import { ProjectCreateSheet } from "../ProjectCreateSheet";
+import { PromoBanner } from "@components/common/PromoBanner";
 
 import { formatPmDate } from "@lib/pm-utils";
 import {
@@ -693,6 +694,8 @@ export default function ProjectsPage() {
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+      <PromoBanner placement="projects" />
+
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h1 className="text-2xl font-bold text-pm-text-primary">
           {__("Projects", 'wedevs-project-manager')}
