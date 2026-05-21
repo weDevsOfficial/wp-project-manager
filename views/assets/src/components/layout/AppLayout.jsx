@@ -3,11 +3,10 @@ import { Outlet } from 'react-router-dom'
 import { AppSidebar } from './AppSidebar'
 import { TopBar } from './TopBar'
 import { ProjectSubNavBar } from './ProjectSubNavBar'
-import { useHideSidebar, useHideSubNav } from '@/router/routeRegistry'
+import { useLayoutFlags } from '@/router/routeRegistry'
 
 export function AppLayout() {
-  const hideSidebar = useHideSidebar()
-  const hideSubNav = useHideSubNav()
+  const { hideSidebar, hideSubNav } = useLayoutFlags()
 
   useEffect(() => {
     document.body.classList.add('pm-fullscreen-settings')

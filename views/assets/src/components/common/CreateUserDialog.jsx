@@ -48,7 +48,16 @@ export default function CreateUserDialog({ open, onOpenChange, defaultSeed = '',
       onOpenChange?.(false)
       onCreated?.(created)
     } catch (err) {
-      const msg = typeof err === 'string' ? err : err?.message || __('Could not create user', 'wedevs-project-manager')
+      const errorMap = {
+        create_user_failed: __('Could not create user', 'wedevs-project-manager'),
+        no_id_returned: __('Server did not return a user. Try again.', 'wedevs-project-manager'),
+      }
+      const fallback = __('Could not create user', 'wedevs-project-manager')
+      const raw = typeof err === 'string' ? err : err?.message
+      // Treat internal snake_case keys as non-user-friendly; only surface
+      // strings that contain whitespace (real sentences from WP_Error etc.).
+      const looksFriendly = typeof raw === 'string' && /\s/.test(raw)
+      const msg = (typeof raw === 'string' && errorMap[raw]) || (looksFriendly ? raw : fallback)
       toast.error(msg)
     } finally {
       setSubmitting(false)

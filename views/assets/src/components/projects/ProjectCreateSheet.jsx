@@ -92,6 +92,12 @@ export function ProjectCreateSheet() {
   // ── Reset form when sheet opens ─────────────────────────
 
   useEffect(() => {
+    if (!isOpen) {
+      // Sheet closed (X, ESC, parent dispatch): drop any open child dialog so
+      // it doesn't flash open next time the sheet mounts.
+      setCreateUserOpen(false)
+      return
+    }
     if (isOpen) {
       setTitleError('')
       setSearchQuery('')

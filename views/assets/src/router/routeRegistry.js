@@ -9,8 +9,10 @@ import { matchPath, useLocation } from 'react-router-dom'
  * Route config:
  *   { path: string, element: React.ReactElement, noSidebar?: boolean, noSubNav?: boolean }
  *
- * Set `noSidebar: true` on routes that should hide the AppSidebar (e.g. client-facing
- * shortcode pages). Layout components consult this via `useIsBareLayout()`.
+ * Setting `noSidebar: true` on a route hides BOTH the AppSidebar and the
+ * sub-navigation (it implies `noSubNav`). Layout components consult this via
+ * `useLayoutFlags()` (single subscription, returns { hideSidebar, hideSubNav }).
+ * Thin wrappers `useHideSidebar()` / `useHideSubNav()` exist for back-compat.
  */
 
 const registeredRoutes = []
@@ -46,13 +48,25 @@ export function useMatchedRoute() {
   return routes.find(r => matchPath({ path: '/' + r.path, end: true }, location.pathname)) || null
 }
 
-/** Hook: true when the current route is registered with `noSidebar: true`. */
-export function useHideSidebar() {
-  return !!useMatchedRoute()?.noSidebar
+/**
+ * Hook: layout flags derived from the matched route's config. Single
+ * `useMatchedRoute` subscription. Setting `noSidebar: true` on a route also
+ * hides the sub-navigation.
+ */
+export function useLayoutFlags() {
+  const m = useMatchedRoute()
+  return {
+    hideSidebar: !!m?.noSidebar,
+    hideSubNav: !!(m?.noSubNav || m?.noSidebar),
+  }
 }
 
-/** Hook: true when the current route is registered with `noSubNav: true`. */
+/** Back-compat: thin wrapper. Prefer `useLayoutFlags` to avoid duplicate subs. */
+export function useHideSidebar() {
+  return useLayoutFlags().hideSidebar
+}
+
+/** Back-compat: thin wrapper. Prefer `useLayoutFlags` to avoid duplicate subs. */
 export function useHideSubNav() {
-  const m = useMatchedRoute()
-  return !!(m?.noSubNav || m?.noSidebar)
+  return useLayoutFlags().hideSubNav
 }

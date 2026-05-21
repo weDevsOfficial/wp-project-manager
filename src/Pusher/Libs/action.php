@@ -29,11 +29,15 @@ function wedevs_pm_pusher_normalize_user_ids( $value ) {
         return [];
     }
 
-    if ( is_array( $value ) ) {
-        return array_values( array_filter( array_map( 'intval', $value ) ) );
-    }
+    $ids = is_array( $value )
+        ? array_map( 'intval', $value )
+        : array_map( 'intval', explode( ',', (string) $value ) );
 
-    return array_values( array_filter( array_map( 'intval', explode( ',', (string) $value ) ) ) );
+    $ids = array_filter( $ids, static function ( $id ) {
+        return $id > 0;
+    } );
+
+    return array_values( array_unique( $ids ) );
 }
 
 function wedevs_pm_pusher_has_task_update_content( $model ) {
