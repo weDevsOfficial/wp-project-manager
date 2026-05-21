@@ -29,6 +29,7 @@ import {
   ArrowRight,
   Globe,
 } from "lucide-react";
+import { PromoBanner } from "@components/common/PromoBanner";
 
 const UPGRADE_URL =
   "https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=wpdashboard&utm_medium=premium-page";
@@ -138,9 +139,14 @@ export default function PremiumPage() {
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-8">
+      <PromoBanner placement="premium" />
+
       {/* ── Hero Banner ── */}
-      <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 px-8 py-10 md:px-12 md:py-14 text-center text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_70%)]" />
+      <div
+        className="relative rounded-2xl overflow-hidden px-8 py-10 md:px-12 md:py-14 text-center text-white"
+        style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #4F46E5 50%, #2563EB 100%)' }}
+      >
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 50%, rgba(255,255,255,0.12), transparent 70%)' }} />
         <div className="relative z-10">
           <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-sm font-medium px-3 py-1 rounded-full mb-3">
             <Sparkles className="h-4 w-4" />

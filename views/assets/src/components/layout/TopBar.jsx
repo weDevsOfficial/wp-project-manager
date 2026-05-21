@@ -278,7 +278,7 @@ export function TopBar() {
 
         {/* Share Your Idea */}
         <a
-          href="https://pm.canny.io/ideas"
+          href="https://feedback.wedevs.com/b/project-manager"
           target="_blank"
           rel="noopener noreferrer"
           className="hidden md:inline-flex items-center gap-1 text-sm text-pm-text-muted hover:text-pm-accent transition-colors shrink-0"
