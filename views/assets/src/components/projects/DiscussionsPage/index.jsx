@@ -295,11 +295,17 @@ export default function DiscussionsPage() {
                       </h3>
                       {isPrivate && <Lock className="h-3.5 w-3.5 text-pm-text-muted shrink-0" />}
                     </div>
-                    {d.description?.content && (
-                      <p className="text-sm text-pm-text-muted mt-0.5 line-clamp-2">
-                        {d.description.content.replace(/<[^>]*>/g, "")}
-                      </p>
-                    )}
+                    {(() => {
+                      const descText = typeof d.description === 'string'
+                        ? d.description
+                        : (d.description?.content || d.description?.html || "");
+                      if (!descText) return null;
+                      return (
+                        <p className="text-sm text-pm-text-muted mt-0.5 line-clamp-2">
+                          {descText.replace(/<[^>]*>/g, "")}
+                        </p>
+                      );
+                    })()}
                     <div className="flex items-center gap-2 mt-1.5 text-[13px] text-pm-text-muted">
                       {d.creator?.data && (
                         <span className="flex items-center gap-1">
