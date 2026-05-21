@@ -30,5 +30,10 @@ define( 'PM_FILE', __FILE__ );
 define( 'PM_BASENAME', plugin_basename(__FILE__) );
 define( 'PM_PLUGIN_ASSEST', plugins_url( 'views/assets', __FILE__ ) );
 
+add_action( 'init', 'wedevs_pm_load_plugin_textdomain' );
+
+function wedevs_pm_load_plugin_textdomain() {
+    load_plugin_textdomain( 'wedevs-project-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+}
 
 require __DIR__.'/bootstrap/start.php';
