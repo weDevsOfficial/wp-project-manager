@@ -742,3 +742,33 @@ body.admin-bar [data-sonner-toaster] {
 [role="dialog"][data-state] .ProseMirror p.is-editor-empty:first-child::before {
   color: hsl(var(--muted-foreground)) !important;
 }
+
+/* ── Rendered tables (pasted from Excel/Word) and Tiptap editor tables ── */
+#wedevs-project-manager .prose table,
+#wedevs-project-manager .ProseMirror table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75em 0;
+  table-layout: auto;
+}
+#wedevs-project-manager .prose table th,
+#wedevs-project-manager .prose table td,
+#wedevs-project-manager .ProseMirror table th,
+#wedevs-project-manager .ProseMirror table td {
+  border: 1px solid hsl(var(--border));
+  padding: 6px 10px;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+#wedevs-project-manager .prose table th,
+#wedevs-project-manager .ProseMirror table th {
+  background: hsl(var(--muted));
+  font-weight: 600;
+  text-align: left;
+}
+#wedevs-project-manager .prose img,
+#wedevs-project-manager .ProseMirror img {
+  max-width: 100%;
+  height: auto;
+}

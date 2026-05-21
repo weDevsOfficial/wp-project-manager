@@ -13,7 +13,9 @@ import { Skeleton } from '@components/ui/skeleton'
 import { UserAvatar } from '@components/common/UserAvatar'
 import RichTextEditor from '@components/common/RichTextEditor'
 import NotifyUsers from '@components/common/NotifyUsers'
-import { Lock, MessageSquare, Pencil, Trash2, Paperclip } from 'lucide-react'
+import FileUploadArea from '@components/common/FileUploadArea'
+import { cn } from '@lib/utils'
+import { Lock, MessageSquare, Pencil, Trash2, Paperclip, X } from 'lucide-react'
 import BackButton from '@components/common/BackButton'
 import { formatPmDateTime } from '@lib/pm-utils'
 import TaskRow from './TaskRow'
@@ -56,8 +58,12 @@ export default function SingleTaskListPage() {
   const [newComment, setNewComment] = useState('')
   const [submittingComment, setSubmittingComment] = useState(false)
   const [commentNotifyUsers, setCommentNotifyUsers] = useState([])
+  const [commentFiles, setCommentFiles] = useState([])
   const [editingCommentId, setEditingCommentId] = useState(null)
   const [editCommentText, setEditCommentText] = useState('')
+  const [editCommentNewFiles, setEditCommentNewFiles] = useState([])
+  const [editCommentDeletedFileIds, setEditCommentDeletedFileIds] = useState([])
+  const [savingEditComment, setSavingEditComment] = useState(false)
 
   useEffect(() => {
     if (projectId && listId) {
@@ -89,54 +95,98 @@ export default function SingleTaskListPage() {
     setSubmittingComment(true)
     const mentionedUsers = extractMentionedUsers(newComment)
     try {
-      const res = await api.post(`projects/${projectId}/comments`, {
-        content: newComment,
-        commentable_id: listId,
-        commentable_type: 'task_list',
-        project_id: projectId,
-        mentioned_users: mentionedUsers,
-        notify_users: commentNotifyUsers,
-      })
+      let res
+      if (commentFiles.length > 0) {
+        const fd = new FormData()
+        fd.append('content', newComment)
+        fd.append('commentable_id', listId)
+        fd.append('commentable_type', 'task_list')
+        fd.append('project_id', projectId)
+        fd.append('mentioned_users', mentionedUsers)
+        commentNotifyUsers.forEach(id => fd.append('notify_users[]', String(id)))
+        commentFiles.forEach(f => fd.append('files[]', f))
+        res = await api.upload(`projects/${projectId}/comments`, fd)
+      } else {
+        res = await api.post(`projects/${projectId}/comments`, {
+          content: newComment,
+          commentable_id: listId,
+          commentable_type: 'task_list',
+          project_id: projectId,
+          mentioned_users: mentionedUsers,
+          notify_users: commentNotifyUsers,
+        })
+      }
       if (res.data) {
         setComments(prev => [...prev, res.data])
       }
       setNewComment('')
       setCommentNotifyUsers([])
+      setCommentFiles([])
       toast.success(__('Comment added', 'wedevs-project-manager'))
     } catch {
       toast.error(__('Failed to add comment', 'wedevs-project-manager'))
     }
     setSubmittingComment(false)
-  }, [api, projectId, listId, newComment, commentNotifyUsers, toast, __])
+  }, [api, projectId, listId, newComment, commentNotifyUsers, commentFiles, toast, __])
 
   const startEditComment = useCallback((c) => {
     setEditingCommentId(c.id)
     setEditCommentText(c.content || '')
+    setEditCommentNewFiles([])
+    setEditCommentDeletedFileIds([])
   }, [])
 
   const cancelEditComment = useCallback(() => {
     setEditingCommentId(null)
     setEditCommentText('')
+    setEditCommentNewFiles([])
+    setEditCommentDeletedFileIds([])
+  }, [])
+
+  const markDeleteExistingFile = useCallback((fileId) => {
+    setEditCommentDeletedFileIds(prev =>
+      prev.includes(fileId) ? prev : [...prev, fileId]
+    )
   }, [])
 
   const handleUpdateComment = useCallback(async () => {
     if (!editCommentText.trim() || !editingCommentId) return
+    setSavingEditComment(true)
     const mentionedUsers = extractMentionedUsers(editCommentText)
     try {
-      await api.post(`projects/${projectId}/comments/${editingCommentId}`, {
-        content: editCommentText.trim(),
-        mentioned_users: mentionedUsers,
-        notify_users: '',
-      })
-      setComments(prev => prev.map(c =>
-        c.id === editingCommentId ? { ...c, content: editCommentText.trim() } : c
-      ))
+      const hasFileChange = editCommentNewFiles.length > 0 || editCommentDeletedFileIds.length > 0
+      let res
+      if (hasFileChange) {
+        const fd = new FormData()
+        fd.append('content', editCommentText.trim())
+        fd.append('project_id', projectId)
+        fd.append('mentioned_users', mentionedUsers)
+        fd.append('notify_users', '')
+        editCommentNewFiles.forEach(f => fd.append('files[]', f))
+        editCommentDeletedFileIds.forEach(id => fd.append('files_to_delete[]', String(id)))
+        res = await api.upload(`projects/${projectId}/comments/${editingCommentId}`, fd)
+      } else {
+        res = await api.post(`projects/${projectId}/comments/${editingCommentId}`, {
+          content: editCommentText.trim(),
+          mentioned_users: mentionedUsers,
+          notify_users: '',
+        })
+      }
+      if (res?.data) {
+        setComments(prev => prev.map(c => c.id === editingCommentId ? res.data : c))
+      } else {
+        setComments(prev => prev.map(c =>
+          c.id === editingCommentId ? { ...c, content: editCommentText.trim() } : c
+        ))
+      }
+      dispatch(fetchSingleList({ projectId, listId }))
       cancelEditComment()
       toast.success(__('Comment updated', 'wedevs-project-manager'))
     } catch {
       toast.error(__('Failed to update comment', 'wedevs-project-manager'))
     }
-  }, [api, projectId, editingCommentId, editCommentText, toast, __, cancelEditComment])
+    setSavingEditComment(false)
+  }, [api, projectId, listId, dispatch, editingCommentId, editCommentText, editCommentNewFiles, editCommentDeletedFileIds, toast, __, cancelEditComment])
 
   const handleDeleteComment = useCallback(async (commentId) => {
     const ok = await confirm(__('Are you sure?', 'wedevs-project-manager'), __('Delete Comment', 'wedevs-project-manager'))
@@ -341,40 +391,53 @@ export default function SingleTaskListPage() {
                     {isEditing ? (
                       <div className="space-y-2">
                         <RichTextEditor content={editCommentText} onChange={setEditCommentText} minHeight="60px" autofocus users={projectUsers} />
+                        {comment.files?.data?.filter(f => !editCommentDeletedFileIds.includes(f.id)).length > 0 && (
+                          <div className="flex gap-2 flex-wrap">
+                            {comment.files.data.filter(f => !editCommentDeletedFileIds.includes(f.id)).map(f => {
+                              const isImg = (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)
+                              return (
+                                <div key={f.id} className={cn('relative inline-flex items-center gap-1.5 text-sm border border-border/50 bg-muted/30 rounded-md', isImg ? 'p-0' : 'px-2 py-1 pr-6')}>
+                                  {isImg ? (
+                                    <img src={f.thumb || f.url} alt={f.name} className="h-12 w-12 rounded object-cover" />
+                                  ) : (
+                                    <>
+                                      <Paperclip className="h-3.5 w-3.5 text-pm-text-muted" />
+                                      <span className="truncate max-w-[140px]">{f.name}</span>
+                                    </>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); markDeleteExistingFile(f.id) }}
+                                    className="absolute -top-1.5 -right-1.5 z-10 bg-background border border-border/60 rounded-full p-0.5 text-pm-text-muted hover:text-destructive hover:border-destructive/40 shadow-sm cursor-pointer"
+                                    title={__('Remove', 'wedevs-project-manager')}
+                                  >
+                                    <X className="h-3 w-3" />
+                                  </button>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )}
+                        <FileUploadArea files={editCommentNewFiles} onFilesChange={setEditCommentNewFiles} compact />
                         <div className="flex items-center gap-2">
-                          <Button size="sm" className="h-6 text-[15px]" onClick={handleUpdateComment}>{__('Save', 'wedevs-project-manager')}</Button>
-                          <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                          <Button size="sm" className="h-6 text-[15px]" onClick={handleUpdateComment} disabled={savingEditComment || !editCommentText.trim()}>
+                            {savingEditComment ? __('Saving...', 'wedevs-project-manager') : __('Save', 'wedevs-project-manager')}
+                          </Button>
+                          <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment} disabled={savingEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
                         </div>
                       </div>
                     ) : (
                       <div className="text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: sanitizeHtml(comment.content) }} />
                     )}
                     {/* Comment files */}
-                    {comment.files?.data?.length > 0 && (
-                      <div className="mt-2 space-y-2">
-                        {comment.files.data.some(f => (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)) && (
-                          <div className="flex gap-2 flex-wrap">
-                            {comment.files.data.filter(f => (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)).map(f => (
-                              <a key={f.id} href={f.url} target="_blank" rel="noreferrer"
-                                className="group relative block overflow-hidden rounded-xl border border-border/50 hover:border-pm-accent/40 transition-all hover:shadow-md">
-                                <img src={f.thumb || f.url} alt={f.name} className="h-24 w-24 object-cover transition-transform group-hover:scale-105" />
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                        {comment.files.data.some(f => !((f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url))) && (
-                          <div className="flex gap-2 flex-wrap">
-                            {comment.files.data.filter(f => !((f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url))).map(f => (
-                              <a key={f.id} href={f.url} target="_blank" rel="noreferrer"
-                                className="inline-flex items-center gap-2 text-sm border border-border/50 rounded-xl px-3 py-2 hover:bg-muted/40 hover:border-pm-accent/30 transition-all group">
-                                <div className="h-7 w-7 rounded-lg bg-muted/50 flex items-center justify-center shrink-0">
-                                  <Paperclip className="h-3.5 w-3.5 text-pm-text-muted group-hover:text-pm-accent transition-colors" />
-                                </div>
-                                <span className="text-pm-text-primary truncate max-w-[150px] text-[13px] font-medium">{f.name}</span>
-                              </a>
-                            ))}
-                          </div>
-                        )}
+                    {!isEditing && comment.files?.data?.length > 0 && (
+                      <div className="mt-2 flex gap-2 flex-wrap">
+                        {comment.files.data.map(f => (
+                          <a key={f.id} href={f.url} target="_blank" rel="noreferrer" title={f.name}
+                            className="block overflow-hidden rounded-md border border-border/50 hover:border-pm-accent/40 transition-all no-underline">
+                            <img src={f.thumb || f.url} alt={f.name} className="h-20 w-20 object-cover" />
+                          </a>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -393,6 +456,7 @@ export default function SingleTaskListPage() {
             minHeight="60px"
             users={projectUsers}
           />
+          <FileUploadArea files={commentFiles} onFilesChange={setCommentFiles} compact />
           <NotifyUsers
             users={projectUsers}
             value={commentNotifyUsers}

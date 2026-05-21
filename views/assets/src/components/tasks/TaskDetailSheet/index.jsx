@@ -124,6 +124,9 @@ export default function TaskDetailSheet() {
   const [commentNotifyUsers, setCommentNotifyUsers] = useState([])
   const [editingCommentId, setEditingCommentId] = useState(null)
   const [editCommentText, setEditCommentText] = useState('')
+  const [editCommentNewFiles, setEditCommentNewFiles] = useState([])
+  const [editCommentDeletedFileIds, setEditCommentDeletedFileIds] = useState([])
+  const [savingEditComment, setSavingEditComment] = useState(false)
 
   const [activities, setActivities] = useState([])
   const [showActivities, setShowActivities] = useState(false)
@@ -364,24 +367,46 @@ export default function TaskDetailSheet() {
   const startEditComment = useCallback((c) => {
     setEditingCommentId(c.id)
     setEditCommentText(c.content || '')
+    setEditCommentNewFiles([])
+    setEditCommentDeletedFileIds([])
   }, [])
 
   const cancelEditComment = useCallback(() => {
     setEditingCommentId(null)
     setEditCommentText('')
+    setEditCommentNewFiles([])
+    setEditCommentDeletedFileIds([])
+  }, [])
+
+  const markDeleteExistingFile = useCallback((fileId) => {
+    setEditCommentDeletedFileIds(prev =>
+      prev.includes(fileId) ? prev : [...prev, fileId]
+    )
   }, [])
 
   const handleUpdateComment = useCallback(async () => {
     if (!editCommentText.trim() || !editingCommentId || !projectId) return
+    setSavingEditComment(true)
     try {
       const mentionedUsers = extractMentionedUsers(editCommentText)
-      await dispatch(updateTaskComment({ projectId, commentId: editingCommentId, content: editCommentText.trim(), mentionedUsers })).unwrap()
+      await dispatch(updateTaskComment({
+        projectId,
+        commentId: editingCommentId,
+        content: editCommentText.trim(),
+        mentionedUsers,
+        files: editCommentNewFiles,
+        filesToDelete: editCommentDeletedFileIds,
+      })).unwrap()
+      if (currentTask?.id) {
+        dispatch(fetchTask({ projectId, taskId: currentTask.id }))
+      }
       cancelEditComment()
       toast.success(__('Comment updated', 'wedevs-project-manager'))
     } catch {
       toast.error(__('Failed to update comment', 'wedevs-project-manager'))
     }
-  }, [dispatch, projectId, editingCommentId, editCommentText, toast, __, cancelEditComment])
+    setSavingEditComment(false)
+  }, [dispatch, projectId, editingCommentId, editCommentText, editCommentNewFiles, editCommentDeletedFileIds, currentTask?.id, toast, __, cancelEditComment])
 
   const handleDeleteComment = useCallback(async (commentId) => {
     if (!projectId) return
@@ -787,9 +812,39 @@ export default function TaskDetailSheet() {
                           {isEditing ? (
                             <div className="space-y-2">
                               <RichTextEditor content={editCommentText} onChange={setEditCommentText} minHeight="60px" autofocus users={project?.assignees?.data ?? []} />
+                              {comment.files?.data?.filter(f => !editCommentDeletedFileIds.includes(f.id)).length > 0 && (
+                                <div className="flex gap-2 flex-wrap">
+                                  {comment.files.data.filter(f => !editCommentDeletedFileIds.includes(f.id)).map(f => {
+                                    const isImg = (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)
+                                    return (
+                                      <div key={f.id} className={cn('relative inline-flex items-center gap-1.5 text-sm border border-border/50 bg-muted/30 rounded-md', isImg ? 'p-0' : 'px-2 py-1 pr-6')}>
+                                        {isImg ? (
+                                          <img src={f.thumb || f.url} alt={f.name} className="h-12 w-12 rounded object-cover" />
+                                        ) : (
+                                          <>
+                                            <Paperclip className="h-3.5 w-3.5 text-pm-text-muted" />
+                                            <span className="truncate max-w-[140px]">{f.name}</span>
+                                          </>
+                                        )}
+                                        <button
+                                          type="button"
+                                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); markDeleteExistingFile(f.id) }}
+                                          className="absolute -top-1.5 -right-1.5 z-10 bg-background border border-border/60 rounded-full p-0.5 text-pm-text-muted hover:text-destructive hover:border-destructive/40 shadow-sm cursor-pointer"
+                                          title={__('Remove', 'wedevs-project-manager')}
+                                        >
+                                          <X className="h-3 w-3" />
+                                        </button>
+                                      </div>
+                                    )
+                                  })}
+                                </div>
+                              )}
+                              <FileUploadArea files={editCommentNewFiles} onFilesChange={setEditCommentNewFiles} compact />
                               <div className="flex items-center gap-2">
-                                <Button size="sm" className="h-6 text-[15px]" onClick={handleUpdateComment}>{__('Save', 'wedevs-project-manager')}</Button>
-                                <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                                <Button size="sm" className="h-6 text-[15px]" onClick={handleUpdateComment} disabled={savingEditComment || !editCommentText.trim()}>
+                                  {savingEditComment ? __('Saving...', 'wedevs-project-manager') : __('Save', 'wedevs-project-manager')}
+                                </Button>
+                                <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment} disabled={savingEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
                               </div>
                             </div>
                           ) : (
@@ -800,31 +855,14 @@ export default function TaskDetailSheet() {
                               <LoomPreviewContainer content={comment.content || ''} />
                             </>
                           )}
-                          {comment.files?.data?.length > 0 && (
-                            <div className="mt-2 space-y-2">
-                              {comment.files.data.some(f => (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)) && (
-                                <div className="flex gap-2 flex-wrap">
-                                  {comment.files.data.filter(f => (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)).map(f => (
-                                    <a key={f.id} href={f.url} target="_blank" rel="noreferrer"
-                                      className="group relative block overflow-hidden rounded-xl border border-border/50 hover:border-pm-accent/40 transition-all hover:shadow-md">
-                                      <img src={f.thumb || f.url} alt={f.name} className="h-24 w-24 object-cover transition-transform group-hover:scale-105" />
-                                    </a>
-                                  ))}
-                                </div>
-                              )}
-                              {comment.files.data.some(f => !((f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url))) && (
-                                <div className="flex gap-2 flex-wrap">
-                                  {comment.files.data.filter(f => !((f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url))).map(f => (
-                                    <a key={f.id} href={f.url} target="_blank" rel="noreferrer"
-                                      className="inline-flex items-center gap-2 text-sm border border-border/50 rounded-xl px-3 py-2 hover:bg-muted/40 hover:border-pm-accent/30 transition-all group">
-                                      <div className="h-7 w-7 rounded-lg bg-muted/50 flex items-center justify-center shrink-0">
-                                        <Paperclip className="h-3.5 w-3.5 text-pm-text-muted group-hover:text-pm-accent transition-colors" />
-                                      </div>
-                                      <span className="text-pm-text-primary truncate max-w-[150px] text-[13px] font-medium">{f.name}</span>
-                                    </a>
-                                  ))}
-                                </div>
-                              )}
+                          {!isEditing && comment.files?.data?.length > 0 && (
+                            <div className="mt-2 flex gap-2 flex-wrap">
+                              {comment.files.data.map(f => (
+                                <a key={f.id} href={f.url} target="_blank" rel="noreferrer" title={f.name}
+                                  className="block overflow-hidden rounded-md border border-border/50 hover:border-pm-accent/40 transition-all no-underline">
+                                  <img src={f.thumb || f.url} alt={f.name} className="h-20 w-20 object-cover" />
+                                </a>
+                              ))}
                             </div>
                           )}
                         </div>
