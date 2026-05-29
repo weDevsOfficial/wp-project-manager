@@ -35,13 +35,20 @@ class Register_Scripts {
 				$path = filemtime( $style['path'] );
 			}
 
-			wp_register_style( 
-				$style['id'], 
-				$style['url'], 
-				$style['dependency'], 
-				$path, 
+			wp_register_style(
+				$style['id'],
+				$style['url'],
+				$style['dependency'],
+				$path,
 				'all'
 			);
+
+			if ( ! empty( $style['path'] ) ) {
+				$rtl_path = preg_replace( '/\.css$/', '-rtl.css', $style['path'] );
+				if ( $rtl_path !== $style['path'] && file_exists( $rtl_path ) ) {
+					wp_style_add_data( $style['id'], 'rtl', 'replace' );
+				}
+			}
 		}
 	}
 }

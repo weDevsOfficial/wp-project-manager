@@ -173,14 +173,30 @@ export const addTaskComment = createAsyncThunk(
 
 export const updateTaskComment = createAsyncThunk(
   'tasks/updateTaskComment',
-  async ({ projectId, commentId, content, mentionedUsers = '' }, { rejectWithValue }) => {
+  async (
+    { projectId, commentId, content, mentionedUsers = '', files = [], filesToDelete = [] },
+    { rejectWithValue },
+  ) => {
     try {
-      const res = await api.post(`projects/${projectId}/comments/${commentId}`, {
-        content,
-        project_id: projectId,
-        mentioned_users: mentionedUsers,
-        notify_users: mentionedUsers,
-      })
+      const hasFileChange = (files && files.length > 0) || (filesToDelete && filesToDelete.length > 0)
+      let res
+      if (hasFileChange) {
+        const fd = new FormData()
+        fd.append('content', content)
+        fd.append('project_id', projectId)
+        fd.append('mentioned_users', mentionedUsers)
+        fd.append('notify_users', mentionedUsers)
+        files.forEach(f => fd.append('files[]', f))
+        filesToDelete.forEach(id => fd.append('files_to_delete[]', String(id)))
+        res = await api.upload(`projects/${projectId}/comments/${commentId}`, fd)
+      } else {
+        res = await api.post(`projects/${projectId}/comments/${commentId}`, {
+          content,
+          project_id: projectId,
+          mentioned_users: mentionedUsers,
+          notify_users: mentionedUsers,
+        })
+      }
       return { commentId, content, data: res.data }
     } catch (e) {
       return rejectWithValue(e.message ?? 'Failed to update comment')
@@ -276,9 +292,13 @@ const tasksSlice = createSlice({
       }
     })
     builder.addCase(updateTaskComment.fulfilled, (state, action) => {
-      const { commentId, content } = action.payload
+      const { commentId, content, data } = action.payload
       const idx = state.taskComments.findIndex(c => c.id === commentId)
-      if (idx >= 0) state.taskComments[idx] = { ...state.taskComments[idx], content }
+      if (idx >= 0) {
+        const updated = { ...state.taskComments[idx], content }
+        if (data && data.files) updated.files = data.files
+        state.taskComments[idx] = updated
+      }
     })
     builder.addCase(deleteTaskComment.fulfilled, (state, action) => {
       state.taskComments = state.taskComments.filter(c => c.id !== action.payload.commentId)

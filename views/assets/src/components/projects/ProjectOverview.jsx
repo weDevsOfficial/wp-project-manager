@@ -31,7 +31,6 @@ import {
 } from "@components/ui/popover";
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
@@ -46,6 +45,7 @@ import {
 } from "@components/ui/select";
 import { useAppDispatch, useAppSelector } from "@store/index";
 import { fetchRoles } from "@store/projectsSlice";
+import CreateUserDialog from "@components/common/CreateUserDialog";
 import { Area, AreaChart, XAxis, CartesianGrid } from "recharts";
 import {
   ChartContainer,
@@ -76,6 +76,7 @@ export default function ProjectOverview() {
   const [memberSearch, setMemberSearch] = useState('');
   const [memberResults, setMemberResults] = useState([]);
   const [searchingMembers, setSearchingMembers] = useState(false);
+  const [createUserOpen, setCreateUserOpen] = useState(false);
   const [pendingUser, setPendingUser] = useState(null);
   const [pendingRoleId, setPendingRoleId] = useState(null);
   const searchTimer = useRef(null);
@@ -106,9 +107,9 @@ export default function ProjectOverview() {
     searchTimer.current = setTimeout(async () => {
       setSearchingMembers(true);
       try {
-        const res = await api.get('users', { search: value.trim() });
-        const existing = new Set((project?.assignees?.data ?? []).map(u => u.id));
-        setMemberResults((res.data ?? []).filter(u => !existing.has(u.id)));
+        const res = await api.get('users/search', { query: value.trim() });
+        const existing = new Set((project?.assignees?.data ?? []).map(u => parseInt(u.id)));
+        setMemberResults((res.data ?? []).filter(u => !existing.has(parseInt(u.id))));
       } catch { setMemberResults([]); }
       setSearchingMembers(false);
     }, 300);
@@ -479,7 +480,19 @@ export default function ProjectOverview() {
                       </div>
                     )}
                     {!searchingMembers && memberSearch.trim().length >= 2 && memberResults.length === 0 && (
-                      <CommandEmpty>{__("No users found", 'wedevs-project-manager')}</CommandEmpty>
+                      <div className="px-3 py-4 text-center space-y-2">
+                        <p className="text-sm text-muted-foreground">
+                          {__("No user found named", 'wedevs-project-manager')}{' '}
+                          <span className="font-medium text-pm-text-primary">&quot;{memberSearch}&quot;</span>
+                        </p>
+                        <Button
+                          type="button"
+                          size="sm"
+                          onClick={() => { setMemberPopover(false); setCreateUserOpen(true); }}
+                        >
+                          <UserPlus className="h-4 w-4 mr-1" />{__("Create User", 'wedevs-project-manager')}
+                        </Button>
+                      </div>
                     )}
                     {memberResults.length > 0 && (
                       <CommandGroup>
@@ -593,6 +606,18 @@ export default function ProjectOverview() {
           </p>
         )}
       </div>
+
+      <CreateUserDialog
+        open={createUserOpen}
+        onOpenChange={setCreateUserOpen}
+        defaultSeed={memberSearch}
+        onCreated={(created) => {
+          setMemberSearch('');
+          setMemberResults([]);
+          setMemberPopover(true);
+          handleSelectUserForAdd(created);
+        }}
+      />
     </div>
   );
 }

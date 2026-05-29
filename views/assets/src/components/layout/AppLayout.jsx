@@ -3,8 +3,11 @@ import { Outlet } from 'react-router-dom'
 import { AppSidebar } from './AppSidebar'
 import { TopBar } from './TopBar'
 import { ProjectSubNavBar } from './ProjectSubNavBar'
+import { useLayoutFlags } from '@/router/routeRegistry'
 
 export function AppLayout() {
+  const { hideSidebar, hideSubNav } = useLayoutFlags()
+
   useEffect(() => {
     document.body.classList.add('pm-fullscreen-settings')
     return () => document.body.classList.remove('pm-fullscreen-settings')
@@ -12,10 +15,10 @@ export function AppLayout() {
 
   return (
     <div className="pm-app-layout flex h-full overflow-hidden bg-pm-surface-muted">
-      <AppSidebar />
+      {!hideSidebar && <AppSidebar />}
       <div className="flex-1 flex flex-col overflow-hidden">
         <TopBar />
-        <ProjectSubNavBar />
+        {!hideSubNav && <ProjectSubNavBar />}
         <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>

@@ -5,7 +5,7 @@
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: weDevs
  * Author URI: https://wedevs.com
- * Version: 4.0.1
+ * Version: 4.0.2
  * Text Domain: wedevs-project-manager
  * Domain Path: /languages
  * License: GPL2
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 // Define version directly to avoid early translation loading from get_plugin_data()
-define('PM_VERSION', '4.0.1');
+define('PM_VERSION', '4.0.2');
 
 require __DIR__.'/bootstrap/loaders.php';
 require __DIR__.'/libs/configurations.php';
@@ -30,5 +30,10 @@ define( 'PM_FILE', __FILE__ );
 define( 'PM_BASENAME', plugin_basename(__FILE__) );
 define( 'PM_PLUGIN_ASSEST', plugins_url( 'views/assets', __FILE__ ) );
 
+add_action( 'init', 'wedevs_pm_load_plugin_textdomain' );
+
+function wedevs_pm_load_plugin_textdomain() {
+    load_plugin_textdomain( 'wedevs-project-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+}
 
 require __DIR__.'/bootstrap/start.php';

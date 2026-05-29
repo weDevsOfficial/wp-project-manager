@@ -24,6 +24,22 @@ function wedevs_pm_pusher_is_admin_request() {
     return empty( $pages['project'] );
 }
 
+function wedevs_pm_pusher_normalize_user_ids( $value ) {
+    if ( empty( $value ) ) {
+        return [];
+    }
+
+    $ids = is_array( $value )
+        ? array_map( 'intval', $value )
+        : array_map( 'intval', explode( ',', (string) $value ) );
+
+    $ids = array_filter( $ids, static function ( $id ) {
+        return $id > 0;
+    } );
+
+    return array_values( array_unique( $ids ) );
+}
+
 function wedevs_pm_pusher_has_task_update_content( $model ) {
 
     $content = [];
@@ -271,7 +287,7 @@ function wedevs_pm_pusher_after_new_comment( $comment, $params ) {
     $event    = wedevs_pm_pusher_get_event( 'new_comment' );
     $channels = [];
 
-    $users = empty( $params['notify_users'] ) ? [] : explode( ',', $params['notify_users'] );
+    $users = wedevs_pm_pusher_normalize_user_ids( $params['notify_users'] ?? null );
 
     $message = sprintf(
         '%s %s <a class="pm-pro-pusher-anchor" target="_blank" style="color: #fff; text-decoration: underline;" href="%s">%s</a>',
@@ -355,7 +371,7 @@ function wedevs_pm_pusher_after_update_comment( $comment, $params ) {
     $event    = wedevs_pm_pusher_get_event( 'new_comment' );
     $channels = [];
 
-    $users = empty( $params['notify_users'] ) ? [] : explode( ',', $params['notify_users'] );
+    $users = wedevs_pm_pusher_normalize_user_ids( $params['notify_users'] ?? null );
 
     $nc_message = sprintf(
         '<strong>%1$s</strong> %2$s <strong>%3$s</strong>',
@@ -442,7 +458,7 @@ function wedevs_pm_pusher_after_new_message( $message, $params, $discussion_boar
     $creator  = $discussion_board->creator->display_name;
     $title    = $discussion_board->title;
 
-    $users = empty( $params['notify_users'] ) ? [] : explode( ',', $params['notify_users'] );
+    $users = wedevs_pm_pusher_normalize_user_ids( $params['notify_users'] ?? null );
     $url     = wedevs_pm_pusher_message_url( $params['project_id'], $message['data']['id'] );
     $nc_message = sprintf(
         '<strong>%1$s</strong> %2$s <strong>%3$s</strong>',
@@ -490,7 +506,7 @@ function wedevs_pm_pusher_after_update_message( $mesage, $params, $discussion_bo
     $updater = $discussion_board->updater->display_name;
     $title   = $discussion_board->title;
 
-    $users = empty( $params['notify_users'] ) ? [] : explode( ',', $params['notify_users'] );
+    $users = wedevs_pm_pusher_normalize_user_ids( $params['notify_users'] ?? null );
     $url = wedevs_pm_pusher_message_url( $params['project_id'], $mesage['data']['id'] );
 
     $nc_message = sprintf(
