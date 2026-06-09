@@ -122,7 +122,7 @@ function SettingsMock() {
         ))}
       </div>
       {fields.map((f, i) => (
-        <div key={i} className="flex items-center justify-between gap-3 py-3.5 border-b border-pm-border">
+        <div key={i} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3 py-3.5 border-b border-pm-border">
           <span className="text-[15px] text-pm-text font-medium shrink-0">{f}</span>
           <div className="w-full sm:w-48 h-8 rounded-md bg-pm-surface-muted border border-pm-border" />
         </div>
@@ -169,12 +169,12 @@ function WooProjectMock() {
   ]
   return (
     <div className="p-5" style={{ minHeight: '420px' }}>
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-pm-accent/15 flex items-center justify-center">
+      <div className="flex flex-wrap gap-2 items-center justify-between mb-5">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="h-8 w-8 rounded-lg bg-pm-accent/15 flex items-center justify-center shrink-0">
             <svg className="h-4 w-4 text-pm-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           </div>
-          <span className="text-sm font-semibold text-pm-text-primary">{__('WooCommerce Project Mapping', 'wedevs-project-manager')}</span>
+          <span className="text-sm font-semibold text-pm-text-primary truncate">{__('WooCommerce Project Mapping', 'wedevs-project-manager')}</span>
         </div>
         <div className="px-3 py-1.5 rounded-md bg-pm-accent text-white text-sm font-medium">{__('+ Add Product', 'wedevs-project-manager')}</div>
       </div>

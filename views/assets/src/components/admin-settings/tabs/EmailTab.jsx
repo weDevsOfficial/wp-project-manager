@@ -47,7 +47,7 @@ const EmailTab = () => {
       </p>
 
       <div className="rounded-lg border border-pm-border bg-pm-surface">
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div>
             <Label htmlFor="from_email" className="text-sm font-medium text-pm-text">
               {__('From Email', 'wedevs-project-manager')}
@@ -68,7 +68,7 @@ const EmailTab = () => {
 
         <div className="border-t border-pm-border" />
 
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <Label htmlFor="email_type" className="text-sm font-medium text-pm-text">
             {__('Email Type', 'wedevs-project-manager')}
           </Label>
@@ -92,7 +92,7 @@ const EmailTab = () => {
 
         <div className="border-t border-pm-border" />
 
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div>
             <Label htmlFor="link_to_backend" className="text-sm font-medium text-pm-text">
               {__('Link to Backend', 'wedevs-project-manager')}
@@ -110,7 +110,7 @@ const EmailTab = () => {
 
         <div className="border-t border-pm-border" />
 
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div>
             <Label htmlFor="enable_bcc" className="text-sm font-medium text-pm-text">
               {__('Send via BCC', 'wedevs-project-manager')}

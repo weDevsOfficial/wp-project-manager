@@ -363,6 +363,15 @@ body:not(.wp-admin) #wedevs-project-manager {
   }
 }
 
+/* ── Hide scrollbar while keeping scroll (overflow-x tab strips) ── */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 /* ── Plugin sidebar scrollbar — thin, pm-accent, auto-hide ── */
 .pm-sidebar-scroll {
   scrollbar-width: thin;

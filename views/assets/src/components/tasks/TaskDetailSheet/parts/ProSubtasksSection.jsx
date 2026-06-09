@@ -25,7 +25,7 @@ export default function ProSubtasksSection({ taskId, projectId, currentTask }) {
     return (
       <div className="px-6 py-3">
         <ProGate feature={__('Subtasks', 'wedevs-project-manager')}>
-          <div className="flex items-center justify-between py-1">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between py-1">
             <div className="flex items-center gap-2 text-sm text-pm-text-muted">
               <Layers className="h-4 w-4" />
               <span className="text-sm">{__('Subtasks', 'wedevs-project-manager')}</span>
