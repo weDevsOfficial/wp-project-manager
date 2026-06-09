@@ -1,5 +1,14 @@
 == Changelog ==
 
+= v4.0.3 – Jun 9, 2026 =
+
+**Fixed:** Comment text color and highlight now persist after saving.
+**Fixed:** Tables now render with visible borders inside task comments, sheets, and dialogs.
+**Improved:** Image attachments show full thumbnails; PDF and video files use clear icons and open in a centered preview with Download and Open-in-new-tab options.
+**Fixed:** The completed-task status circle is now clearly visible instead of near-invisible.
+**Improved:** The promotional banner is now hidden for Pro users and on the frontend.
+
+
 = v4.0.2 – May 22, 2026 =
 
 **New:** Promotional banner showcases timely WeDevs offers on the Projects and Premium pages, with per-banner dismiss.

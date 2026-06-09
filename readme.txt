@@ -6,7 +6,7 @@ Tags: kanban, project, project management, task management, project manager
 Requires at least: 6.2
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 4.0.2
+Stable tag: 4.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,15 @@ A. If you face any issues, you can contact the support team through the official
 14. Manage projects from the frontend
 
 == Changelog ==
+
+= v4.0.3 – Jun 9, 2026 =
+
+**Fixed:** Comment text color and highlight now persist after saving.
+**Fixed:** Tables now render with visible borders inside task comments, sheets, and dialogs.
+**Improved:** Image attachments show full thumbnails; PDF and video files use clear icons and open in a centered preview with Download and Open-in-new-tab options.
+**Fixed:** The completed-task status circle is now clearly visible instead of near-invisible.
+**Improved:** The promotional banner is now hidden for Pro users and on the frontend.
+
 
 = v4.0.2 – May 22, 2026 =
 
