@@ -32,6 +32,7 @@ import {
 import { formatPmDateTime } from "@lib/pm-utils";
 import {
   getFileIcon,
+  getFileIconColor,
   getAttachedLabel,
   getAttachedURL,
   getDownloadPermissionUrl,
@@ -137,12 +138,15 @@ export default function FilesPage() {
       ) : (
         <div className="rounded-xl border bg-card overflow-hidden divide-y divide-border/50">
           {files.map((f) => {
-            const Icon = getFileIcon(f.type || f.mime_type);
+            const iconType = f.mime_type || f.file_extension || f.type;
+            const Icon = getFileIcon(iconType);
+            const iconColor = getFileIconColor(iconType);
             const fileName = f.meta?.title || f.name || f.title || __("File", 'wedevs-project-manager');
             const attachedTo = getAttachedLabel(f, __);
             const attachedUrl = getAttachedURL(f, projectId);
-            const isImage = (f.type || f.mime_type || "").startsWith("image");
-            const thumbUrl = f.thumb || (isImage ? f.url : null);
+            const mimeType = f.mime_type || "";
+            const isImage = f.type === "image" || mimeType.startsWith("image");
+            const thumbUrl = isImage ? (f.thumb || f.url) : null;
             const handleDownload = () => checkPermissionAndDownload(
               getDownloadPermissionUrl(f, projectId),
               f.url,
@@ -155,7 +159,7 @@ export default function FilesPage() {
                   {thumbUrl ? (
                     <img src={thumbUrl} alt={fileName} className="w-full h-full object-cover rounded-lg" />
                   ) : (
-                    <Icon className="h-5 w-5 text-pm-text-muted" />
+                    <Icon className={`h-5 w-5 ${iconColor}`} />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">

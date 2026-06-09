@@ -26,6 +26,8 @@ import LoomPreviewContainer from '@components/common/LoomPreviewContainer'
 import { stripAllPreviewUrls } from '@/lib/url-strippers'
 import { sanitizeHtml } from '@lib/sanitize'
 import FileUploadArea from '@components/common/FileUploadArea'
+import CommentAttachment from '@components/common/CommentAttachment'
+import TaskStatusCircle from '@components/common/TaskStatusCircle'
 import NotifyUsers from '@components/common/NotifyUsers'
 import { UserAvatar } from '@components/common/UserAvatar'
 import { Separator } from '@components/ui/separator'
@@ -45,7 +47,6 @@ import {
   Calendar,
   Users,
   MessageSquare,
-  Paperclip,
   Check,
   Maximize2,
   Minimize2,
@@ -564,15 +565,7 @@ export default function TaskDetailSheet() {
                 </SheetDescription>
                 <div className="flex items-center gap-3">
                   <button type="button" onClick={handleToggleStatus} className="shrink-0 group/status">
-                    {complete ? (
-                      <span className="flex items-center justify-center h-6 w-6 rounded-full bg-pm-accent text-white">
-                        <Check className="h-4 w-4" strokeWidth={3} />
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center h-6 w-6 rounded-full border-[1.5px] border-dashed border-pm-text-muted/40 group-hover/status:border-solid group-hover/status:border-pm-accent group-hover/status:text-pm-accent transition-all">
-                        <Check className="h-4 w-4 opacity-0 group-hover/status:opacity-100 transition-opacity" strokeWidth={3} />
-                      </span>
-                    )}
+                    <TaskStatusCircle complete={complete} size="lg" groupHover />
                   </button>
                   {editingTitle && canEditTask(currentTask) ? (
                     <Input autoFocus value={title} onChange={e => setTitle(e.target.value)} onBlur={handleTitleSave}
@@ -814,29 +807,9 @@ export default function TaskDetailSheet() {
                               <RichTextEditor content={editCommentText} onChange={setEditCommentText} minHeight="60px" autofocus users={project?.assignees?.data ?? []} />
                               {comment.files?.data?.filter(f => !editCommentDeletedFileIds.includes(f.id)).length > 0 && (
                                 <div className="flex gap-2 flex-wrap">
-                                  {comment.files.data.filter(f => !editCommentDeletedFileIds.includes(f.id)).map(f => {
-                                    const isImg = (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)
-                                    return (
-                                      <div key={f.id} className={cn('relative inline-flex items-center gap-1.5 text-sm border border-border/50 bg-muted/30 rounded-md', isImg ? 'p-0' : 'px-2 py-1 pr-6')}>
-                                        {isImg ? (
-                                          <img src={f.thumb || f.url} alt={f.name} className="h-12 w-12 rounded object-cover" />
-                                        ) : (
-                                          <>
-                                            <Paperclip className="h-3.5 w-3.5 text-pm-text-muted" />
-                                            <span className="truncate max-w-[140px]">{f.name}</span>
-                                          </>
-                                        )}
-                                        <button
-                                          type="button"
-                                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); markDeleteExistingFile(f.id) }}
-                                          className="absolute -top-1.5 -right-1.5 z-10 bg-background border border-border/60 rounded-full p-0.5 text-pm-text-muted hover:text-destructive hover:border-destructive/40 shadow-sm cursor-pointer"
-                                          title={__('Remove', 'wedevs-project-manager')}
-                                        >
-                                          <X className="h-3 w-3" />
-                                        </button>
-                                      </div>
-                                    )
-                                  })}
+                                  {comment.files.data.filter(f => !editCommentDeletedFileIds.includes(f.id)).map(f => (
+                                    <CommentAttachment key={f.id} file={f} onRemove={markDeleteExistingFile} />
+                                  ))}
                                 </div>
                               )}
                               <FileUploadArea files={editCommentNewFiles} onFilesChange={setEditCommentNewFiles} compact />
@@ -849,7 +822,7 @@ export default function TaskDetailSheet() {
                             </div>
                           ) : (
                             <>
-                              <div className="text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripAllPreviewUrls(comment.content)) }} />
+                              <div className="pm-rich-comment-content text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripAllPreviewUrls(comment.content)) }} />
                               <GitHubPreviewContainer content={comment.content || ''} />
                               <NotionPreviewContainer content={comment.content || ''} />
                               <LoomPreviewContainer content={comment.content || ''} />
@@ -858,10 +831,7 @@ export default function TaskDetailSheet() {
                           {!isEditing && comment.files?.data?.length > 0 && (
                             <div className="mt-2 flex gap-2 flex-wrap">
                               {comment.files.data.map(f => (
-                                <a key={f.id} href={f.url} target="_blank" rel="noreferrer" title={f.name}
-                                  className="block overflow-hidden rounded-md border border-border/50 hover:border-pm-accent/40 transition-all no-underline">
-                                  <img src={f.thumb || f.url} alt={f.name} className="h-20 w-20 object-cover" />
-                                </a>
+                                <CommentAttachment key={f.id} file={f} />
                               ))}
                             </div>
                           )}
