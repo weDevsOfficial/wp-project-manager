@@ -26,6 +26,7 @@ import {
 } from '@components/ui/dropdown-menu'
 import { Badge } from '@components/ui/badge'
 import TaskLabelBadges from '@components/tasks/TaskLabelBadges'
+import TaskStatusCircle from '@components/common/TaskStatusCircle'
 import {
   Calendar,
   MessageSquare,
@@ -34,7 +35,6 @@ import {
   Copy,
   Trash2,
   Flag,
-  Check,
   ArrowRightLeft,
   GripVertical,
   Pencil,
@@ -140,7 +140,6 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
       className={cn(
         'group flex items-center gap-2.5 px-3 py-2 border-b border-border/40 last:border-b-0',
         'hover:bg-muted/20 transition-colors',
-        isComplete && 'opacity-50',
         isDragOver && 'border-t-2 border-t-pm-accent',
       )}
       draggable={isDraggable}
@@ -163,20 +162,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
         className="shrink-0 focus:outline-none"
         disabled={toggling}
       >
-        {isComplete ? (
-          /* Filled circle with check — uses brand color */
-          <span className="flex items-center justify-center h-[18px] w-[18px] rounded-full bg-pm-accent text-white">
-            <Check className="h-3.5 w-3.5" strokeWidth={3} />
-          </span>
-        ) : hovered ? (
-          /* Solid border on hover */
-          <span className="flex items-center justify-center h-[18px] w-[18px] rounded-full border-2 border-pm-accent text-pm-accent">
-            <Check className="h-3.5 w-3.5" strokeWidth={3} />
-          </span>
-        ) : (
-          /* Dashed border — pending state */
-          <span className="h-[18px] w-[18px] rounded-full border-[1.5px] border-dashed border-pm-text-muted/40 block" />
-        )}
+        <TaskStatusCircle complete={isComplete} hovered={hovered} />
       </button>
 
       {/* Title */}

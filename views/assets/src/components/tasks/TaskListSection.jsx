@@ -39,6 +39,7 @@ import { Slot } from '@hooks/useSlot'
 import { usePermissions } from '@hooks/usePermissions'
 import { useCurrentProject } from '@hooks/useCurrentProject'
 import { useProModal } from '@components/common/ProUpgradeModal'
+import TaskStatusCircle from '@components/common/TaskStatusCircle'
 import TaskRow from './TaskRow'
 import { sanitizeHtml } from '@lib/sanitize'
 
@@ -466,7 +467,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
             >
               {/* Title row */}
               <div className="flex items-center gap-2">
-                <span className="h-[18px] w-[18px] rounded-full border border-dashed border-pm-text-muted/40 shrink-0" />
+                <TaskStatusCircle className="shrink-0" />
                 <Input
                   autoFocus
                   value={newTitle}

@@ -1,12 +1,37 @@
 import { __ } from '@wordpress/i18n';
-import { File, Image, FileArchive, FileText } from "lucide-react";
+import { File, Image, FileArchive, FileSpreadsheet, FileText, Presentation, Video } from "lucide-react";
+
+function normalizeFileType(type) {
+  return String(type || "").toLowerCase();
+}
 
 export function getFileIcon(type) {
-  if (!type) return File;
-  if (type.startsWith("image")) return Image;
-  if (type.includes("zip") || type.includes("archive") || type.includes("rar"))
+  const normalized = normalizeFileType(type);
+
+  if (!normalized) return File;
+  if (normalized === "image" || normalized.startsWith("image")) return Image;
+  if (normalized === "video" || normalized.startsWith("video") || ["mp4", "m4v", "mov", "ogv", "webm"].includes(normalized)) return Video;
+  if (normalized.includes("pdf") || normalized === "pdf") return FileText;
+  if (normalized.includes("zip") || normalized.includes("archive") || normalized.includes("rar") || normalized.includes("compressed"))
     return FileArchive;
+  if (normalized.includes("spreadsheet") || normalized.includes("excel") || ["xls", "xlsx", "csv"].includes(normalized))
+    return FileSpreadsheet;
+  if (normalized.includes("presentation") || normalized.includes("powerpoint") || ["ppt", "pptx"].includes(normalized))
+    return Presentation;
   return FileText;
+}
+
+export function getFileIconColor(type) {
+  const normalized = normalizeFileType(type);
+
+  if (normalized === "image" || normalized.startsWith("image")) return "text-blue-500";
+  if (normalized === "video" || normalized.startsWith("video") || ["mp4", "m4v", "mov", "ogv", "webm"].includes(normalized)) return "text-violet-500";
+  if (normalized.includes("pdf") || normalized === "pdf") return "text-red-600";
+  if (normalized.includes("zip") || normalized.includes("archive") || normalized.includes("rar") || normalized.includes("compressed")) return "text-amber-600";
+  if (normalized.includes("spreadsheet") || normalized.includes("excel") || ["xls", "xlsx", "csv"].includes(normalized)) return "text-emerald-600";
+  if (normalized.includes("presentation") || normalized.includes("powerpoint") || ["ppt", "pptx"].includes(normalized)) return "text-amber-500";
+  if (normalized.includes("document") || normalized.includes("text") || ["doc", "docx", "txt", "rtf"].includes(normalized)) return "text-blue-500";
+  return "text-pm-text-muted";
 }
 
 export function getAttachedLabel(file, __) {

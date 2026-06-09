@@ -257,6 +257,8 @@ window.PM = {
     ManagerRoute,
     BackButton:       require('@components/common/BackButton'),
     FileUploadArea:  require('@components/common/FileUploadArea'),
+    CommentAttachment: require('@components/common/CommentAttachment'),
+    TaskStatusCircle: require('@components/common/TaskStatusCircle'),
     ProBadge:        require('@components/common/ProBadge'),
     ProUpgradeModal: require('@components/common/ProUpgradeModal'),
     LicenseGuard:    require('@components/common/LicenseGuard'),
