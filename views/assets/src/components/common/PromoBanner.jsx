@@ -47,12 +47,18 @@ export function PromoBanner({ placement = 'projects' }) {
   const [promo, setPromo] = useState(null)
   const [dismissed, setDismissed] = useState(false)
 
+  // Backend wp-admin only, and never when Pro is active.
+  const isPro = typeof PM_Vars !== 'undefined' && !!PM_Vars.is_pro
+  const isFrontend = typeof PM_Vars !== 'undefined' && !!PM_Vars.is_frontend && !PM_Vars.is_admin
+  const hidden = isPro || isFrontend
+
   const dismissKey = useMemo(
     () => (promo?.key ? `${STORAGE_PREFIX}${promo.key}` : null),
     [promo]
   )
 
   useEffect(() => {
+    if (hidden) return
     let cancelled = false
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
@@ -91,14 +97,14 @@ export function PromoBanner({ placement = 'projects' }) {
       controller.abort()
       clearTimeout(timer)
     }
-  }, [])
+  }, [hidden])
 
   const handleDismiss = useCallback(() => {
     if (dismissKey) localStorage.setItem(dismissKey, '1')
     setDismissed(true)
   }, [dismissKey])
 
-  if (dismissed || !promo) return null
+  if (hidden || dismissed || !promo) return null
 
   const action = promo.action_url
     ? `${promo.action_url}${promo.action_url.includes('?') ? '&' : '?'}utm_content=pm-${placement}-banner`
@@ -133,7 +139,7 @@ export function PromoBanner({ placement = 'projects' }) {
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 px-5 py-4 pl-6 pr-10 sm:pr-12">
         <div className="flex items-center gap-3 flex-1 min-w-0">
           <img
-            src={`${typeof PM_Vars !== 'undefined' ? PM_Vars.dir_url : '/wp-content/plugins/wedevs-project-manager/'}.wordpress-org/icon-128x128.gif`}
+            src={`${typeof PM_Vars !== 'undefined' ? PM_Vars.dir_url : ''}views/assets/images/promo-icon.gif`}
             alt=""
             className="shrink-0 rounded-lg"
             style={{ height: '56px', width: '56px' }}

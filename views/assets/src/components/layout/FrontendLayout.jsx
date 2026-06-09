@@ -4,6 +4,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { usePermissions } from '@hooks/usePermissions'
 import { cn } from '@lib/utils'
 import { UserAvatar } from '@components/common/UserAvatar'
+import { GlobalSearch } from '@components/common/GlobalSearch'
 import { AppSidebar } from '@components/layout/AppSidebar'
 import { useHideSidebar } from '@/router/routeRegistry'
 import {
@@ -89,8 +90,9 @@ export function FrontendLayout() {
               </nav>
             </div>
 
-            {/* Right side — user menu */}
+            {/* Right side — search + user menu */}
             <div className="flex items-center gap-3">
+              <GlobalSearch variant="frontend" />
               <div className="hidden sm:flex items-center gap-2">
                 <UserAvatar user={{ avatar_url: userAvatar, display_name: userName }} size="md" fallbackClassName="bg-pm-accent/10 text-pm-accent" />
                 <span className="text-sm font-medium text-pm-text-primary">{userName}</span>
