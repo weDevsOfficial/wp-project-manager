@@ -226,8 +226,8 @@ class Upgrade {
             }
         }
 
+        update_option( 'pm_db_version', wedevs_pm_config('app.db_version') );
         delete_option( 'cpm_db_version' );
-       // update_option( 'pm_db_version', '2.0-beta' );
     }
 }
 
