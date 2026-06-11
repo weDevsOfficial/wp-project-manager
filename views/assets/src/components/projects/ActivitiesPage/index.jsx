@@ -108,7 +108,7 @@ export default function ActivitiesPage() {
       {!isPro ? (
         <div className="group relative rounded-xl border bg-card overflow-hidden">
           <div className="p-6 space-y-5">
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
                 { label: __('Total', 'wedevs-project-manager'),   value: '—', icon: BarChart2,  color: 'text-pm-accent bg-indigo-50' },
                 { label: __('Today', 'wedevs-project-manager'),   value: '—', icon: Clock,      color: 'text-emerald-500 bg-emerald-50' },
@@ -226,7 +226,7 @@ export default function ActivitiesPage() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
               { label: __('Total', 'wedevs-project-manager'),   value: stats.total,   icon: BarChart2,  color: 'text-pm-accent bg-indigo-50' },
               { label: __('Today', 'wedevs-project-manager'),   value: stats.today,   icon: Clock,      color: 'text-emerald-500 bg-emerald-50' },

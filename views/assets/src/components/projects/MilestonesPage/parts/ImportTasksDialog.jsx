@@ -114,7 +114,7 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
             className="h-8 text-sm"
           />
 
-          <div className="inline-flex items-center rounded-lg bg-muted/60 p-0.5 gap-0.5">
+          <div className="inline-flex max-w-full items-center rounded-lg bg-muted/60 p-0.5 gap-0.5 overflow-x-auto scrollbar-none">
             {[
               { key: "all", label: __("All", 'wedevs-project-manager') },
               { key: "incomplete", label: __("Incomplete", 'wedevs-project-manager') },
@@ -125,7 +125,7 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
                 type="button"
                 onClick={() => setTab(t.key)}
                 className={cn(
-                  "px-2.5 py-1 rounded-md text-xs font-medium transition-all",
+                  "shrink-0 whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-medium transition-all",
                   tab === t.key
                     ? "bg-background text-pm-text-primary shadow-sm"
                     : "text-pm-text-muted hover:text-pm-text-primary",

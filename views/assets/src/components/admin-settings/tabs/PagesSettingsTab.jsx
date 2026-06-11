@@ -58,7 +58,7 @@ export default function PagesSettingsTab() {
       <p className="text-sm text-pm-text-muted mb-5">{__('Configure front-end pages for Project Manager', 'wedevs-project-manager')}</p>
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div>
             <Label className="text-sm font-medium">{__('Project Page', 'wedevs-project-manager')}</Label>
             <p className="text-sm text-pm-text-muted mt-0.5">{__('Select the page where Project Manager will be displayed on the front-end', 'wedevs-project-manager')}</p>
@@ -67,7 +67,7 @@ export default function PagesSettingsTab() {
             value={frontEndPage}
             onValueChange={(v) => { setFrontEndPage(v); setIsDirty(true) }}
           >
-            <SelectTrigger className="w-64 h-8 text-sm">
+            <SelectTrigger className="max-w-full w-64 h-8 text-sm">
               <SelectValue placeholder={__('Select a page...', 'wedevs-project-manager')} />
             </SelectTrigger>
             <SelectContent>

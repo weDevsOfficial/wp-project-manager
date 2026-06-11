@@ -413,7 +413,7 @@ export default function MyTasksPage() {
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <UserAvatar
           user={{
             avatar_url: user?.avatar_url || PM_Vars.current_user?.data?.avatar_url,
@@ -493,7 +493,7 @@ export default function MyTasksPage() {
         ))}
       </div>
 
-      <div className="inline-flex items-center rounded-lg bg-muted/60 p-1 gap-0.5">
+      <div className="inline-flex max-w-full items-center rounded-lg bg-muted/60 p-1 gap-0.5 overflow-x-auto scrollbar-none">
         {TABS.map((tab) => {
           const isActive = activeTab === tab.key;
           const Icon = tab.icon;
@@ -506,7 +506,7 @@ export default function MyTasksPage() {
                 if (tab.pro && !isPro) { setProModalOpen(true); return; }
                 setActiveTab(tab.key);
               }}
-              className={`relative inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
+              className={`relative inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
                 isActive
                   ? "bg-background text-pm-text-primary shadow-sm"
                   : "text-pm-text-muted hover:text-pm-text-primary"
@@ -585,7 +585,7 @@ export default function MyTasksPage() {
               <h3 className="text-sm font-semibold text-pm-text-primary mb-4">
                 {__("At a Glance", 'wedevs-project-manager')}
               </h3>
-              <div className="flex items-center gap-8">
+              <div className="flex flex-wrap items-center gap-8">
                 <div className="w-[200px] h-[200px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -751,7 +751,7 @@ export default function MyTasksPage() {
           </div>
         ) : !reportData ? (
           <div className="space-y-4">
-            <div className="flex items-end gap-3">
+            <div className="flex flex-wrap items-end gap-3">
               <div className="space-y-1">
                 <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportStart ? "text-red-500" : "text-pm-text-muted")}>
                   {__("Start Date", 'wedevs-project-manager')}<span className="text-red-500 ml-0.5">*</span>
@@ -773,7 +773,7 @@ export default function MyTasksPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="flex items-end gap-3">
+            <div className="flex flex-wrap items-end gap-3">
               <div className="space-y-1">
                 <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportStart ? "text-red-500" : "text-pm-text-muted")}>
                   {__("Start Date", 'wedevs-project-manager')}<span className="text-red-500 ml-0.5">*</span>

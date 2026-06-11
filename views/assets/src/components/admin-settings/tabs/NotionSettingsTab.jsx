@@ -167,7 +167,7 @@ const NotionSettingsTab = () => {
 
       <div className="mt-5 rounded-lg border border-pm-border bg-pm-surface">
         {/* Integration Token */}
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div>
             <Label>{__('Internal Integration Token', 'wedevs-project-manager')}</Label>
             <p className="text-sm text-pm-text-muted mt-1">
@@ -180,7 +180,7 @@ const NotionSettingsTab = () => {
           <div className="flex items-center gap-2">
             {!editingToken && tokenSaved ? (
               <>
-                <Input type={showToken ? 'text' : 'password'} value={showToken ? maskedToken : '••••••••••••'} readOnly className="w-56" />
+                <Input type={showToken ? 'text' : 'password'} value={showToken ? maskedToken : '••••••••••••'} readOnly className="max-w-full w-56" />
                 <Button type="button" variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={handleToggleShow} disabled={revealing}>
                   {revealing ? <Loader2 className="h-4 w-4 animate-spin" /> : (showToken ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />)}
                 </Button>
@@ -195,7 +195,7 @@ const NotionSettingsTab = () => {
                   value={accessToken}
                   onChange={(e) => { setAccessToken(e.target.value); markDirty() }}
                   placeholder="secret_xxxxxxxxxxxx"
-                  className="w-56"
+                  className="max-w-full w-56"
                 />
                 {editingToken && maskedToken && (
                   <Button type="button" variant="outline" size="sm" className="h-9 shrink-0" onClick={() => { setEditingToken(false); setAccessToken('') }}>
@@ -210,7 +210,7 @@ const NotionSettingsTab = () => {
         <div className="border-t border-pm-border" />
 
         {/* Enable Previews */}
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div>
             <Label>{__('Enable Previews', 'wedevs-project-manager')}</Label>
             <p className="text-sm text-pm-text-muted mt-1">{__('Show Notion page preview cards automatically.', 'wedevs-project-manager')}</p>
@@ -221,7 +221,7 @@ const NotionSettingsTab = () => {
         <div className="border-t border-pm-border" />
 
         {/* Connection Status */}
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div>
             <Label>{__('Connection Status', 'wedevs-project-manager')}</Label>
             <div className="flex items-center gap-2 text-sm mt-1">

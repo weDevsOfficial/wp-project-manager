@@ -127,12 +127,12 @@ export default function ProgressPage() {
               { label: __('Files Uploaded', 'wedevs-project-manager'),  value: '3',  icon: Upload,        color: 'text-amber-500 bg-amber-50' },
             ].map((stat) => (
               <div key={stat.label} className="rounded-xl border bg-card p-4 flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${stat.color.split(' ')[1]}`}>
+                <div className={`shrink-0 p-2 rounded-lg ${stat.color.split(' ')[1]}`}>
                   <stat.icon className={`h-5 w-5 ${stat.color.split(' ')[0]}`} />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className={`text-2xl font-bold tabular-nums ${stat.color.split(' ')[0]}`}>{stat.value}</p>
-                  <p className="text-[15px] text-pm-text-muted font-medium">{stat.label}</p>
+                  <p className="text-[15px] text-pm-text-muted font-medium truncate">{stat.label}</p>
                 </div>
               </div>
             ))}

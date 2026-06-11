@@ -722,7 +722,7 @@ export default function ProjectsPage() {
       </div>
 
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <div className="inline-flex items-center rounded-lg bg-muted/60 p-1 gap-0.5">
+        <div className="inline-flex max-w-full items-center rounded-lg bg-muted/60 p-1 gap-0.5 overflow-x-auto scrollbar-none">
           {FILTER_TABS.map((tab) => {
             const count = tab.countKey
               ? projectsMeta[tab.countKey]
@@ -735,7 +735,7 @@ export default function ProjectsPage() {
                 type="button"
                 onClick={() => handleFilterChange(tab.key)}
                 className={cn(
-                  "relative inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200",
+                  "relative inline-flex shrink-0 items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200",
                   isActive
                     ? "bg-background text-pm-text-primary shadow-sm"
                     : "text-pm-text-muted hover:text-pm-text-primary",
@@ -753,8 +753,8 @@ export default function ProjectsPage() {
           })}
         </div>
 
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 h-9 w-[180px] rounded-md border border-pm-border bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent">
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 h-9 w-[180px] max-w-full rounded-md border border-pm-border bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent">
             <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
             <input
               type="text"
