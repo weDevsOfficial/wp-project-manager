@@ -141,7 +141,7 @@ const GeneralTab = () => {
         {fields.map((field, idx) => (
           <React.Fragment key={field.key}>
             {idx > 0 && <div className="border-t border-pm-border" />}
-            <div className="flex items-center justify-between px-5 py-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
               <div>
                 <Label htmlFor={field.key} className="text-sm font-medium text-pm-text">
                   {field.label}
@@ -170,7 +170,7 @@ const GeneralTab = () => {
             <h3 className="text-sm font-semibold text-pm-text-primary">{__('Pro Settings', 'wedevs-project-manager')}</h3>
           </div>
 
-          <div className="flex items-center justify-between px-5 py-4">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
             <div>
               <Label className="text-sm font-medium flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-pm-text-muted" />{__('Task Start Date', 'wedevs-project-manager')}
@@ -182,7 +182,7 @@ const GeneralTab = () => {
 
           <div className="border-t border-pm-border" />
 
-          <div className="flex items-center justify-between px-5 py-4">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
             <div>
               <Label className="text-sm font-medium flex items-center gap-2">
                 <MailIcon className="h-5 w-5 text-pm-text-muted" />{__('Daily Digest', 'wedevs-project-manager')}

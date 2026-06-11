@@ -1,17 +1,12 @@
 import { __ } from '@wordpress/i18n';
 import { useMemo, useState, useEffect, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useAppDispatch } from '@store/index'
-import { fetchTask, openTaskSheet } from '@store/tasksSlice'
 import { useApi } from '@hooks/useApi'
 import { useCurrentProject } from '@hooks/useCurrentProject'
 import { usePermissions } from '@hooks/usePermissions'
 import { UserAvatar } from '@components/common/UserAvatar'
+import { GlobalSearch } from '@components/common/GlobalSearch'
 import { Button } from '@components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-} from '@components/ui/dialog'
 import {
   Sheet,
   SheetContent,
@@ -19,20 +14,8 @@ import {
   SheetTitle,
 } from '@components/ui/sheet'
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@components/ui/command'
-import {
   ChevronRight,
-  Search,
   Bell,
-  FolderKanban,
-  CheckSquare,
-  LayoutList,
   Loader2,
   LayoutDashboard,
   Monitor,
@@ -47,13 +30,7 @@ import { formatPmDateTime } from '@lib/pm-utils'
 export function TopBar() {
   const location = useLocation()
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
   const api = useApi()
-
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [searchResults, setSearchResults] = useState({ projects: [], tasks: [], taskLists: [] })
-  const [searching, setSearching] = useState(false)
 
   const isFrontendPage = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
 
@@ -112,42 +89,6 @@ export function TopBar() {
   const [notifications, setNotifications] = useState([])
   const [notifLoading, setNotifLoading] = useState(false)
   const [unreadCount, setUnreadCount] = useState(0)
-
-  // Keyboard shortcut: Ctrl/Cmd+K
-  useEffect(() => {
-    const handler = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault()
-        setSearchOpen(true)
-      }
-    }
-    document.addEventListener('keydown', handler)
-    return () => document.removeEventListener('keydown', handler)
-  }, [])
-
-  // Search handler
-  const handleSearch = useCallback(async (query) => {
-    setSearchQuery(query)
-    if (query.trim().length < 2) {
-      setSearchResults({ projects: [], tasks: [], taskLists: [] })
-      return
-    }
-    setSearching(true)
-    try {
-      const [topbarRes, taskRes] = await Promise.all([
-        api.get('admin-topbar-search', { query: query.trim() }),
-        api.get('tasks', { title: query.trim(), per_page: 5 }),
-      ])
-      const topbarItems = Array.isArray(topbarRes) ? topbarRes : []
-      const projects  = topbarItems.filter(i => i.type === 'project').slice(0, 5)
-      const taskLists = topbarItems.filter(i => i.type === 'task_list').slice(0, 5)
-      const tasks = (taskRes.data ?? []).slice(0, 5)
-      setSearchResults({ projects, tasks, taskLists })
-    } catch {
-      setSearchResults({ projects: [], tasks: [], taskLists: [] })
-    }
-    setSearching(false)
-  }, [api])
 
   // Fetch recent activities as notifications (no dedicated notifications endpoint)
   useEffect(() => {
@@ -231,7 +172,6 @@ export function TopBar() {
 
   const currentUser = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user : null
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
-  const hasResults = searchResults.projects.length > 0 || searchResults.tasks.length > 0 || searchResults.taskLists.length > 0
 
   return (
     <>
@@ -256,25 +196,7 @@ export function TopBar() {
           ))}
         </nav>
 
-        {/* Search trigger — icon on mobile, full button on desktop */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 md:hidden shrink-0"
-          onClick={() => setSearchOpen(true)}
-        >
-          <Search className="h-5 w-5 text-pm-text-muted" />
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          className="h-7 text-sm gap-1.5 text-pm-text-muted font-normal hidden md:flex"
-          onClick={() => setSearchOpen(true)}
-        >
-          <Search className="h-3.5 w-3.5" />
-          {__('Search...', 'wedevs-project-manager')}
-          <kbd className="ml-2 text-[14px] bg-muted px-1 py-0.5 rounded font-mono">⌘K</kbd>
-        </Button>
+        <GlobalSearch variant="topbar" />
 
         {/* Share Your Idea */}
         <a
@@ -367,85 +289,6 @@ export function TopBar() {
           />
         )}
       </div>
-
-      {/* ── Search Dialog (Ctrl+K) ── */}
-      <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
-        <DialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-[480px] p-0 gap-0 overflow-hidden" data-pm-dialog>
-          <Command shouldFilter={false} className="rounded-lg">
-            <CommandInput
-              placeholder={__('Search projects and tasks...', 'wedevs-project-manager')}
-              value={searchQuery}
-              onValueChange={handleSearch}
-            />
-            <CommandList className="max-h-[320px]">
-              {searching && (
-                <div className="flex items-center justify-center py-6 text-sm text-muted-foreground">
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__('Searching...', 'wedevs-project-manager')}
-                </div>
-              )}
-              {!searching && searchQuery.trim().length >= 2 && !hasResults && (
-                <CommandEmpty>{__('No results found', 'wedevs-project-manager')}</CommandEmpty>
-              )}
-              {searchResults.projects.length > 0 && (
-                <CommandGroup heading={__('Projects', 'wedevs-project-manager')}>
-                  {searchResults.projects.map(p => (
-                    <CommandItem
-                      key={`p-${p.id}`}
-                      value={`project-${p.id}`}
-                      onSelect={() => { navigate(`/projects/${p.id}/task-lists`); setSearchOpen(false); setSearchQuery('') }}
-                      className="cursor-pointer"
-                    >
-                      <FolderKanban className="h-4 w-4 mr-2 text-pm-text-muted" />
-                      <span className="text-sm truncate">{p.title}</span>
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              )}
-              {searchResults.taskLists.length > 0 && (
-                <CommandGroup heading={__('Task Lists', 'wedevs-project-manager')}>
-                  {searchResults.taskLists.map(l => (
-                    <CommandItem
-                      key={`tl-${l.id}`}
-                      value={`tasklist-${l.id}`}
-                      onSelect={() => { navigate(`/projects/${l.project_id}/task-lists/${l.id}`); setSearchOpen(false); setSearchQuery('') }}
-                      className="cursor-pointer"
-                    >
-                      <LayoutList className="h-4 w-4 mr-2 text-pm-text-muted" />
-                      <span className="text-sm truncate">{l.title}</span>
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              )}
-              {searchResults.tasks.length > 0 && (
-                <CommandGroup heading={__('Tasks', 'wedevs-project-manager')}>
-                  {searchResults.tasks.map(t => (
-                    <CommandItem
-                      key={`t-${t.id}`}
-                      value={`task-${t.id}`}
-                      onSelect={() => {
-                        const rawList = t.task_list_id
-                        const listId = rawList?.data?.id ?? rawList?.id ?? rawList ?? null
-                        const projectId = t.project_id
-                        setSearchOpen(false)
-                        setSearchQuery('')
-                        const target = listId
-                          ? `/projects/${projectId}/task-lists/${listId}`
-                          : `/projects/${projectId}/task-lists`
-                        navigate(target)
-                        dispatch(openTaskSheet({ ...t, project_id: projectId, task_list_id: listId }))
-                      }}
-                      className="cursor-pointer"
-                    >
-                      <CheckSquare className="h-4 w-4 mr-2 text-pm-text-muted" />
-                      <span className="text-sm truncate">{t.title}</span>
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              )}
-            </CommandList>
-          </Command>
-        </DialogContent>
-      </Dialog>
 
       {/* ── Notifications Sheet ── */}
       <Sheet open={notifOpen} onOpenChange={setNotifOpen}>

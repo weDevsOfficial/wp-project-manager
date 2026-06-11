@@ -79,7 +79,7 @@ const PusherTab = () => {
       </div>
 
       <div className="mt-5 rounded-lg border border-pm-border bg-pm-surface">
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div>
             <Label htmlFor="pusher_enable" className="text-sm font-medium text-pm-text">
               {__('Enable Pusher Notifications', 'wedevs-project-manager')}
@@ -97,22 +97,22 @@ const PusherTab = () => {
       </div>
 
       <div className={`mt-5 rounded-lg border border-pm-border bg-pm-surface ${enabled ? '' : 'opacity-60 pointer-events-none'}`}>
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div><Label htmlFor="pusher_app_id">{__('App ID', 'wedevs-project-manager')}</Label></div>
           <Input id="pusher_app_id" value={form.pusher_app_id} onChange={(e) => updateField('pusher_app_id', e.target.value)} placeholder={__('Your Pusher App ID', 'wedevs-project-manager')} className="max-w-sm" />
         </div>
         <div className="border-t border-pm-border" />
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div><Label htmlFor="pusher_app_key">{__('App Key', 'wedevs-project-manager')}</Label></div>
           <Input id="pusher_app_key" value={form.pusher_app_key} onChange={(e) => updateField('pusher_app_key', e.target.value)} placeholder={__('Your Pusher App Key', 'wedevs-project-manager')} className="max-w-sm" />
         </div>
         <div className="border-t border-pm-border" />
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div><Label htmlFor="pusher_secret">{__('App Secret', 'wedevs-project-manager')}</Label></div>
           <Input id="pusher_secret" type="password" value={form.pusher_secret} onChange={(e) => updateField('pusher_secret', e.target.value)} placeholder={__('Your Pusher App Secret', 'wedevs-project-manager')} className="max-w-sm" />
         </div>
         <div className="border-t border-pm-border" />
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div>
             <Label htmlFor="pusher_cluster">{__('Cluster', 'wedevs-project-manager')}</Label>
             <p className="text-sm text-pm-text-muted mt-1">{__('e.g. ap2, eu, us2', 'wedevs-project-manager')}</p>
@@ -120,7 +120,7 @@ const PusherTab = () => {
           <Input id="pusher_cluster" value={form.pusher_cluster} onChange={(e) => updateField('pusher_cluster', e.target.value)} placeholder="mt1" className="w-40" />
         </div>
         <div className="border-t border-pm-border" />
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div>
             <Label htmlFor="pusher_link_to_backend" className="text-sm font-medium text-pm-text">
               {__('Link to Backend', 'wedevs-project-manager')}
@@ -151,7 +151,7 @@ const PusherTab = () => {
         {TRIGGERS.map((t, i) => (
           <React.Fragment key={t.key}>
             {i > 0 && <div className="border-t border-pm-border" />}
-            <div className="flex items-center justify-between px-5 py-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
               <div>
                 <Label htmlFor={t.key} className="text-sm font-medium text-pm-text">
                   {t.label}

@@ -146,7 +146,7 @@ const AiSettingsTab = () => {
 
       <form onSubmit={onSubmit}>
         <div className="mt-5 rounded-lg border border-pm-border bg-pm-surface">
-          <div className="flex items-center justify-between px-5 py-4">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
             <div>
               <Label htmlFor="ai_provider">{__('AI Provider', 'wedevs-project-manager')}</Label>
               <p className="text-sm text-pm-text-muted mt-1">{__('Select your preferred AI service.', 'wedevs-project-manager')}</p>
@@ -159,7 +159,7 @@ const AiSettingsTab = () => {
             </Select>
           </div>
           <div className="border-t border-pm-border" />
-          <div className="flex items-center justify-between px-5 py-4">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
             <div>
               <Label htmlFor="ai_api_key">{__('API Key', 'wedevs-project-manager')}</Label>
               <p className="text-sm text-pm-text-muted mt-1">{__('Your secret key from the provider dashboard.', 'wedevs-project-manager')}</p>
@@ -244,7 +244,7 @@ const AiSettingsTab = () => {
                 </div>
               ) : availableModels.length > 0 ? (
                 <>
-                  <div className="flex items-center justify-between px-5 py-4">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
                     <div><Label htmlFor="ai_model">{__('Model', 'wedevs-project-manager')}</Label></div>
                     <Select value={ai.ai_model} onValueChange={(val) => { dispatch(setAiModel(val)); setIsDirty(true) }}>
                       <SelectTrigger id="ai_model" className="w-64"><SelectValue placeholder={__('Select a model', 'wedevs-project-manager')} /></SelectTrigger>
@@ -254,7 +254,7 @@ const AiSettingsTab = () => {
                     </Select>
                   </div>
                   <div className="border-t border-pm-border" />
-                  <div className="flex items-center justify-between px-5 py-4">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
                     <div>
                       <Label htmlFor="ai_max_tokens">{__('Max Tokens', 'wedevs-project-manager')}</Label>
                       <p className="text-sm text-pm-text-muted mt-1">{__('500–16384. Higher values allow more detailed responses for both project and subtask generation, but may cost more.', 'wedevs-project-manager')}</p>
@@ -262,7 +262,7 @@ const AiSettingsTab = () => {
                     <Input id="ai_max_tokens" type="number" min={500} max={16384} value={ai.ai_max_tokens} onChange={(e) => { dispatch(setAiMaxTokens(Number(e.target.value))); setIsDirty(true) }} className="w-40" />
                   </div>
                   <div className="border-t border-pm-border" />
-                  <div className="flex items-center justify-between px-5 py-4">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
                     <div>
                       <Label htmlFor="ai_temperature">{__('Temperature', 'wedevs-project-manager')}</Label>
                       <p className="text-sm text-pm-text-muted mt-1">{__('0 = deterministic / 1 = creative', 'wedevs-project-manager')}</p>

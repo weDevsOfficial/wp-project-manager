@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { Badge } from "@components/ui/badge";
 import { UserAvatar } from '@components/common/UserAvatar';
 import TaskLabelBadges from "@components/tasks/TaskLabelBadges";
-import { Check, MessageSquare, Lock, Layers } from "lucide-react";
+import TaskStatusCircle from "@components/common/TaskStatusCircle";
+import { MessageSquare, Lock, Layers } from "lucide-react";
 import {
   isTaskComplete,
   formatPmDate,
@@ -33,13 +34,7 @@ export default function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
         disabled={toggling}
         className="shrink-0"
       >
-        {complete ? (
-          <span className="flex items-center justify-center h-[18px] w-[18px] rounded-full bg-pm-accent text-white">
-            <Check className="h-3.5 w-3.5" strokeWidth={3} />
-          </span>
-        ) : (
-          <span className="h-[18px] w-[18px] rounded-full border-[1.5px] border-dashed border-pm-text-muted/40 block" />
-        )}
+        <TaskStatusCircle complete={complete} />
       </button>
 
       <button

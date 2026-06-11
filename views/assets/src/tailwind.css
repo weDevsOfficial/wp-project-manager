@@ -160,15 +160,16 @@ body:not(.wp-admin) #wedevs-project-manager {
   margin-left: 0;
 }
 
-/* ── Scoped reset — ONLY inside plugin root ─────────────── */
-#wedevs-project-manager {
-  *, *::before, *::after {
-    box-sizing: border-box;
-    border-width: 0;
-    border-style: solid;
-    border-color: hsl(var(--border));
-  }
+/* ── Scoped reset — ONLY inside plugin root.
+   Keep specificity low so component utility classes can override it. */
+:where(#wedevs-project-manager) :where(*, *::before, *::after) {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: hsl(var(--border));
+}
 
+#wedevs-project-manager {
   font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.5;
@@ -360,6 +361,15 @@ body:not(.wp-admin) #wedevs-project-manager {
   button[role="switch"][data-state="checked"] > span {
     transform: translateX(1.25rem) !important;
   }
+}
+
+/* ── Hide scrollbar while keeping scroll (overflow-x tab strips) ── */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
 
 /* ── Plugin sidebar scrollbar — thin, pm-accent, auto-hide ── */
@@ -743,32 +753,99 @@ body.admin-bar [data-sonner-toaster] {
   color: hsl(var(--muted-foreground)) !important;
 }
 
-/* ── Rendered tables (pasted from Excel/Word) and Tiptap editor tables ── */
+/* ── Rendered tables (pasted from Excel/Word) and Tiptap editor tables ──
+     Include Radix Sheet/Dialog portals because task detail comments render
+     outside #wedevs-project-manager. ─────────────────────────────────── */
 #wedevs-project-manager .prose table,
-#wedevs-project-manager .ProseMirror table {
+#wedevs-project-manager .pm-rich-comment-content table,
+#wedevs-project-manager .ProseMirror table,
+[role="dialog"][data-state] .prose table,
+[role="dialog"][data-state] .pm-rich-comment-content table,
+[role="dialog"][data-state] .ProseMirror table {
+  display: table !important;
   width: 100%;
-  border-collapse: collapse;
-  margin: 0.75em 0;
-  table-layout: auto;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  margin: 0.75em 0 !important;
+  table-layout: auto !important;
+}
+#wedevs-project-manager .prose table thead,
+#wedevs-project-manager .pm-rich-comment-content table thead,
+#wedevs-project-manager .ProseMirror table thead,
+[role="dialog"][data-state] .prose table thead,
+[role="dialog"][data-state] .pm-rich-comment-content table thead,
+[role="dialog"][data-state] .ProseMirror table thead {
+  display: table-header-group !important;
+}
+#wedevs-project-manager .prose table tbody,
+#wedevs-project-manager .pm-rich-comment-content table tbody,
+#wedevs-project-manager .ProseMirror table tbody,
+[role="dialog"][data-state] .prose table tbody,
+[role="dialog"][data-state] .pm-rich-comment-content table tbody,
+[role="dialog"][data-state] .ProseMirror table tbody {
+  display: table-row-group !important;
+}
+#wedevs-project-manager .prose table tr,
+#wedevs-project-manager .pm-rich-comment-content table tr,
+#wedevs-project-manager .ProseMirror table tr,
+[role="dialog"][data-state] .prose table tr,
+[role="dialog"][data-state] .pm-rich-comment-content table tr,
+[role="dialog"][data-state] .ProseMirror table tr {
+  display: table-row !important;
 }
 #wedevs-project-manager .prose table th,
 #wedevs-project-manager .prose table td,
+#wedevs-project-manager .pm-rich-comment-content table th,
+#wedevs-project-manager .pm-rich-comment-content table td,
 #wedevs-project-manager .ProseMirror table th,
-#wedevs-project-manager .ProseMirror table td {
-  border: 1px solid hsl(var(--border));
-  padding: 6px 10px;
-  vertical-align: top;
+#wedevs-project-manager .ProseMirror table td,
+[role="dialog"][data-state] .prose table th,
+[role="dialog"][data-state] .prose table td,
+[role="dialog"][data-state] .pm-rich-comment-content table th,
+[role="dialog"][data-state] .pm-rich-comment-content table td,
+[role="dialog"][data-state] .ProseMirror table th,
+[role="dialog"][data-state] .ProseMirror table td {
+  display: table-cell !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: hsl(var(--border)) !important;
+  padding: 6px 10px !important;
+  vertical-align: top !important;
   overflow-wrap: anywhere;
   word-break: normal;
 }
+#wedevs-project-manager .prose table p,
+#wedevs-project-manager .pm-rich-comment-content table p,
+#wedevs-project-manager .ProseMirror table p,
+[role="dialog"][data-state] .prose table p,
+[role="dialog"][data-state] .pm-rich-comment-content table p,
+[role="dialog"][data-state] .ProseMirror table p {
+  margin: 0;
+}
 #wedevs-project-manager .prose table th,
-#wedevs-project-manager .ProseMirror table th {
+#wedevs-project-manager .pm-rich-comment-content table th,
+#wedevs-project-manager .ProseMirror table th,
+[role="dialog"][data-state] .prose table th,
+[role="dialog"][data-state] .pm-rich-comment-content table th,
+[role="dialog"][data-state] .ProseMirror table th {
   background: hsl(var(--muted));
   font-weight: 600;
   text-align: left;
 }
+#wedevs-project-manager .prose [style*="color"] *,
+#wedevs-project-manager .pm-rich-comment-content [style*="color"] *,
+#wedevs-project-manager .ProseMirror [style*="color"] *,
+[role="dialog"][data-state] .prose [style*="color"] *,
+[role="dialog"][data-state] .pm-rich-comment-content [style*="color"] *,
+[role="dialog"][data-state] .ProseMirror [style*="color"] * {
+  color: inherit !important;
+}
 #wedevs-project-manager .prose img,
-#wedevs-project-manager .ProseMirror img {
+#wedevs-project-manager .pm-rich-comment-content img,
+#wedevs-project-manager .ProseMirror img,
+[role="dialog"][data-state] .prose img,
+[role="dialog"][data-state] .pm-rich-comment-content img,
+[role="dialog"][data-state] .ProseMirror img {
   max-width: 100%;
   height: auto;
 }

@@ -93,8 +93,8 @@ export default function PreviewStep({ data, onSave, saving, onBack }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 sm:flex-nowrap">
+        <div className="flex flex-wrap items-center gap-2">
           <p className="text-sm font-medium text-foreground">
             {__('Preview & Edit', 'wedevs-project-manager')}
           </p>

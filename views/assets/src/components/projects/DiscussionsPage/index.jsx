@@ -182,7 +182,7 @@ export default function DiscussionsPage() {
     <>
     <ConfirmDialog />
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-3">
           <BackButton fallback={`/projects/${projectId}/task-lists`} />
           <h1 className="text-xl font-bold text-pm-text-primary">

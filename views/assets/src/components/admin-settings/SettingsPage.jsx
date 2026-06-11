@@ -7,7 +7,7 @@ import { cn } from '@lib/utils'
 import { useFilter } from '@hooks/useSlot'
 import {
   Settings, Mail, ListTodo, Bot, Radio,
-  FileText, ShoppingCart,
+  FileText, ShoppingCart, PanelLeftClose, PanelLeftOpen,
 } from 'lucide-react'
 
 // Brand SVG icons for settings nav (not available as non-deprecated lucide icons)
@@ -66,6 +66,15 @@ const getProTabConfig = () => ({
 const SettingsPage = () => {
   const { isPro } = usePermissions()
   const [activeTab, setActiveTab] = useState('general')
+  const [collapsed, setCollapsed] = useState(
+    localStorage.getItem('pm-settings-sidebar-collapsed') === 'true'
+  )
+
+  function toggleCollapse() {
+    const next = !collapsed
+    setCollapsed(next)
+    localStorage.setItem('pm-settings-sidebar-collapsed', String(next))
+  }
   const PRO_TAB_CONFIG = useMemo(() => getProTabConfig(), [])
 
   // Woo Project tab component — injected by pm-pro via filter (only when module is active)
@@ -133,19 +142,34 @@ const SettingsPage = () => {
     <div className="pm-settings-page flex h-full overflow-hidden">
 
       {/* ── Settings sub-nav (internal sidebar) ────────────── */}
-      <aside className="shrink-0 w-[200px] bg-pm-surface border-r border-pm-border flex flex-col">
-        <div className="px-4 pt-5 pb-3">
-          <h1 className="text-pm-text font-semibold text-base">
-            {__('Settings', 'wedevs-project-manager')}
-          </h1>
+      <aside
+        className="shrink-0 bg-pm-surface border-r border-pm-border flex flex-col transition-all duration-200"
+        style={{ width: collapsed ? 56 : 200, minWidth: collapsed ? 56 : 200, maxWidth: collapsed ? 56 : 200 }}
+      >
+        <div className={cn('flex items-center pt-5 pb-3', collapsed ? 'justify-center px-2' : 'justify-between px-4')}>
+          {!collapsed && (
+            <h1 className="text-pm-text font-semibold text-base">
+              {__('Settings', 'wedevs-project-manager')}
+            </h1>
+          )}
+          <button
+            type="button"
+            className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors"
+            title={collapsed ? __('Expand sidebar', 'wedevs-project-manager') : __('Collapse sidebar', 'wedevs-project-manager')}
+            onClick={toggleCollapse}
+          >
+            {collapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
+          </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto pb-4 pt-1 px-2">
+        <nav className={cn('flex-1 overflow-y-auto pb-4 pt-1', collapsed ? 'px-1.5' : 'px-2')}>
           {tabGroups.map((group) => (
             <div key={group.title} className="mb-4">
-              <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
-                {group.title}
-              </p>
+              {!collapsed && (
+                <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
+                  {group.title}
+                </p>
+              )}
 
               {group.tabs.map((tab) => {
                 const Icon = tab.icon
@@ -156,8 +180,10 @@ const SettingsPage = () => {
                   <button
                     key={tab.key}
                     type="button"
+                    title={collapsed ? tab.label : undefined}
                     className={cn(
-                      'w-full flex items-center gap-2.5 px-2.5 py-[7px] rounded-md transition-colors text-left mb-0.5 group/tab',
+                      'w-full flex items-center rounded-md transition-colors text-left mb-0.5 group/tab',
+                      collapsed ? 'justify-center px-0 py-2' : 'gap-2.5 px-2.5 py-[7px]',
                       isActive
                         ? 'bg-pm-accent/10 text-pm-accent font-medium'
                         : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text'
@@ -170,8 +196,12 @@ const SettingsPage = () => {
                         isActive ? 'text-pm-accent' : 'text-pm-text-muted'
                       )}
                     />
-                    <span className="flex-1 truncate text-[15px]">{tab.label}</span>
-                    {needsPro && <span className="shrink-0 opacity-0 group-hover/tab:opacity-100 transition-opacity"><ProBadge /></span>}
+                    {!collapsed && (
+                      <>
+                        <span className="flex-1 truncate text-[15px]">{tab.label}</span>
+                        {needsPro && <span className="shrink-0 opacity-0 group-hover/tab:opacity-100 transition-opacity"><ProBadge /></span>}
+                      </>
+                    )}
                   </button>
                 )
               })}

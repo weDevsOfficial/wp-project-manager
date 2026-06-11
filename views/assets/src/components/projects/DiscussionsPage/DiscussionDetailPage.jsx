@@ -43,6 +43,7 @@ import {
 import FileUploadArea from "@components/common/FileUploadArea";
 import NotifyUsers from "@components/common/NotifyUsers";
 import ProBadge from "@components/common/ProBadge";
+import CommentAttachment from "@components/common/CommentAttachment";
 import { formatPmDateTime } from "@lib/pm-utils";
 import { usePermissions } from "@hooks/usePermissions";
 import { useCurrentProject } from "@hooks/useCurrentProject";
@@ -363,26 +364,9 @@ export default function DiscussionDetailPage() {
               </Select>
               {discussion.files?.data?.filter((f) => !editDeletedFileIds.includes(f.id)).length > 0 && (
                 <div className="flex gap-2 flex-wrap">
-                  {discussion.files.data.filter((f) => !editDeletedFileIds.includes(f.id)).map((f) => {
-                    const isImg = (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)
-                    return (
-                      <div key={f.id} className={`relative inline-flex items-center gap-1.5 text-sm border border-border/50 bg-muted/30 rounded-md ${isImg ? 'p-0' : 'px-2 py-1 pr-6'}`}>
-                        {isImg ? (
-                          <img src={f.thumb || f.url} alt={f.name} className="h-12 w-12 rounded object-cover" />
-                        ) : (
-                          <span className="truncate max-w-[140px]">{f.name}</span>
-                        )}
-                        <button
-                          type="button"
-                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); markDeleteDiscussionFile(f.id); }}
-                          className="absolute -top-1.5 -right-1.5 z-10 bg-background border border-border/60 rounded-full p-0.5 text-pm-text-muted hover:text-destructive hover:border-destructive/40 shadow-sm cursor-pointer"
-                          title={__('Remove', 'wedevs-project-manager')}
-                        >
-                          <X className="h-3 w-3" />
-                        </button>
-                      </div>
-                    )
-                  })}
+                  {discussion.files.data.filter((f) => !editDeletedFileIds.includes(f.id)).map((f) => (
+                    <CommentAttachment key={f.id} file={f} onRemove={markDeleteDiscussionFile} />
+                  ))}
                 </div>
               )}
               <FileUploadArea files={editNewFiles} onFilesChange={setEditNewFiles} compact />
@@ -538,26 +522,9 @@ export default function DiscussionDetailPage() {
                         />
                         {c.files?.data?.filter((f) => !editCommentDeletedFileIds.includes(f.id)).length > 0 && (
                           <div className="flex gap-2 flex-wrap">
-                            {c.files.data.filter((f) => !editCommentDeletedFileIds.includes(f.id)).map((f) => {
-                              const isImg = (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)
-                              return (
-                                <div key={f.id} className={`relative inline-flex items-center gap-1.5 text-sm border border-border/50 bg-muted/30 rounded-md ${isImg ? 'p-0' : 'px-2 py-1 pr-6'}`}>
-                                  {isImg ? (
-                                    <img src={f.thumb || f.url} alt={f.name} className="h-12 w-12 rounded object-cover" />
-                                  ) : (
-                                    <span className="truncate max-w-[140px]">{f.name}</span>
-                                  )}
-                                  <button
-                                    type="button"
-                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); markDeleteCommentFile(f.id); }}
-                                    className="absolute -top-1.5 -right-1.5 z-10 bg-background border border-border/60 rounded-full p-0.5 text-pm-text-muted hover:text-destructive hover:border-destructive/40 shadow-sm cursor-pointer"
-                                    title={__('Remove', 'wedevs-project-manager')}
-                                  >
-                                    <X className="h-3 w-3" />
-                                  </button>
-                                </div>
-                              )
-                            })}
+                            {c.files.data.filter((f) => !editCommentDeletedFileIds.includes(f.id)).map((f) => (
+                              <CommentAttachment key={f.id} file={f} onRemove={markDeleteCommentFile} />
+                            ))}
                           </div>
                         )}
                         <FileUploadArea files={editCommentNewFiles} onFilesChange={setEditCommentNewFiles} compact />

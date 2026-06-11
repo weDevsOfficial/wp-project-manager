@@ -122,7 +122,7 @@ const TaskTypesTab = () => {
           <>
             <div className="px-5 py-4 bg-pm-surface-muted space-y-3">
               <h3 className="text-sm font-medium text-pm-text">{__('Create Task Type', 'wedevs-project-manager')}</h3>
-              <div className="flex gap-3 items-end">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
                 <div className="flex-1">
                   <Label className="text-sm mb-1 block">{__('Name', 'wedevs-project-manager')}</Label>
                   <Input value={newForm.title} onChange={(e) => setNewForm((f) => ({ ...f, title: e.target.value }))} placeholder={__('e.g. Bug, Feature, Story...', 'wedevs-project-manager')} />

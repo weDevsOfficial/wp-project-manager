@@ -329,6 +329,18 @@ export default function RichTextEditor({
     }
   }, [content])
 
+  const emitCurrentHtml = useCallback(() => {
+    if (!editor) return
+
+    onChange?.(editor.getHTML())
+
+    if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+      window.requestAnimationFrame(() => {
+        onChange?.(editor.getHTML())
+      })
+    }
+  }, [editor, onChange])
+
   const addLink = useCallback(() => {
     if (!editor) return
     const url = window.prompt(__('URL', 'wedevs-project-manager'))
@@ -411,13 +423,19 @@ export default function RichTextEditor({
             icon={Palette}
             label={__('Text Color', 'wedevs-project-manager')}
             value={currentColor}
-            onChange={(c) => editor.chain().focus().setColor(c).run()}
+            onChange={(c) => {
+              editor.chain().focus().setColor(c).run()
+              emitCurrentHtml()
+            }}
           />
           <ColorBtn
             icon={Highlighter}
             label={__('Highlight', 'wedevs-project-manager')}
             value={currentHighlight}
-            onChange={(c) => editor.chain().focus().setHighlight({ color: c }).run()}
+            onChange={(c) => {
+              editor.chain().focus().setHighlight({ color: c }).run()
+              emitCurrentHtml()
+            }}
           />
 
           <span className="w-px h-4 bg-border mx-0.5" />

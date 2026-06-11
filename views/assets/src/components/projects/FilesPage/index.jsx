@@ -32,6 +32,7 @@ import {
 import { formatPmDateTime } from "@lib/pm-utils";
 import {
   getFileIcon,
+  getFileIconColor,
   getAttachedLabel,
   getAttachedURL,
   getDownloadPermissionUrl,
@@ -87,7 +88,7 @@ export default function FilesPage() {
     <>
     <ConfirmDialog />
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-3">
           <BackButton fallback={`/projects/${projectId}/task-lists`} />
           <h1 className="text-xl font-bold text-pm-text-primary">{__("Files", 'wedevs-project-manager')}</h1>
@@ -99,7 +100,7 @@ export default function FilesPage() {
         </div>
 
         {!isPro && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Button size="sm" variant="outline" className="h-8 text-sm group/btn" onClick={proAction}>
               <FolderPlus className="h-4 w-4 mr-1" />{__("Create a folder", 'wedevs-project-manager')}
               <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>
@@ -137,12 +138,15 @@ export default function FilesPage() {
       ) : (
         <div className="rounded-xl border bg-card overflow-hidden divide-y divide-border/50">
           {files.map((f) => {
-            const Icon = getFileIcon(f.type || f.mime_type);
+            const iconType = f.mime_type || f.file_extension || f.type;
+            const Icon = getFileIcon(iconType);
+            const iconColor = getFileIconColor(iconType);
             const fileName = f.meta?.title || f.name || f.title || __("File", 'wedevs-project-manager');
             const attachedTo = getAttachedLabel(f, __);
             const attachedUrl = getAttachedURL(f, projectId);
-            const isImage = (f.type || f.mime_type || "").startsWith("image");
-            const thumbUrl = f.thumb || (isImage ? f.url : null);
+            const mimeType = f.mime_type || "";
+            const isImage = f.type === "image" || mimeType.startsWith("image");
+            const thumbUrl = isImage ? (f.thumb || f.url) : null;
             const handleDownload = () => checkPermissionAndDownload(
               getDownloadPermissionUrl(f, projectId),
               f.url,
@@ -155,7 +159,7 @@ export default function FilesPage() {
                   {thumbUrl ? (
                     <img src={thumbUrl} alt={fileName} className="w-full h-full object-cover rounded-lg" />
                   ) : (
-                    <Icon className="h-5 w-5 text-pm-text-muted" />
+                    <Icon className={`h-5 w-5 ${iconColor}`} />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
