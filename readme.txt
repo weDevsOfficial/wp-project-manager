@@ -6,7 +6,7 @@ Tags: kanban, project, project management, task management, project manager
 Requires at least: 6.2
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 4.0.3
+Stable tag: 4.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,11 @@ A. If you face any issues, you can contact the support team through the official
 14. Manage projects from the frontend
 
 == Changelog ==
+
+= v4.0.4 – Jun 11, 2026 =
+
+**Improved:** Settings, project, and task screens now adapt cleanly to phones and small screens.
+**Fixed:** The database version is now saved correctly after an update finishes, so the database-upgrade notice no longer keeps reappearing.
 
 = v4.0.3 – Jun 9, 2026 =
 

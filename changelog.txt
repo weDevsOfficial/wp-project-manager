@@ -1,5 +1,10 @@
 == Changelog ==
 
+= v4.0.4 – Jun 11, 2026 =
+
+**Improved:** Settings, project, and task screens now adapt cleanly to phones and small screens.
+**Fixed:** The database version is now saved correctly after an update finishes, so the database-upgrade notice no longer keeps reappearing.
+
 = v4.0.3 – Jun 9, 2026 =
 
 **Fixed:** Comment text color and highlight now persist after saving.
