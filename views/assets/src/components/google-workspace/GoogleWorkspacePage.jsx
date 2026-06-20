@@ -1,14 +1,17 @@
 import { __ } from '@wordpress/i18n'
+/**
+ * GoogleWorkspacePage — per-user account connection (every user, incl. admin,
+ * connects their own Google account here). One connection powers all Google
+ * Workspace features (Drive now; Calendar/Meet later).
+ *
+ * Admin credential setup lives separately under Settings → Google Workspace.
+ */
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
-import {
-  fetchStatus, fetchSettings, saveSettings, getAuthUrl, disconnect,
-} from '@store/googleWorkspaceSlice'
-import { pmHasManageCapability } from '@hooks/usePermissions'
+import { fetchStatus, getAuthUrl, disconnect } from '@store/googleWorkspaceSlice'
 import { Button } from '@components/ui/button'
-import { Input } from '@components/ui/input'
 import { Skeleton } from '@components/ui/skeleton'
-import { Copy, Check, ShieldCheck, Link2, Unlink, ExternalLink } from 'lucide-react'
+import { ShieldCheck, Unlink, HardDrive, Calendar, Video, Settings as SettingsIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
 const GoogleGlyph = (props) => (
@@ -20,25 +23,26 @@ const GoogleGlyph = (props) => (
   </svg>
 )
 
+const DriveLogo = (props) => (
+  <svg viewBox="0 0 87.3 78" {...props}>
+    <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
+    <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44c-.79 1.35-1.2 2.9-1.2 4.5h27.5z" fill="#00ac47"/>
+    <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
+    <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
+    <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+    <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.6-.4-3.15-1.2-4.5z" fill="#ffba00"/>
+  </svg>
+)
+
 export default function GoogleWorkspacePage() {
   const dispatch = useAppDispatch()
-  const isManager = pmHasManageCapability()
-
-  const { status, settings, statusLoading, settingsLoading, saving } =
-    useAppSelector(s => s.googleWorkspace)
-
-  const [clientId, setClientId] = useState('')
-  const [clientSecret, setClientSecret] = useState('')
-  const [apiKey, setApiKey] = useState('')
-  const [appId, setAppId] = useState('')
-  const [copied, setCopied] = useState(false)
+  const { status, statusLoading } = useAppSelector(s => s.googleWorkspace)
   const [connecting, setConnecting] = useState(false)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const result = params.get('google_connected')
     if (!result) return
-
     const messages = {
       success:       [__('Google account connected.', 'wedevs-project-manager'), 'success'],
       error:         [__('Could not connect Google account. Try again.', 'wedevs-project-manager'), 'error'],
@@ -47,51 +51,19 @@ export default function GoogleWorkspacePage() {
     }
     const [msg, type] = messages[result] || []
     if (msg) (type === 'success' ? toast.success : toast.error)(msg)
-
     params.delete('google_connected')
     const clean = window.location.pathname + (params.toString() ? `?${params}` : '') + window.location.hash
     window.history.replaceState({}, '', clean)
   }, [])
 
-  useEffect(() => {
-    dispatch(fetchStatus())
-    if (isManager) dispatch(fetchSettings())
-  }, [dispatch, isManager])
-
-  useEffect(() => {
-    setClientId(settings.client_id || '')
-    setApiKey(settings.api_key || '')
-    setAppId(settings.app_id || '')
-  }, [settings.client_id, settings.api_key, settings.app_id])
-
-  const redirectUri = settings.redirect_uri || (window.PM_Vars?.google_workspace?.redirect_uri ?? '')
-
-  function copyRedirect() {
-    navigator.clipboard?.writeText(redirectUri)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
-  }
-
-  async function onSave(e) {
-    e.preventDefault()
-    const res = await dispatch(saveSettings({ client_id: clientId, client_secret: clientSecret, api_key: apiKey, app_id: appId }))
-    if (saveSettings.fulfilled.match(res)) {
-      setClientSecret('')
-      toast.success(__('Settings saved.', 'wedevs-project-manager'))
-    } else {
-      toast.error(res.payload || __('Failed to save settings.', 'wedevs-project-manager'))
-    }
-  }
+  useEffect(() => { dispatch(fetchStatus()) }, [dispatch])
 
   async function onConnect() {
     setConnecting(true)
     const res = await dispatch(getAuthUrl())
     setConnecting(false)
-    if (getAuthUrl.fulfilled.match(res) && res.payload) {
-      window.location.href = res.payload
-    } else {
-      toast.error(res.payload || __('Could not start Google connection.', 'wedevs-project-manager'))
-    }
+    if (getAuthUrl.fulfilled.match(res) && res.payload) window.location.href = res.payload
+    else toast.error(res.payload || __('Could not start Google connection.', 'wedevs-project-manager'))
   }
 
   async function onDisconnect() {
@@ -106,15 +78,11 @@ export default function GoogleWorkspacePage() {
         <GoogleGlyph />
         <div>
           <h1 className="text-xl font-semibold text-gray-900">{__('Google Workspace', 'wedevs-project-manager')}</h1>
-          <p className="text-sm text-gray-500">{__('Connect Google Drive to attach files to your tasks.', 'wedevs-project-manager')}</p>
+          <p className="text-sm text-gray-500">{__('Connect your Google account to use Google features inside Project Manager.', 'wedevs-project-manager')}</p>
         </div>
       </header>
 
       <section className="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 className="text-base font-medium text-gray-900 mb-3 flex items-center gap-2">
-          <Link2 className="h-4 w-4 text-gray-400" /> {__('Your connection', 'wedevs-project-manager')}
-        </h2>
-
         {status.expired && (
           <p className="text-sm text-amber-700 bg-amber-50 rounded-md px-3 py-2 mb-3">
             {__('Your Google connection expired (site security keys changed). Please reconnect — your attached files are unaffected.', 'wedevs-project-manager')}
@@ -122,11 +90,12 @@ export default function GoogleWorkspacePage() {
         )}
 
         {statusLoading ? (
-          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-12 w-full" />
         ) : !status.configured ? (
-          <p className="text-sm text-amber-600 bg-amber-50 rounded-md px-3 py-2">
-            {__('Google is not configured yet. An administrator must add the Client ID and Secret below.', 'wedevs-project-manager')}
-          </p>
+          <div className="flex items-start gap-2 text-sm text-amber-700 bg-amber-50 rounded-md px-3 py-2.5">
+            <SettingsIcon className="h-4 w-4 mt-0.5 shrink-0" />
+            <span>{__('Google Workspace isn’t set up yet. An administrator needs to add the credentials under Settings → Google Workspace.', 'wedevs-project-manager')}</span>
+          </div>
         ) : status.connected ? (
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-sm text-gray-700">
@@ -139,7 +108,7 @@ export default function GoogleWorkspacePage() {
           </div>
         ) : (
           <div className="flex items-center justify-between gap-4">
-            <p className="text-sm text-gray-600">{__('Connect your Google account to browse and attach Drive files.', 'wedevs-project-manager')}</p>
+            <p className="text-sm text-gray-600">{__('Connect your Google account to browse and attach Drive files to tasks.', 'wedevs-project-manager')}</p>
             <Button size="sm" onClick={onConnect} disabled={connecting}>
               <GoogleGlyph width="16" height="16" /> <span className="ml-1.5">{connecting ? __('Redirecting…', 'wedevs-project-manager') : __('Connect Google', 'wedevs-project-manager')}</span>
             </Button>
@@ -147,68 +116,36 @@ export default function GoogleWorkspacePage() {
         )}
       </section>
 
-      {isManager && (
-        <section className="rounded-lg border border-gray-200 bg-white p-5">
-          <h2 className="text-base font-medium text-gray-900 mb-1">{__('Google Cloud OAuth credentials', 'wedevs-project-manager')}</h2>
-          <p className="text-sm text-gray-500 mb-4">
-            {__('Create an OAuth 2.0 Web client in Google Cloud Console, then paste the credentials here.', 'wedevs-project-manager')}
-          </p>
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">{__('Authorized redirect URI', 'wedevs-project-manager')}</label>
-            <div className="flex items-center gap-2">
-              <code className="flex-1 text-xs bg-gray-50 border border-gray-200 rounded px-3 py-2 break-all">{redirectUri}</code>
-              <Button type="button" variant="outline" size="sm" onClick={copyRedirect}>
-                {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
-              </Button>
+      {/* Features overview — grows as Calendar/Meet land. */}
+      <section className="rounded-lg border border-gray-200 bg-white p-5">
+        <h2 className="text-sm font-medium text-gray-900 mb-3">{__('Features', 'wedevs-project-manager')}</h2>
+        <ul className="space-y-3">
+          <li className="flex items-center gap-3">
+            <DriveLogo width="18" height="18" />
+            <div className="flex-1">
+              <div className="text-sm text-gray-800">{__('Google Drive', 'wedevs-project-manager')}</div>
+              <div className="text-xs text-gray-500">{__('Browse and attach Drive files to tasks.', 'wedevs-project-manager')}</div>
             </div>
-            <p className="text-xs text-gray-400 mt-1">{__('Add this exact URI to your Google OAuth client.', 'wedevs-project-manager')}</p>
-          </div>
-
-          {settingsLoading ? (
-            <Skeleton className="h-24 w-full" />
-          ) : (
-            <form onSubmit={onSave} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{__('Client ID', 'wedevs-project-manager')}</label>
-                <Input value={clientId} onChange={e => setClientId(e.target.value)} placeholder="xxxxxxxx.apps.googleusercontent.com" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{__('Client Secret', 'wedevs-project-manager')}</label>
-                <Input
-                  type="password"
-                  value={clientSecret}
-                  onChange={e => setClientSecret(e.target.value)}
-                  placeholder={settings.has_secret ? '••••••••••••  (' + __('saved — leave blank to keep', 'wedevs-project-manager') + ')' : 'GOCSPX-…'}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{__('API Key', 'wedevs-project-manager')}</label>
-                <Input value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="AIza…" />
-                <p className="text-xs text-gray-400 mt-1">{__('Used by the Google Picker. Create under Credentials → API key, and enable the Picker API.', 'wedevs-project-manager')}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{__('App ID (project number)', 'wedevs-project-manager')}</label>
-                <Input value={appId} onChange={e => setAppId(e.target.value)} placeholder="123456789012" />
-                <p className="text-xs text-gray-400 mt-1">{__('Your Google Cloud project number (Dashboard → Project info).', 'wedevs-project-manager')}</p>
-              </div>
-              {!settings.picker_ready && (settings.client_id || apiKey) && (
-                <p className="text-xs text-amber-600">{__('Drive attach needs all four: Client ID, Secret, API key, and App ID.', 'wedevs-project-manager')}</p>
-              )}
-              <div className="flex items-center gap-3">
-                <Button type="submit" disabled={saving}>{saving ? __('Saving…', 'wedevs-project-manager') : __('Save credentials', 'wedevs-project-manager')}</Button>
-                <a
-                  href="https://console.cloud.google.com/apis/credentials"
-                  target="_blank" rel="noreferrer"
-                  className="text-sm text-blue-600 hover:underline inline-flex items-center gap-1"
-                >
-                  {__('Open Google Cloud Console', 'wedevs-project-manager')} <ExternalLink className="h-3.5 w-3.5" />
-                </a>
-              </div>
-            </form>
-          )}
-        </section>
-      )}
+            <span className="text-[11px] font-medium text-green-700 bg-green-50 rounded-full px-2 py-0.5">{__('Available', 'wedevs-project-manager')}</span>
+          </li>
+          <li className="flex items-center gap-3 opacity-60">
+            <Calendar className="h-[18px] w-[18px] text-gray-400" />
+            <div className="flex-1">
+              <div className="text-sm text-gray-800">{__('Google Calendar', 'wedevs-project-manager')}</div>
+              <div className="text-xs text-gray-500">{__('Create calendar events from tasks.', 'wedevs-project-manager')}</div>
+            </div>
+            <span className="text-[11px] font-medium text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">{__('Coming soon', 'wedevs-project-manager')}</span>
+          </li>
+          <li className="flex items-center gap-3 opacity-60">
+            <Video className="h-[18px] w-[18px] text-gray-400" />
+            <div className="flex-1">
+              <div className="text-sm text-gray-800">{__('Google Meet', 'wedevs-project-manager')}</div>
+              <div className="text-xs text-gray-500">{__('Generate Meet links for tasks.', 'wedevs-project-manager')}</div>
+            </div>
+            <span className="text-[11px] font-medium text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">{__('Coming soon', 'wedevs-project-manager')}</span>
+          </li>
+        </ul>
+      </section>
     </div>
   )
 }
