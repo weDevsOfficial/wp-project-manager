@@ -10,7 +10,7 @@ import {
   Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen,
   ChevronDown, Star, LayoutList, Layout, MessageSquare,
   Milestone, FileText, Activity, Tag, Crown, Layers,
-  Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
+  Columns3, GitBranch, Receipt, Timer, Shield, Wrench, HardDrive,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
@@ -238,6 +238,8 @@ export function AppSidebar() {
         items.push({ key: 'sprints', label: __('Sprints', 'wedevs-project-manager'), short: __('Sprint', 'wedevs-project-manager'), icon: Timer, route: '/sprints', pro: !isPro })
       }
     }
+    // Google Workspace — free feature, shown to everyone (each user connects their own Google account).
+    items.push({ key: 'google-workspace', label: __('Google Workspace', 'wedevs-project-manager'), short: __('Drive', 'wedevs-project-manager'), icon: HardDrive, route: '/google-workspace' })
     return items
   }, [__, isPro, activeModulePaths, canManage, isManagerAnywhere])
 

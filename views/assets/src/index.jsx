@@ -53,6 +53,11 @@ const MyTasksPage     = React.lazy(() => import('@components/my-tasks/MyTasksPag
 const ToolsPage       = React.lazy(() => import('@components/projects/ToolsPage'))
 const WelcomePage     = React.lazy(() => import('@components/welcome/WelcomePage'))
 const LicensePage     = React.lazy(() => import('@components/projects/LicensePage'))
+const GoogleWorkspacePage    = React.lazy(() => import('@components/google-workspace/GoogleWorkspacePage'))
+const GoogleDriveTaskSection = React.lazy(() => import('@components/google-workspace/GoogleDriveTaskSection'))
+
+// Google Drive attachments render in the task detail sheet (free feature).
+registerSlot('task.detail.subtasks', GoogleDriveTaskSection)
 
 // ── Free placeholder pages (shown when Pro does NOT replace them) ──
 const CalendarPlaceholder = React.lazy(() => import('@components/projects/CalendarPage'))
@@ -122,6 +127,7 @@ function AppRoutes() {
         {!isFrontend && <Route path="welcome" element={<AdminRoute><WelcomePage /></AdminRoute>} />}
         {!isFrontend && <Route path="modules" element={<AdminRoute><FilteredPage filterName="route.modules.element" fallback={ModulesPage} /></AdminRoute>} />}
         <Route path="premium" element={<AdminRoute><PremiumPage /></AdminRoute>} />
+        <Route path="google-workspace" element={<GoogleWorkspacePage />} />
         {!isFrontend && isProInstalled && <Route path="license" element={<LicenseRoute><LicensePage /></LicenseRoute>} />}
 
         {/* ── Replaceable pages — Pro overrides via registerFilter() ── */}

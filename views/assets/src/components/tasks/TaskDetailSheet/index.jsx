@@ -89,6 +89,19 @@ function extractMentionedUsers(html) {
   return ids.join(',')
 }
 
+// The Google Drive Picker renders its own overlay outside this sheet's DOM.
+// Treat clicks/focus on it as "inside" so the task sheet stays open while
+// the user picks a file (only the X / Esc should close the sheet).
+function isGooglePickerInteraction(e) {
+  // While the Picker session is active, never let an outside interaction close
+  // the sheet (the Picker overlay lives outside this DOM and its focus/pointer
+  // events would otherwise dismiss the task).
+  if (typeof window !== 'undefined' && window.__pmGooglePickerOpen) return true
+  const t = e?.detail?.originalEvent?.target || e?.target
+  if (!t || typeof t.closest !== 'function') return false
+  return !!t.closest('.picker-dialog, .picker-dialog-bg, .picker, .picker-dialog-content')
+}
+
 export default function TaskDetailSheet() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -481,6 +494,9 @@ export default function TaskDetailSheet() {
           'overflow-y-auto p-0 transition-all duration-300',
           fullscreen ? 'w-full sm:max-w-full' : 'w-full sm:max-w-[560px]',
         )}
+        onPointerDownOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
+        onInteractOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
+        onFocusOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
       >
         {loading && !currentTask ? (
           <div className="flex items-center justify-center py-20">
