@@ -171,7 +171,7 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
           <DriveLogo className="h-4 w-4" />
-          {title || __('Google Drive', 'wedevs-project-manager')}
+          {variant === 'section' && (title || __('Google Drive', 'wedevs-project-manager'))}
           {attachments.length > 0 && <span className="text-xs text-gray-400">({attachments.length})</span>}
         </div>
         {action}
