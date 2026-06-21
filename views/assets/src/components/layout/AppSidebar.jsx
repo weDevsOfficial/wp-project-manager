@@ -14,15 +14,12 @@ import {
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
-// Google Drive logo, single-tone (currentColor) to match the other nav icons.
+// Google Drive glyph, outlined (stroke) to match the lucide nav icons.
 const GoogleDriveNavIcon = (props) => (
-  <svg viewBox="0 0 87.3 78" fill="currentColor" {...props}>
-    <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z"/>
-    <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44c-.79 1.35-1.2 2.9-1.2 4.5h27.5z"/>
-    <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z"/>
-    <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z"/>
-    <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z"/>
-    <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.6-.4-3.15-1.2-4.5z"/>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M12 3.5 3.2 19h17.6z" />
+    <path d="M6.7 13.8h10.6" />
+    <path d="M12 3.5 6.7 13.8M12 3.5l5.3 10.3" />
   </svg>
 )
 
@@ -253,7 +250,7 @@ export function AppSidebar() {
     // Google Workspace — free feature, shown to everyone when the admin has
     // enabled Google Drive in Settings → Google Workspace.
     if (typeof PM_Vars !== 'undefined' && PM_Vars.google_workspace?.drive_enabled) {
-      items.push({ key: 'google-workspace', label: isPro ? __('Google Workspace', 'wedevs-project-manager') : __('Google Drive', 'wedevs-project-manager'), short: __('Drive', 'wedevs-project-manager'), icon: GoogleDriveNavIcon, route: '/google-workspace' })
+      items.push({ key: 'google-workspace', label: isPro ? __('G Workspace', 'wedevs-project-manager') : __('G Drive', 'wedevs-project-manager'), short: __('Drive', 'wedevs-project-manager'), icon: GoogleDriveNavIcon, route: '/google-workspace' })
     }
     return items
   }, [__, isPro, activeModulePaths, canManage, isManagerAnywhere])
