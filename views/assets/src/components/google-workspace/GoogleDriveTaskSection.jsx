@@ -75,6 +75,8 @@ export default function GoogleDriveTaskSection({ taskId, projectId }) {
   }
 
   if (!status.configured) return null
+  // No Drive access in this project and nothing to view → hide the section.
+  if (canUse === false && attachments.length === 0) return null
 
   return (
     <div className="px-6 py-3 border-t border-gray-100">
@@ -94,21 +96,21 @@ export default function GoogleDriveTaskSection({ taskId, projectId }) {
           >
             <Plus className="h-3.5 w-3.5 mr-1" /> {__('Attach', 'wedevs-project-manager')}
           </Button>
-        ) : status.connected && canUse === false ? (
+        ) : canUse === false ? (
           <span
             className="inline-flex items-center gap-1 text-[11px] text-gray-400"
             title={__('Your project role can view Drive files but not attach them. Ask a project manager.', 'wedevs-project-manager')}
           >
             <Lock className="h-3 w-3" /> {__('View only', 'wedevs-project-manager')}
           </span>
-        ) : !status.connected ? (
+        ) : canUse === true && !status.connected ? (
           <a href="#/google-workspace" className="text-xs text-blue-600 hover:underline inline-flex items-center gap-1">
             <Link2 className="h-3.5 w-3.5" /> {__('Connect Google', 'wedevs-project-manager')}
           </a>
         ) : null}
       </div>
 
-      {status.connected && status.picker_ready && (
+      {status.connected && status.picker_ready && canUse === true && (
         <div className="mb-2">
           <button
             type="button"
