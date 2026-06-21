@@ -12,38 +12,8 @@ import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Switch } from '@components/ui/switch'
 import { Skeleton } from '@components/ui/skeleton'
-import { Copy, Check, ExternalLink, ShieldCheck, Calendar, Video, Lock, Crown } from 'lucide-react'
+import { Copy, Check, ExternalLink, ShieldCheck } from 'lucide-react'
 import { useToast } from '@hooks/useToast'
-import { Slot } from '@hooks/useSlot'
-import { useProModal } from '@components/common/ProUpgradeModal'
-
-/**
- * Free, locked teaser for a Pro Google feature's settings (Calendar/Meet).
- * Pro replaces it by filling the matching slot with real toggles/options.
- */
-const LockedSettingCard = ({ icon: Icon, title, description }) => {
-  const { setOpen } = useProModal()
-  return (
-    <div
-      className="mb-4 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4 cursor-pointer hover:border-gray-300"
-      onClick={() => setOpen(true)}
-    >
-      <div className="flex items-start gap-3">
-        <Icon className="h-5 w-5 text-gray-400 mt-0.5" />
-        <div>
-          <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
-            {title}
-            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-white rounded-full px-1.5 py-0.5" style={{ background: '#ff9000' }}>
-              <Crown className="h-2.5 w-2.5" /> {__('Pro', 'wedevs-project-manager')}
-            </span>
-          </div>
-          <div className="text-xs text-gray-500 mt-0.5">{description}</div>
-        </div>
-      </div>
-      <Lock className="h-4 w-4 text-gray-300 shrink-0" />
-    </div>
-  )
-}
 
 export default function GoogleWorkspaceSettingsTab() {
   const dispatch = useAppDispatch()
@@ -112,17 +82,6 @@ export default function GoogleWorkspaceSettingsTab() {
         </div>
         <Switch checked={driveEnabled} onCheckedChange={toggleDrive} disabled={settingsLoading} />
       </div>
-
-      <Slot
-        name="google.workspace.settings.calendar"
-        settings={settings}
-        fallback={<LockedSettingCard icon={Calendar} title={__('Google Calendar sync', 'wedevs-project-manager')} description={__('Two-way sync of task due dates and milestones with Google Calendar, with per-project options.', 'wedevs-project-manager')} />}
-      />
-      <Slot
-        name="google.workspace.settings.meet"
-        settings={settings}
-        fallback={<LockedSettingCard icon={Video} title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Google Meet links on tasks and discussions.', 'wedevs-project-manager')} />}
-      />
 
       {settings.picker_ready && driveEnabled && (
         <div className="mb-4 flex items-center gap-2 text-sm text-green-700 bg-green-50 rounded-md px-3 py-2">

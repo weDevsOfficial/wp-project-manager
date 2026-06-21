@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '@store/index'
 import { fetchStatus, getAuthUrl, disconnect } from '@store/googleWorkspaceSlice'
 import { Button } from '@components/ui/button'
 import { Skeleton } from '@components/ui/skeleton'
-import { ShieldCheck, Unlink, HardDrive, Calendar, Video, Settings as SettingsIcon, Crown } from 'lucide-react'
+import { ShieldCheck, Unlink, HardDrive, Calendar, Video, Settings as SettingsIcon, Crown, Lock } from 'lucide-react'
 import { toast } from 'sonner'
 import { Slot } from '@hooks/useSlot'
 import { useProModal } from '@components/common/ProUpgradeModal'
@@ -36,6 +36,36 @@ const ProFeatureRow = ({ icon: Icon, title, description }) => {
         <Crown className="h-3 w-3" /> {__('Pro', 'wedevs-project-manager')}
       </span>
     </li>
+  )
+}
+
+/**
+ * Free card cover for a Pro Google feature section (e.g. Calendar). Pro replaces
+ * it by filling the matching slot with the real settings.
+ */
+const ProFeatureCard = ({ icon: Icon, title, description }) => {
+  const { setOpen } = useProModal()
+  return (
+    <section
+      className="rounded-lg border border-gray-200 bg-white p-5 cursor-pointer hover:border-gray-300"
+      onClick={() => setOpen(true)}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex items-start gap-3">
+          <Icon className="h-5 w-5 text-gray-400 mt-0.5" />
+          <div>
+            <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
+              {title}
+              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-white rounded-full px-1.5 py-0.5" style={{ background: '#ff9000' }}>
+                <Crown className="h-2.5 w-2.5" /> {__('Pro', 'wedevs-project-manager')}
+              </span>
+            </div>
+            <div className="text-xs text-gray-500 mt-0.5">{description}</div>
+          </div>
+        </div>
+        <Lock className="h-4 w-4 text-gray-300 shrink-0" />
+      </div>
+    </section>
   )
 }
 
@@ -156,17 +186,19 @@ export default function GoogleWorkspacePage() {
             <span className="text-[11px] font-medium text-green-700 bg-green-50 rounded-full px-2 py-0.5">{__('Available', 'wedevs-project-manager')}</span>
           </li>
           <Slot
-            name="google.workspace.feature.calendar"
-            status={status}
-            fallback={<ProFeatureRow icon={Calendar} title={__('Google Calendar', 'wedevs-project-manager')} description={__('Two-way sync task due dates and milestones with Google Calendar.', 'wedevs-project-manager')} />}
-          />
-          <Slot
             name="google.workspace.feature.meet"
             status={status}
             fallback={<ProFeatureRow icon={Video} title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Meet links for tasks and discussions.', 'wedevs-project-manager')} />}
           />
         </ul>
       </section>
+
+      {/* Google Calendar — Pro fills with sync settings + connect; free shows a cover. */}
+      <Slot
+        name="google.workspace.feature.calendar"
+        status={status}
+        fallback={<ProFeatureCard icon={Calendar} title={__('Google Calendar sync', 'wedevs-project-manager')} description={__('Two-way sync task due dates and milestones with Google Calendar.', 'wedevs-project-manager')} />}
+      />
     </div>
   )
 }
