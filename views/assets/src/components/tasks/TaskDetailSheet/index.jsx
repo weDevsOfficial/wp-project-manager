@@ -161,13 +161,13 @@ export default function TaskDetailSheet() {
         const restore = prePathRef.current
         prePathRef.current = null
         lastPushedPathRef.current = null
-        navigate(restore, { replace: false })
+        navigate(restore, { replace: true })
       } else if (lastPushedPathRef.current && isOnTaskUrl) {
         let fallback = location.pathname.replace(/\/tasks\/\d+$/, '')
         const sprintProjectMatch = fallback.match(/^\/sprints\/projects\/\d+$/)
         if (sprintProjectMatch) fallback = '/sprints'
         lastPushedPathRef.current = null
-        navigate(fallback, { replace: false })
+        navigate(fallback, { replace: true })
       } else {
         prePathRef.current = null
         lastPushedPathRef.current = null
@@ -217,7 +217,7 @@ export default function TaskDetailSheet() {
       prePathRef.current = location.pathname + location.search
     }
     lastPushedPathRef.current = target
-    navigate(target, { replace: false })
+    navigate(target, { replace: true })
   }, [taskSheetOpen, currentTask?.id, currentTask?.task_list_id, projectId, location.pathname, location.search, navigate, dispatch])
 
 
