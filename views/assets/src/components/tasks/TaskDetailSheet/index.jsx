@@ -27,7 +27,6 @@ import { stripAllPreviewUrls } from '@/lib/url-strippers'
 import { sanitizeHtml } from '@lib/sanitize'
 import FileUploadArea from '@components/common/FileUploadArea'
 import CommentAttachment from '@components/common/CommentAttachment'
-import GoogleDriveAttach from '@components/google-workspace/GoogleDriveAttach'
 import GoogleDriveCommentButton from '@components/google-workspace/GoogleDriveCommentButton'
 import TaskStatusCircle from '@components/common/TaskStatusCircle'
 import NotifyUsers from '@components/common/NotifyUsers'
@@ -852,11 +851,6 @@ export default function TaskDetailSheet() {
                               {comment.files.data.map(f => (
                                 <CommentAttachment key={f.id} file={f} />
                               ))}
-                            </div>
-                          )}
-                          {!isEditing && (
-                            <div className="mt-2">
-                              <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={comment.id} variant="compact" allowEdit={canEdit} showAdd={false} />
                             </div>
                           )}
                         </div>
