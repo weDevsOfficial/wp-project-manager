@@ -854,7 +854,7 @@ export default function TaskDetailSheet() {
                           )}
                           {!isEditing && (
                             <div className="mt-2">
-                              <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={comment.id} variant="compact" />
+                              <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={comment.id} variant="compact" allowEdit={canEdit} />
                             </div>
                           )}
                         </div>

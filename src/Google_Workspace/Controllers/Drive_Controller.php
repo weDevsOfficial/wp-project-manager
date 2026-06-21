@@ -61,6 +61,28 @@ class Drive_Controller {
         return [ $type, $id ];
     }
 
+    /**
+     * For comment attachments, restrict add/remove to the comment author or a
+     * project manager (mirrors who can edit the comment). Other entity types
+     * are gated by project-level Drive access only.
+     */
+    private function can_manage_attachable( $type, $id, $project_id ) {
+        if ( $type !== 'comment' ) {
+            return true;
+        }
+
+        global $wpdb;
+        $created_by = (int) $wpdb->get_var( $wpdb->prepare(
+            "SELECT created_by FROM {$wpdb->prefix}pm_comments WHERE id = %d", (int) $id
+        ) );
+
+        $uid = get_current_user_id();
+        if ( $created_by && $created_by === $uid ) {
+            return true;
+        }
+        return wedevs_pm_has_manage_capability( $uid ) || wedevs_pm_is_manager( $project_id, $uid );
+    }
+
     public function index( WP_REST_Request $request ) {
         list( $type, $id ) = $this->resolve_attachable( $request );
 
@@ -112,6 +134,10 @@ class Drive_Controller {
             return new \WP_Error( 'pm_google_bad_request', __( 'Invalid attachment target.', 'wedevs-project-manager' ), [ 'status' => 422 ] );
         }
 
+        if ( ! $this->can_manage_attachable( $type, $id, $project_id ) ) {
+            return new \WP_Error( 'pm_google_forbidden', __( 'You can only attach Drive files to your own comment.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
+        }
+
         if ( empty( $file ) || empty( $file['id'] ) ) {
             return new \WP_Error( 'pm_google_bad_request', __( 'No file provided.', 'wedevs-project-manager' ), [ 'status' => 422 ] );
         }
@@ -157,6 +183,9 @@ class Drive_Controller {
 
         $row = Google_Drive_File::where( 'id', $id )->where( 'project_id', $project_id )->first();
         if ( $row ) {
+            if ( ! $this->can_manage_attachable( $row->attachable_type, $row->attachable_id, $project_id ) ) {
+                return new \WP_Error( 'pm_google_forbidden', __( 'You can only remove Drive files from your own comment.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
+            }
             do_action( 'pm_google_drive_file_detached', $row );
             $row->delete();
         }

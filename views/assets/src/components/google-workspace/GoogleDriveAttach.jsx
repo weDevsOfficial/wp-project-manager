@@ -35,11 +35,12 @@ const FileIcon = ({ file, className = 'h-4 w-4 shrink-0' }) =>
     ? <img src={file.icon_link} alt="" className={className} />
     : <FileText className={`${className} text-gray-400`} />
 
-export default function GoogleDriveAttach({ projectId, attachableType, attachableId, variant = 'section', title }) {
+export default function GoogleDriveAttach({ projectId, attachableType, attachableId, variant = 'section', title, allowEdit = true }) {
   const dispatch = useAppDispatch()
   const key = `${attachableType}:${attachableId}`
   const status = useAppSelector(s => s.googleWorkspace.status)
   const canUse = useAppSelector(s => s.googleWorkspace.canUseByProject[projectId])
+  const canEdit = canUse === true && allowEdit
   const attachments = useAppSelector(s => s.googleWorkspace.attachmentsByKey[key] || [])
   const [pickerOpen, setPickerOpen] = useState(false)
 
@@ -76,9 +77,10 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
   }
 
   if (!status.configured) return null
-  if (canUse === false && attachments.length === 0) return null
+  // Nothing to show and can't add → hide entirely.
+  if ((canUse === false || !allowEdit) && attachments.length === 0) return null
 
-  const action = status.connected && canUse === true ? (
+  const action = status.connected && canEdit ? (
     <Button
       variant="outline" size="sm" className="h-7"
       disabled={!status.picker_ready}
@@ -91,7 +93,7 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
     <span className="inline-flex items-center gap-1 text-[11px] text-gray-400" title={__('Your project role can view Drive files but not attach them.', 'wedevs-project-manager')}>
       <Lock className="h-3 w-3" /> {__('View only', 'wedevs-project-manager')}
     </span>
-  ) : canUse === true && !status.connected ? (
+  ) : canEdit && !status.connected ? (
     <a href="#/google-workspace" className="text-xs text-blue-600 hover:underline inline-flex items-center gap-1">
       <Link2 className="h-3.5 w-3.5" /> {__('Connect Google', 'wedevs-project-manager')}
     </a>
@@ -115,7 +117,7 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
           <span key={file.id} className="inline-flex items-center gap-1 rounded border border-gray-200 bg-gray-50 pl-1.5 pr-1 py-0.5 text-xs text-gray-700 max-w-[200px]">
             <FileIcon file={file} className="h-3.5 w-3.5 shrink-0" />
             <a href={file.web_view_link} target="_blank" rel="noreferrer" className="truncate hover:text-blue-600" title={file.name}>{file.name}</a>
-            {canUse === true && (
+            {canEdit && (
               <button onClick={() => onDetach(file.id)} className="text-gray-400 hover:text-red-600" title={__('Remove', 'wedevs-project-manager')}>
                 <X className="h-3 w-3" />
               </button>
@@ -153,7 +155,7 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
               <a href={file.web_view_link} target="_blank" rel="noreferrer" className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600">
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
-              {canUse === true && (
+              {canEdit && (
                 <button onClick={() => onDetach(file.id)} className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600" title={__('Remove', 'wedevs-project-manager')}>
                   <Trash2 className="h-3.5 w-3.5" />
                 </button>
