@@ -85,7 +85,7 @@ export default function GoogleDriveTaskSection({ taskId, projectId }) {
           {attachments.length > 0 && <span className="text-xs text-gray-400">({attachments.length})</span>}
         </div>
 
-        {status.connected && canUse !== false ? (
+        {status.connected && canUse === true ? (
           <Button
             variant="outline" size="sm" className="h-7"
             disabled={!status.picker_ready}
@@ -164,9 +164,11 @@ export default function GoogleDriveTaskSection({ taskId, projectId }) {
               <a href={file.web_view_link} target="_blank" rel="noreferrer" className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600">
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
-              <button onClick={() => onDetach(file.id)} className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600" title={__('Remove', 'wedevs-project-manager')}>
-                <Trash2 className="h-3.5 w-3.5" />
-              </button>
+              {canUse === true && (
+                <button onClick={() => onDetach(file.id)} className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600" title={__('Remove', 'wedevs-project-manager')}>
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
+              )}
             </li>
           ))}
         </ul>

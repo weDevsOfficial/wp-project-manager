@@ -111,8 +111,13 @@ class Drive_Controller {
 
     /** DELETE projects/{project_id}/tasks/{task_id}/google-drive/{id} */
     public function destroy( WP_REST_Request $request ) {
-        $id      = (int) $request->get_param( 'id' );
-        $task_id = (int) $request->get_param( 'task_id' );
+        $project_id = (int) $request->get_param( 'project_id' );
+        $id         = (int) $request->get_param( 'id' );
+        $task_id    = (int) $request->get_param( 'task_id' );
+
+        if ( ! Google_Service::user_can_use_drive( $project_id ) ) {
+            return new \WP_Error( 'pm_google_forbidden', __( 'You are not allowed to remove Google Drive files in this project.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
+        }
 
         $row = Google_Drive_File::where( 'id', $id )->where( 'task_id', $task_id )->first();
         if ( $row ) {
