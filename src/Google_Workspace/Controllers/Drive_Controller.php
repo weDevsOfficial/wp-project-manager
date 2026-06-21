@@ -202,6 +202,8 @@ class Drive_Controller {
     }
 
     private function transform( $row ) {
+        $user = $row->user_id ? get_userdata( $row->user_id ) : null;
+
         return [
             'id'             => (int) $row->id,
             'file_id'        => $row->file_id,
@@ -212,6 +214,8 @@ class Drive_Controller {
             'web_view_link'  => $row->web_view_link,
             'modified_time'  => $row->modified_time,
             'user_id'        => (int) $row->user_id,
+            'added_by_name'  => $user ? $user->display_name : '',
+            'added_by_avatar'=> $row->user_id ? get_avatar_url( $row->user_id, [ 'size' => 32 ] ) : '',
         ];
     }
 }

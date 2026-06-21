@@ -566,7 +566,7 @@ export default function DiscussionDetailPage() {
                         <LoomPreviewContainer content={c.content || ""} />
                         <DiscussionFiles files={c.files} />
                         <div className="mt-2">
-                          <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={c.id} variant="compact" allowEdit={canEditComment(c)} />
+                          <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={c.id} variant="compact" allowEdit={canEditComment(c)} addRevealClass="hidden group-hover:inline-flex" />
                         </div>
                       </>
                     )}

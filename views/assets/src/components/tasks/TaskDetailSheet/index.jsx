@@ -854,7 +854,7 @@ export default function TaskDetailSheet() {
                           )}
                           {!isEditing && (
                             <div className="mt-2">
-                              <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={comment.id} variant="compact" allowEdit={canEdit} />
+                              <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={comment.id} variant="compact" allowEdit={canEdit} addRevealClass="hidden group-hover/comment:inline-flex" />
                             </div>
                           )}
                         </div>
