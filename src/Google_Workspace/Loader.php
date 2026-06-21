@@ -19,6 +19,10 @@ class Loader {
         add_action( 'admin_post_pm_google_oauth_callback', [ $this, 'handle_oauth_callback' ] );
         add_action( 'admin_init', [ $this, 'maybe_install' ] );
 
+        // Remove Drive attachments when their parent entity is deleted.
+        add_action( 'wedevs_cpm_comment_delete', [ $this, 'cleanup_comment_attachments' ], 10, 1 );
+        add_action( 'wedevs_pm_after_delete_task', [ $this, 'cleanup_task_attachments' ], 10, 1 );
+
         // Daily purge of tokens unused for 60+ days.
         add_action( self::CLEANUP_HOOK, [ $this, 'run_cleanup' ] );
         if ( ! wp_next_scheduled( self::CLEANUP_HOOK ) ) {
@@ -28,6 +32,26 @@ class Loader {
 
     public function run_cleanup() {
         Google_Service::purge_stale( 60 );
+    }
+
+    private static function delete_attachments( $type, $id ) {
+        global $wpdb;
+        if ( empty( $id ) ) {
+            return;
+        }
+        $wpdb->delete( $wpdb->prefix . 'pm_google_drive_files', [
+            'attachable_type' => $type,
+            'attachable_id'   => (int) $id,
+        ] );
+    }
+
+    public function cleanup_comment_attachments( $comment ) {
+        $id = is_object( $comment ) ? ( isset( $comment->id ) ? $comment->id : 0 ) : (int) $comment;
+        self::delete_attachments( 'comment', $id );
+    }
+
+    public function cleanup_task_attachments( $task_id ) {
+        self::delete_attachments( 'task', $task_id );
     }
 
     public static function redirect_uri() {
