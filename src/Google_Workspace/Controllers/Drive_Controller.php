@@ -35,10 +35,41 @@ class Drive_Controller {
     }
 
     /** GET projects/{project_id}/tasks/{task_id}/google-drive */
-    public function index( WP_REST_Request $request ) {
-        $task_id = (int) $request->get_param( 'task_id' );
+    /**
+     * Resolve the polymorphic target from the request. Prefers
+     * attachable_type/attachable_id; falls back to task_id (legacy task route).
+     *
+     * @return array{0:string,1:int}
+     */
+    private function resolve_attachable( WP_REST_Request $request ) {
+        $type = sanitize_text_field( (string) $request->get_param( 'attachable_type' ) );
+        $id   = (int) $request->get_param( 'attachable_id' );
 
-        $files = Google_Drive_File::where( 'task_id', $task_id )
+        if ( $type === '' ) {
+            $task_id = (int) $request->get_param( 'task_id' );
+            if ( $task_id ) {
+                return [ 'task', $task_id ];
+            }
+        }
+
+        // Whitelist supported entity types.
+        $allowed = [ 'task', 'comment', 'discussion', 'project' ];
+        if ( ! in_array( $type, $allowed, true ) ) {
+            $type = '';
+        }
+
+        return [ $type, $id ];
+    }
+
+    public function index( WP_REST_Request $request ) {
+        list( $type, $id ) = $this->resolve_attachable( $request );
+
+        if ( $type === '' ) {
+            return [ 'data' => [] ];
+        }
+
+        $files = Google_Drive_File::where( 'attachable_type', $type )
+            ->where( 'attachable_id', $id )
             ->orderBy( 'created_at', 'desc' )
             ->get();
 
@@ -68,21 +99,25 @@ class Drive_Controller {
         return [ 'data' => [ 'can_use' => Google_Service::user_can_use_drive( $project_id ) ] ];
     }
 
-    /** POST projects/{project_id}/tasks/{task_id}/google-drive */
     public function attach( WP_REST_Request $request ) {
-        $project_id = (int) $request->get_param( 'project_id' );
-        $task_id    = (int) $request->get_param( 'task_id' );
-        $file       = $request->get_param( 'file' );
+        $project_id        = (int) $request->get_param( 'project_id' );
+        $file              = $request->get_param( 'file' );
+        list( $type, $id ) = $this->resolve_attachable( $request );
 
         if ( ! Google_Service::user_can_use_drive( $project_id ) ) {
             return new \WP_Error( 'pm_google_forbidden', __( 'You are not allowed to attach Google Drive files in this project.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
+        }
+
+        if ( $type === '' || ! $id ) {
+            return new \WP_Error( 'pm_google_bad_request', __( 'Invalid attachment target.', 'wedevs-project-manager' ), [ 'status' => 422 ] );
         }
 
         if ( empty( $file ) || empty( $file['id'] ) ) {
             return new \WP_Error( 'pm_google_bad_request', __( 'No file provided.', 'wedevs-project-manager' ), [ 'status' => 422 ] );
         }
 
-        $existing = Google_Drive_File::where( 'task_id', $task_id )
+        $existing = Google_Drive_File::where( 'attachable_type', $type )
+            ->where( 'attachable_id', $id )
             ->where( 'file_id', $file['id'] )
             ->first();
         if ( $existing ) {
@@ -90,38 +125,39 @@ class Drive_Controller {
         }
 
         $row = Google_Drive_File::create( [
-            'project_id'     => $project_id,
-            'task_id'        => $task_id,
-            'user_id'        => get_current_user_id(),
-            'file_id'        => sanitize_text_field( $file['id'] ),
-            'name'           => isset( $file['name'] ) ? sanitize_text_field( $file['name'] ) : '',
-            'mime_type'      => isset( $file['mimeType'] ) ? sanitize_text_field( $file['mimeType'] ) : '',
-            'icon_link'      => isset( $file['iconLink'] ) ? esc_url_raw( $file['iconLink'] ) : '',
-            'thumbnail_link' => isset( $file['thumbnailLink'] ) ? esc_url_raw( $file['thumbnailLink'] ) : '',
-            'web_view_link'  => isset( $file['webViewLink'] ) ? esc_url_raw( $file['webViewLink'] ) : '',
-            'modified_time'  => isset( $file['modifiedTime'] ) ? sanitize_text_field( $file['modifiedTime'] ) : '',
-            'created_at'     => Carbon::now(),
-            'updated_at'     => Carbon::now(),
+            'project_id'      => $project_id,
+            'task_id'         => $type === 'task' ? $id : null,
+            'attachable_type' => $type,
+            'attachable_id'   => $id,
+            'user_id'         => get_current_user_id(),
+            'file_id'         => sanitize_text_field( $file['id'] ),
+            'name'            => isset( $file['name'] ) ? sanitize_text_field( $file['name'] ) : '',
+            'mime_type'       => isset( $file['mimeType'] ) ? sanitize_text_field( $file['mimeType'] ) : '',
+            'icon_link'       => isset( $file['iconLink'] ) ? esc_url_raw( $file['iconLink'] ) : '',
+            'thumbnail_link'  => isset( $file['thumbnailLink'] ) ? esc_url_raw( $file['thumbnailLink'] ) : '',
+            'web_view_link'   => isset( $file['webViewLink'] ) ? esc_url_raw( $file['webViewLink'] ) : '',
+            'modified_time'   => isset( $file['modifiedTime'] ) ? sanitize_text_field( $file['modifiedTime'] ) : '',
+            'created_at'      => Carbon::now(),
+            'updated_at'      => Carbon::now(),
         ] );
 
-        do_action( 'pm_google_drive_file_attached', $row, $task_id, $project_id );
+        do_action( 'pm_google_drive_file_attached', $row, $type, $id, $project_id );
 
         return [ 'data' => $this->transform( $row ) ];
     }
 
-    /** DELETE projects/{project_id}/tasks/{task_id}/google-drive/{id} */
+    /** DELETE projects/{project_id}/google-drive/{id} */
     public function destroy( WP_REST_Request $request ) {
         $project_id = (int) $request->get_param( 'project_id' );
         $id         = (int) $request->get_param( 'id' );
-        $task_id    = (int) $request->get_param( 'task_id' );
 
         if ( ! Google_Service::user_can_use_drive( $project_id ) ) {
             return new \WP_Error( 'pm_google_forbidden', __( 'You are not allowed to remove Google Drive files in this project.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
         }
 
-        $row = Google_Drive_File::where( 'id', $id )->where( 'task_id', $task_id )->first();
+        $row = Google_Drive_File::where( 'id', $id )->where( 'project_id', $project_id )->first();
         if ( $row ) {
-            do_action( 'pm_google_drive_file_detached', $row, $task_id );
+            do_action( 'pm_google_drive_file_detached', $row );
             $row->delete();
         }
 

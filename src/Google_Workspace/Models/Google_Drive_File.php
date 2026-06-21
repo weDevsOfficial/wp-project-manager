@@ -10,6 +10,8 @@ class Google_Drive_File extends Eloquent {
     protected $fillable = [
         'project_id',
         'task_id',
+        'attachable_type',
+        'attachable_id',
         'user_id',
         'file_id',
         'name',

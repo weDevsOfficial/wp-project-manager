@@ -9,7 +9,7 @@ import { __ } from '@wordpress/i18n'
  */
 import { useEffect, useRef } from 'react'
 import { useAppDispatch } from '@store/index'
-import { fetchPickerConfig, attachFile } from '@store/googleWorkspaceSlice'
+import { fetchPickerConfig, attachFileFor } from '@store/googleWorkspaceSlice'
 import { toast } from 'sonner'
 
 const GAPI_SRC = 'https://apis.google.com/js/api.js'
@@ -48,7 +48,7 @@ function loadPickerApi() {
   })
 }
 
-export default function DrivePickerModal({ projectId, taskId, attachedIds = [], onClose }) {
+export default function DrivePickerModal({ projectId, attachableType, attachableId, attachedIds = [], onClose }) {
   const dispatch = useAppDispatch()
   const launchedRef = useRef(false)
 
@@ -127,8 +127,8 @@ export default function DrivePickerModal({ projectId, taskId, attachedIds = [], 
         webViewLink:  doc.url,
         modifiedTime: doc.lastEditedUtc ? new Date(doc.lastEditedUtc).toISOString() : '',
       }
-      const res = await dispatch(attachFile({ projectId, taskId, file }))
-      if (attachFile.fulfilled.match(res)) attached++
+      const res = await dispatch(attachFileFor({ projectId, attachableType, attachableId, file }))
+      if (attachFileFor.fulfilled.match(res)) attached++
     }
     if (attached > 0) toast.success(__('File attached.', 'wedevs-project-manager'))
     onClose()

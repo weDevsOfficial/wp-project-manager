@@ -10,6 +10,7 @@ const initialState = {
   settingsLoading: false,
   saving: false,
   attachmentsByTask: {},
+  attachmentsByKey: {},   // { 'type:id': [files] }
   attachLoading: false,
 
   // Per-project Drive role access
@@ -85,6 +86,38 @@ export const attachFile = createAsyncThunk(
   },
 )
 
+const akey = (type, id) => `${type}:${id}`
+
+export const fetchAttachmentsFor = createAsyncThunk(
+  'googleWorkspace/fetchAttachmentsFor',
+  async ({ projectId, attachableType, attachableId }, { rejectWithValue }) => {
+    try {
+      const res = await api.get(`projects/${projectId}/google-drive`, { attachable_type: attachableType, attachable_id: attachableId })
+      return { key: akey(attachableType, attachableId), files: res.data ?? res }
+    } catch (e) { return rejectWithValue(e.message) }
+  },
+)
+
+export const attachFileFor = createAsyncThunk(
+  'googleWorkspace/attachFileFor',
+  async ({ projectId, attachableType, attachableId, file }, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`projects/${projectId}/google-drive`, { attachable_type: attachableType, attachable_id: attachableId, file })
+      return { key: akey(attachableType, attachableId), file: res.data ?? res }
+    } catch (e) { return rejectWithValue(e.message) }
+  },
+)
+
+export const detachFileFor = createAsyncThunk(
+  'googleWorkspace/detachFileFor',
+  async ({ projectId, attachableType, attachableId, id }, { rejectWithValue }) => {
+    try {
+      await api.del(`projects/${projectId}/google-drive/${id}`)
+      return { key: akey(attachableType, attachableId), id }
+    } catch (e) { return rejectWithValue(e.message) }
+  },
+)
+
 export const fetchCanUse = createAsyncThunk(
   'googleWorkspace/fetchCanUse',
   async ({ projectId }, { rejectWithValue }) => {
@@ -144,6 +177,21 @@ const slice = createSlice({
       .addCase(saveSettings.rejected,  (s) => { s.saving = false })
 
       .addCase(disconnect.fulfilled, (s) => { s.status = { ...s.status, connected: false, account_email: '', expired: false } })
+
+      .addCase(fetchAttachmentsFor.fulfilled, (s, a) => { s.attachmentsByKey[a.payload.key] = a.payload.files })
+      .addCase(attachFileFor.pending,   (s) => { s.attachLoading = true })
+      .addCase(attachFileFor.fulfilled, (s, a) => {
+        s.attachLoading = false
+        const list = s.attachmentsByKey[a.payload.key] || []
+        if (!list.some(f => f.id === a.payload.file.id)) {
+          s.attachmentsByKey[a.payload.key] = [a.payload.file, ...list]
+        }
+      })
+      .addCase(attachFileFor.rejected,  (s) => { s.attachLoading = false })
+      .addCase(detachFileFor.fulfilled, (s, a) => {
+        const list = s.attachmentsByKey[a.payload.key] || []
+        s.attachmentsByKey[a.payload.key] = list.filter(f => f.id !== a.payload.id)
+      })
 
       .addCase(fetchCanUse.fulfilled, (s, a) => { s.canUseByProject[a.payload.projectId] = a.payload.canUse })
       .addCase(fetchProjectAccess.fulfilled, (s, a) => { s.accessByProject[a.payload.projectId] = a.payload.access })

@@ -41,12 +41,19 @@ $wedevs_pm_router->post( 'projects/{project_id}/google-workspace/access', $gw_ba
 $wedevs_pm_router->get( 'projects/{project_id}/google-workspace/can-use', $gw_base . 'Drive_Controller@can_use' )
     ->permission( [ $gw_access ] );
 
-// ── Task attachments ─────────────────────────────────────────────────
+// ── Drive attachments (polymorphic: task, comment, discussion, project) ──
+$wedevs_pm_router->get( 'projects/{project_id}/google-drive', $gw_base . 'Drive_Controller@index' )
+    ->permission( [ $gw_access ] );
+
+$wedevs_pm_router->post( 'projects/{project_id}/google-drive', $gw_base . 'Drive_Controller@attach' )
+    ->permission( [ $gw_access ] );
+
+$wedevs_pm_router->delete( 'projects/{project_id}/google-drive/{id}', $gw_base . 'Drive_Controller@destroy' )
+    ->permission( [ $gw_access ] );
+
+// Legacy task-scoped routes (kept for back-compat).
 $wedevs_pm_router->get( 'projects/{project_id}/tasks/{task_id}/google-drive', $gw_base . 'Drive_Controller@index' )
     ->permission( [ $gw_access ] );
 
 $wedevs_pm_router->post( 'projects/{project_id}/tasks/{task_id}/google-drive', $gw_base . 'Drive_Controller@attach' )
-    ->permission( [ $gw_access ] );
-
-$wedevs_pm_router->delete( 'projects/{project_id}/tasks/{task_id}/google-drive/{id}', $gw_base . 'Drive_Controller@destroy' )
     ->permission( [ $gw_access ] );

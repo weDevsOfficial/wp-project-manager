@@ -91,34 +91,44 @@ class Loader {
         // without depending on the version gate.
         self::ensure_columns();
 
-        if ( get_option( 'pm_google_workspace_db_version' ) === '1.1' ) {
+        if ( get_option( 'pm_google_workspace_db_version' ) === '1.3' ) {
             return;
         }
         self::install();
     }
 
+    private static function column_missing( $table, $column ) {
+        global $wpdb;
+        $has = $wpdb->get_results( $wpdb->prepare(
+            "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = %s",
+            DB_NAME, $table, $column
+        ) );
+        return empty( $has );
+    }
+
     /**
-     * Idempotently add columns missing from an existing tokens table.
-     * Works on both MySQL and MariaDB (no ADD COLUMN IF NOT EXISTS).
+     * Idempotently add columns missing from existing tables (covers upgrades
+     * from an older schema). MySQL + MariaDB safe (no ADD COLUMN IF NOT EXISTS).
      */
     public static function ensure_columns() {
         global $wpdb;
-        $table = $wpdb->prefix . 'pm_google_tokens';
+        $tokens = $wpdb->prefix . 'pm_google_tokens';
+        $files  = $wpdb->prefix . 'pm_google_drive_files';
 
-        // Bail if the table doesn't exist yet (fresh install creates it with the column).
-        $exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) );
-        if ( ! $exists ) {
-            return;
+        if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $tokens ) ) && self::column_missing( $tokens, 'last_used_at' ) ) {
+            $wpdb->query( "ALTER TABLE {$tokens} ADD COLUMN `last_used_at` datetime DEFAULT NULL AFTER `expires_at`" );
+            self::log( 'Added last_used_at to ' . $tokens );
         }
 
-        $has = $wpdb->get_results( $wpdb->prepare(
-            "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = %s",
-            DB_NAME, $table, 'last_used_at'
-        ) );
-
-        if ( empty( $has ) ) {
-            $wpdb->query( "ALTER TABLE {$table} ADD COLUMN `last_used_at` datetime DEFAULT NULL AFTER `expires_at`" );
-            self::log( 'Added missing last_used_at column to ' . $table );
+        if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $files ) ) ) {
+            if ( self::column_missing( $files, 'attachable_type' ) ) {
+                $wpdb->query( "ALTER TABLE {$files} ADD COLUMN `attachable_type` varchar(40) DEFAULT NULL AFTER `task_id`" );
+                $wpdb->query( "ALTER TABLE {$files} ADD COLUMN `attachable_id` bigint(20) UNSIGNED DEFAULT NULL AFTER `attachable_type`" );
+                $wpdb->query( "ALTER TABLE {$files} ADD KEY `attachable` (`attachable_type`,`attachable_id`)" );
+                // Migrate existing task attachments to the polymorphic columns.
+                $wpdb->query( "UPDATE {$files} SET `attachable_type` = 'task', `attachable_id` = `task_id` WHERE `task_id` IS NOT NULL AND `attachable_type` IS NULL" );
+                self::log( 'Added polymorphic columns + migrated task rows on ' . $files );
+            }
         }
     }
 
@@ -148,6 +158,8 @@ class Loader {
             `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
             `project_id` bigint(20) UNSIGNED DEFAULT NULL,
             `task_id` bigint(20) UNSIGNED DEFAULT NULL,
+            `attachable_type` varchar(40) DEFAULT NULL,
+            `attachable_id` bigint(20) UNSIGNED DEFAULT NULL,
             `user_id` bigint(20) UNSIGNED NOT NULL,
             `file_id` varchar(191) NOT NULL,
             `name` varchar(255) DEFAULT NULL,
@@ -160,9 +172,10 @@ class Loader {
             `updated_at` timestamp NULL DEFAULT NULL,
             PRIMARY KEY (`id`),
             KEY `task_id` (`task_id`),
-            KEY `project_id` (`project_id`)
+            KEY `project_id` (`project_id`),
+            KEY `attachable` (`attachable_type`,`attachable_id`)
         ) DEFAULT CHARSET=utf8" );
 
-        update_option( 'pm_google_workspace_db_version', '1.1' );
+        update_option( 'pm_google_workspace_db_version', '1.3' );
     }
 }
