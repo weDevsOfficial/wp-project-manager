@@ -55,7 +55,7 @@ const FileIcon = ({ file, className = 'h-4 w-4 shrink-0' }) =>
 
 const MAX_VISIBLE = 2
 
-export default function GoogleDriveAttach({ projectId, attachableType, attachableId, variant = 'section', title, allowEdit = true, addRevealClass = '' }) {
+export default function GoogleDriveAttach({ projectId, attachableType, attachableId, variant = 'section', title, allowEdit = true, addRevealClass = '', showAdd = true }) {
   const dispatch = useAppDispatch()
   const key = `${attachableType}:${attachableId}`
   const status = useAppSelector(s => s.googleWorkspace.status)
@@ -100,6 +100,8 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
   if (!status.configured) return null
   // Nothing to show and can't add → hide entirely.
   if ((canUse === false || !allowEdit) && attachments.length === 0) return null
+  // Chips-only mode (add button lives elsewhere) with nothing attached → hide.
+  if (!showAdd && attachments.length === 0) return null
 
   const action = status.connected && canEdit ? (
     variant === 'compact' ? (

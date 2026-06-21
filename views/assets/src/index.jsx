@@ -268,6 +268,7 @@ window.PM = {
     FileUploadArea:  require('@components/common/FileUploadArea'),
     CommentAttachment: require('@components/common/CommentAttachment'),
     GoogleDriveAttach: require('@components/google-workspace/GoogleDriveAttach'),
+    GoogleDriveCommentButton: require('@components/google-workspace/GoogleDriveCommentButton'),
     GoogleDriveStage:  require('@components/google-workspace/GoogleDriveStage'),
     DrivePickerModal:  require('@components/google-workspace/DrivePickerModal'),
     TaskStatusCircle: require('@components/common/TaskStatusCircle'),

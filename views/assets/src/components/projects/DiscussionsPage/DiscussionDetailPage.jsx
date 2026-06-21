@@ -47,6 +47,7 @@ import CommentAttachment from "@components/common/CommentAttachment";
 import { formatPmDateTime } from "@lib/pm-utils";
 import { usePermissions } from "@hooks/usePermissions";
 import GoogleDriveAttach from "@components/google-workspace/GoogleDriveAttach";
+import GoogleDriveCommentButton from "@components/google-workspace/GoogleDriveCommentButton";
 import { useCurrentProject } from "@hooks/useCurrentProject";
 import DiscussionFiles from "./parts/DiscussionFiles";
 
@@ -498,6 +499,7 @@ export default function DiscussionDetailPage() {
                       </span>
                       {canEditComment(c) && (
                         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
+                          <GoogleDriveCommentButton projectId={projectId} attachableType="comment" attachableId={c.id} allowEdit={canEditComment(c)} />
                           <button
                             type="button"
                             className="text-pm-text-muted hover:text-pm-accent"
@@ -566,7 +568,7 @@ export default function DiscussionDetailPage() {
                         <LoomPreviewContainer content={c.content || ""} />
                         <DiscussionFiles files={c.files} />
                         <div className="mt-2">
-                          <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={c.id} variant="compact" allowEdit={canEditComment(c)} addRevealClass="opacity-0 group-hover:opacity-100" />
+                          <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={c.id} variant="compact" allowEdit={canEditComment(c)} showAdd={false} />
                         </div>
                       </>
                     )}

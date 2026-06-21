@@ -28,6 +28,7 @@ import { sanitizeHtml } from '@lib/sanitize'
 import FileUploadArea from '@components/common/FileUploadArea'
 import CommentAttachment from '@components/common/CommentAttachment'
 import GoogleDriveAttach from '@components/google-workspace/GoogleDriveAttach'
+import GoogleDriveCommentButton from '@components/google-workspace/GoogleDriveCommentButton'
 import TaskStatusCircle from '@components/common/TaskStatusCircle'
 import NotifyUsers from '@components/common/NotifyUsers'
 import { UserAvatar } from '@components/common/UserAvatar'
@@ -810,6 +811,7 @@ export default function TaskDetailSheet() {
                             <span className="text-[13px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
                             {canEdit && !isEditing && (
                               <span className="opacity-0 group-hover/comment:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
+                                <GoogleDriveCommentButton projectId={projectId} attachableType="comment" attachableId={comment.id} allowEdit={canEdit} />
                                 <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit', 'wedevs-project-manager')}>
                                   <Pencil className="h-3.5 w-3.5" />
                                 </button>
@@ -854,7 +856,7 @@ export default function TaskDetailSheet() {
                           )}
                           {!isEditing && (
                             <div className="mt-2">
-                              <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={comment.id} variant="compact" allowEdit={canEdit} addRevealClass="opacity-0 group-hover/comment:opacity-100" />
+                              <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={comment.id} variant="compact" allowEdit={canEdit} showAdd={false} />
                             </div>
                           )}
                         </div>
