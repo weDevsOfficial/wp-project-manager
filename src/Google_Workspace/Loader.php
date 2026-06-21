@@ -22,6 +22,7 @@ class Loader {
         // Remove Drive attachments when their parent entity is deleted.
         add_action( 'wedevs_cpm_comment_delete', [ $this, 'cleanup_comment_attachments' ], 10, 1 );
         add_action( 'wedevs_pm_after_delete_task', [ $this, 'cleanup_task_attachments' ], 10, 1 );
+        add_action( 'wedevs_cpm_message_delete', [ $this, 'cleanup_discussion_attachments' ], 10, 1 );
 
         // Daily purge of tokens unused for 60+ days.
         add_action( self::CLEANUP_HOOK, [ $this, 'run_cleanup' ] );
@@ -52,6 +53,10 @@ class Loader {
 
     public function cleanup_task_attachments( $task_id ) {
         self::delete_attachments( 'task', $task_id );
+    }
+
+    public function cleanup_discussion_attachments( $discussion_id ) {
+        self::delete_attachments( 'discussion', (int) $discussion_id );
     }
 
     public static function redirect_uri() {

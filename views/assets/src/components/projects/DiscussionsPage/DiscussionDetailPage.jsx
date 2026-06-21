@@ -46,6 +46,7 @@ import ProBadge from "@components/common/ProBadge";
 import CommentAttachment from "@components/common/CommentAttachment";
 import { formatPmDateTime } from "@lib/pm-utils";
 import { usePermissions } from "@hooks/usePermissions";
+import GoogleDriveAttach from "@components/google-workspace/GoogleDriveAttach";
 import { useCurrentProject } from "@hooks/useCurrentProject";
 import DiscussionFiles from "./parts/DiscussionFiles";
 
@@ -466,6 +467,9 @@ export default function DiscussionDetailPage() {
               })()}
 
               <DiscussionFiles files={discussion.files} />
+              <div className="mt-3">
+                <GoogleDriveAttach projectId={projectId} attachableType="discussion" attachableId={discussionId} variant="plain" allowEdit={canEditDiscussion(discussion)} />
+              </div>
             </>
           )}
         </div>
@@ -561,6 +565,9 @@ export default function DiscussionDetailPage() {
                         <NotionPreviewContainer content={c.content || ""} />
                         <LoomPreviewContainer content={c.content || ""} />
                         <DiscussionFiles files={c.files} />
+                        <div className="mt-2">
+                          <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={c.id} variant="compact" allowEdit={canEditComment(c)} />
+                        </div>
                       </>
                     )}
                   </div>
