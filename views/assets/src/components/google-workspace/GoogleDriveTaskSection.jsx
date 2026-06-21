@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n'
  */
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
-import { fetchStatus, fetchAttachments, detachFile } from '@store/googleWorkspaceSlice'
+import { fetchStatus, fetchAttachments, detachFile, fetchCanUse } from '@store/googleWorkspaceSlice'
 import { Button } from '@components/ui/button'
 import { FileText, Plus, ExternalLink, Trash2, Link2, Info, Chrome } from 'lucide-react'
 import { toast } from 'sonner'
@@ -29,6 +29,7 @@ export default function GoogleDriveTaskSection({ taskId, projectId }) {
   const dispatch = useAppDispatch()
   const status = useAppSelector(s => s.googleWorkspace.status)
   const attachments = useAppSelector(s => s.googleWorkspace.attachmentsByTask[taskId] || [])
+  const canUse = useAppSelector(s => s.googleWorkspace.canUseByProject[projectId])
   const [pickerOpen, setPickerOpen] = useState(false)
   const [showHelp, setShowHelp] = useState(false)
 
@@ -64,6 +65,10 @@ export default function GoogleDriveTaskSection({ taskId, projectId }) {
     if (taskId && projectId) dispatch(fetchAttachments({ projectId, taskId }))
   }, [dispatch, taskId, projectId])
 
+  useEffect(() => {
+    if (projectId && canUse === undefined) dispatch(fetchCanUse({ projectId }))
+  }, [dispatch, projectId]) // eslint-disable-line react-hooks/exhaustive-deps
+
   async function onDetach(id) {
     const res = await dispatch(detachFile({ projectId, taskId, id }))
     if (detachFile.fulfilled.match(res)) toast.success(__('File removed.', 'wedevs-project-manager'))
@@ -80,7 +85,7 @@ export default function GoogleDriveTaskSection({ taskId, projectId }) {
           {attachments.length > 0 && <span className="text-xs text-gray-400">({attachments.length})</span>}
         </div>
 
-        {status.connected ? (
+        {status.connected && canUse !== false ? (
           <Button
             variant="outline" size="sm" className="h-7"
             disabled={!status.picker_ready}
@@ -89,11 +94,13 @@ export default function GoogleDriveTaskSection({ taskId, projectId }) {
           >
             <Plus className="h-3.5 w-3.5 mr-1" /> {__('Attach', 'wedevs-project-manager')}
           </Button>
-        ) : (
+        ) : status.connected && canUse === false ? (
+          <span className="text-[11px] text-gray-400">{__('Attaching not allowed in this project', 'wedevs-project-manager')}</span>
+        ) : !status.connected ? (
           <a href="#/google-workspace" className="text-xs text-blue-600 hover:underline inline-flex items-center gap-1">
             <Link2 className="h-3.5 w-3.5" /> {__('Connect Google', 'wedevs-project-manager')}
           </a>
-        )}
+        ) : null}
       </div>
 
       {status.connected && status.picker_ready && (

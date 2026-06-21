@@ -29,6 +29,18 @@ $wedevs_pm_router->post( 'google-workspace/disconnect', $gw_base . 'OAuth_Contro
 $wedevs_pm_router->get( 'google-workspace/drive/picker-config', $gw_base . 'Drive_Controller@picker_config' )
     ->permission( [ $gw_auth ] );
 
+// ── Per-project Drive role access (manager configures; members query) ──
+$gw_manager = 'WeDevs\PM\Core\Permissions\Project_Manage_Capability';
+
+$wedevs_pm_router->get( 'projects/{project_id}/google-workspace/access', $gw_base . 'Drive_Controller@get_access' )
+    ->permission( [ $gw_manager ] );
+
+$wedevs_pm_router->post( 'projects/{project_id}/google-workspace/access', $gw_base . 'Drive_Controller@save_access' )
+    ->permission( [ $gw_manager ] );
+
+$wedevs_pm_router->get( 'projects/{project_id}/google-workspace/can-use', $gw_base . 'Drive_Controller@can_use' )
+    ->permission( [ $gw_access ] );
+
 // ── Task attachments ─────────────────────────────────────────────────
 $wedevs_pm_router->get( 'projects/{project_id}/tasks/{task_id}/google-drive', $gw_base . 'Drive_Controller@index' )
     ->permission( [ $gw_access ] );

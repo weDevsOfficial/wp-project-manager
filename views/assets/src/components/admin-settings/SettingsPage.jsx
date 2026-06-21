@@ -103,11 +103,11 @@ const SettingsPage = () => {
   const showWooTab = !isPro || isWooModuleActive
 
   const integrationTabs = [
+    { key: 'google-workspace', label: __('G Workspace', 'wedevs-project-manager'), icon: GoogleWorkspaceNavIcon },
     { key: 'pusher',  label: __('Pusher',   'wedevs-project-manager'), icon: Radio },
     { key: 'github',  label: __('GitHub',   'wedevs-project-manager'), icon: GitHubNavIcon },
     { key: 'notion',  label: __('Notion',   'wedevs-project-manager'), icon: NotionNavIcon },
     { key: 'loom',    label: __('Loom',     'wedevs-project-manager'), icon: LoomNavIcon },
-    { key: 'google-workspace', label: __('G Workspace', 'wedevs-project-manager'), icon: GoogleWorkspaceNavIcon },
   ]
 
   if (showWooTab) {

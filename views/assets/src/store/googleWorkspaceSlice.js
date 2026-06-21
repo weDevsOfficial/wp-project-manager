@@ -11,6 +11,10 @@ const initialState = {
   saving: false,
   attachmentsByTask: {},
   attachLoading: false,
+
+  // Per-project Drive role access
+  canUseByProject: {},      // { [projectId]: bool }
+  accessByProject: {},      // { [projectId]: { co_worker, client } }
 }
 
 export const fetchStatus = createAsyncThunk(
@@ -81,6 +85,36 @@ export const attachFile = createAsyncThunk(
   },
 )
 
+export const fetchCanUse = createAsyncThunk(
+  'googleWorkspace/fetchCanUse',
+  async ({ projectId }, { rejectWithValue }) => {
+    try {
+      const res = await api.get(`projects/${projectId}/google-workspace/can-use`)
+      return { projectId, canUse: !!(res.data ?? res).can_use }
+    } catch (e) { return rejectWithValue(e.message) }
+  },
+)
+
+export const fetchProjectAccess = createAsyncThunk(
+  'googleWorkspace/fetchProjectAccess',
+  async ({ projectId }, { rejectWithValue }) => {
+    try {
+      const res = await api.get(`projects/${projectId}/google-workspace/access`)
+      return { projectId, access: res.data ?? res }
+    } catch (e) { return rejectWithValue(e.message) }
+  },
+)
+
+export const saveProjectAccess = createAsyncThunk(
+  'googleWorkspace/saveProjectAccess',
+  async ({ projectId, co_worker, client }, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`projects/${projectId}/google-workspace/access`, { co_worker, client })
+      return { projectId, access: res.data ?? res }
+    } catch (e) { return rejectWithValue(e.message) }
+  },
+)
+
 export const detachFile = createAsyncThunk(
   'googleWorkspace/detachFile',
   async ({ projectId, taskId, id }, { rejectWithValue }) => {
@@ -110,6 +144,10 @@ const slice = createSlice({
       .addCase(saveSettings.rejected,  (s) => { s.saving = false })
 
       .addCase(disconnect.fulfilled, (s) => { s.status = { ...s.status, connected: false, account_email: '', expired: false } })
+
+      .addCase(fetchCanUse.fulfilled, (s, a) => { s.canUseByProject[a.payload.projectId] = a.payload.canUse })
+      .addCase(fetchProjectAccess.fulfilled, (s, a) => { s.accessByProject[a.payload.projectId] = a.payload.access })
+      .addCase(saveProjectAccess.fulfilled, (s, a) => { s.accessByProject[a.payload.projectId] = a.payload.access })
 
       .addCase(fetchAttachments.fulfilled, (s, a) => { s.attachmentsByTask[a.payload.taskId] = a.payload.files })
       .addCase(attachFile.pending,   (s) => { s.attachLoading = true })

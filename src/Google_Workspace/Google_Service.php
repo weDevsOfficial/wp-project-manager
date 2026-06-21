@@ -41,6 +41,49 @@ class Google_Service {
         return ! empty( $settings['client_id'] ) && ! empty( $settings['client_secret'] );
     }
 
+    // ── Per-project, per-role access (Drive now; Calendar/Meet later) ────
+
+    /**
+     * Per-project Drive access by role. Stored in a project-scoped option so
+     * the core capability tables are untouched. Defaults: co_worker on, client off.
+     *
+     * @return array{co_worker:bool, client:bool}
+     */
+    public static function project_drive_access( $project_id ) {
+        $saved = get_option( 'pm_gdrive_access_' . (int) $project_id, null );
+        if ( ! is_array( $saved ) ) {
+            return [ 'co_worker' => true, 'client' => false ];
+        }
+        return [
+            'co_worker' => ! empty( $saved['co_worker'] ),
+            'client'    => ! empty( $saved['client'] ),
+        ];
+    }
+
+    public static function save_project_drive_access( $project_id, $co_worker, $client ) {
+        update_option( 'pm_gdrive_access_' . (int) $project_id, [
+            'co_worker' => (bool) $co_worker,
+            'client'    => (bool) $client,
+        ] );
+    }
+
+    /**
+     * Whether a user may use Drive in a project. Managers/admins always may;
+     * co_worker/client gated by the per-project access map.
+     */
+    public static function user_can_use_drive( $project_id, $user_id = null ) {
+        $user_id = $user_id ? $user_id : get_current_user_id();
+
+        if ( wedevs_pm_has_manage_capability( $user_id ) || wedevs_pm_is_manager( $project_id, $user_id ) ) {
+            return true;
+        }
+
+        $role   = wedevs_pm_get_role( $project_id, $user_id ); // co_worker | client | null
+        $access = self::project_drive_access( $project_id );
+
+        return ! empty( $access[ $role ] );
+    }
+
     /** Global on/off switch for the Drive feature (admin-controlled). */
     public static function drive_enabled() {
         $settings = get_option( 'pm_google_workspace_settings', [] );

@@ -45,11 +45,38 @@ class Drive_Controller {
         return [ 'data' => $this->transform_collection( $files ) ];
     }
 
+    /** GET projects/{project_id}/google-workspace/access — manager: read role access */
+    public function get_access( WP_REST_Request $request ) {
+        $project_id = (int) $request->get_param( 'project_id' );
+        return [ 'data' => Google_Service::project_drive_access( $project_id ) ];
+    }
+
+    /** POST projects/{project_id}/google-workspace/access — manager: save role access */
+    public function save_access( WP_REST_Request $request ) {
+        $project_id = (int) $request->get_param( 'project_id' );
+        Google_Service::save_project_drive_access(
+            $project_id,
+            filter_var( $request->get_param( 'co_worker' ), FILTER_VALIDATE_BOOLEAN ),
+            filter_var( $request->get_param( 'client' ), FILTER_VALIDATE_BOOLEAN )
+        );
+        return [ 'data' => Google_Service::project_drive_access( $project_id ) ];
+    }
+
+    /** GET projects/{project_id}/google-workspace/can-use — current user gate */
+    public function can_use( WP_REST_Request $request ) {
+        $project_id = (int) $request->get_param( 'project_id' );
+        return [ 'data' => [ 'can_use' => Google_Service::user_can_use_drive( $project_id ) ] ];
+    }
+
     /** POST projects/{project_id}/tasks/{task_id}/google-drive */
     public function attach( WP_REST_Request $request ) {
         $project_id = (int) $request->get_param( 'project_id' );
         $task_id    = (int) $request->get_param( 'task_id' );
         $file       = $request->get_param( 'file' );
+
+        if ( ! Google_Service::user_can_use_drive( $project_id ) ) {
+            return new \WP_Error( 'pm_google_forbidden', __( 'You are not allowed to attach Google Drive files in this project.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
+        }
 
         if ( empty( $file ) || empty( $file['id'] ) ) {
             return new \WP_Error( 'pm_google_bad_request', __( 'No file provided.', 'wedevs-project-manager' ), [ 'status' => 422 ] );
