@@ -48,7 +48,7 @@ function loadPickerApi() {
   })
 }
 
-export default function DrivePickerModal({ projectId, attachableType, attachableId, attachedIds = [], onClose }) {
+export default function DrivePickerModal({ projectId, attachableType, attachableId, attachedIds = [], onClose, onPicked }) {
   const dispatch = useAppDispatch()
   const launchedRef = useRef(false)
 
@@ -116,17 +116,27 @@ export default function DrivePickerModal({ projectId, attachableType, attachable
     if (data.action === Action.CANCEL) { onClose(); return }
 
     const docs = data.docs || []
-    let attached = 0
-    for (const doc of docs) {
-      if (attachedIds.includes(doc.id)) continue
-      const file = {
+    const files = docs
+      .filter(doc => !attachedIds.includes(doc.id))
+      .map(doc => ({
         id:           doc.id,
         name:         doc.name,
         mimeType:     doc.mimeType,
         iconLink:     doc.iconUrl,
         webViewLink:  doc.url,
         modifiedTime: doc.lastEditedUtc ? new Date(doc.lastEditedUtc).toISOString() : '',
-      }
+      }))
+
+    // Stage mode: hand picked files back to the caller (e.g. a create form
+    // whose entity doesn't exist yet) instead of attaching now.
+    if (typeof onPicked === 'function') {
+      if (files.length) onPicked(files)
+      onClose()
+      return
+    }
+
+    let attached = 0
+    for (const file of files) {
       const res = await dispatch(attachFileFor({ projectId, attachableType, attachableId, file }))
       if (attachFileFor.fulfilled.match(res)) attached++
     }
