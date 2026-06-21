@@ -14,12 +14,12 @@ import {
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
-// Google Drive glyph, outlined (stroke) to match the lucide nav icons.
+// Google Drive glyph, monochrome outline to match the lucide nav icons.
 const GoogleDriveNavIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M12 3.5 3.2 19h17.6z" />
-    <path d="M6.7 13.8h10.6" />
-    <path d="M12 3.5 6.7 13.8M12 3.5l5.3 10.3" />
+    <path d="M12 3.8 3 20h18z" />
+    <path d="M7.6 13.8h8.8" />
+    <path d="M12 3.8v10" />
   </svg>
 )
 
