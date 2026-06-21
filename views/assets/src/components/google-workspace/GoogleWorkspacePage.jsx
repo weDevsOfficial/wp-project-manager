@@ -11,8 +11,33 @@ import { useAppDispatch, useAppSelector } from '@store/index'
 import { fetchStatus, getAuthUrl, disconnect } from '@store/googleWorkspaceSlice'
 import { Button } from '@components/ui/button'
 import { Skeleton } from '@components/ui/skeleton'
-import { ShieldCheck, Unlink, HardDrive, Calendar, Video, Settings as SettingsIcon } from 'lucide-react'
+import { ShieldCheck, Unlink, HardDrive, Calendar, Video, Settings as SettingsIcon, Crown } from 'lucide-react'
 import { toast } from 'sonner'
+import { Slot } from '@hooks/useSlot'
+import { useProModal } from '@components/common/ProUpgradeModal'
+
+/**
+ * Free cover for an upcoming Pro Google feature (Calendar/Meet). Pro replaces
+ * it by filling the matching slot. Click opens the upgrade modal.
+ */
+const ProFeatureRow = ({ icon: Icon, title, description }) => {
+  const { setOpen } = useProModal()
+  return (
+    <li
+      className="flex items-center gap-3 cursor-pointer rounded-md -mx-2 px-2 py-1 hover:bg-gray-50"
+      onClick={() => setOpen(true)}
+    >
+      <Icon className="h-[18px] w-[18px] text-gray-400" />
+      <div className="flex-1">
+        <div className="text-sm text-gray-800">{title}</div>
+        <div className="text-xs text-gray-500">{description}</div>
+      </div>
+      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white rounded-full px-2 py-0.5" style={{ background: '#ff9000' }}>
+        <Crown className="h-3 w-3" /> {__('Pro', 'wedevs-project-manager')}
+      </span>
+    </li>
+  )
+}
 
 const GoogleGlyph = (props) => (
   <svg viewBox="0 0 24 24" width="20" height="20" {...props}>
@@ -130,22 +155,16 @@ export default function GoogleWorkspacePage() {
             </div>
             <span className="text-[11px] font-medium text-green-700 bg-green-50 rounded-full px-2 py-0.5">{__('Available', 'wedevs-project-manager')}</span>
           </li>
-          <li className="flex items-center gap-3 opacity-60">
-            <Calendar className="h-[18px] w-[18px] text-gray-400" />
-            <div className="flex-1">
-              <div className="text-sm text-gray-800">{__('Google Calendar', 'wedevs-project-manager')}</div>
-              <div className="text-xs text-gray-500">{__('Create calendar events from tasks.', 'wedevs-project-manager')}</div>
-            </div>
-            <span className="text-[11px] font-medium text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">{__('Coming soon', 'wedevs-project-manager')}</span>
-          </li>
-          <li className="flex items-center gap-3 opacity-60">
-            <Video className="h-[18px] w-[18px] text-gray-400" />
-            <div className="flex-1">
-              <div className="text-sm text-gray-800">{__('Google Meet', 'wedevs-project-manager')}</div>
-              <div className="text-xs text-gray-500">{__('Generate Meet links for tasks.', 'wedevs-project-manager')}</div>
-            </div>
-            <span className="text-[11px] font-medium text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">{__('Coming soon', 'wedevs-project-manager')}</span>
-          </li>
+          <Slot
+            name="google.workspace.feature.calendar"
+            status={status}
+            fallback={<ProFeatureRow icon={Calendar} title={__('Google Calendar', 'wedevs-project-manager')} description={__('Two-way sync task due dates and milestones with Google Calendar.', 'wedevs-project-manager')} />}
+          />
+          <Slot
+            name="google.workspace.feature.meet"
+            status={status}
+            fallback={<ProFeatureRow icon={Video} title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Meet links for tasks and discussions.', 'wedevs-project-manager')} />}
+          />
         </ul>
       </section>
     </div>
