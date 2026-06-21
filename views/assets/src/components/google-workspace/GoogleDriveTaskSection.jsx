@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { fetchStatus, fetchAttachments, detachFile, fetchCanUse } from '@store/googleWorkspaceSlice'
 import { Button } from '@components/ui/button'
-import { FileText, Plus, ExternalLink, Trash2, Link2, Info, Chrome } from 'lucide-react'
+import { FileText, Plus, ExternalLink, Trash2, Link2, Info, Chrome, Lock } from 'lucide-react'
 import { toast } from 'sonner'
 import DrivePickerModal from './DrivePickerModal'
 
@@ -95,7 +95,12 @@ export default function GoogleDriveTaskSection({ taskId, projectId }) {
             <Plus className="h-3.5 w-3.5 mr-1" /> {__('Attach', 'wedevs-project-manager')}
           </Button>
         ) : status.connected && canUse === false ? (
-          <span className="text-[11px] text-gray-400">{__('Attaching not allowed in this project', 'wedevs-project-manager')}</span>
+          <span
+            className="inline-flex items-center gap-1 text-[11px] text-gray-400"
+            title={__('Your project role can view Drive files but not attach them. Ask a project manager.', 'wedevs-project-manager')}
+          >
+            <Lock className="h-3 w-3" /> {__('View only', 'wedevs-project-manager')}
+          </span>
         ) : !status.connected ? (
           <a href="#/google-workspace" className="text-xs text-blue-600 hover:underline inline-flex items-center gap-1">
             <Link2 className="h-3.5 w-3.5" /> {__('Connect Google', 'wedevs-project-manager')}
