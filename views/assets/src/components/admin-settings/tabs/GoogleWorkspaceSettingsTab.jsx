@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '@store/index'
 import { fetchSettings, saveSettings } from '@store/googleWorkspaceSlice'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
+import { Switch } from '@components/ui/switch'
 import { Skeleton } from '@components/ui/skeleton'
 import { Copy, Check, ExternalLink, ShieldCheck } from 'lucide-react'
 import { useToast } from '@hooks/useToast'
@@ -23,6 +24,7 @@ export default function GoogleWorkspaceSettingsTab() {
   const [clientSecret, setClientSecret] = useState('')
   const [apiKey, setApiKey] = useState('')
   const [appId, setAppId] = useState('')
+  const [driveEnabled, setDriveEnabled] = useState(false)
   const [copied, setCopied] = useState(false)
 
   useEffect(() => { dispatch(fetchSettings()) }, [dispatch])
@@ -31,7 +33,8 @@ export default function GoogleWorkspaceSettingsTab() {
     setClientId(settings.client_id || '')
     setApiKey(settings.api_key || '')
     setAppId(settings.app_id || '')
-  }, [settings.client_id, settings.api_key, settings.app_id])
+    setDriveEnabled(!!settings.drive_enabled)
+  }, [settings.client_id, settings.api_key, settings.app_id, settings.drive_enabled])
 
   const redirectUri = settings.redirect_uri || (window.PM_Vars?.google_workspace?.redirect_uri ?? '')
 
@@ -41,9 +44,20 @@ export default function GoogleWorkspaceSettingsTab() {
     setTimeout(() => setCopied(false), 1500)
   }
 
+  async function toggleDrive(v) {
+    setDriveEnabled(v)
+    const res = await dispatch(saveSettings({ client_id: clientId, client_secret: '', api_key: apiKey, app_id: appId, drive_enabled: v }))
+    if (saveSettings.fulfilled.match(res)) {
+      toast.success(v ? __('Google Drive enabled.', 'wedevs-project-manager') : __('Google Drive disabled.', 'wedevs-project-manager'))
+    } else {
+      setDriveEnabled(!v)
+      toast.error(res.payload || __('Failed to update.', 'wedevs-project-manager'))
+    }
+  }
+
   async function onSave(e) {
     e.preventDefault()
-    const res = await dispatch(saveSettings({ client_id: clientId, client_secret: clientSecret, api_key: apiKey, app_id: appId }))
+    const res = await dispatch(saveSettings({ client_id: clientId, client_secret: clientSecret, api_key: apiKey, app_id: appId, drive_enabled: driveEnabled }))
     if (saveSettings.fulfilled.match(res)) {
       setClientSecret('')
       toast.success(__('Google Workspace settings saved.', 'wedevs-project-manager'))
@@ -61,7 +75,15 @@ export default function GoogleWorkspaceSettingsTab() {
         </p>
       </div>
 
-      {settings.picker_ready && (
+      <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
+        <div>
+          <div className="text-sm font-medium text-gray-900">{__('Enable Google Drive', 'wedevs-project-manager')}</div>
+          <div className="text-xs text-gray-500 mt-0.5">{__('Show Google Drive in the sidebar and on tasks. Turn off to hide it everywhere.', 'wedevs-project-manager')}</div>
+        </div>
+        <Switch checked={driveEnabled} onCheckedChange={toggleDrive} disabled={settingsLoading} />
+      </div>
+
+      {settings.picker_ready && driveEnabled && (
         <div className="mb-4 flex items-center gap-2 text-sm text-green-700 bg-green-50 rounded-md px-3 py-2">
           <ShieldCheck className="h-4 w-4" /> {__('Google Workspace is configured. Users can now connect their accounts.', 'wedevs-project-manager')}
         </div>

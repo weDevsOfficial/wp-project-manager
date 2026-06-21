@@ -17,13 +17,14 @@ class Settings_Controller {
 
         return [
             'data' => [
-                'client_id'    => isset( $settings['client_id'] ) ? $settings['client_id'] : '',
-                'has_secret'   => ! empty( $settings['client_secret'] ),
-                'api_key'      => isset( $settings['api_key'] ) ? $settings['api_key'] : '',
-                'app_id'       => isset( $settings['app_id'] ) ? $settings['app_id'] : '',
-                'configured'   => Google_Service::is_configured(),
-                'picker_ready' => Google_Service::picker_ready(),
-                'redirect_uri' => Loader::redirect_uri(),
+                'client_id'     => isset( $settings['client_id'] ) ? $settings['client_id'] : '',
+                'has_secret'    => ! empty( $settings['client_secret'] ),
+                'api_key'       => isset( $settings['api_key'] ) ? $settings['api_key'] : '',
+                'app_id'        => isset( $settings['app_id'] ) ? $settings['app_id'] : '',
+                'drive_enabled' => Google_Service::drive_enabled(),
+                'configured'    => Google_Service::is_configured(),
+                'picker_ready'  => Google_Service::picker_ready(),
+                'redirect_uri'  => Loader::redirect_uri(),
             ],
         ];
     }
@@ -34,9 +35,10 @@ class Settings_Controller {
 
         $settings = get_option( 'pm_google_workspace_settings', [] );
 
-        $settings['client_id'] = sanitize_text_field( $client_id );
-        $settings['api_key']   = sanitize_text_field( (string) $request->get_param( 'api_key' ) );
-        $settings['app_id']    = sanitize_text_field( (string) $request->get_param( 'app_id' ) );
+        $settings['client_id']     = sanitize_text_field( $client_id );
+        $settings['api_key']       = sanitize_text_field( (string) $request->get_param( 'api_key' ) );
+        $settings['app_id']        = sanitize_text_field( (string) $request->get_param( 'app_id' ) );
+        $settings['drive_enabled'] = filter_var( $request->get_param( 'drive_enabled' ), FILTER_VALIDATE_BOOLEAN );
 
         // Only overwrite the secret when a fresh value is sent (UI sends blank to keep).
         // Stored encrypted at rest.

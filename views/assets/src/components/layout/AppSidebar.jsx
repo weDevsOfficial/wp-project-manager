@@ -250,8 +250,11 @@ export function AppSidebar() {
         items.push({ key: 'sprints', label: __('Sprints', 'wedevs-project-manager'), short: __('Sprint', 'wedevs-project-manager'), icon: Timer, route: '/sprints', pro: !isPro })
       }
     }
-    // Google Workspace — free feature, shown to everyone (each user connects their own Google account).
-    items.push({ key: 'google-workspace', label: isPro ? __('Google Workspace', 'wedevs-project-manager') : __('Google Drive', 'wedevs-project-manager'), short: __('Drive', 'wedevs-project-manager'), icon: GoogleDriveNavIcon, route: '/google-workspace' })
+    // Google Workspace — free feature, shown to everyone when the admin has
+    // enabled Google Drive in Settings → Google Workspace.
+    if (typeof PM_Vars !== 'undefined' && PM_Vars.google_workspace?.drive_enabled) {
+      items.push({ key: 'google-workspace', label: isPro ? __('Google Workspace', 'wedevs-project-manager') : __('Google Drive', 'wedevs-project-manager'), short: __('Drive', 'wedevs-project-manager'), icon: GoogleDriveNavIcon, route: '/google-workspace' })
+    }
     return items
   }, [__, isPro, activeModulePaths, canManage, isManagerAnywhere])
 

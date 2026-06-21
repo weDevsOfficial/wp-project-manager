@@ -41,6 +41,12 @@ class Google_Service {
         return ! empty( $settings['client_id'] ) && ! empty( $settings['client_secret'] );
     }
 
+    /** Global on/off switch for the Drive feature (admin-controlled). */
+    public static function drive_enabled() {
+        $settings = get_option( 'pm_google_workspace_settings', [] );
+        return ! empty( $settings['drive_enabled'] );
+    }
+
     /** Picker also needs an API key + App ID (project number). */
     public static function picker_ready() {
         $settings = get_option( 'pm_google_workspace_settings', [] );

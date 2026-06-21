@@ -56,8 +56,11 @@ const LicensePage     = React.lazy(() => import('@components/projects/LicensePag
 const GoogleWorkspacePage    = React.lazy(() => import('@components/google-workspace/GoogleWorkspacePage'))
 const GoogleDriveTaskSection = React.lazy(() => import('@components/google-workspace/GoogleDriveTaskSection'))
 
-// Google Drive attachments render in the task detail sheet (free feature).
-registerSlot('task.detail.subtasks', GoogleDriveTaskSection)
+// Google Drive attachments render in the task detail sheet (free feature),
+// only when an admin has enabled Drive in Settings → Google Workspace.
+if (typeof PM_Vars !== 'undefined' && PM_Vars.google_workspace?.drive_enabled) {
+  registerSlot('task.detail.subtasks', GoogleDriveTaskSection)
+}
 
 // ── Free placeholder pages (shown when Pro does NOT replace them) ──
 const CalendarPlaceholder = React.lazy(() => import('@components/projects/CalendarPage'))
