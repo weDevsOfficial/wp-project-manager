@@ -4,7 +4,7 @@ import { useApi } from '@hooks/useApi'
 const api = useApi()
 
 const initialState = {
-  status:   { configured: false, picker_ready: false, drive_enabled: false, connected: false, account_email: '', expired: false },
+  status:   { configured: false, picker_ready: false, drive_enabled: false, connected: false, account_email: '', expired: false, calendar_connected: false },
   settings: { client_id: '', has_secret: false, api_key: '', app_id: '', drive_enabled: false, picker_ready: false, redirect_uri: '' },
   statusLoading: false,
   settingsLoading: false,
@@ -44,8 +44,9 @@ export const saveSettings = createAsyncThunk(
 
 export const getAuthUrl = createAsyncThunk(
   'googleWorkspace/getAuthUrl',
-  async (_, { rejectWithValue }) => {
-    try { const res = await api.get('google-workspace/auth-url'); return (res.data ?? res).auth_url }
+  async (arg, { rejectWithValue }) => {
+    const withCalendar = arg && arg.withCalendar
+    try { const res = await api.get('google-workspace/auth-url', withCalendar ? { with_calendar: 1 } : undefined); return (res.data ?? res).auth_url }
     catch (e) { return rejectWithValue(e.message) }
   },
 )

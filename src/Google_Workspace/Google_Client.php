@@ -17,6 +17,10 @@ class Google_Client {
     // Least-privilege: drive.file = only files the user picks via the Picker.
     const SCOPES = 'openid email profile https://www.googleapis.com/auth/drive.file';
 
+    // Pro Calendar feature — requested incrementally (only when the user opts
+    // in via the Pro Calendar settings), so free-only users never grant it.
+    const CALENDAR_SCOPE = 'https://www.googleapis.com/auth/calendar.events';
+
     private $client_id;
     private $client_secret;
     private $redirect_uri;
@@ -27,12 +31,12 @@ class Google_Client {
         $this->redirect_uri  = $redirect_uri;
     }
 
-    public function get_auth_url( $state ) {
+    public function get_auth_url( $state, $scope = self::SCOPES ) {
         return add_query_arg( [
             'client_id'     => rawurlencode( $this->client_id ),
             'redirect_uri'  => rawurlencode( $this->redirect_uri ),
             'response_type' => 'code',
-            'scope'         => rawurlencode( self::SCOPES ),
+            'scope'         => rawurlencode( $scope ),
             'access_type'   => 'offline',
             'include_granted_scopes' => 'true',
             'prompt'        => 'consent',

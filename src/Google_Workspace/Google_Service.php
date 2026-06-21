@@ -106,6 +106,20 @@ class Google_Service {
         return isset( $settings['app_id'] ) ? $settings['app_id'] : '';
     }
 
+    /** Whether the user's stored grant includes a given OAuth scope. */
+    public static function user_has_scope( $user_id, $needle ) {
+        $token = self::get_user_token( $user_id );
+        if ( ! $token || empty( $token->scope ) ) {
+            return false;
+        }
+        return strpos( $token->scope, $needle ) !== false;
+    }
+
+    /** Whether the user has granted the Calendar scope (Pro Calendar feature). */
+    public static function user_has_calendar( $user_id ) {
+        return self::user_has_scope( $user_id, Google_Client::CALENDAR_SCOPE );
+    }
+
     public static function get_user_token( $user_id ) {
         if ( empty( $user_id ) ) {
             return null;

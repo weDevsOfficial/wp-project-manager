@@ -250,6 +250,13 @@ window.PM = {
 
   // Free store actions/thunks that pro may need to dispatch
   thunks: { fetchTask, fetchTaskLists, fetchProjectAssignees },
+
+  // Google Workspace: free owns OAuth/token; pro (Calendar/Meet) dispatches these.
+  googleWorkspace: {
+    fetchStatus: require('@store/googleWorkspaceSlice').fetchStatus,
+    getAuthUrl:  require('@store/googleWorkspaceSlice').getAuthUrl,
+    disconnect:  require('@store/googleWorkspaceSlice').disconnect,
+  },
   actions: { resetProjectState, openTaskSheet, closeTaskSheet, markTaskModified },
 
   // Free hooks that pro may use (same Redux store context)
