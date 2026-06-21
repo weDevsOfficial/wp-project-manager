@@ -53,7 +53,7 @@ class Drive_Controller {
         }
 
         // Whitelist supported entity types.
-        $allowed = [ 'task', 'comment', 'discussion', 'project' ];
+        $allowed = [ 'task', 'comment', 'discussion', 'project', 'file' ];
         if ( ! in_array( $type, $allowed, true ) ) {
             $type = '';
         }
