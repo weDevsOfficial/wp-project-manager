@@ -158,7 +158,7 @@ export default function GoogleWorkspacePage() {
         {status.configured && (
           <p className="mt-3 flex items-start gap-1.5 text-xs text-gray-400">
             <Info className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-            <span>{__('All Google features — Drive, Calendar and Meet — use this one account. Connecting a different Google account later replaces this one for every feature.', 'wedevs-project-manager')}</span>
+            <span>{__('All Google features — Drive, Calendar and Meet — use this one account.', 'wedevs-project-manager')}</span>
           </p>
         )}
       </section>

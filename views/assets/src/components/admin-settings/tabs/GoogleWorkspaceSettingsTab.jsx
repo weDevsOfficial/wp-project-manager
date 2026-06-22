@@ -17,7 +17,6 @@ import { useToast } from '@hooks/useToast'
 import { Slot } from '@hooks/useSlot'
 import { useProModal } from '@components/common/ProUpgradeModal'
 import ProBadge from '@components/common/ProBadge'
-import { CalendarGlyph, MeetGlyph } from '@components/google-workspace/GoogleIcons'
 
 const DOCS_URL = 'https://wedevs.com/docs/wp-project-manager/integrations/google-workspace/'
 
@@ -25,22 +24,19 @@ const DOCS_URL = 'https://wedevs.com/docs/wp-project-manager/integrations/google
  * Free, locked teaser for a Pro Google feature's settings (Calendar/Meet).
  * Pro replaces it by filling the matching slot with real enable + sync toggles.
  */
-const LockedSettingCard = ({ icon: Icon, title, description }) => {
+const LockedSettingCard = ({ title, description }) => {
   const { setOpen } = useProModal()
   return (
     <div
       className="mb-4 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4 cursor-pointer hover:border-gray-300"
       onClick={() => setOpen(true)}
     >
-      <div className="flex items-start gap-3">
-        <Icon className="h-5 w-5 text-gray-400 mt-0.5" />
-        <div>
-          <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
-            {title}
-            <ProBadge />
-          </div>
-          <div className="text-xs text-gray-500 mt-0.5">{description}</div>
+      <div>
+        <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
+          {title}
+          <ProBadge />
         </div>
+        <div className="text-xs text-gray-500 mt-0.5">{description}</div>
       </div>
       <Lock className="h-4 w-4 text-gray-300 shrink-0" />
     </div>
@@ -115,9 +111,9 @@ export default function GoogleWorkspaceSettingsTab() {
     <div className="max-w-2xl">
       <div className="mb-5 flex items-start justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">{__('Google Workspace', 'wedevs-project-manager')}</h2>
+          <h2 className="text-lg font-semibold text-gray-900">{__('G Workspace', 'wedevs-project-manager')}</h2>
           <p className="text-xs text-gray-500 mt-1">
-            {__('Set up your Google Cloud project once. Each user then connects their own Google account from the Google Workspace page.', 'wedevs-project-manager')}
+            {__('Set up your Google Cloud project once. Users then connect their own account.', 'wedevs-project-manager')}
           </p>
         </div>
         <a
@@ -151,12 +147,12 @@ export default function GoogleWorkspaceSettingsTab() {
       <Slot
         name="google.workspace.settings.calendar"
         settings={settings}
-        fallback={<LockedSettingCard icon={CalendarGlyph} title={__('Google Calendar sync', 'wedevs-project-manager')} description={__('Two-way sync of task due dates and milestones with Google Calendar.', 'wedevs-project-manager')} />}
+        fallback={<LockedSettingCard title={__('Google Calendar sync', 'wedevs-project-manager')} description={__('Two-way sync of task due dates and milestones with Google Calendar.', 'wedevs-project-manager')} />}
       />
       <Slot
         name="google.workspace.settings.meet"
         settings={settings}
-        fallback={<LockedSettingCard icon={MeetGlyph} title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Google Meet links on tasks and discussions.', 'wedevs-project-manager')} />}
+        fallback={<LockedSettingCard title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Google Meet links on tasks and discussions.', 'wedevs-project-manager')} />}
       />
 
       {settings.picker_ready && driveEnabled && (
@@ -164,6 +160,8 @@ export default function GoogleWorkspaceSettingsTab() {
           <ShieldCheck className="h-4 w-4" /> {__('Google Workspace is configured. Users can now connect their accounts.', 'wedevs-project-manager')}
         </div>
       )}
+
+      <h3 className="text-sm font-semibold text-gray-900 mt-6 mb-2">{__('API credentials & keys', 'wedevs-project-manager')}</h3>
 
       <div className="rounded-lg border border-gray-200 bg-white p-5">
         <div className="mb-4">
