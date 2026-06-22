@@ -67,12 +67,27 @@ class Google_Service {
         ] );
     }
 
+    /** Per-user opt-out of Drive (toggled on the Google Workspace page). Default on. */
+    public static function user_drive_enabled( $user_id ) {
+        $v = get_user_meta( (int) $user_id, 'pm_gws_drive_on', true );
+        return $v === '' ? true : (bool) $v;
+    }
+
+    public static function set_user_drive_enabled( $user_id, $on ) {
+        update_user_meta( (int) $user_id, 'pm_gws_drive_on', $on ? 1 : 0 );
+    }
+
     /**
      * Whether a user may use Drive in a project. Managers/admins always may;
      * co_worker/client gated by the per-project access map.
      */
     public static function user_can_use_drive( $project_id, $user_id = null ) {
         $user_id = $user_id ? $user_id : get_current_user_id();
+
+        // Respect the user's own Drive on/off choice first.
+        if ( ! self::user_drive_enabled( $user_id ) ) {
+            return false;
+        }
 
         if ( wedevs_pm_has_manage_capability( $user_id ) || wedevs_pm_is_manager( $project_id, $user_id ) ) {
             return true;

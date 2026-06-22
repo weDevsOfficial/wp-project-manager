@@ -24,8 +24,18 @@ class OAuth_Controller {
                 'account_email'     => $conn['account_email'],
                 'expired'           => $conn['expired'],
                 'calendar_connected'=> Google_Service::user_has_calendar( get_current_user_id() ),
+                'drive_user_on'     => Google_Service::user_drive_enabled( get_current_user_id() ),
             ],
         ];
+    }
+
+    /** Per-user Workspace preferences (currently: Drive on/off for me). */
+    public function save_my_prefs( WP_REST_Request $request ) {
+        $user_id = get_current_user_id();
+        if ( $request->get_param( 'drive_on' ) !== null ) {
+            Google_Service::set_user_drive_enabled( $user_id, (bool) $request->get_param( 'drive_on' ) );
+        }
+        return [ 'data' => [ 'drive_user_on' => Google_Service::user_drive_enabled( $user_id ) ] ];
     }
 
     public function auth_url( WP_REST_Request $request ) {

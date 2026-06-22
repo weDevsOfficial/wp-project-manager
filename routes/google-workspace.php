@@ -25,6 +25,9 @@ $wedevs_pm_router->get( 'google-workspace/auth-url', $gw_base . 'OAuth_Controlle
 $wedevs_pm_router->post( 'google-workspace/disconnect', $gw_base . 'OAuth_Controller@disconnect' )
     ->permission( [ $gw_auth ] );
 
+$wedevs_pm_router->post( 'google-workspace/my-prefs', $gw_base . 'OAuth_Controller@save_my_prefs' )
+    ->permission( [ $gw_auth ] );
+
 // ── Drive Picker config (vends caller's own access token + Picker keys) ──
 $wedevs_pm_router->get( 'google-workspace/drive/picker-config', $gw_base . 'Drive_Controller@picker_config' )
     ->permission( [ $gw_auth ] );

@@ -74,6 +74,7 @@ class Loader {
             'account_email' => $conn['account_email'],
             'expired'       => $conn['expired'],
             'calendar_connected' => Google_Service::user_has_calendar( get_current_user_id() ),
+            'drive_user_on' => Google_Service::user_drive_enabled( get_current_user_id() ),
             'redirect_uri'  => self::redirect_uri(),
         ];
 

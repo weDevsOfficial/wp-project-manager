@@ -4,7 +4,7 @@ import { useApi } from '@hooks/useApi'
 const api = useApi()
 
 const initialState = {
-  status:   { configured: false, picker_ready: false, drive_enabled: false, connected: false, account_email: '', expired: false, calendar_connected: false },
+  status:   { configured: false, picker_ready: false, drive_enabled: false, connected: false, account_email: '', expired: false, calendar_connected: false, drive_user_on: true },
   settings: { client_id: '', has_secret: false, api_key: '', app_id: '', drive_enabled: false, picker_ready: false, redirect_uri: '' },
   statusLoading: false,
   settingsLoading: false,
@@ -47,6 +47,14 @@ export const getAuthUrl = createAsyncThunk(
   async (arg, { rejectWithValue }) => {
     const withCalendar = arg && arg.withCalendar
     try { const res = await api.get('google-workspace/auth-url', withCalendar ? { with_calendar: 1 } : undefined); return (res.data ?? res).auth_url }
+    catch (e) { return rejectWithValue(e.message) }
+  },
+)
+
+export const saveDrivePref = createAsyncThunk(
+  'googleWorkspace/saveDrivePref',
+  async ({ drive_on }, { rejectWithValue }) => {
+    try { const res = await api.post('google-workspace/my-prefs', { drive_on: drive_on ? 1 : 0 }); return (res.data ?? res).drive_user_on }
     catch (e) { return rejectWithValue(e.message) }
   },
 )
@@ -177,7 +185,8 @@ const slice = createSlice({
       .addCase(saveSettings.fulfilled, (s, a) => { s.saving = false; s.settings = a.payload; s.status.configured = a.payload.configured; s.status.picker_ready = a.payload.picker_ready; s.status.drive_enabled = a.payload.drive_enabled })
       .addCase(saveSettings.rejected,  (s) => { s.saving = false })
 
-      .addCase(disconnect.fulfilled, (s) => { s.status = { ...s.status, connected: false, account_email: '', expired: false } })
+      .addCase(disconnect.fulfilled, (s) => { s.status = { ...s.status, connected: false, account_email: '', expired: false, calendar_connected: false } })
+      .addCase(saveDrivePref.fulfilled, (s, a) => { s.status.drive_user_on = a.payload })
 
       .addCase(fetchAttachmentsFor.fulfilled, (s, a) => { s.attachmentsByKey[a.payload.key] = a.payload.files })
       .addCase(attachFileFor.pending,   (s) => { s.attachLoading = true })

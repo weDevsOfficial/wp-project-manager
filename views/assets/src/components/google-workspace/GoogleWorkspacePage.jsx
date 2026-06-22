@@ -8,8 +8,9 @@ import { __ } from '@wordpress/i18n'
  */
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
-import { fetchStatus, getAuthUrl, disconnect } from '@store/googleWorkspaceSlice'
+import { fetchStatus, getAuthUrl, disconnect, saveDrivePref } from '@store/googleWorkspaceSlice'
 import { Button } from '@components/ui/button'
+import { Switch } from '@components/ui/switch'
 import { Skeleton } from '@components/ui/skeleton'
 import { ShieldCheck, Unlink, HardDrive, Calendar, Video, Settings as SettingsIcon, Crown, Lock } from 'lucide-react'
 import { toast } from 'sonner'
@@ -153,20 +154,25 @@ export default function GoogleWorkspacePage() {
       {/* Connected services — one card per Google feature. */}
       <h2 className="text-sm font-medium text-gray-900">{__('Connected services', 'wedevs-project-manager')}</h2>
 
-      {/* Google Drive (free) */}
+      {/* Google Drive (free) — per-user on/off */}
       <section className="rounded-lg border border-gray-200 bg-white p-5">
-        <div className="flex items-start gap-3">
-          <DriveLogo width="20" height="20" />
-          <div className="flex-1">
-            <div className="text-sm font-medium text-gray-900">{__('Google Drive', 'wedevs-project-manager')}</div>
-            <div className="text-xs text-gray-500 mt-0.5">{__('Browse and attach Drive files to tasks, comments, discussions and files.', 'wedevs-project-manager')}</div>
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <DriveLogo width="20" height="20" />
+            <div>
+              <div className="text-sm font-medium text-gray-900">{__('Google Drive', 'wedevs-project-manager')}</div>
+              <div className="text-xs text-gray-500 mt-0.5">{__('Attach Drive files to tasks, comments, discussions and files.', 'wedevs-project-manager')}</div>
+            </div>
           </div>
-          {status.connected ? (
-            <span className="text-[11px] font-medium text-green-700 bg-green-50 rounded-full px-2 py-0.5">{__('Connected', 'wedevs-project-manager')}</span>
-          ) : (
-            <span className="text-[11px] font-medium text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">{__('Not connected', 'wedevs-project-manager')}</span>
-          )}
+          <Switch
+            checked={!!status.drive_user_on}
+            disabled={!status.connected}
+            onCheckedChange={v => dispatch(saveDrivePref({ drive_on: v }))}
+          />
         </div>
+        {!status.connected && (
+          <p className="mt-2 pl-8 text-xs text-amber-700">{__('Connect your Google account above to use Drive.', 'wedevs-project-manager')}</p>
+        )}
       </section>
 
       {/* Google Calendar — Pro fills with connect + status; free shows a cover. */}
