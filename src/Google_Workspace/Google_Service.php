@@ -141,6 +141,11 @@ class Google_Service {
         return self::user_has_scope( $user_id, Google_Client::CALENDAR_SCOPE );
     }
 
+    /** Whether the user has granted the Meet scope (Pro Meet feature). */
+    public static function user_has_meet( $user_id ) {
+        return self::user_has_scope( $user_id, Google_Client::MEET_SCOPE );
+    }
+
     public static function get_user_token( $user_id ) {
         if ( empty( $user_id ) ) {
             return null;
