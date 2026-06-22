@@ -12,7 +12,7 @@ import { fetchStatus, getAuthUrl, disconnect, saveDrivePref } from '@store/googl
 import { Button } from '@components/ui/button'
 import { Switch } from '@components/ui/switch'
 import { Skeleton } from '@components/ui/skeleton'
-import { ShieldCheck, Unlink, HardDrive, Calendar, Video, Settings as SettingsIcon, Crown, Lock } from 'lucide-react'
+import { ShieldCheck, Unlink, HardDrive, Calendar, Video, Settings as SettingsIcon, Crown, Lock, Info } from 'lucide-react'
 import { toast } from 'sonner'
 import { Slot } from '@hooks/useSlot'
 import { useProModal } from '@components/common/ProUpgradeModal'
@@ -148,6 +148,13 @@ export default function GoogleWorkspacePage() {
               <GoogleGlyph width="16" height="16" /> <span className="ml-1.5">{connecting ? __('Redirecting…', 'wedevs-project-manager') : __('Connect Google', 'wedevs-project-manager')}</span>
             </Button>
           </div>
+        )}
+
+        {status.configured && (
+          <p className="mt-3 flex items-start gap-1.5 text-xs text-gray-400">
+            <Info className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+            <span>{__('All Google features — Drive, Calendar and Meet — use this one account. Connecting a different Google account later replaces this one for every feature.', 'wedevs-project-manager')}</span>
+          </p>
         )}
       </section>
 
