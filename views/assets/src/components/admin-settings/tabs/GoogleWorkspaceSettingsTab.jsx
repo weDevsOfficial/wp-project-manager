@@ -29,13 +29,6 @@ const GoogleGlyph = (props) => (
   </svg>
 )
 
-const DriveLogo = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" {...props}>
-    <path d="M12 17L15.2083 11.5L17.4718 7.61972L19.8 11.5L21.4109 14.1848C23.2105 17.1841 21.05 21 17.5521 21H14.3333L13.1667 19L12 17Z" fill="#FECA06"/>
-    <path d="M8.79167 11.5L12 17L13.1667 19L14.3333 21H9.66667H6.44786C2.95003 21 0.789527 17.1841 2.58914 14.1848L4.2 11.5H8.79167Z" fill="#3185FF"/>
-    <path d="M15.2083 11.5H8.79167H4.2L6.52817 7.61972L8.35566 4.57391C10.0064 1.82272 13.9936 1.82272 15.6443 4.57391L17.4718 7.61972L15.2083 11.5Z" fill="#16BC66"/>
-  </svg>
-)
 
 /**
  * Free, locked teaser for a Pro Google feature's settings (Calendar/Meet).
@@ -127,14 +120,14 @@ export default function GoogleWorkspaceSettingsTab() {
   return (
     <div className="max-w-2xl">
       <div className="mb-5 flex items-start justify-between gap-3">
-        <div className="flex items-start gap-3">
-          <GoogleGlyph className="h-7 w-7 mt-0.5 shrink-0 text-pm-accent" />
-          <div>
-            <h2 className="text-lg font-semibold text-gray-900">{__('Google Workspace', 'wedevs-project-manager')}</h2>
-            <p className="text-xs text-gray-500 mt-1">
-              {__('Set up your Google Cloud project once. Users then connect their own account.', 'wedevs-project-manager')}
-            </p>
-          </div>
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <GoogleGlyph className="h-5 w-5 text-pm-accent" />
+            {__('Google Workspace', 'wedevs-project-manager')}
+          </h2>
+          <p className="text-xs text-gray-500 mt-1">
+            {__('Set up your Google Cloud project once. Users then connect their own account.', 'wedevs-project-manager')}
+          </p>
         </div>
         <a
           href={DOCS_URL}
@@ -148,12 +141,9 @@ export default function GoogleWorkspaceSettingsTab() {
 
       <div className="mb-4 rounded-lg border border-gray-200 bg-white p-4">
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-start gap-3">
-            <DriveLogo className="h-5 w-5 mt-0.5 shrink-0" />
-            <div>
-              <div className="text-sm font-medium text-gray-900">{__('Enable Google Drive', 'wedevs-project-manager')}</div>
-              <div className="text-xs text-gray-500 mt-0.5">{__('Show Google Drive in the sidebar and on tasks. Turn off to hide it everywhere.', 'wedevs-project-manager')}</div>
-            </div>
+          <div>
+            <div className="text-sm font-medium text-gray-900">{__('Enable Google Drive', 'wedevs-project-manager')}</div>
+            <div className="text-xs text-gray-500 mt-0.5">{__('Show Google Drive in the sidebar and on tasks. Turn off to hide it everywhere.', 'wedevs-project-manager')}</div>
           </div>
           <Switch checked={driveEnabled} onCheckedChange={toggleDrive} disabled={settingsLoading} />
         </div>
