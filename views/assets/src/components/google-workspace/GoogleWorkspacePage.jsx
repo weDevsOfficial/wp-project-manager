@@ -17,29 +17,6 @@ import { Slot } from '@hooks/useSlot'
 import { useProModal } from '@components/common/ProUpgradeModal'
 
 /**
- * Free cover for an upcoming Pro Google feature (Calendar/Meet). Pro replaces
- * it by filling the matching slot. Click opens the upgrade modal.
- */
-const ProFeatureRow = ({ icon: Icon, title, description }) => {
-  const { setOpen } = useProModal()
-  return (
-    <li
-      className="flex items-center gap-3 cursor-pointer rounded-md -mx-2 px-2 py-1 hover:bg-gray-50"
-      onClick={() => setOpen(true)}
-    >
-      <Icon className="h-[18px] w-[18px] text-gray-400" />
-      <div className="flex-1">
-        <div className="text-sm text-gray-800">{title}</div>
-        <div className="text-xs text-gray-500">{description}</div>
-      </div>
-      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white rounded-full px-2 py-0.5" style={{ background: '#ff9000' }}>
-        <Crown className="h-3 w-3" /> {__('Pro', 'wedevs-project-manager')}
-      </span>
-    </li>
-  )
-}
-
-/**
  * Free card cover for a Pro Google feature section (e.g. Calendar). Pro replaces
  * it by filling the matching slot with the real settings.
  */
@@ -173,31 +150,37 @@ export default function GoogleWorkspacePage() {
         )}
       </section>
 
-      {/* Features overview — grows as Calendar/Meet land. */}
+      {/* Connected services — one card per Google feature. */}
+      <h2 className="text-sm font-medium text-gray-900">{__('Connected services', 'wedevs-project-manager')}</h2>
+
+      {/* Google Drive (free) */}
       <section className="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 className="text-sm font-medium text-gray-900 mb-3">{__('Features', 'wedevs-project-manager')}</h2>
-        <ul className="space-y-3">
-          <li className="flex items-center gap-3">
-            <DriveLogo width="18" height="18" />
-            <div className="flex-1">
-              <div className="text-sm text-gray-800">{__('Google Drive', 'wedevs-project-manager')}</div>
-              <div className="text-xs text-gray-500">{__('Browse and attach Drive files to tasks.', 'wedevs-project-manager')}</div>
-            </div>
-            <span className="text-[11px] font-medium text-green-700 bg-green-50 rounded-full px-2 py-0.5">{__('Available', 'wedevs-project-manager')}</span>
-          </li>
-          <Slot
-            name="google.workspace.feature.meet"
-            status={status}
-            fallback={<ProFeatureRow icon={Video} title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Meet links for tasks and discussions.', 'wedevs-project-manager')} />}
-          />
-        </ul>
+        <div className="flex items-start gap-3">
+          <DriveLogo width="20" height="20" />
+          <div className="flex-1">
+            <div className="text-sm font-medium text-gray-900">{__('Google Drive', 'wedevs-project-manager')}</div>
+            <div className="text-xs text-gray-500 mt-0.5">{__('Browse and attach Drive files to tasks, comments, discussions and files.', 'wedevs-project-manager')}</div>
+          </div>
+          {status.connected ? (
+            <span className="text-[11px] font-medium text-green-700 bg-green-50 rounded-full px-2 py-0.5">{__('Connected', 'wedevs-project-manager')}</span>
+          ) : (
+            <span className="text-[11px] font-medium text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">{__('Not connected', 'wedevs-project-manager')}</span>
+          )}
+        </div>
       </section>
 
-      {/* Google Calendar — Pro fills with sync settings + connect; free shows a cover. */}
+      {/* Google Calendar — Pro fills with connect + status; free shows a cover. */}
       <Slot
         name="google.workspace.feature.calendar"
         status={status}
-        fallback={<ProFeatureCard icon={Calendar} title={__('Google Calendar sync', 'wedevs-project-manager')} description={__('Two-way sync task due dates and milestones with Google Calendar.', 'wedevs-project-manager')} />}
+        fallback={<ProFeatureCard icon={Calendar} title={__('Google Calendar', 'wedevs-project-manager')} description={__('Two-way sync task due dates and milestones with Google Calendar.', 'wedevs-project-manager')} />}
+      />
+
+      {/* Google Meet — Pro (coming soon); free shows a cover. */}
+      <Slot
+        name="google.workspace.feature.meet"
+        status={status}
+        fallback={<ProFeatureCard icon={Video} title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Meet links for tasks and discussions.', 'wedevs-project-manager')} />}
       />
     </div>
   )

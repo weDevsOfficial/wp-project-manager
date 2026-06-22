@@ -250,7 +250,7 @@ export function AppSidebar() {
     // Google Workspace — free feature, shown to everyone when the admin has
     // enabled Google Drive in Settings → Google Workspace.
     if (typeof PM_Vars !== 'undefined' && PM_Vars.google_workspace?.drive_enabled) {
-      items.push({ key: 'google-workspace', label: isPro ? __('G Workspace', 'wedevs-project-manager') : __('G Drive', 'wedevs-project-manager'), short: __('Drive', 'wedevs-project-manager'), icon: GoogleDriveNavIcon, route: '/google-workspace' })
+      items.push({ key: 'google-workspace', label: __('Google Workspace', 'wedevs-project-manager'), short: __('Workspace', 'wedevs-project-manager'), icon: GoogleDriveNavIcon, route: '/google-workspace' })
     }
     return items
   }, [__, isPro, activeModulePaths, canManage, isManagerAnywhere])
