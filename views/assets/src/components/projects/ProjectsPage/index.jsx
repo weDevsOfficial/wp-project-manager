@@ -28,6 +28,7 @@ import { Skeleton } from "@components/ui/skeleton";
 import { Progress } from "@components/ui/progress";
 import { Avatar, AvatarFallback } from "@components/ui/avatar";
 import { UserAvatar } from '@components/common/UserAvatar';
+import TemplatesHeaderButton from '@components/projects/TemplatesHeaderButton';
 import {
   Select,
   SelectContent,
@@ -701,6 +702,8 @@ export default function ProjectsPage() {
           {__("Projects", 'wedevs-project-manager')}
         </h1>
         <div className="flex items-center gap-2">
+          {/* Templates button — real picker when pro, upgrade teaser when free */}
+          <TemplatesHeaderButton />
           <Button
             size="sm"
             variant="outline"

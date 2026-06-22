@@ -10,6 +10,8 @@ import {
 } from '@store/projectsSlice'
 import { cn } from '@lib/utils'
 import { useToast } from '@hooks/useToast'
+import { applyFilters } from '@hooks/useSlot'
+import ProTemplateField from '@components/projects/ProTemplateField'
 
 import { Button } from '@components/ui/button'
 import { Label } from '@components/ui/label'
@@ -259,11 +261,12 @@ export function ProjectCreateSheet() {
 
     try {
       if (isEditMode) {
-        payload.projectId = editProject.id
-        await dispatch(updateProject(payload)).unwrap()
+        await dispatch(updateProject({ ...payload, projectId: editProject.id })).unwrap()
         toast.success(__('Project updated successfully', 'wedevs-project-manager'))
       } else {
-        await dispatch(createProject(payload)).unwrap()
+        // Allow pro modules (e.g. Templates) to inject extra fields (e.g. template_id)
+        const createPayload = applyFilters('project.create.payload', payload)
+        await dispatch(createProject(createPayload)).unwrap()
         toast.success(__('Project created successfully', 'wedevs-project-manager'))
       }
     } catch {
@@ -356,6 +359,9 @@ export function ProjectCreateSheet() {
           </div>
 
           <Separator />
+
+          {/* Template picker — shows upgrade teaser on free, real picker when pro active */}
+          {!isEditMode && <ProTemplateField />}
 
           {/* Team Members */}
           <div className="space-y-3">
