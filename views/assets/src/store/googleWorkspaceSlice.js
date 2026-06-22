@@ -191,7 +191,7 @@ const slice = createSlice({
       .addCase(saveSettings.fulfilled, (s, a) => { s.saving = false; s.settings = a.payload; s.status.configured = a.payload.configured; s.status.picker_ready = a.payload.picker_ready; s.status.drive_enabled = a.payload.drive_enabled; s.status.drive_comments_on = a.payload.drive_comments })
       .addCase(saveSettings.rejected,  (s) => { s.saving = false })
 
-      .addCase(disconnect.fulfilled, (s) => { s.status = { ...s.status, connected: false, account_email: '', expired: false, calendar_connected: false } })
+      .addCase(disconnect.fulfilled, (s) => { s.status = { ...s.status, connected: false, account_email: '', expired: false, calendar_connected: false, meet_connected: false } })
       .addCase(saveDrivePref.fulfilled, (s, a) => { s.status.drive_user_on = a.payload })
 
       .addCase(fetchAttachmentsFor.fulfilled, (s, a) => { s.attachmentsByKey[a.payload.key] = a.payload.files })
