@@ -238,6 +238,10 @@ class Google_Service {
             return;
         }
 
+        // Let features (e.g. Pro Calendar) clean up their Google data while the
+        // token is still valid — fired before revoke so API calls still work.
+        do_action( 'pm_google_before_disconnect', (int) $user_id );
+
         $refresh = self::decrypt( $token->refresh_token );
         if ( $refresh ) {
             self::client()->revoke( $refresh );
