@@ -177,7 +177,7 @@ export default function GoogleWorkspacePage() {
             </div>
           </div>
           <Switch
-            checked={!!status.drive_user_on}
+            checked={!!status.connected && !!status.drive_user_on}
             disabled={!status.connected}
             onCheckedChange={v => dispatch(saveDrivePref({ drive_on: v }))}
           />
