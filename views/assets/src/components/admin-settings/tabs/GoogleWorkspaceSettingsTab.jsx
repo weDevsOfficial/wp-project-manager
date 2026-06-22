@@ -20,6 +20,23 @@ import ProBadge from '@components/common/ProBadge'
 
 const DOCS_URL = 'https://wedevs.com/docs/wp-project-manager/integrations/google-workspace/'
 
+const GoogleGlyph = (props) => (
+  <svg viewBox="0 0 24 24" {...props}>
+    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/>
+    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/>
+    <path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/>
+    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.06l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/>
+  </svg>
+)
+
+const DriveLogo = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" {...props}>
+    <path d="M12 17L15.2083 11.5L17.4718 7.61972L19.8 11.5L21.4109 14.1848C23.2105 17.1841 21.05 21 17.5521 21H14.3333L13.1667 19L12 17Z" fill="#FECA06"/>
+    <path d="M8.79167 11.5L12 17L13.1667 19L14.3333 21H9.66667H6.44786C2.95003 21 0.789527 17.1841 2.58914 14.1848L4.2 11.5H8.79167Z" fill="#3185FF"/>
+    <path d="M15.2083 11.5H8.79167H4.2L6.52817 7.61972L8.35566 4.57391C10.0064 1.82272 13.9936 1.82272 15.6443 4.57391L17.4718 7.61972L15.2083 11.5Z" fill="#16BC66"/>
+  </svg>
+)
+
 /**
  * Free, locked teaser for a Pro Google feature's settings (Calendar/Meet).
  * Pro replaces it by filling the matching slot with real enable + sync toggles.
@@ -110,11 +127,14 @@ export default function GoogleWorkspaceSettingsTab() {
   return (
     <div className="max-w-2xl">
       <div className="mb-5 flex items-start justify-between gap-3">
-        <div>
-          <h2 className="text-lg font-semibold text-gray-900">{__('G Workspace', 'wedevs-project-manager')}</h2>
-          <p className="text-xs text-gray-500 mt-1">
-            {__('Set up your Google Cloud project once. Users then connect their own account.', 'wedevs-project-manager')}
-          </p>
+        <div className="flex items-start gap-3">
+          <GoogleGlyph className="h-7 w-7 mt-0.5 shrink-0" />
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">{__('Google Workspace', 'wedevs-project-manager')}</h2>
+            <p className="text-xs text-gray-500 mt-1">
+              {__('Set up your Google Cloud project once. Users then connect their own account.', 'wedevs-project-manager')}
+            </p>
+          </div>
         </div>
         <a
           href={DOCS_URL}
@@ -126,23 +146,28 @@ export default function GoogleWorkspaceSettingsTab() {
         </a>
       </div>
 
-      <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
-        <div>
-          <div className="text-sm font-medium text-gray-900">{__('Enable Google Drive', 'wedevs-project-manager')}</div>
-          <div className="text-xs text-gray-500 mt-0.5">{__('Show Google Drive in the sidebar and on tasks. Turn off to hide it everywhere.', 'wedevs-project-manager')}</div>
-        </div>
-        <Switch checked={driveEnabled} onCheckedChange={toggleDrive} disabled={settingsLoading} />
-      </div>
-
-      {driveEnabled && (
-        <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
-          <div>
-            <div className="text-sm font-medium text-gray-900">{__('Allow Drive in comments', 'wedevs-project-manager')}</div>
-            <div className="text-xs text-gray-500 mt-0.5">{__('Let users attach Drive files inside comments. Turn off to hide the Drive button in comments only.', 'wedevs-project-manager')}</div>
+      <div className="mb-4 rounded-lg border border-gray-200 bg-white p-4">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <DriveLogo className="h-5 w-5 mt-0.5 shrink-0" />
+            <div>
+              <div className="text-sm font-medium text-gray-900">{__('Enable Google Drive', 'wedevs-project-manager')}</div>
+              <div className="text-xs text-gray-500 mt-0.5">{__('Show Google Drive in the sidebar and on tasks. Turn off to hide it everywhere.', 'wedevs-project-manager')}</div>
+            </div>
           </div>
-          <Switch checked={driveComments} onCheckedChange={toggleComments} disabled={settingsLoading} />
+          <Switch checked={driveEnabled} onCheckedChange={toggleDrive} disabled={settingsLoading} />
         </div>
-      )}
+
+        {driveEnabled && (
+          <div className="mt-4 pl-8 border-t border-gray-100 pt-3 flex items-center justify-between gap-3">
+            <div>
+              <div className="text-sm font-medium text-gray-900">{__('Allow Drive in comments', 'wedevs-project-manager')}</div>
+              <div className="text-xs text-gray-500 mt-0.5">{__('Let users attach Drive files inside comments. Turn off to hide the Drive button in comments only.', 'wedevs-project-manager')}</div>
+            </div>
+            <Switch checked={driveComments} onCheckedChange={toggleComments} disabled={settingsLoading} />
+          </div>
+        )}
+      </div>
 
       <Slot
         name="google.workspace.settings.calendar"
@@ -161,7 +186,7 @@ export default function GoogleWorkspaceSettingsTab() {
         </div>
       )}
 
-      <h3 className="text-sm font-semibold text-gray-900 mt-6 mb-2">{__('API credentials & keys', 'wedevs-project-manager')}</h3>
+      <h3 className="text-lg font-semibold text-gray-900 mt-6 mb-2">{__('API credentials & keys', 'wedevs-project-manager')}</h3>
 
       <div className="rounded-lg border border-gray-200 bg-white p-5">
         <div className="mb-4">
