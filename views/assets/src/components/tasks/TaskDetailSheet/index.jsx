@@ -27,6 +27,7 @@ import { stripAllPreviewUrls } from '@/lib/url-strippers'
 import { sanitizeHtml } from '@lib/sanitize'
 import FileUploadArea from '@components/common/FileUploadArea'
 import CommentAttachment from '@components/common/CommentAttachment'
+import GoogleDriveCommentButton from '@components/google-workspace/GoogleDriveCommentButton'
 import TaskStatusCircle from '@components/common/TaskStatusCircle'
 import NotifyUsers from '@components/common/NotifyUsers'
 import { UserAvatar } from '@components/common/UserAvatar'
@@ -87,6 +88,19 @@ function extractMentionedUsers(html) {
     if (id && !ids.includes(id)) ids.push(id)
   })
   return ids.join(',')
+}
+
+// The Google Drive Picker renders its own overlay outside this sheet's DOM.
+// Treat clicks/focus on it as "inside" so the task sheet stays open while
+// the user picks a file (only the X / Esc should close the sheet).
+function isGooglePickerInteraction(e) {
+  // While the Picker session is active, never let an outside interaction close
+  // the sheet (the Picker overlay lives outside this DOM and its focus/pointer
+  // events would otherwise dismiss the task).
+  if (typeof window !== 'undefined' && window.__pmGooglePickerOpen) return true
+  const t = e?.detail?.originalEvent?.target || e?.target
+  if (!t || typeof t.closest !== 'function') return false
+  return !!t.closest('.picker-dialog, .picker-dialog-bg, .picker, .picker-dialog-content')
 }
 
 export default function TaskDetailSheet() {
@@ -481,6 +495,9 @@ export default function TaskDetailSheet() {
           'overflow-y-auto p-0 transition-all duration-300',
           fullscreen ? 'w-full sm:max-w-full' : 'w-full sm:max-w-[560px]',
         )}
+        onPointerDownOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
+        onInteractOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
+        onFocusOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
       >
         {loading && !currentTask ? (
           <div className="flex items-center justify-center py-20">
@@ -793,6 +810,7 @@ export default function TaskDetailSheet() {
                             <span className="text-[13px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
                             {canEdit && !isEditing && (
                               <span className="opacity-0 group-hover/comment:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
+                                <GoogleDriveCommentButton projectId={projectId} attachableType="comment" attachableId={comment.id} allowEdit={canEdit} />
                                 <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit', 'wedevs-project-manager')}>
                                   <Pencil className="h-3.5 w-3.5" />
                                 </button>
