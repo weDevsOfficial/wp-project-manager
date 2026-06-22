@@ -16,8 +16,9 @@ import {
   AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle,
   AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction,
 } from '@components/ui/alert-dialog'
-import { ShieldCheck, Unlink, HardDrive, Settings as SettingsIcon, Crown, Lock, Info } from 'lucide-react'
+import { ShieldCheck, Unlink, HardDrive, Settings as SettingsIcon, Lock, Info } from 'lucide-react'
 import { CalendarGlyph, MeetGlyph } from '@components/google-workspace/GoogleIcons'
+import ProBadge from '@components/common/ProBadge'
 import { toast } from 'sonner'
 import { Slot } from '@hooks/useSlot'
 import { useProModal } from '@components/common/ProUpgradeModal'
@@ -39,9 +40,7 @@ const ProFeatureCard = ({ icon: Icon, title, description }) => {
           <div>
             <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
               {title}
-              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-white rounded-full px-1.5 py-0.5" style={{ background: '#ff9000' }}>
-                <Crown className="h-2.5 w-2.5" /> {__('Pro', 'wedevs-project-manager')}
-              </span>
+              <ProBadge />
             </div>
             <div className="text-xs text-gray-500 mt-0.5">{description}</div>
           </div>

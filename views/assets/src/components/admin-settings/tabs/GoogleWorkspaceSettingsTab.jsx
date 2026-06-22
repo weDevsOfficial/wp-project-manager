@@ -12,10 +12,11 @@ import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Switch } from '@components/ui/switch'
 import { Skeleton } from '@components/ui/skeleton'
-import { Copy, Check, ExternalLink, ShieldCheck, Lock, Crown, BookOpen } from 'lucide-react'
+import { Copy, Check, ExternalLink, ShieldCheck, Lock } from 'lucide-react'
 import { useToast } from '@hooks/useToast'
 import { Slot } from '@hooks/useSlot'
 import { useProModal } from '@components/common/ProUpgradeModal'
+import ProBadge from '@components/common/ProBadge'
 import { CalendarGlyph, MeetGlyph } from '@components/google-workspace/GoogleIcons'
 
 const DOCS_URL = 'https://wedevs.com/docs/wp-project-manager/integrations/google-workspace/'
@@ -36,9 +37,7 @@ const LockedSettingCard = ({ icon: Icon, title, description }) => {
         <div>
           <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
             {title}
-            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-white rounded-full px-1.5 py-0.5" style={{ background: '#ff9000' }}>
-              <Crown className="h-2.5 w-2.5" /> {__('Pro', 'wedevs-project-manager')}
-            </span>
+            <ProBadge />
           </div>
           <div className="text-xs text-gray-500 mt-0.5">{description}</div>
         </div>
@@ -114,17 +113,20 @@ export default function GoogleWorkspaceSettingsTab() {
 
   return (
     <div className="max-w-2xl">
-      <div className="mb-5">
-        <h2 className="text-lg font-semibold text-gray-900">{__('Google Workspace', 'wedevs-project-manager')}</h2>
-        <p className="text-xs text-gray-500 mt-1">
-          {__('Set up your Google Cloud project once. Each user then connects their own Google account from the Google Workspace page.', 'wedevs-project-manager')}
-        </p>
+      <div className="mb-5 flex items-start justify-between gap-3">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900">{__('Google Workspace', 'wedevs-project-manager')}</h2>
+          <p className="text-xs text-gray-500 mt-1">
+            {__('Set up your Google Cloud project once. Each user then connects their own Google account from the Google Workspace page.', 'wedevs-project-manager')}
+          </p>
+        </div>
         <a
           href={DOCS_URL}
           target="_blank" rel="noreferrer"
-          className="mt-1.5 inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:underline"
+          title={__('Setup guide', 'wedevs-project-manager')}
+          className="mt-0.5 shrink-0 text-gray-400 hover:text-blue-600"
         >
-          <BookOpen className="h-3.5 w-3.5" /> {__('How to set this up', 'wedevs-project-manager')}
+          <ExternalLink className="h-4 w-4" />
         </a>
       </div>
 
