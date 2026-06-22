@@ -134,6 +134,10 @@ class Drive_Controller {
             return new \WP_Error( 'pm_google_bad_request', __( 'Invalid attachment target.', 'wedevs-project-manager' ), [ 'status' => 422 ] );
         }
 
+        if ( $type === 'comment' && ! Google_Service::drive_comments_enabled() ) {
+            return new \WP_Error( 'pm_google_forbidden', __( 'Google Drive in comments is turned off.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
+        }
+
         if ( ! $this->can_manage_attachable( $type, $id, $project_id ) ) {
             return new \WP_Error( 'pm_google_forbidden', __( 'You can only attach Drive files to your own comment.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
         }

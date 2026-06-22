@@ -43,6 +43,7 @@ export default function GoogleDriveCommentButton({ projectId, attachableType, at
   }
 
   // Only show when the user can actually add here.
+  if (status.drive_comments_on === false) return null
   if (!(status.configured && status.connected && status.picker_ready && canUse === true && allowEdit)) return null
 
   return (

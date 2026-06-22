@@ -105,6 +105,12 @@ class Google_Service {
         return ! empty( $settings['drive_enabled'] );
     }
 
+    /** Whether Drive attach is allowed inside comments (admin-controlled, default on). */
+    public static function drive_comments_enabled() {
+        $settings = get_option( 'pm_google_workspace_settings', [] );
+        return ! array_key_exists( 'drive_comments', $settings ) ? true : ! empty( $settings['drive_comments'] );
+    }
+
     /** Picker also needs an API key + App ID (project number). */
     public static function picker_ready() {
         $settings = get_option( 'pm_google_workspace_settings', [] );

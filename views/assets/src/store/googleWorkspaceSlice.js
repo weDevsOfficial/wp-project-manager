@@ -4,7 +4,7 @@ import { useApi } from '@hooks/useApi'
 const api = useApi()
 
 const initialState = {
-  status:   { configured: false, picker_ready: false, drive_enabled: false, connected: false, account_email: '', expired: false, calendar_connected: false, drive_user_on: true },
+  status:   { configured: false, picker_ready: false, drive_enabled: false, connected: false, account_email: '', expired: false, calendar_connected: false, drive_user_on: true, drive_comments_on: true },
   settings: { client_id: '', has_secret: false, api_key: '', app_id: '', drive_enabled: false, picker_ready: false, redirect_uri: '' },
   statusLoading: false,
   settingsLoading: false,
@@ -36,9 +36,13 @@ export const fetchSettings = createAsyncThunk(
 
 export const saveSettings = createAsyncThunk(
   'googleWorkspace/saveSettings',
-  async ({ client_id, client_secret, api_key, app_id, drive_enabled }, { rejectWithValue }) => {
-    try { const res = await api.post('google-workspace/settings', { client_id, client_secret, api_key, app_id, drive_enabled }); return res.data ?? res }
-    catch (e) { return rejectWithValue(e.message) }
+  async ({ client_id, client_secret, api_key, app_id, drive_enabled, drive_comments }, { rejectWithValue }) => {
+    try {
+      const body = { client_id, client_secret, api_key, app_id, drive_enabled }
+      if (drive_comments !== undefined) body.drive_comments = drive_comments ? 1 : 0
+      const res = await api.post('google-workspace/settings', body)
+      return res.data ?? res
+    } catch (e) { return rejectWithValue(e.message) }
   },
 )
 
@@ -182,7 +186,7 @@ const slice = createSlice({
       .addCase(fetchSettings.rejected,  (s) => { s.settingsLoading = false })
 
       .addCase(saveSettings.pending,   (s) => { s.saving = true })
-      .addCase(saveSettings.fulfilled, (s, a) => { s.saving = false; s.settings = a.payload; s.status.configured = a.payload.configured; s.status.picker_ready = a.payload.picker_ready; s.status.drive_enabled = a.payload.drive_enabled })
+      .addCase(saveSettings.fulfilled, (s, a) => { s.saving = false; s.settings = a.payload; s.status.configured = a.payload.configured; s.status.picker_ready = a.payload.picker_ready; s.status.drive_enabled = a.payload.drive_enabled; s.status.drive_comments_on = a.payload.drive_comments })
       .addCase(saveSettings.rejected,  (s) => { s.saving = false })
 
       .addCase(disconnect.fulfilled, (s) => { s.status = { ...s.status, connected: false, account_email: '', expired: false, calendar_connected: false } })

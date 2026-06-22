@@ -12,10 +12,13 @@ import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Switch } from '@components/ui/switch'
 import { Skeleton } from '@components/ui/skeleton'
-import { Copy, Check, ExternalLink, ShieldCheck, Calendar, Video, Lock, Crown } from 'lucide-react'
+import { Copy, Check, ExternalLink, ShieldCheck, Lock, Crown, BookOpen } from 'lucide-react'
 import { useToast } from '@hooks/useToast'
 import { Slot } from '@hooks/useSlot'
 import { useProModal } from '@components/common/ProUpgradeModal'
+import { CalendarGlyph, MeetGlyph } from '@components/google-workspace/GoogleIcons'
+
+const DOCS_URL = 'https://wedevs.com/docs/wp-project-manager/integrations/google-workspace/'
 
 /**
  * Free, locked teaser for a Pro Google feature's settings (Calendar/Meet).
@@ -55,6 +58,7 @@ export default function GoogleWorkspaceSettingsTab() {
   const [apiKey, setApiKey] = useState('')
   const [appId, setAppId] = useState('')
   const [driveEnabled, setDriveEnabled] = useState(false)
+  const [driveComments, setDriveComments] = useState(true)
   const [copied, setCopied] = useState(false)
 
   useEffect(() => { dispatch(fetchSettings()) }, [dispatch])
@@ -64,7 +68,8 @@ export default function GoogleWorkspaceSettingsTab() {
     setApiKey(settings.api_key || '')
     setAppId(settings.app_id || '')
     setDriveEnabled(!!settings.drive_enabled)
-  }, [settings.client_id, settings.api_key, settings.app_id, settings.drive_enabled])
+    setDriveComments(settings.drive_comments === undefined ? true : !!settings.drive_comments)
+  }, [settings.client_id, settings.api_key, settings.app_id, settings.drive_enabled, settings.drive_comments])
 
   const redirectUri = settings.redirect_uri || (window.PM_Vars?.google_workspace?.redirect_uri ?? '')
 
@@ -85,6 +90,17 @@ export default function GoogleWorkspaceSettingsTab() {
     }
   }
 
+  async function toggleComments(v) {
+    setDriveComments(v)
+    const res = await dispatch(saveSettings({ client_id: clientId, client_secret: '', api_key: apiKey, app_id: appId, drive_enabled: driveEnabled, drive_comments: v }))
+    if (saveSettings.fulfilled.match(res)) {
+      toast.success(v ? __('Drive in comments enabled.', 'wedevs-project-manager') : __('Drive in comments disabled.', 'wedevs-project-manager'))
+    } else {
+      setDriveComments(!v)
+      toast.error(res.payload || __('Failed to update.', 'wedevs-project-manager'))
+    }
+  }
+
   async function onSave(e) {
     e.preventDefault()
     const res = await dispatch(saveSettings({ client_id: clientId, client_secret: clientSecret, api_key: apiKey, app_id: appId, drive_enabled: driveEnabled }))
@@ -100,9 +116,16 @@ export default function GoogleWorkspaceSettingsTab() {
     <div className="max-w-2xl">
       <div className="mb-5">
         <h2 className="text-lg font-semibold text-gray-900">{__('Google Workspace', 'wedevs-project-manager')}</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          {__('Connect your Google Cloud project once. These credentials power all Google Workspace features (Drive now; Calendar and Meet coming soon). Each user then connects their own Google account from the Google Workspace page.', 'wedevs-project-manager')}
+        <p className="text-xs text-gray-500 mt-1">
+          {__('Set up your Google Cloud project once. Each user then connects their own Google account from the Google Workspace page.', 'wedevs-project-manager')}
         </p>
+        <a
+          href={DOCS_URL}
+          target="_blank" rel="noreferrer"
+          className="mt-1.5 inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:underline"
+        >
+          <BookOpen className="h-3.5 w-3.5" /> {__('How to set this up', 'wedevs-project-manager')}
+        </a>
       </div>
 
       <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
@@ -113,15 +136,25 @@ export default function GoogleWorkspaceSettingsTab() {
         <Switch checked={driveEnabled} onCheckedChange={toggleDrive} disabled={settingsLoading} />
       </div>
 
+      {driveEnabled && (
+        <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
+          <div>
+            <div className="text-sm font-medium text-gray-900">{__('Allow Drive in comments', 'wedevs-project-manager')}</div>
+            <div className="text-xs text-gray-500 mt-0.5">{__('Let users attach Drive files inside comments. Turn off to hide the Drive button in comments only.', 'wedevs-project-manager')}</div>
+          </div>
+          <Switch checked={driveComments} onCheckedChange={toggleComments} disabled={settingsLoading} />
+        </div>
+      )}
+
       <Slot
         name="google.workspace.settings.calendar"
         settings={settings}
-        fallback={<LockedSettingCard icon={Calendar} title={__('Google Calendar sync', 'wedevs-project-manager')} description={__('Two-way sync of task due dates and milestones with Google Calendar.', 'wedevs-project-manager')} />}
+        fallback={<LockedSettingCard icon={CalendarGlyph} title={__('Google Calendar sync', 'wedevs-project-manager')} description={__('Two-way sync of task due dates and milestones with Google Calendar.', 'wedevs-project-manager')} />}
       />
       <Slot
         name="google.workspace.settings.meet"
         settings={settings}
-        fallback={<LockedSettingCard icon={Video} title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Google Meet links on tasks and discussions.', 'wedevs-project-manager')} />}
+        fallback={<LockedSettingCard icon={MeetGlyph} title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Google Meet links on tasks and discussions.', 'wedevs-project-manager')} />}
       />
 
       {settings.picker_ready && driveEnabled && (

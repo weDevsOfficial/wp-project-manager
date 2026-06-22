@@ -16,7 +16,8 @@ import {
   AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle,
   AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction,
 } from '@components/ui/alert-dialog'
-import { ShieldCheck, Unlink, HardDrive, Calendar, Video, Settings as SettingsIcon, Crown, Lock, Info } from 'lucide-react'
+import { ShieldCheck, Unlink, HardDrive, Settings as SettingsIcon, Crown, Lock, Info } from 'lucide-react'
+import { CalendarGlyph, MeetGlyph } from '@components/google-workspace/GoogleIcons'
 import { toast } from 'sonner'
 import { Slot } from '@hooks/useSlot'
 import { useProModal } from '@components/common/ProUpgradeModal'
@@ -191,14 +192,14 @@ export default function GoogleWorkspacePage() {
       <Slot
         name="google.workspace.feature.calendar"
         status={status}
-        fallback={<ProFeatureCard icon={Calendar} title={__('Google Calendar', 'wedevs-project-manager')} description={__('Two-way sync task due dates and milestones with Google Calendar.', 'wedevs-project-manager')} />}
+        fallback={<ProFeatureCard icon={CalendarGlyph} title={__('Google Calendar', 'wedevs-project-manager')} description={__('Two-way sync task due dates and milestones with Google Calendar.', 'wedevs-project-manager')} />}
       />
 
       {/* Google Meet — Pro (coming soon); free shows a cover. */}
       <Slot
         name="google.workspace.feature.meet"
         status={status}
-        fallback={<ProFeatureCard icon={Video} title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Meet links for tasks and discussions.', 'wedevs-project-manager')} />}
+        fallback={<ProFeatureCard icon={MeetGlyph} title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Meet links for tasks and discussions.', 'wedevs-project-manager')} />}
       />
 
       <AlertDialog open={disconnectOpen} onOpenChange={setDisconnectOpen}>
