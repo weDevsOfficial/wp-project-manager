@@ -132,8 +132,48 @@ function patchReturnType($file, $method) {
 }
 
 
+function patchArrQuery($file) {
+    if (!file_exists($file)) {
+        echo "❌ File not found: $file\n";
+        return;
+    }
+
+    $content = file_get_contents($file);
+
+    if (strpos($content, "http_build_query(\$array, '',") !== false) {
+        echo "⚠️ Arr::query already patched or no changes needed\n";
+        return;
+    }
+
+    $content = preg_replace(
+        '/http_build_query\(\$array,\s*null,\s*/',
+        "http_build_query(\$array, '', ",
+        $content,
+        1,
+        $replacements
+    );
+
+    if ($replacements !== 1) {
+        echo "❌ Could not patch Arr::query signature (pattern not found)\n";
+        return;
+    }
+
+    if (file_put_contents($file, $content) === false) {
+        echo "❌ Failed to write patched Arr.php\n";
+        return;
+    }
+
+    echo "✅ Patched Arr::query: null \$numeric_prefix -> '' (PHP 8.1+ deprecation)\n";
+}
+
+
+// Patch Arr::query null numeric_prefix deprecation (PHP 8.1–8.4)
+// display_errors-on environments otherwise leak a Deprecated notice into JSON.
+echo "=== Patching Illuminate Support Arr ===\n";
+patchArrQuery(__DIR__ . '/../vendor/illuminate/support/Arr.php');
+
 // Patch Container class for PSR-11 and ArrayAccess compatibility
-echo "=== Patching Illuminate Container ===\n";
+echo "\n=== Patching Illuminate Container ===\n";
 $targetContainerFile = __DIR__ . '/../vendor/illuminate/container/Container.php';
 patchContainerPSR11($targetContainerFile);
 
