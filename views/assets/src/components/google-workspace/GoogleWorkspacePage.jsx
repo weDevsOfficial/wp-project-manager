@@ -12,6 +12,10 @@ import { fetchStatus, getAuthUrl, disconnect, saveDrivePref } from '@store/googl
 import { Button } from '@components/ui/button'
 import { Switch } from '@components/ui/switch'
 import { Skeleton } from '@components/ui/skeleton'
+import {
+  AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction,
+} from '@components/ui/alert-dialog'
 import { ShieldCheck, Unlink, HardDrive, Calendar, Video, Settings as SettingsIcon, Crown, Lock, Info } from 'lucide-react'
 import { toast } from 'sonner'
 import { Slot } from '@hooks/useSlot'
@@ -73,6 +77,7 @@ export default function GoogleWorkspacePage() {
   const dispatch = useAppDispatch()
   const { status, statusLoading } = useAppSelector(s => s.googleWorkspace)
   const [connecting, setConnecting] = useState(false)
+  const [disconnectOpen, setDisconnectOpen] = useState(false)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -137,7 +142,7 @@ export default function GoogleWorkspacePage() {
               <ShieldCheck className="h-5 w-5 text-green-600" />
               <span>{__('Connected as', 'wedevs-project-manager')} <strong>{status.account_email || __('Google account', 'wedevs-project-manager')}</strong></span>
             </div>
-            <Button variant="outline" size="sm" onClick={onDisconnect}>
+            <Button variant="outline" size="sm" onClick={() => setDisconnectOpen(true)}>
               <Unlink className="h-4 w-4 mr-1.5" /> {__('Disconnect', 'wedevs-project-manager')}
             </Button>
           </div>
@@ -195,6 +200,29 @@ export default function GoogleWorkspacePage() {
         status={status}
         fallback={<ProFeatureCard icon={Video} title={__('Google Meet', 'wedevs-project-manager')} description={__('Generate Meet links for tasks and discussions.', 'wedevs-project-manager')} />}
       />
+
+      <AlertDialog open={disconnectOpen} onOpenChange={setDisconnectOpen}>
+        <AlertDialogContent className="sm:max-w-xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle>{__('Disconnect this Google account?', 'wedevs-project-manager')}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {__('This unlinks your Google account from Project Manager. Here’s what happens:', 'wedevs-project-manager')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <ul className="space-y-2 text-sm text-gray-600 list-disc pl-5">
+            <li>{__('Calendar events created from your tasks and milestones are removed from Google Calendar.', 'wedevs-project-manager')}</li>
+            <li>{__('Drive files you attached stay listed, but you can’t open or attach more until you reconnect.', 'wedevs-project-manager')}</li>
+            <li>{__('All Google features (Drive, Calendar, Meet) stop working for you until you reconnect.', 'wedevs-project-manager')}</li>
+            <li>{__('You can reconnect anytime — your data isn’t deleted.', 'wedevs-project-manager')}</li>
+          </ul>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{__('Cancel', 'wedevs-project-manager')}</AlertDialogCancel>
+            <AlertDialogAction onClick={() => { setDisconnectOpen(false); onDisconnect() }}>
+              {__('Disconnect', 'wedevs-project-manager')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
