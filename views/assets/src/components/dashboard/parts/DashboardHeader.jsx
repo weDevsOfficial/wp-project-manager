@@ -28,6 +28,7 @@ export default function DashboardHeader({ user, canCreate }) {
             user={{ id: user.id, display_name: user.name, avatar_url: user.avatar_url }}
             size="xl"
             className="w-12 h-12 shrink-0"
+            fallbackClassName="bg-violet-100 text-violet-700"
           />
         )}
         <div className="min-w-0">
