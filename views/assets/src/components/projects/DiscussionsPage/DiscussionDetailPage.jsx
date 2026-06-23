@@ -568,6 +568,9 @@ export default function DiscussionDetailPage() {
                         <NotionPreviewContainer content={c.content || ""} />
                         <LoomPreviewContainer content={c.content || ""} />
                         <DiscussionFiles files={c.files} />
+                        <div className="mt-2">
+                          <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={c.id} variant="compact" allowEdit={canEditComment(c)} showAdd={false} />
+                        </div>
                       </>
                     )}
                   </div>
