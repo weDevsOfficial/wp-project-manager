@@ -8,12 +8,12 @@ import React from 'react'
 import DriveCommentInsert from './DriveCommentInsert'
 import { Slot } from '@hooks/useSlot'
 
-export default function CommentLinkActions({ projectId, onInsert }) {
+export default function CommentLinkActions({ projectId, onInsert, allowMeet = true }) {
   if (!projectId || typeof onInsert !== 'function') return null
   return (
     <div className="flex items-center gap-2">
       <DriveCommentInsert projectId={projectId} onInsert={onInsert} />
-      <Slot name="comment.composer.action" projectId={projectId} onInsert={onInsert} />
+      {allowMeet && <Slot name="comment.composer.action" projectId={projectId} onInsert={onInsert} />}
     </div>
   )
 }

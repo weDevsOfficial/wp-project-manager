@@ -28,8 +28,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import FileUploadArea from "@components/common/FileUploadArea";
-import GoogleDriveStage from "@components/google-workspace/GoogleDriveStage";
-import { Slot } from "@hooks/useSlot";
+import CommentLinkActions from "@components/google-workspace/CommentLinkActions";
 import { useAppDispatch } from "@store/index";
 import { attachFileFor } from "@store/googleWorkspaceSlice";
 import NotifyUsers from "@components/common/NotifyUsers";
@@ -245,10 +244,7 @@ export default function DiscussionsPage() {
             </SelectContent>
           </Select>
           <FileUploadArea files={formFiles} onFilesChange={setFormFiles} />
-          <div className="flex items-center gap-2">
-            <GoogleDriveStage projectId={projectId} value={stagedDrive} onChange={setStagedDrive} />
-            <Slot name="comment.composer.action" projectId={projectId} onInsert={(html) => setFormDesc(prev => (prev || '') + html)} />
-          </div>
+          <CommentLinkActions projectId={projectId} onInsert={(html) => setFormDesc(prev => (prev || '') + html)} />
           <NotifyUsers
             users={project?.assignees?.data ?? []}
             value={formNotifyUsers}
