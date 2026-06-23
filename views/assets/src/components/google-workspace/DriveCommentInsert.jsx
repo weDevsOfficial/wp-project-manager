@@ -22,7 +22,7 @@ const MonoDrive = ({ className = 'h-3.5 w-3.5' }) => (
 function linkHtml(f) {
   const url = f.webViewLink || f.url
   if (!url) return ''
-  return `<p>📎 <a href="${url}" target="_blank" rel="noreferrer">${f.name || __('Drive file', 'wedevs-project-manager')}</a></p>`
+  return `<p><a href="${url}" target="_blank" rel="noreferrer">${f.name || __('Drive file', 'wedevs-project-manager')}</a></p>`
 }
 
 export default function DriveCommentInsert({ projectId, onInsert }) {
