@@ -55,8 +55,8 @@ export default function DriveCommentInsert({ projectId, onInsert }) {
 
   return (
     <>
-      <Button type="button" variant="outline" size="sm" className="h-7 text-sm gap-1" onClick={openPicker}>
-        <MonoDrive className="h-3.5 w-3.5" /> {__('Drive', 'wedevs-project-manager')}
+      <Button type="button" variant="ghost" size="icon" className="h-7 w-7 text-gray-500 hover:text-pm-accent" title={__('Add Google Drive file', 'wedevs-project-manager')} onClick={openPicker}>
+        <MonoDrive className="h-4 w-4" />
       </Button>
       {pickerOpen && (
         <DrivePickerModal
