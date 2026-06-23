@@ -27,7 +27,7 @@ export default function TeamStatusCard({ team }) {
             const pct = totalAssigned > 0 ? Math.round((m.completed / totalAssigned) * 100) : 0
             return (
               <div key={m.id} className="flex items-center gap-3">
-                <UserAvatar user={{ id: m.id, display_name: m.name, avatar_url: m.avatar_url }} size="md" className="w-8 h-8 shrink-0" fallbackClassName="text-[12px]" />
+                <UserAvatar user={{ id: m.id, display_name: m.name, avatar_url: m.avatar_url }} size="md" className="w-8 h-8 shrink-0" fallbackClassName="text-[12px] bg-violet-100 text-violet-700" />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-[13px] font-medium text-pm-text-primary truncate">{m.name}</span>

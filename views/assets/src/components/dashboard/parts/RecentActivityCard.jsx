@@ -26,7 +26,7 @@ export default function RecentActivityCard({ activity }) {
                 user={{ display_name: a.actor, avatar_url: a.avatar_url }}
                 size="md"
                 className="w-8 h-8 shrink-0 mt-0.5"
-                fallbackClassName="text-[12px]"
+                fallbackClassName="text-[12px] bg-violet-100 text-violet-700"
               />
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] text-pm-text-primary leading-snug">
