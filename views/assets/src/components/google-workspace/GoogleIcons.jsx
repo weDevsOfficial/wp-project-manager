@@ -16,13 +16,16 @@ export const CalendarGlyph = (props) => (
   </svg>
 )
 
-/** Google Meet brand glyph (simplified). Size via className. */
+/** Google Meet brand glyph. Size via className. */
 export const MeetGlyph = (props) => (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <path d="M14 9.5V7.5C14 6.67 13.33 6 12.5 6H4.5C3.67 6 3 6.67 3 7.5V16.5C3 17.33 3.67 18 4.5 18H12.5C13.33 18 14 17.33 14 16.5V14.5L17.5 17.5C18.16 18.06 19 17.62 19 16.8V7.2C19 6.38 18.16 5.94 17.5 6.5L14 9.5Z" fill="#00832D"/>
-    <path d="M14 9.5L19 13.5V7.2C19 6.38 18.16 5.94 17.5 6.5L14 9.5Z" fill="#FBBC04"/>
-    <path d="M14 14.5L17.5 17.5C18.16 18.06 19 17.62 19 16.8V13.5L14 9.5V14.5Z" fill="#34A853"/>
-    <path d="M14 9.5V7.5C14 6.67 13.33 6 12.5 6H8V18H12.5C13.33 18 14 17.33 14 16.5V9.5Z" fill="#4285F4"/>
-    <path d="M3 16.5C3 17.33 3.67 18 4.5 18H8V6H4.5C3.67 6 3 6.67 3 7.5V16.5Z" fill="#188038"/>
+    <path fillRule="evenodd" clipRule="evenodd" d="M15 4C16.1046 4 17 4.89543 17 6V18C17 19.1046 16.1046 20 15 20H4.75C3.36929 20 2.25 18.8807 2.25 17.5V9C2.25 6.23858 4.48858 4 7.25 4H15Z" fill="url(#pmmeetf_a)"/>
+    <path d="M4.25 16.5C4.25021 15.6167 4.96626 14.9006 5.84961 14.9004C6.73313 14.9004 7.44998 15.6165 7.4502 16.5C7.4502 17.3837 6.73326 18.1006 5.84961 18.1006C4.96613 18.1004 4.25 17.3835 4.25 16.5Z" fill="white"/>
+    <path d="M17 15.5V9L20.9631 6.47801C21.6288 6.05437 22.5 6.53258 22.5 7.32167V17.1783C22.5 17.9674 21.6288 18.4456 20.9631 18.022L17 15.5Z" fill="#F9AC02"/>
+    <defs>
+      <linearGradient id="pmmeetf_a" x1="17" y1="9.5" x2="1.97684" y2="14.4294" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#FADE13"/><stop offset="0.4" stopColor="#FADE13"/><stop offset="1" stopColor="#FCCA03"/>
+      </linearGradient>
+    </defs>
   </svg>
 )
