@@ -328,7 +328,7 @@ export function AppSidebar() {
         )}
         title={item.label}
       >
-        <Icon className={cn('shrink-0', collapsed ? 'w-[18px] h-[18px]' : 'w-[18px] h-[18px]', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
+        <Icon className={cn('shrink-0', collapsed ? 'w-[18px] h-[18px]' : 'w-[18px] h-[18px]', !collapsed && item.key === 'google-workspace' && 'self-start mt-[3px]', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
         {collapsed
           ? <span className={cn('text-[10px] font-medium leading-none', isActive ? 'text-pm-accent' : 'text-pm-text-muted')}>{item.short ?? item.label}</span>
           : <TruncText className="text-[15px]">{item.label}</TruncText>
