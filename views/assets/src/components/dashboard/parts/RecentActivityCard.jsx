@@ -24,8 +24,9 @@ export default function RecentActivityCard({ activity }) {
             <div key={a.id} className="flex items-start gap-2.5">
               <UserAvatar
                 user={{ display_name: a.actor, avatar_url: a.avatar_url }}
-                size="sm"
-                className="w-7 h-7 shrink-0 mt-0.5"
+                size="md"
+                className="w-8 h-8 shrink-0 mt-0.5"
+                fallbackClassName="text-[12px]"
               />
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] text-pm-text-primary leading-snug">
