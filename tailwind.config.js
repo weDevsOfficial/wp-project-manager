@@ -63,7 +63,7 @@ module.exports = {
         'pm-surface-muted':      'var(--pm-surface-muted)',
         'pm-border':             'var(--pm-border)',
         'pm-hover':              'var(--pm-hover)',
-        'pm-accent':             'var(--pm-accent)',
+        'pm-accent':             'hsl(var(--pm-accent-hsl) / <alpha-value>)',
         'pm-accent-hover':       'var(--pm-accent-hover)',
         'pm-accent-light':       'var(--pm-accent-light)',
         'pm-text':               'var(--pm-text)',
