@@ -11,6 +11,7 @@ import {
   ChevronDown, Star, LayoutList, Layout, MessageSquare,
   Milestone, FileText, Activity, Tag, Crown, Layers,
   Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
+  LayoutDashboard,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
@@ -217,6 +218,7 @@ export function AppSidebar() {
   )
 
   const topNavItems = useMemo(() => [
+    { key: 'dashboard', label: __('Dashboard', 'wedevs-project-manager'), short: __('Home', 'wedevs-project-manager'), icon: LayoutDashboard, route: '/dashboard' },
     { key: 'projects', label: __('Projects', 'wedevs-project-manager'), short: __('Proj', 'wedevs-project-manager'), icon: FolderKanban, route: '/projects' },
     { key: 'my-tasks', label: __('My Tasks', 'wedevs-project-manager'), short: __('Tasks', 'wedevs-project-manager'), icon: CheckSquare,  route: '/my-tasks' },
   ], [__])
@@ -274,6 +276,7 @@ export function AppSidebar() {
 
   const activeKey = useMemo(() => {
     const path = location.pathname
+    if (path.startsWith('/dashboard')) return 'dashboard'
     if (path.startsWith('/modules')) return 'modules'
     if (path.startsWith('/premium')) return 'premium'
     if (path.startsWith('/categories')) return 'categories'
