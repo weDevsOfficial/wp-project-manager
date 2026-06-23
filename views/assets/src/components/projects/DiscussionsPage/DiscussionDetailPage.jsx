@@ -47,8 +47,7 @@ import CommentAttachment from "@components/common/CommentAttachment";
 import { formatPmDateTime } from "@lib/pm-utils";
 import { usePermissions } from "@hooks/usePermissions";
 import GoogleDriveAttach from "@components/google-workspace/GoogleDriveAttach";
-import GoogleDriveCommentButton from "@components/google-workspace/GoogleDriveCommentButton";
-import { Slot } from "@hooks/useSlot";
+import CommentLinkActions from "@components/google-workspace/CommentLinkActions";
 import { useCurrentProject } from "@hooks/useCurrentProject";
 import DiscussionFiles from "./parts/DiscussionFiles";
 
@@ -500,7 +499,6 @@ export default function DiscussionDetailPage() {
                       </span>
                       {canEditComment(c) && (
                         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
-                          <GoogleDriveCommentButton projectId={projectId} attachableType="comment" attachableId={c.id} allowEdit={canEditComment(c)} />
                           <button
                             type="button"
                             className="text-pm-text-muted hover:text-pm-accent"
@@ -554,6 +552,7 @@ export default function DiscussionDetailPage() {
                           >
                             {__("Cancel", 'wedevs-project-manager')}
                           </Button>
+                          <CommentLinkActions projectId={projectId} onInsert={(html) => setEditCommentText(prev => (prev || '') + html)} />
                         </div>
                       </div>
                     ) : (
@@ -568,9 +567,6 @@ export default function DiscussionDetailPage() {
                         <NotionPreviewContainer content={c.content || ""} />
                         <LoomPreviewContainer content={c.content || ""} />
                         <DiscussionFiles files={c.files} />
-                        <div className="mt-2">
-                          <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={c.id} variant="compact" allowEdit={canEditComment(c)} showAdd={false} />
-                        </div>
                       </>
                     )}
                   </div>
@@ -609,7 +605,7 @@ export default function DiscussionDetailPage() {
               value={commentNotifyUsers}
               onChange={setCommentNotifyUsers}
             />
-            <Slot name="comment.composer.action" projectId={projectId} onInsert={(html) => setNewComment(prev => (prev || '') + html)} />
+            <CommentLinkActions projectId={projectId} onInsert={(html) => setNewComment(prev => (prev || '') + html)} />
           </div>
         </div>
       </div>

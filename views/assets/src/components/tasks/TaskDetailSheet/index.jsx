@@ -27,9 +27,7 @@ import { stripAllPreviewUrls } from '@/lib/url-strippers'
 import { sanitizeHtml } from '@lib/sanitize'
 import FileUploadArea from '@components/common/FileUploadArea'
 import CommentAttachment from '@components/common/CommentAttachment'
-import GoogleDriveCommentButton from '@components/google-workspace/GoogleDriveCommentButton'
-import GoogleDriveAttach from '@components/google-workspace/GoogleDriveAttach'
-import { Slot } from '@hooks/useSlot'
+import CommentLinkActions from '@components/google-workspace/CommentLinkActions'
 import TaskStatusCircle from '@components/common/TaskStatusCircle'
 import NotifyUsers from '@components/common/NotifyUsers'
 import { UserAvatar } from '@components/common/UserAvatar'
@@ -812,7 +810,6 @@ export default function TaskDetailSheet() {
                             <span className="text-[13px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
                             {canEdit && !isEditing && (
                               <span className="opacity-0 group-hover/comment:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
-                                <GoogleDriveCommentButton projectId={projectId} attachableType="comment" attachableId={comment.id} allowEdit={canEdit} />
                                 <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit', 'wedevs-project-manager')}>
                                   <Pencil className="h-3.5 w-3.5" />
                                 </button>
@@ -838,6 +835,7 @@ export default function TaskDetailSheet() {
                                   {savingEditComment ? __('Saving...', 'wedevs-project-manager') : __('Save', 'wedevs-project-manager')}
                                 </Button>
                                 <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment} disabled={savingEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                                <CommentLinkActions projectId={projectId} onInsert={(html) => setEditCommentText(prev => (prev || '') + html)} />
                               </div>
                             </div>
                           ) : (
@@ -853,11 +851,6 @@ export default function TaskDetailSheet() {
                               {comment.files.data.map(f => (
                                 <CommentAttachment key={f.id} file={f} />
                               ))}
-                            </div>
-                          )}
-                          {!isEditing && (
-                            <div className="mt-2">
-                              <GoogleDriveAttach projectId={projectId} attachableType="comment" attachableId={comment.id} variant="compact" allowEdit={canEdit} showAdd={false} />
                             </div>
                           )}
                         </div>
@@ -885,7 +878,7 @@ export default function TaskDetailSheet() {
                   <Button size="sm" className="h-7 text-sm gap-1" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
                     <Plus className="h-3 w-3" />{submittingComment ? __('Sending...', 'wedevs-project-manager') : __('Add Comment', 'wedevs-project-manager')}
                   </Button>
-                  <Slot name="comment.composer.action" projectId={projectId} onInsert={(html) => setNewComment(prev => (prev || '') + html)} />
+                  <CommentLinkActions projectId={projectId} onInsert={(html) => setNewComment(prev => (prev || '') + html)} />
                 </div>
               </div>
             </div>
