@@ -37,8 +37,14 @@ class Comment_Observer extends Model_Observer {
 
     private function log_activity( Comment $comment, $action_type ) {
         $parent_comment = Comment::parent_comment( $comment->id );
+        if ( ! $parent_comment ) {
+            return; // can't resolve the thread root — skip activity logging
+        }
         $commentable_type = $parent_comment->commentable_type;
         $commentable = $this->get_commentable( $parent_comment );
+        if ( ! $commentable ) {
+            return; // commentable (task/discussion/file) gone — skip logging
+        }
 
         switch ( $commentable_type ) {
             case 'task':
