@@ -48,6 +48,7 @@ import { formatPmDateTime } from "@lib/pm-utils";
 import { usePermissions } from "@hooks/usePermissions";
 import GoogleDriveAttach from "@components/google-workspace/GoogleDriveAttach";
 import GoogleDriveCommentButton from "@components/google-workspace/GoogleDriveCommentButton";
+import { Slot } from "@hooks/useSlot";
 import { useCurrentProject } from "@hooks/useCurrentProject";
 import DiscussionFiles from "./parts/DiscussionFiles";
 
@@ -605,6 +606,7 @@ export default function DiscussionDetailPage() {
               value={commentNotifyUsers}
               onChange={setCommentNotifyUsers}
             />
+            <Slot name="comment.composer.action" projectId={projectId} onInsert={(html) => setNewComment(prev => (prev || '') + html)} />
           </div>
         </div>
       </div>

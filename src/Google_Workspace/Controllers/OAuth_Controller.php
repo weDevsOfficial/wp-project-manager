@@ -24,7 +24,7 @@ class OAuth_Controller {
                 'account_email'     => $conn['account_email'],
                 'expired'           => $conn['expired'],
                 'calendar_connected'=> Google_Service::user_has_calendar( get_current_user_id() ),
-                'meet_connected'    => Google_Service::user_has_meet( get_current_user_id() ),
+                'meet_connected'    => Google_Service::user_has_calendar( get_current_user_id() ),
                 'drive_user_on'     => Google_Service::user_drive_enabled( get_current_user_id() ),
                 'drive_comments_on' => Google_Service::drive_comments_enabled(),
             ],

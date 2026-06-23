@@ -28,6 +28,7 @@ import { sanitizeHtml } from '@lib/sanitize'
 import FileUploadArea from '@components/common/FileUploadArea'
 import CommentAttachment from '@components/common/CommentAttachment'
 import GoogleDriveCommentButton from '@components/google-workspace/GoogleDriveCommentButton'
+import { Slot } from '@hooks/useSlot'
 import TaskStatusCircle from '@components/common/TaskStatusCircle'
 import NotifyUsers from '@components/common/NotifyUsers'
 import { UserAvatar } from '@components/common/UserAvatar'
@@ -874,9 +875,12 @@ export default function TaskDetailSheet() {
                   value={commentNotifyUsers}
                   onChange={setCommentNotifyUsers}
                 />
-                <Button size="sm" className="h-7 text-sm gap-1" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
-                  <Plus className="h-3 w-3" />{submittingComment ? __('Sending...', 'wedevs-project-manager') : __('Add Comment', 'wedevs-project-manager')}
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button size="sm" className="h-7 text-sm gap-1" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
+                    <Plus className="h-3 w-3" />{submittingComment ? __('Sending...', 'wedevs-project-manager') : __('Add Comment', 'wedevs-project-manager')}
+                  </Button>
+                  <Slot name="comment.composer.action" projectId={projectId} onInsert={(html) => setNewComment(prev => (prev || '') + html)} />
+                </div>
               </div>
             </div>
 
