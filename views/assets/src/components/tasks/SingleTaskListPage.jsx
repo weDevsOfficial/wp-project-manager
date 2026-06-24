@@ -21,6 +21,7 @@ import { formatPmDateTime } from '@lib/pm-utils'
 import TaskRow from './TaskRow'
 import TaskDetailSheet from './TaskDetailSheet'
 import { sanitizeHtml } from '@lib/sanitize'
+import { decorateGoogleLinks } from '@lib/google-links'
 
 function extractMentionedUsers(html) {
   const parser = new DOMParser()
@@ -407,7 +408,7 @@ export default function SingleTaskListPage() {
                         </div>
                       </div>
                     ) : (
-                      <div className="pm-rich-comment-content text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: sanitizeHtml(comment.content) }} />
+                      <div className="pm-rich-comment-content text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: decorateGoogleLinks(sanitizeHtml(comment.content)) }} />
                     )}
                     {/* Comment files */}
                     {!isEditing && comment.files?.data?.length > 0 && (

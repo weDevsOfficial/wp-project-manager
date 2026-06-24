@@ -350,6 +350,7 @@ window.PM = {
     urlStrippers: require('@/lib/url-strippers'),
     sanitize: require('@lib/sanitize'),
     pmUtils: require('@lib/pm-utils'),
+    googleLinks: require('@lib/google-links'),
   },
 
   // Re-export Radix UI primitives so pro uses the SAME context instances.

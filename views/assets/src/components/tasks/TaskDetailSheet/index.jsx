@@ -25,6 +25,7 @@ import NotionPreviewContainer from '@components/common/NotionPreviewContainer'
 import LoomPreviewContainer from '@components/common/LoomPreviewContainer'
 import { stripAllPreviewUrls } from '@/lib/url-strippers'
 import { sanitizeHtml } from '@lib/sanitize'
+import { decorateGoogleLinks } from '@lib/google-links'
 import FileUploadArea from '@components/common/FileUploadArea'
 import CommentAttachment from '@components/common/CommentAttachment'
 import CommentLinkActions from '@components/google-workspace/CommentLinkActions'
@@ -63,7 +64,9 @@ import {
   Pencil,
   FileText,
   Loader2,
+  Video,
 } from 'lucide-react'
+import { DriveMonoGlyph } from '@components/google-workspace/GoogleIcons'
 import {
   isTaskComplete,
   formatPmDate,
@@ -840,7 +843,7 @@ export default function TaskDetailSheet() {
                             </div>
                           ) : (
                             <>
-                              <div className="pm-rich-comment-content text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripAllPreviewUrls(comment.content)) }} />
+                              <div className="pm-rich-comment-content text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: decorateGoogleLinks(sanitizeHtml(stripAllPreviewUrls(comment.content))) }} />
                               <GitHubPreviewContainer content={comment.content || ''} />
                               <NotionPreviewContainer content={comment.content || ''} />
                               <LoomPreviewContainer content={comment.content || ''} />
@@ -946,6 +949,18 @@ export default function TaskDetailSheet() {
                               </button>
                             ) : (
                               <span className="text-pm-text">{parseActivityMessage(act) || act.action}</span>
+                            )}
+                            {(act.action === 'attach_drive_file' || act.meta?.has_drive) && (
+                              act.action === 'attach_drive_file' && act.meta?.file_url ? (
+                                <a href={act.meta.file_url} target="_blank" rel="noopener noreferrer" title={act.meta.file_name || __('Google Drive file', 'wedevs-project-manager')} className="ml-1.5 inline-flex align-middle text-pm-text-muted/35 hover:text-pm-accent">
+                                  <DriveMonoGlyph className="h-3.5 w-3.5" />
+                                </a>
+                              ) : (
+                                <DriveMonoGlyph className="ml-1.5 inline-flex align-middle h-3.5 w-3.5 text-pm-text-muted/30" title={__('Google Drive', 'wedevs-project-manager')} />
+                              )
+                            )}
+                            {act.meta?.has_meet && (
+                              <Video className="ml-1.5 inline-flex align-middle h-3.5 w-3.5 text-pm-text-muted/30" title={__('Google Meet', 'wedevs-project-manager')} />
                             )}
                             {act.committed_at && <span className="ml-1.5 text-[14px]">· {formatPmDateTime(act.committed_at)}</span>}
                           </div>
