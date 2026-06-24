@@ -17,13 +17,13 @@ const getSubNavFree = () => [
   { key: 'overview',    label: __('Overview',    'wedevs-project-manager'), icon: Layout,        path: (pid) => `/projects/${pid}/overview` },
   { key: 'discussions', label: __('Discussions', 'wedevs-project-manager'), icon: MessageSquare, path: (pid) => `/projects/${pid}/discussions` },
   { key: 'milestones',  label: __('Milestones',  'wedevs-project-manager'), icon: Milestone,     path: (pid) => `/projects/${pid}/milestones` },
+  { key: 'kanban',      label: __('Kanban Board','wedevs-project-manager'), icon: Columns3,      path: (pid) => `/projects/${pid}/kanban` },
   { key: 'files',       label: __('Files',       'wedevs-project-manager'), icon: FileText,      path: (pid) => `/projects/${pid}/files` },
 ]
 
 function buildProSubNav(modulePaths) {
   const isActive = (dir) => isProModuleActive(modulePaths, dir)
   const items = []
-  if (isActive('Kanboard')) items.push({ key: 'kanban',   label: __('Kanban Board', 'wedevs-project-manager'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
   if (isActive('Gantt'))    items.push({ key: 'gantt',    label: __('Gantt Chart',  'wedevs-project-manager'), icon: GitBranch, path: (pid) => `/projects/${pid}/gantt` })
   if (isActive('Invoice'))  items.push({ key: 'invoices', label: __('Invoices',     'wedevs-project-manager'), icon: Receipt,   path: (pid) => `/projects/${pid}/invoices` })
   items.push({ key: 'settings', label: __('Settings', 'wedevs-project-manager'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
@@ -60,7 +60,6 @@ export function ProjectSubNavBar() {
     return [
       ...SUB_NAV_FREE,
       { key: 'activities', label: __('Activities',  'wedevs-project-manager'), icon: Activity,  path: (pid) => `/projects/${pid}/activities`, proPreview: true },
-      { key: 'kanban',   label: __('Kanban Board', 'wedevs-project-manager'),  icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
       { key: 'gantt',    label: __('Gantt Chart',  'wedevs-project-manager'),  icon: GitBranch, path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
       { key: 'invoices', label: __('Invoices',     'wedevs-project-manager'),  icon: Receipt,   path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
       { key: 'settings', label: __('Settings',     'wedevs-project-manager'),  icon: Settings,  path: (pid) => `/projects/${pid}/settings`, proPreview: true },

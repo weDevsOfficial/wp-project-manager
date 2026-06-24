@@ -45,35 +45,11 @@ $wedevs_pm_scripts = [
         'in_footer'  => true
     ],
 
-    'pm-vue' => [
-        'id'         => 'pm-vue',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vue'.$wedevs_pm_suffix.'.js',
-        'path'       => $wedevs_pm_view_path . '/assets/vendor/vue/vue'.$wedevs_pm_suffix.'.js',
-        'dependency' => ['pm-i18n'],
-        'in_footer'  => true
-    ],
-
-    'pm-vuex' => [
-        'id'         => 'pm-vuex',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vuex'.$wedevs_pm_suffix.'.js',
-        'path'       => $wedevs_pm_view_path . '/assets/vendor/vue/vuex'.$wedevs_pm_suffix.'.js',
-        'dependency' => ['pm-vue'],
-        'in_footer'  => true
-    ],
-
-    'pm-vue-router' => [
-        'id'         => 'pm-vue-router',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vue-router'.$wedevs_pm_suffix.'.js',
-        'path'       => $wedevs_pm_view_path . '/assets/vendor/vue/vue-router'.$wedevs_pm_suffix.'.js',
-        'dependency' => ['pm-vuex'],
-        'in_footer'  => true
-    ],
-
     'pm-chart' => [
         'id'         => 'pm-chart',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/chart/chart'.$wedevs_pm_suffix.'.js',
         'path'       => $wedevs_pm_view_path . '/assets/vendor/chart/chart'.$wedevs_pm_suffix.'.js',
-        'dependency' => ['pm-vue-router'],
+        'dependency' => ['pm-i18n'],
         'in_footer'  => true
     ],
 
@@ -154,19 +130,11 @@ $wedevs_pm_scripts = [
         'in_footer'  => true
     ],
 
-    'pm-vue-library' => [
-        'id'         => 'pm-vue-library',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/library.js',
-        'path'       => $wedevs_pm_view_path . '/assets/js/library.js',
-        'dependency' => ['pm-toastr'],
-        'in_footer'  => true
-    ],
-
     'pm-pretty-photo' => [
         'id'         => 'pm-pretty-photo',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/pretty-photo/jquery.prettyPhoto.js',
         'path'       => $wedevs_pm_view_path . '/assets/vendor/pretty-photo/jquery.prettyPhoto.js',
-        'dependency' => ['pm-vue-library'],
+        'dependency' => ['pm-toastr'],
         'in_footer'  => true
     ],
 
@@ -279,8 +247,6 @@ $wedevs_pm_scripts = [
 			'in_footer'  => true
 		]
 	];
-
-	$wedevs_pm_scripts['pm-vue-library']['dependency'] = array_merge( [$wedevs_pm_hooks['pm-hooks']['id']], $wedevs_pm_scripts['pm-vue-library']['dependency'] );
 
 	$wedevs_pm_scripts = array_merge( $wedevs_pm_scripts, $wedevs_pm_hooks );
 //}

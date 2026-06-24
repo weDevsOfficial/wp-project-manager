@@ -3,12 +3,6 @@ $wedevs_pm_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 $wedevs_pm_view_path = dirname (__FILE__) . '/../views/';
 
 return [
-    'pm-vue-multiselect' => [
-        'id'         => 'pm-vue-multiselect',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/vue-multiselect/vue-multiselect.min.css',
-        'dependency' => false,
-        'path'       => $wedevs_pm_view_path . '/assets/css/vue-multiselect/vue-multiselect.min.css',
-    ],
     'pm-nprogress' => [
         'id'         => 'pm-nprogress',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/nprogress/nprogress.css',

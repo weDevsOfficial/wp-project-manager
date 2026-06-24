@@ -49,6 +49,7 @@ export function AppSidebar() {
     { key: 'overview',     label: __('Overview', 'wedevs-project-manager'),      icon: Layout,         path: (pid) => `/projects/${pid}/overview` },
     { key: 'discussions',  label: __('Discussions', 'wedevs-project-manager'),   icon: MessageSquare,  path: (pid) => `/projects/${pid}/discussions` },
     { key: 'milestones',   label: __('Milestones', 'wedevs-project-manager'),    icon: Milestone,      path: (pid) => `/projects/${pid}/milestones` },
+    { key: 'kanban',       label: __('Kanban Board', 'wedevs-project-manager'),  icon: Columns3,       path: (pid) => `/projects/${pid}/kanban` },
     { key: 'files',        label: __('Files', 'wedevs-project-manager'),         icon: FileText,       path: (pid) => `/projects/${pid}/files` },
   ], [__])
 
@@ -58,7 +59,6 @@ export function AppSidebar() {
     const items = []
     // Activities is not a module, always show when pro is active
     items.push({ key: 'activities', label: __('Activities', 'wedevs-project-manager'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
-    if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: __('Kanban Board', 'wedevs-project-manager'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
     if (isActive('Gantt'))     items.push({ key: 'gantt',    label: __('Gantt Chart', 'wedevs-project-manager'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
     const canSeeManagerItems = canManage || isManagerAnywhere
     if (isActive('Invoice') && canSeeManagerItems) items.push({ key: 'invoices', label: __('Invoices', 'wedevs-project-manager'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
@@ -77,7 +77,6 @@ export function AppSidebar() {
     if (isPro) return [...projectSubNav_FREE, ...getProSubNav(activeModulePaths)]
     const proItems = [
       { key: 'activities', label: __('Activities', 'wedevs-project-manager'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities`, proPreview: true },
-      { key: 'kanban',   label: __('Kanban Board', 'wedevs-project-manager'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
       { key: 'gantt',    label: __('Gantt Chart', 'wedevs-project-manager'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
     ]
     if (canManage || isManagerAnywhere) {

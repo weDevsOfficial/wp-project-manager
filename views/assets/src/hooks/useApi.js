@@ -138,3 +138,6 @@ const api = {
 export function useApi() {
   return api
 }
+
+// Raw singleton for use outside React components (Redux slices, utils)
+export { api }

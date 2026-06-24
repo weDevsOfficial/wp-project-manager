@@ -5,6 +5,7 @@ import projectsReducer from './projectsSlice'
 import taskListsReducer from './taskListsSlice'
 import tasksReducer from './tasksSlice'
 import milestonesReducer from './milestonesSlice'
+import kanbanReducer from './kanbanSlice'
 
 // Re-export for convenience
 export { resetProjectState } from './actions'
@@ -16,6 +17,7 @@ const staticReducers = {
   taskLists:  taskListsReducer,
   tasks:      tasksReducer,
   milestones: milestonesReducer,
+  kanban:     kanbanReducer,
 }
 
 // Dynamic reducers — pro plugin injects its slices at runtime
