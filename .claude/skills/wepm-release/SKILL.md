@@ -341,6 +341,22 @@ NOT:
 
 When the user provides changelog entries, accept either style but normalize to the bold-prefix on insertion. Reference: commit `970790e7` for the v4.0.0 example.
 
+## Pull Requests (not releases)
+
+PRs for this plugin **always target the ORG repo `weDevsOfficial/wp-project-manager`** — never open the PR on the personal fork (`arifulhoque7/wp-project-manager`). The fork is just the push remote (`origin`); the org is `upstream`. A PR opened on the fork is wrong even if it builds.
+
+```bash
+# Branch is pushed to the fork (origin). Open the PR ON THE ORG, head = fork:branch:
+gh pr create --repo weDevsOfficial/wp-project-manager \
+  --base develop --head arifulhoque7:<branch> \
+  --title "..." --body "..."
+```
+
+- **Base:** `develop` (org default branch). **Head:** `arifulhoque7:<branch>`.
+- **Commit identity:** author `arifulhoque7 <hoquea57@gmail.com>`. **No `Co-Authored-By` lines** — strip them (amend if already committed: `git commit --amend --author="arifulhoque7 <hoquea57@gmail.com>" ...`).
+- Link related org issues in the body/commit with `Refs weDevsOfficial/<repo>#<n>` (or `Closes` on the final PR).
+- Same rule for Pro — PRs go on `weDevsOfficial/pm-pro`, not the pm-pro fork.
+
 ## Verified releases via this flow
 
 | Version | Date | Status | Repo |
