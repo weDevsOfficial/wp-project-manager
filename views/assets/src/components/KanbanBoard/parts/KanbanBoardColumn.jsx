@@ -418,7 +418,7 @@ export default function KanbanBoardColumn({
                           <>
                             <div className="flex -space-x-1">
                               {selectedAssigneeObjs.slice(0, 3).map((u) => (
-                                <UserAvatar key={u.id} user={u} size="xs" className="ring-1 ring-white" />
+                                <UserAvatar key={u.id} user={u} size="sm" className="ring-1 ring-white" />
                               ))}
                             </div>
                             <span>

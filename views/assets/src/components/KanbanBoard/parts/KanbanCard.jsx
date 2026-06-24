@@ -87,7 +87,7 @@ export default function KanbanCard({ task, boardId, onRemove }) {
         <div className="flex items-center gap-1 mt-2.5 pt-2.5 border-t border-pm-border/40">
           <div className="flex -space-x-1.5">
             {assigneeArr.slice(0, 4).map((u) => (
-              <UserAvatar key={u.id} user={u} size="sm" className="ring-2 ring-white" fallbackClassName="bg-pm-accent/10 text-pm-accent" />
+              <UserAvatar key={u.id} user={u} size="md" className="ring-2 ring-white" fallbackClassName="bg-pm-accent/10 text-pm-accent" />
             ))}
           </div>
           {assigneeArr.length > 4 && (
