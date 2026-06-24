@@ -152,7 +152,7 @@ export default function GoogleWorkspaceSettingsTab() {
           <div className="mt-4 pl-8 border-t border-gray-100 pt-3 flex items-center justify-between gap-3">
             <div>
               <div className="text-sm font-medium text-gray-900">{__('Allow Drive in comments', 'wedevs-project-manager')}</div>
-              <div className="text-xs text-gray-500 mt-0.5">{__('Let users attach Drive files inside comments. Turn off to hide the Drive button in comments only.', 'wedevs-project-manager')}</div>
+              <div className="text-xs text-gray-500 mt-0.5">{__('Let team members attach Drive files inside comments. Turn off to hide the Drive button in comments only.', 'wedevs-project-manager')}</div>
             </div>
             <Switch checked={driveComments} onCheckedChange={toggleComments} disabled={settingsLoading} />
           </div>
