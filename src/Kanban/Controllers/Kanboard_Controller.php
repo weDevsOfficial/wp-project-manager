@@ -486,12 +486,12 @@ class Kanboard_Controller {
 
                         if ( $meta['meta_value']['todo']['section'] == 'lists' ) {
                             if ( !empty( $meta['meta_value']['todo']['lists'] ) ) {
-                                return new \WP_Error( 'newlyadded', __( "Plase remove the 'task lists' item from others column", "pm-pro" ) );
+                                return new \WP_Error( 'newlyadded', __( "Plase remove the 'task lists' item from others column", 'wedevs-project-manager' ) );
                             }
                         }
 
                         if ( $meta['meta_value']['todo']['section'] == 'newlyadded' ) {
-                            return new \WP_Error( 'newlyadded', __( "You have selectd 'Newlyadded' option for others column", "pm-pro" ) );
+                            return new \WP_Error( 'newlyadded', __( "You have selectd 'Newlyadded' option for others column", 'wedevs-project-manager' ) );
                         }
                     }
                 }
@@ -508,7 +508,7 @@ class Kanboard_Controller {
 
                         if ( $meta['meta_value']['todo']['section'] == 'newlyadded' ) {
                             if ( !empty( $data['todo']['lists'] ) ) {
-                                return new \WP_Error( 'newlyadded', __( "Please remove the 'Newlyadded' option from others column", "pm-pro" ) );
+                                return new \WP_Error( 'newlyadded', __( "Please remove the 'Newlyadded' option from others column", 'wedevs-project-manager' ) );
                             }
                         }
 
@@ -522,7 +522,7 @@ class Kanboard_Controller {
                                 $common_id = reset( $diff );
                                 foreach ( $data['todo']['lists'] as $key => $list ) {
                                     if( $list['id'] == $common_id ) {
-                                        return new \WP_Error( 'lists', __( "'" .$list['title']. "' has already assign in others column automation", "pm-pro" ) );
+                                        return new \WP_Error( 'lists', __( "'" .$list['title']. "' has already assign in others column automation", 'wedevs-project-manager' ) );
                                     }
                                 }
                             }
@@ -542,7 +542,7 @@ class Kanboard_Controller {
                 if ( $meta['meta_value']['type'] == 'done' ) {
 
                     if ( $meta['meta_value']['done']['completed'] == $data['done']['completed'] && $data['done']['completed'] != 'false' && !empty($data['done']['completed']) ) {
-                        return new \WP_Error( 'done', __( "You have already selected 'completed tasks' in others column", "pm-pro" ) );
+                        return new \WP_Error( 'done', __( "You have already selected 'completed tasks' in others column", 'wedevs-project-manager' ) );
                     }
                 }
             }
@@ -558,7 +558,7 @@ class Kanboard_Controller {
                 if ( $meta['meta_value']['type'] == 'in_progress') {
 
                     if( $meta['meta_value']['inProgress']['reOpened'] == $data['inProgress']['reOpened'] && $data['inProgress']['reOpened'] != 'false' && !empty($data['inProgress']['reOpened']) ) {
-                        return new \WP_Error( 'done', __( "You have selectd 'in progress' in others column", "pm-pro" ) );
+                        return new \WP_Error( 'done', __( "You have selectd 'in progress' in others column", 'wedevs-project-manager' ) );
                     }
                 }
             }
@@ -577,7 +577,7 @@ class Kanboard_Controller {
 
                 if ( $meta['meta_value']['taskStatus'] == 'completed' ) {
 
-                    return new \WP_Error( 'done', __( "You have already selected 'completed task status' in others column", "pm-pro" ) );
+                    return new \WP_Error( 'done', __( "You have already selected 'completed task status' in others column", 'wedevs-project-manager' ) );
                 }
             }
         }
@@ -591,7 +591,7 @@ class Kanboard_Controller {
 
                 if ( $meta['meta_value']['taskStatus'] == 'incomplete' ) {
 
-                    return new \WP_Error( 'done', __( "You have already selected 'incomplete task status' in others column", "pm-pro" ) );
+                    return new \WP_Error( 'done', __( "You have already selected 'incomplete task status' in others column", 'wedevs-project-manager' ) );
                 }
             }
         }
@@ -741,7 +741,7 @@ class Kanboard_Controller {
         $status     = $task->status;
 
         // When task mark undone or reopen
-        if ( $status == 'incomplete' ) {
+        if ( (int) $status === Task::INCOMPLETE ) {
 
             // Finding in_progress type columna and none type column and add this task
             $metas = \WeDevs\PM\Common\Models\Meta::where( 'project_id', $project_id )
@@ -789,7 +789,7 @@ class Kanboard_Controller {
         }
 
         // When task mark undone or reopen
-        if ( $status == 'complete' ) {
+        if ( (int) $status === Task::COMPLETE ) {
 
             //When task mark done
             $metas = \WeDevs\PM\Common\Models\Meta::where( 'project_id', $project_id )
@@ -962,7 +962,7 @@ class Kanboard_Controller {
         $tk_ids = wp_list_pluck( $tasks['data'], 'id' );
 
         $boards = Boardable::where( 'board_type', 'kanboard' )
-            ->where( 'board_type', 'task' )
+            ->where( 'boardable_type', 'task' )
             ->whereIn( 'boardable_id', $tk_ids )
             ->get()
             ->toArray();

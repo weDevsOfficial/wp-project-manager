@@ -22,7 +22,7 @@ class Kanboard_Permission extends Abstract_Permission {
 
         if ( $has_task ) {
 
-            return new \WP_Error( 'time_status', __( "This task already exist in this board", "pm" ) );
+            return new \WP_Error( 'time_status', __( "This task already exist in this board", 'wedevs-project-manager' ) );
         }
 
         return true;
