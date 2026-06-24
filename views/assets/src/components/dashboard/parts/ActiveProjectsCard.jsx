@@ -32,7 +32,7 @@ export default function ActiveProjectsCard({ projects }) {
           {list.map(p => (
             <button
               key={p.id}
-              onClick={() => navigate(`/projects/${p.id}/overview`)}
+              onClick={() => navigate(`/projects/${p.id}/task-lists`)}
               className="w-full text-left group"
             >
               <div className="flex items-center gap-2 mb-1.5">

@@ -1,10 +1,23 @@
 import { __ } from '@wordpress/i18n'
+import { useNavigate } from 'react-router-dom'
 import { Activity } from 'lucide-react'
 import { Card } from '@components/ui/card'
 import { UserAvatar } from '@components/common/UserAvatar'
 
 export default function RecentActivityCard({ activity }) {
+  const navigate = useNavigate()
   const list = activity || []
+
+  // Deep-link to the task the activity is about, else the project's task list —
+  // same destination as the Active Projects ("progress") card.
+  const goActivity = (a) => {
+    if (!a.project_id) return
+    if (a.task_id) navigate(`/projects/${a.project_id}/task-lists/tasks/${a.task_id}`)
+    else navigate(`/projects/${a.project_id}/task-lists`)
+  }
+  const goProject = (a) => {
+    if (a.project_id) navigate(`/projects/${a.project_id}/task-lists`)
+  }
 
   return (
     <Card className="p-5 border-pm-border flex flex-col h-full">
@@ -30,9 +43,18 @@ export default function RecentActivityCard({ activity }) {
               />
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] text-pm-text-primary leading-snug">
-                  <span className="font-medium">{a.actor}</span>{' '}
+                  {a.project_id ? (
+                    <button type="button" onClick={() => goActivity(a)} className="font-medium hover:text-pm-accent hover:underline">{a.actor}</button>
+                  ) : (
+                    <span className="font-medium">{a.actor}</span>
+                  )}{' '}
                   <span className="text-pm-text-muted">{a.action}</span>
-                  {a.project && <> <span className="text-pm-text-muted">·</span> <span className="text-pm-text-primary">{a.project}</span></>}
+                  {a.project && <> <span className="text-pm-text-muted">·</span>{' '}
+                    {a.project_id ? (
+                      <button type="button" onClick={() => goProject(a)} className="text-pm-text-primary hover:text-pm-accent hover:underline">{a.project}</button>
+                    ) : (
+                      <span className="text-pm-text-primary">{a.project}</span>
+                    )}</>}
                 </p>
                 <span className="text-[11px] text-pm-text-muted">{a.time}</span>
               </div>

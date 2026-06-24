@@ -521,14 +521,18 @@ class Dashboard_Controller {
         $items = $query->limit( 10 )->get();
 
         return $items->map( function ( $a ) {
-            $actor = $a->actor ? $a->actor->display_name : __( 'Someone', 'wedevs-project-manager' );
+            $actor   = $a->actor ? $a->actor->display_name : __( 'Someone', 'wedevs-project-manager' );
+            $is_task = 'task' === (string) $a->resource_type;
 
             return [
                 'id'         => absint( $a->id ),
                 'actor'      => $actor,
+                'actor_id'   => absint( $a->actor_id ),
                 'avatar_url' => $a->actor_id ? Avatar::get_url( $a->actor_id ) : '',
                 'action'     => $this->humanize_action( (string) $a->action, (string) $a->action_type ),
                 'project'    => $a->project ? $a->project->title : '',
+                'project_id' => absint( $a->project_id ),
+                'task_id'    => ( $is_task && $a->resource_id ) ? absint( $a->resource_id ) : 0,
                 'time'       => $this->human_time( $a->created_at ),
             ];
         } )->all();

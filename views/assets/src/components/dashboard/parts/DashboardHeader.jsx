@@ -1,8 +1,14 @@
 import { __ } from '@wordpress/i18n'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plus, CheckSquare, Flag } from 'lucide-react'
+import { Plus, ListPlus, Flag } from 'lucide-react'
+import { useAppDispatch } from '@store/index'
+import { setCreateSheetOpen, fetchCategories, fetchRoles } from '@store/projectsSlice'
+import { usePermissions } from '@hooks/usePermissions'
 import { Button } from '@components/ui/button'
 import { UserAvatar } from '@components/common/UserAvatar'
+import NewTaskSheet from '@components/my-tasks/MyTasksPage/parts/NewTaskSheet'
+import { ProjectCreateSheet } from '@components/projects/ProjectCreateSheet'
 
 function greeting() {
   const h = new Date().getHours()
@@ -11,8 +17,20 @@ function greeting() {
   return __('Good evening', 'wedevs-project-manager')
 }
 
-export default function DashboardHeader({ user, canCreate }) {
+export default function DashboardHeader({ user, onTaskCreated }) {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { canCreate, canManage, isManagerAnywhere } = usePermissions()
+  const canManageMilestone = canManage || isManagerAnywhere
+  const [newTaskOpen, setNewTaskOpen] = useState(false)
+
+  const openNewProject = () => {
+    // ProjectsPage normally loads these on mount; fetch here so the
+    // create sheet's category/role dropdowns aren't empty when opened cold.
+    dispatch(fetchCategories())
+    dispatch(fetchRoles())
+    dispatch(setCreateSheetOpen(true))
+  }
   const name = user?.name || ''
   const firstName = name.split(' ')[0]
 
@@ -41,22 +59,35 @@ export default function DashboardHeader({ user, canCreate }) {
         </div>
       </div>
 
-      {canCreate && (
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => navigate('/my-tasks')} className="gap-1.5">
-            <CheckSquare className="w-4 h-4" />
-            {__('New Task', 'wedevs-project-manager')}
-          </Button>
+      <div className="flex items-center gap-2">
+        {/* New Task — any user, matches MyTasksPage (ungated) */}
+        <Button variant="outline" size="sm" onClick={() => setNewTaskOpen(true)} className="gap-1.5">
+          <ListPlus className="w-4 h-4" />
+          {__('New Task', 'wedevs-project-manager')}
+        </Button>
+        {/* Milestone — manager only; creation is project-scoped, so route to projects */}
+        {canManageMilestone && (
           <Button variant="outline" size="sm" onClick={() => navigate('/projects')} className="gap-1.5 hidden sm:inline-flex">
             <Flag className="w-4 h-4" />
             {__('Milestone', 'wedevs-project-manager')}
           </Button>
-          <Button size="sm" onClick={() => navigate('/projects')} className="gap-1.5">
+        )}
+        {/* New Project — admin/manager only, opens the shared ProjectCreateSheet */}
+        {canCreate && (
+          <Button size="sm" onClick={openNewProject} className="gap-1.5">
             <Plus className="w-4 h-4" />
             {__('New Project', 'wedevs-project-manager')}
           </Button>
-        </div>
-      )}
+        )}
+      </div>
+
+      <NewTaskSheet
+        open={newTaskOpen}
+        onOpenChange={setNewTaskOpen}
+        userId={user?.id}
+        onCreated={() => { setNewTaskOpen(false); onTaskCreated?.() }}
+      />
+      {canCreate && <ProjectCreateSheet />}
     </div>
   )
 }

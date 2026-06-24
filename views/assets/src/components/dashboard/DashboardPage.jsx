@@ -46,7 +46,7 @@ function LoadingState() {
 
 export default function DashboardPage() {
   const api = useApi()
-  const { isPro, canManage, canCreate, isManagerAnywhere } = usePermissions()
+  const { isPro, canManage, isManagerAnywhere } = usePermissions()
 
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -98,7 +98,7 @@ export default function DashboardPage() {
 
   return (
     <div className="p-4 sm:p-6 max-w-[1400px] mx-auto space-y-5">
-      <DashboardHeader user={data?.user} canCreate={canCreate} />
+      <DashboardHeader user={data?.user} onTaskCreated={() => load(range, false)} />
 
       {/* Pro insights (module-gated, managers) */}
       {showTeam && isPro && <Lazy h="h-24"><ProInsightsRow /></Lazy>}
