@@ -46,6 +46,7 @@ const DiscussionDetailPage = React.lazy(() => import('@components/projects/Discu
 const MilestonesPage  = React.lazy(() => import('@components/projects/MilestonesPage'))
 const FilesPage       = React.lazy(() => import('@components/projects/FilesPage'))
 const ActivitiesPage  = React.lazy(() => import('@components/projects/ActivitiesPage'))
+const KanbanBoard     = React.lazy(() => import('@components/KanbanBoard'))
 const CategoriesPage  = React.lazy(() => import('@components/projects/CategoriesPage'))
 const PremiumPage     = React.lazy(() => import('@components/projects/PremiumPage'))
 const ModulesPage     = React.lazy(() => import('@components/projects/ModulesPage'))
@@ -61,7 +62,7 @@ const ProgressPlaceholder = React.lazy(() => import('@components/projects/Progre
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
 import { AdminRoute, ProjectRoute, LicenseRoute, ManagerRoute } from '@components/common/ProtectedRoute'
 import { ErrorBoundary } from '@components/common/ErrorBoundary'
-import { Columns3, GitBranch, Receipt, Settings as SettingsIcon, Zap, ShoppingCart } from 'lucide-react'
+import { GitBranch, Receipt, Settings as SettingsIcon, Zap, ShoppingCart } from 'lucide-react'
 
 // ── Replaceable page wrapper — pro can override via filters ──
 function FilteredPage({ filterName, fallback: Fallback }) {
@@ -112,6 +113,8 @@ function AppRoutes() {
         <Route path="projects/:projectId/milestones/tasks/:taskId" element={<ProjectRoute><MilestonesPage /><TaskDeepLinkOpener /></ProjectRoute>} />
         <Route path="projects/:projectId/files" element={<ProjectRoute><FilteredPage filterName="route.files.element" fallback={FilesPage} /></ProjectRoute>} />
         <Route path="projects/:projectId/activities" element={<ProjectRoute><ActivitiesPage /></ProjectRoute>} />
+        <Route path="projects/:projectId/kanban" element={<ProjectRoute><KanbanBoard /></ProjectRoute>} />
+        <Route path="projects/:projectId/kanban/tasks/:taskId" element={<ProjectRoute><KanbanBoard /><TaskDeepLinkOpener /></ProjectRoute>} />
         <Route path="my-tasks" element={<MyTasksPage />} />
 
         {/* ── Admin-only routes — gated by AdminRoute. Categories also available on frontend for admins. ── */}
@@ -137,9 +140,6 @@ function AppRoutes() {
         ))}
 
         {/* ── Pro feature placeholders — only shown when Pro hasn't registered the route ── */}
-        {!dynamicRoutes.some(r => r.path === 'projects/:projectId/kanban') && (
-          <Route path="projects/:projectId/kanban" element={<ProjectRoute><ProFeaturePlaceholder title={__("Kanban Board", 'wedevs-project-manager')} description={__("Visualize your workflow with drag-and-drop boards.", 'wedevs-project-manager')} icon={Columns3} mockKey="kanban" /></ProjectRoute>} />
-        )}
         {!dynamicRoutes.some(r => r.path === 'projects/:projectId/gantt') && (
           <Route path="projects/:projectId/gantt" element={<ProjectRoute><ProFeaturePlaceholder title={__("Gantt Chart", 'wedevs-project-manager')} description={__("Plan and track project timelines with interactive Gantt charts.", 'wedevs-project-manager')} icon={GitBranch} mockKey="gantt" /></ProjectRoute>} />
         )}
