@@ -73,11 +73,24 @@ class Comment_Observer extends Model_Observer {
         }
     }
 
+    /** Flags whether a comment body contains a Drive / Meet link (for activity icons). */
+    private function gw_meta( Comment $comment ) {
+        $content = (string) $comment->content;
+        return [
+            'has_drive' => ( strpos( $content, 'drive.google.com' ) !== false || strpos( $content, 'docs.google.com' ) !== false ),
+            'has_meet'  => ( strpos( $content, 'meet.google.com' ) !== false ),
+        ];
+    }
+
     private function comment_on_task( Comment $comment, Task $task, $action_type ) {
         $meta = [
             'comment_id' => $comment->id,
             'task_title' => $task->title,
         ];
+        // Don't mark a deleted comment with Drive/Meet icons.
+        if ( $action_type !== 'delete' ) {
+            $meta = array_merge( $meta, $this->gw_meta( $comment ) );
+        }
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
             $action = 'reply_comment_on_task';
