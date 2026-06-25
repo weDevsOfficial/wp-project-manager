@@ -4,9 +4,10 @@ import { useApi } from '@hooks/useApi'
 const api = useApi()
 
 const initialState = {
-  status:   { configured: false, picker_ready: false, drive_enabled: false, connected: false, account_email: '', expired: false, calendar_connected: false, meet_connected: false, drive_user_on: true, drive_comments_on: true },
+  status:   { configured: false, picker_ready: false, drive_enabled: false, calendar_enabled: false, meet_enabled: false, connected: false, account_email: '', expired: false, calendar_connected: false, meet_connected: false, drive_user_on: true, drive_comments_on: true },
   settings: { client_id: '', has_secret: false, api_key: '', app_id: '', drive_enabled: false, picker_ready: false, redirect_uri: '' },
   statusLoading: false,
+  statusFetched: false, // true once status/settings resolved — lets UI prefer live store over stale PM_Vars
   settingsLoading: false,
   saving: false,
   attachmentsByTask: {},
@@ -179,7 +180,7 @@ const slice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchStatus.pending,   (s) => { s.statusLoading = true })
-      .addCase(fetchStatus.fulfilled, (s, a) => { s.statusLoading = false; s.status = a.payload })
+      .addCase(fetchStatus.fulfilled, (s, a) => { s.statusLoading = false; s.statusFetched = true; s.status = a.payload })
       .addCase(fetchStatus.rejected,  (s) => { s.statusLoading = false })
 
       .addCase(fetchSettings.pending,   (s) => { s.settingsLoading = true })
@@ -187,7 +188,7 @@ const slice = createSlice({
       .addCase(fetchSettings.rejected,  (s) => { s.settingsLoading = false })
 
       .addCase(saveSettings.pending,   (s) => { s.saving = true })
-      .addCase(saveSettings.fulfilled, (s, a) => { s.saving = false; s.settings = a.payload; s.status.configured = a.payload.configured; s.status.picker_ready = a.payload.picker_ready; s.status.drive_enabled = a.payload.drive_enabled; s.status.drive_comments_on = a.payload.drive_comments })
+      .addCase(saveSettings.fulfilled, (s, a) => { s.saving = false; s.statusFetched = true; s.settings = a.payload; s.status.configured = a.payload.configured; s.status.picker_ready = a.payload.picker_ready; s.status.drive_enabled = a.payload.drive_enabled; s.status.calendar_enabled = a.payload.calendar_enabled; s.status.meet_enabled = a.payload.meet_enabled; s.status.drive_comments_on = a.payload.drive_comments })
       .addCase(saveSettings.rejected,  (s) => { s.saving = false })
 
       .addCase(disconnect.fulfilled, (s) => { s.status = { ...s.status, connected: false, account_email: '', expired: false, calendar_connected: false, meet_connected: false } })

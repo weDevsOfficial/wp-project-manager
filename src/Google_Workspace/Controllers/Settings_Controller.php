@@ -22,6 +22,8 @@ class Settings_Controller {
                 'api_key'       => isset( $settings['api_key'] ) ? $settings['api_key'] : '',
                 'app_id'        => isset( $settings['app_id'] ) ? $settings['app_id'] : '',
                 'drive_enabled' => Google_Service::drive_enabled(),
+                'calendar_enabled' => Google_Service::calendar_master_enabled(),
+                'meet_enabled'  => Google_Service::meet_master_enabled(),
                 'drive_comments'=> Google_Service::drive_comments_enabled(),
                 'configured'    => Google_Service::is_configured(),
                 'picker_ready'  => Google_Service::picker_ready(),

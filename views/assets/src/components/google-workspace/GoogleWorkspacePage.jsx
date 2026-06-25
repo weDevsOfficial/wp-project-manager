@@ -166,8 +166,8 @@ export default function GoogleWorkspacePage() {
       {/* Connected services — one card per Google feature. */}
       <h2 className="text-sm font-medium text-gray-900">{__('Connected services', 'wedevs-project-manager')}</h2>
 
-      {/* Google Drive (free) — per-user on/off */}
-      <section className="rounded-lg border border-gray-200 bg-white p-5">
+      {/* Google Drive (free) — admin master gate + per-user on/off */}
+      <section className={`rounded-lg border border-gray-200 bg-white p-5${!status.drive_enabled ? ' opacity-70' : ''}`}>
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-start gap-3">
             <DriveLogo width="20" height="20" />
@@ -176,15 +176,28 @@ export default function GoogleWorkspacePage() {
               <div className="text-xs text-gray-500 mt-0.5">{__('Attach Drive files to tasks, comments, discussions and files.', 'wedevs-project-manager')}</div>
             </div>
           </div>
-          <Switch
-            checked={!!status.connected && !!status.drive_user_on}
-            disabled={!status.connected}
-            onCheckedChange={v => dispatch(saveDrivePref({ drive_on: v }))}
-          />
+          {status.drive_enabled ? (
+            <Switch
+              checked={!!status.connected && !!status.drive_user_on}
+              disabled={!status.connected}
+              onCheckedChange={async v => {
+                const res = await dispatch(saveDrivePref({ drive_on: v }))
+                if (saveDrivePref.fulfilled.match(res)) {
+                  toast.success(v ? __('Google Drive enabled.', 'wedevs-project-manager') : __('Google Drive disabled.', 'wedevs-project-manager'))
+                } else {
+                  toast.error(__('Failed to update Drive setting.', 'wedevs-project-manager'))
+                }
+              }}
+            />
+          ) : (
+            <span className="text-[11px] font-medium text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">{__('Off', 'wedevs-project-manager')}</span>
+          )}
         </div>
-        {!status.connected && (
+        {!status.drive_enabled ? (
+          <p className="mt-2 pl-8 text-xs text-gray-400">{__('Drive is turned off. An administrator can enable it in Settings → Google Workspace.', 'wedevs-project-manager')}</p>
+        ) : !status.connected ? (
           <p className="mt-2 pl-8 text-xs text-amber-700">{__('Connect your Google account above to use Drive.', 'wedevs-project-manager')}</p>
-        )}
+        ) : null}
       </section>
 
       {/* Google Calendar — Pro fills with connect + status; free shows a cover. */}

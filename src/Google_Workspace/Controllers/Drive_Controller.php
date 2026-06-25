@@ -4,8 +4,6 @@ namespace WeDevs\PM\Google_Workspace\Controllers;
 use WP_REST_Request;
 use WeDevs\PM\Google_Workspace\Google_Service;
 use WeDevs\PM\Google_Workspace\Models\Google_Drive_File;
-use WeDevs\PM\Activity\Models\Activity;
-use WeDevs\PM\Task\Models\Task;
 use Carbon\Carbon;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -175,24 +173,6 @@ class Drive_Controller {
 
         do_action( 'pm_google_drive_file_attached', $row, $type, $id, $project_id );
 
-        if ( $type === 'task' ) {
-            $task = Task::find( $id );
-            Activity::create( [
-                'actor_id'      => get_current_user_id(),
-                'action'        => 'attach_drive_file',
-                'action_type'   => 'create',
-                'resource_id'   => $id,
-                'resource_type' => 'task',
-                'meta'          => [
-                    'task_title' => $task ? $task->title : '',
-                    'file_name'  => $row->name,
-                    'file_url'   => $row->web_view_link,
-                    'has_drive'  => true,
-                ],
-                'project_id'    => $project_id,
-            ] );
-        }
-
         return [ 'data' => $this->transform( $row ) ];
     }
 
@@ -211,23 +191,6 @@ class Drive_Controller {
                 return new \WP_Error( 'pm_google_forbidden', __( 'You can only remove Drive files from your own comment.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
             }
             do_action( 'pm_google_drive_file_detached', $row );
-
-            if ( $row->attachable_type === 'task' ) {
-                $task = Task::find( $row->attachable_id );
-                Activity::create( [
-                    'actor_id'      => get_current_user_id(),
-                    'action'        => 'detach_drive_file',
-                    'action_type'   => 'delete',
-                    'resource_id'   => (int) $row->attachable_id,
-                    'resource_type' => 'task',
-                    'meta'          => [
-                        'task_title' => $task ? $task->title : '',
-                        'file_name'  => $row->name,
-                    ],
-                    'project_id'    => $project_id,
-                ] );
-            }
-
             $row->delete();
         }
 

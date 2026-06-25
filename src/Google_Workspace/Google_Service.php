@@ -84,6 +84,11 @@ class Google_Service {
     public static function user_can_use_drive( $project_id, $user_id = null ) {
         $user_id = $user_id ? $user_id : get_current_user_id();
 
+        // Admin master switch off -> Drive disabled for everyone.
+        if ( ! self::drive_enabled() ) {
+            return false;
+        }
+
         // Respect the user's own Drive on/off choice first.
         if ( ! self::user_drive_enabled( $user_id ) ) {
             return false;
@@ -103,6 +108,18 @@ class Google_Service {
     public static function drive_enabled() {
         $settings = get_option( 'pm_google_workspace_settings', [] );
         return ! empty( $settings['drive_enabled'] );
+    }
+
+    /** Pro Calendar master switch — read directly (plain option, no Pro class needed). */
+    public static function calendar_master_enabled() {
+        $s = get_option( 'pm_google_calendar_settings', [] );
+        return is_array( $s ) && ! empty( $s['enabled'] );
+    }
+
+    /** Pro Meet master switch — read directly (plain option, no Pro class needed). */
+    public static function meet_master_enabled() {
+        $s = get_option( 'pm_google_meet_settings', [] );
+        return is_array( $s ) && ! empty( $s['enabled'] );
     }
 
     /** Whether Drive attach is allowed inside comments (admin-controlled, default on). */

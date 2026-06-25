@@ -20,6 +20,8 @@ class OAuth_Controller {
                 'configured'    => Google_Service::is_configured(),
                 'picker_ready'  => Google_Service::picker_ready(),
                 'drive_enabled' => Google_Service::drive_enabled(),
+                'calendar_enabled' => Google_Service::calendar_master_enabled(),
+                'meet_enabled'  => Google_Service::meet_master_enabled(),
                 'connected'         => $conn['connected'],
                 'account_email'     => $conn['account_email'],
                 'expired'           => $conn['expired'],

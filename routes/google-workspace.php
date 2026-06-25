@@ -33,7 +33,8 @@ $wedevs_pm_router->get( 'google-workspace/drive/picker-config', $gw_base . 'Driv
     ->permission( [ $gw_auth ] );
 
 // ── Per-project Drive role access (manager configures; members query) ──
-$gw_manager = 'WeDevs\PM\Core\Permissions\Project_Manage_Capability';
+// Same gate as the project Capabilities/Settings tab where these toggles live.
+$gw_manager = 'WeDevs\PM\Core\Permissions\Project_Settings_Page_Access';
 
 $wedevs_pm_router->get( 'projects/{project_id}/google-workspace/access', $gw_base . 'Drive_Controller@get_access' )
     ->permission( [ $gw_manager ] );
