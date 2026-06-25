@@ -28,6 +28,9 @@ import {
   ChevronRight,
 } from "lucide-react";
 import FileUploadArea from "@components/common/FileUploadArea";
+import CommentLinkActions from "@components/google-workspace/CommentLinkActions";
+import { useAppDispatch } from "@store/index";
+import { attachFileFor } from "@store/googleWorkspaceSlice";
 import NotifyUsers from "@components/common/NotifyUsers";
 import {
   DropdownMenu,
@@ -45,6 +48,7 @@ export default function DiscussionsPage() {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const api = useApi();
+  const dispatch = useAppDispatch();
   const toast = useToast();
   const [ConfirmDialog, confirm] = useConfirm();
   const project = useCurrentProject(projectId);
@@ -67,6 +71,7 @@ export default function DiscussionsPage() {
   const [formDesc, setFormDesc] = useState("");
   const [formMilestone, setFormMilestone] = useState("-1");
   const [formFiles, setFormFiles] = useState([]);
+  const [stagedDrive, setStagedDrive] = useState([]);
   const [formNotifyUsers, setFormNotifyUsers] = useState([]);
   const [creating, setCreating] = useState(false);
 
@@ -120,10 +125,17 @@ export default function DiscussionsPage() {
         formFiles.forEach((f) => fd.append("files[]", f));
         const res = await api.upload(`projects/${projectId}/discussion-boards`, fd);
         const newDisc = res?.data ?? res;
+        // Attach any staged Drive files now that the discussion has an id.
+        if (newDisc?.id && stagedDrive.length) {
+          for (const file of stagedDrive) {
+            await dispatch(attachFileFor({ projectId, attachableType: 'discussion', attachableId: newDisc.id, file }));
+          }
+        }
         setFormTitle("");
         setFormDesc("");
         setFormMilestone("-1");
         setFormFiles([]);
+        setStagedDrive([]);
         setFormNotifyUsers([]);
         setShowForm(false);
         toast.success(__("Discussion created", 'wedevs-project-manager'));
@@ -137,7 +149,7 @@ export default function DiscussionsPage() {
       }
       setCreating(false);
     },
-    [api, projectId, formTitle, formDesc, formMilestone, formFiles, formNotifyUsers, creating, toast, __, fetchDiscussions, navigate]
+    [api, projectId, formTitle, formDesc, formMilestone, formFiles, formNotifyUsers, creating, toast, __, fetchDiscussions, navigate, stagedDrive, dispatch]
   );
 
   const handleDelete = useCallback(
@@ -232,6 +244,7 @@ export default function DiscussionsPage() {
             </SelectContent>
           </Select>
           <FileUploadArea files={formFiles} onFilesChange={setFormFiles} />
+          <CommentLinkActions projectId={projectId} onInsert={(html) => setFormDesc(prev => (prev || '') + html)} />
           <NotifyUsers
             users={project?.assignees?.data ?? []}
             value={formNotifyUsers}

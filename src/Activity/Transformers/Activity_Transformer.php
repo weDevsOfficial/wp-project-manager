@@ -152,6 +152,10 @@ class Activity_Transformer extends TransformerAbstract {
             }
         }
 
+        // Google Workspace: flag comments that contain a Drive/Meet link.
+        if ( ! empty( $activity->meta['has_drive'] ) ) { $meta['has_drive'] = true; }
+        if ( ! empty( $activity->meta['has_meet'] ) )  { $meta['has_meet']  = true; }
+
         return $meta;
     }
 
@@ -228,6 +232,16 @@ class Activity_Transformer extends TransformerAbstract {
      */
     private function get_activity_message_by_action( $action ) {
         switch ( $action ) {
+            // Google Workspace activities
+            case 'attach_drive_file':
+                return __( '{{actor.data.display_name}} attached a Google Drive file to {{meta.task_title}}.', 'wedevs-project-manager' );
+
+            case 'detach_drive_file':
+                return __( '{{actor.data.display_name}} removed a Google Drive file from {{meta.task_title}}.', 'wedevs-project-manager' );
+
+            case 'create_meet':
+                return __( '{{actor.data.display_name}} started a Google Meet meeting.', 'wedevs-project-manager' );
+
             // Project activities
             case 'create_project':
                 /* translators: 1: User display name, 2: Project title */

@@ -11,6 +11,8 @@ import {
   ACTION_COLOR_MAP,
   ACTION_LABELS,
   Activity,
+  DriveMonoGlyph,
+  Video,
 } from '../constants';
 import { parseMessage, formatTime } from '../utils';
 
@@ -31,6 +33,29 @@ export default function ActivityItem({ act, projectId: fallbackProjectId }) {
 
   const projectId = act.project?.data?.id || act.project?.id || act.meta?.project_id || fallbackProjectId;
   const isTask = act.resource_type === 'task' && act.resource_id && projectId;
+
+  const meta = act.meta || {};
+  // Drive link only for the "attached" entry; deleted actions never link the file.
+  const driveUrl = act.action === 'attach_drive_file' ? meta.file_url : null;
+  const showDrive = act.action === 'attach_drive_file' || !!meta.has_drive;
+  const showMeet = !!meta.has_meet;
+
+  const marks = (showDrive || showMeet) ? (
+    <span className="inline-flex items-center gap-1 shrink-0">
+      {showDrive && (
+        driveUrl ? (
+          <a href={driveUrl} target="_blank" rel="noopener noreferrer" title={meta.file_name || __('Google Drive file', 'wedevs-project-manager')} className="text-pm-text-muted/35 hover:text-pm-accent">
+            <DriveMonoGlyph className="h-3.5 w-3.5" />
+          </a>
+        ) : (
+          <DriveMonoGlyph className="h-3.5 w-3.5 text-pm-text-muted/30" title={__('Google Drive', 'wedevs-project-manager')} />
+        )
+      )}
+      {showMeet && (
+        <Video className="h-3.5 w-3.5 text-pm-text-muted/30" title={__('Google Meet', 'wedevs-project-manager')} />
+      )}
+    </span>
+  ) : null;
 
   const handleMessageClick = () => {
     if (isTask) {
@@ -54,19 +79,22 @@ export default function ActivityItem({ act, projectId: fallbackProjectId }) {
             {badgeLabel}
           </Badge>
         </div>
-        {isTask ? (
-          <button
-            type="button"
-            onClick={handleMessageClick}
-            className="text-sm text-pm-text-muted leading-snug hover:text-pm-accent transition-colors cursor-pointer text-left block w-full"
-          >
-            {parseMessage(act)}
-          </button>
-        ) : (
-          <p className="text-sm text-pm-text-muted leading-snug">{parseMessage(act)}</p>
-        )}
+        <div className="flex items-center gap-1.5">
+          {isTask ? (
+            <button
+              type="button"
+              onClick={handleMessageClick}
+              className="text-sm text-pm-text-muted leading-snug hover:text-pm-accent transition-colors cursor-pointer text-left"
+            >
+              {parseMessage(act)}
+            </button>
+          ) : (
+            <p className="text-sm text-pm-text-muted leading-snug">{parseMessage(act)}</p>
+          )}
+          {marks}
+        </div>
         {timeStr && (
-          <span className="text-[15px] text-pm-text-muted/50 mt-1 inline-block">{timeStr}</span>
+          <span className="text-[15px] text-pm-text-muted/40 mt-1 inline-block">{timeStr}</span>
         )}
       </div>
       <div className="shrink-0 mt-1">

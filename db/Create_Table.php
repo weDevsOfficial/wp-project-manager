@@ -26,6 +26,7 @@ class WeDevs_PM_Create_Table {
         $this->crate_role_project_users_table();
         $this->update_version();
         $this->task_types();
+        \WeDevs\PM\Google_Workspace\Loader::install();
     }
 
     private function prefix() {

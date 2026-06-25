@@ -2,7 +2,9 @@ import { __ } from '@wordpress/i18n';
 import {
   Activity, CheckSquare, FolderKanban, MessageSquare,
   FileText, Milestone, Trash2, Edit3, ArrowUpDown, Plus,
+  Video,
 } from 'lucide-react';
+import { DriveMonoGlyph } from '@components/google-workspace/GoogleIcons';
 
 export const ACTION_ICON_MAP = {
   create_project: FolderKanban,
@@ -40,6 +42,9 @@ export const ACTION_ICON_MAP = {
   upload_file: FileText,
   create_file: FileText,
   delete_file: Trash2,
+  attach_drive_file: DriveMonoGlyph,
+  detach_drive_file: Trash2,
+  create_meet: Video,
 };
 
 export const ACTION_COLOR_MAP = {
@@ -77,6 +82,9 @@ export const ACTION_FALLBACKS = {
   comment_on_discussion_board: __('commented on a discussion', 'wedevs-project-manager'),
   comment_on_project: __('commented on a project', 'wedevs-project-manager'),
   reply_comment_on_task: __('replied to a comment', 'wedevs-project-manager'),
+  attach_drive_file: __('attached a Google Drive file', 'wedevs-project-manager'),
+  detach_drive_file: __('removed a Google Drive file', 'wedevs-project-manager'),
+  create_meet: __('started a Google Meet meeting', 'wedevs-project-manager'),
 };
 
-export { Activity };
+export { Activity, DriveMonoGlyph, Video };

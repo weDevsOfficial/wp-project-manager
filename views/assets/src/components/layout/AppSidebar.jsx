@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
 import { useActiveProModules, isProModuleActive, isProPluginInstalled } from '@hooks/useActiveProModules'
@@ -13,6 +14,15 @@ import {
   Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
+
+// Google Drive glyph (2026 mark), outlined to match the lucide nav icons.
+const GoogleDriveNavIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" {...props}>
+    <path d="M12 17L15.2083 11.5L17.4718 7.61972L19.8 11.5L21.4109 14.1848C23.2105 17.1841 21.05 21 17.5521 21H14.3333L13.1667 19L12 17Z"/>
+    <path d="M8.79167 11.5L12 17L13.1667 19L14.3333 21H9.66667H6.44786C2.95003 21 0.789527 17.1841 2.58914 14.1848L4.2 11.5H8.79167Z"/>
+    <path d="M15.2083 11.5H8.79167H4.2L6.52817 7.61972L8.35566 4.57391C10.0064 1.82272 13.9936 1.82272 15.6443 4.57391L17.4718 7.61972L15.2083 11.5Z"/>
+  </svg>
+)
 
 function statusColor(p) {
   const s = p.status
@@ -224,6 +234,15 @@ export function AppSidebar() {
   // Pro plugin installed (pm-pro.js loaded) — may or may not be licensed
   const isProInstalled = isProPluginInstalled()
 
+  // G Workspace nav visibility: show when the admin has enabled ANY feature
+  // (Drive, Calendar, or Meet). Prefer the live store (reacts to toggles this
+  // session); fall back to PM_Vars until status is first fetched.
+  const gwStatusFetched = useSelector(s => s.googleWorkspace?.statusFetched)
+  const gwStatus        = useSelector(s => s.googleWorkspace?.status)
+  const gwVars          = (typeof PM_Vars !== 'undefined' && PM_Vars.google_workspace) || {}
+  const anyFeature = (src) => !!(src && (src.drive_enabled || src.calendar_enabled || src.meet_enabled))
+  const workspaceNavEnabled = gwStatusFetched ? anyFeature(gwStatus) : anyFeature(gwVars)
+
   const viewNavItems = useMemo(() => {
     const isModuleActive = (dir) => isProModuleActive(activeModulePaths, dir)
     const items = [
@@ -238,8 +257,13 @@ export function AppSidebar() {
         items.push({ key: 'sprints', label: __('Sprints', 'wedevs-project-manager'), short: __('Sprint', 'wedevs-project-manager'), icon: Timer, route: '/sprints', pro: !isPro })
       }
     }
+    // Google Workspace — free feature, shown to everyone when the admin has
+    // enabled Google Drive in Settings → Google Workspace.
+    if (workspaceNavEnabled) {
+      items.push({ key: 'google-workspace', label: __('G Workspace', 'wedevs-project-manager'), short: __('Workspace', 'wedevs-project-manager'), icon: GoogleDriveNavIcon, route: '/google-workspace' })
+    }
     return items
-  }, [__, isPro, activeModulePaths, canManage, isManagerAnywhere])
+  }, [__, isPro, activeModulePaths, canManage, isManagerAnywhere, workspaceNavEnabled])
 
   // Auto-collapse sidebar on full-width pages (reports, calendar, progress, sprints)
   const autoCollapsedRef = useRef(false)
@@ -284,6 +308,7 @@ export function AppSidebar() {
     if (path.startsWith('/progress')) return 'progress'
     if (path.startsWith('/reports'))  return 'reports'
     if (path.startsWith('/sprints'))  return 'sprints'
+    if (path.startsWith('/google-workspace')) return 'google-workspace'
     if (path.startsWith('/importtools')) return 'importtools'
     if (path.startsWith('/license')) return 'license'
     return 'projects'
@@ -314,7 +339,7 @@ export function AppSidebar() {
         )}
         title={item.label}
       >
-        <Icon className={cn('shrink-0', collapsed ? 'w-[18px] h-[18px]' : 'w-[18px] h-[18px]', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
+        <Icon className={cn('shrink-0', collapsed ? 'w-[18px] h-[18px]' : 'w-[18px] h-[18px]', !collapsed && item.key === 'google-workspace' && 'self-start mt-[3px]', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
         {collapsed
           ? <span className={cn('text-[10px] font-medium leading-none', isActive ? 'text-pm-accent' : 'text-pm-text-muted')}>{item.short ?? item.label}</span>
           : <TruncText className="text-[15px]">{item.label}</TruncText>

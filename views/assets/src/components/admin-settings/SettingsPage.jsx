@@ -26,6 +26,13 @@ const LoomNavIcon = (props) => (
     <path d="M62,27.6H43.9l15.7-9.1l-3.4-6l-15.7,9.1l9.1-15.7l-6-3.5l-9.1,15.7V0h-6.9v18.1L18.5,2.4l-6,3.4l9.1,15.7L5.9,12.5l-3.4,6l15.7,9.1H0v6.9h18.1L2.4,43.5l3.4,6l15.7-9.1l-9.1,15.7l6,3.4l9.1-15.7V62h6.9V43.9l9.1,15.7l6-3.4l-9.1-15.7l15.7,9.1l3.4-6l-15.7-9.1H62L62,27.6L62,27.6z M31,40.4c-5.2,0-9.4-4.2-9.4-9.4c0-5.2,4.2-9.4,9.4-9.4c5.2,0,9.4,4.2,9.4,9.4C40.4,36.2,36.2,40.4,31,40.4z" />
   </svg>
 )
+const GoogleWorkspaceNavIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" {...props}>
+    <path d="M12 17L15.2083 11.5L17.4718 7.61972L19.8 11.5L21.4109 14.1848C23.2105 17.1841 21.05 21 17.5521 21H14.3333L13.1667 19L12 17Z"/>
+    <path d="M8.79167 11.5L12 17L13.1667 19L14.3333 21H9.66667H6.44786C2.95003 21 0.789527 17.1841 2.58914 14.1848L4.2 11.5H8.79167Z"/>
+    <path d="M15.2083 11.5H8.79167H4.2L6.52817 7.61972L8.35566 4.57391C10.0064 1.82272 13.9936 1.82272 15.6443 4.57391L17.4718 7.61972L15.2083 11.5Z"/>
+  </svg>
+)
 
 // ── Lazy-loaded tab components ───────────────────────────────
 const GeneralTab    = lazy(() => import('./tabs/GeneralTab'))
@@ -38,6 +45,7 @@ const NotionSettingsTab  = lazy(() => import('./tabs/NotionSettingsTab'))
 const LoomSettingsTab    = lazy(() => import('./tabs/LoomSettingsTab'))
 const InvoiceSettingsTab  = lazy(() => import('./tabs/InvoiceSettingsTab'))
 const PagesSettingsTab    = lazy(() => import('./tabs/PagesSettingsTab'))
+const GoogleWorkspaceSettingsTab = lazy(() => import('./tabs/GoogleWorkspaceSettingsTab'))
 
 // ── Tab → Component map ──────────────────────────────────────
 const tabComponents = {
@@ -49,6 +57,7 @@ const tabComponents = {
   'github':       GitHubSettingsTab,
   'notion':       NotionSettingsTab,
   'loom':         LoomSettingsTab,
+  'google-workspace': GoogleWorkspaceSettingsTab,
   'invoices':     InvoiceSettingsTab,
   'pages':        PagesSettingsTab,
   'woo-project':  null, // injected by pm-pro via filter
@@ -94,6 +103,7 @@ const SettingsPage = () => {
   const showWooTab = !isPro || isWooModuleActive
 
   const integrationTabs = [
+    { key: 'google-workspace', label: __('G Workspace', 'wedevs-project-manager'), icon: GoogleWorkspaceNavIcon },
     { key: 'pusher',  label: __('Pusher',   'wedevs-project-manager'), icon: Radio },
     { key: 'github',  label: __('GitHub',   'wedevs-project-manager'), icon: GitHubNavIcon },
     { key: 'notion',  label: __('Notion',   'wedevs-project-manager'), icon: NotionNavIcon },

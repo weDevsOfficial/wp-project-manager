@@ -53,6 +53,14 @@ const MyTasksPage     = React.lazy(() => import('@components/my-tasks/MyTasksPag
 const ToolsPage       = React.lazy(() => import('@components/projects/ToolsPage'))
 const WelcomePage     = React.lazy(() => import('@components/welcome/WelcomePage'))
 const LicensePage     = React.lazy(() => import('@components/projects/LicensePage'))
+const GoogleWorkspacePage    = React.lazy(() => import('@components/google-workspace/GoogleWorkspacePage'))
+const GoogleDriveTaskSection = React.lazy(() => import('@components/google-workspace/GoogleDriveTaskSection'))
+
+// Google Drive attachments render in the task detail sheet (free feature),
+// only when an admin has enabled Drive in Settings → Google Workspace.
+if (typeof PM_Vars !== 'undefined' && PM_Vars.google_workspace?.drive_enabled) {
+  registerSlot('task.detail.subtasks', GoogleDriveTaskSection)
+}
 
 // ── Free placeholder pages (shown when Pro does NOT replace them) ──
 const CalendarPlaceholder = React.lazy(() => import('@components/projects/CalendarPage'))
@@ -122,6 +130,7 @@ function AppRoutes() {
         {!isFrontend && <Route path="welcome" element={<AdminRoute><WelcomePage /></AdminRoute>} />}
         {!isFrontend && <Route path="modules" element={<AdminRoute><FilteredPage filterName="route.modules.element" fallback={ModulesPage} /></AdminRoute>} />}
         <Route path="premium" element={<AdminRoute><PremiumPage /></AdminRoute>} />
+        <Route path="google-workspace" element={<GoogleWorkspacePage />} />
         {!isFrontend && isProInstalled && <Route path="license" element={<LicenseRoute><LicensePage /></LicenseRoute>} />}
 
         {/* ── Replaceable pages — Pro overrides via registerFilter() ── */}
@@ -241,6 +250,13 @@ window.PM = {
 
   // Free store actions/thunks that pro may need to dispatch
   thunks: { fetchTask, fetchTaskLists, fetchProjectAssignees },
+
+  // Google Workspace: free owns OAuth/token; pro (Calendar/Meet) dispatches these.
+  googleWorkspace: {
+    fetchStatus: require('@store/googleWorkspaceSlice').fetchStatus,
+    getAuthUrl:  require('@store/googleWorkspaceSlice').getAuthUrl,
+    disconnect:  require('@store/googleWorkspaceSlice').disconnect,
+  },
   actions: { resetProjectState, openTaskSheet, closeTaskSheet, markTaskModified },
 
   // Free hooks that pro may use (same Redux store context)
@@ -258,6 +274,11 @@ window.PM = {
     BackButton:       require('@components/common/BackButton'),
     FileUploadArea:  require('@components/common/FileUploadArea'),
     CommentAttachment: require('@components/common/CommentAttachment'),
+    GoogleDriveAttach: require('@components/google-workspace/GoogleDriveAttach'),
+    GoogleDriveCommentButton: require('@components/google-workspace/GoogleDriveCommentButton'),
+    CommentLinkActions: require('@components/google-workspace/CommentLinkActions'),
+    GoogleDriveStage:  require('@components/google-workspace/GoogleDriveStage'),
+    DrivePickerModal:  require('@components/google-workspace/DrivePickerModal'),
     TaskStatusCircle: require('@components/common/TaskStatusCircle'),
     ProBadge:        require('@components/common/ProBadge'),
     ProUpgradeModal: require('@components/common/ProUpgradeModal'),
@@ -329,6 +350,7 @@ window.PM = {
     urlStrippers: require('@/lib/url-strippers'),
     sanitize: require('@lib/sanitize'),
     pmUtils: require('@lib/pm-utils'),
+    googleLinks: require('@lib/google-links'),
   },
 
   // Re-export Radix UI primitives so pro uses the SAME context instances.
