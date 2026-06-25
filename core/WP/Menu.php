@@ -37,6 +37,36 @@ class Menu {
 
         do_action( 'wedevs_cpm_admin_menu', self::$capability, $home );
 
+        // 3b. G Workspace — placed directly under Sprints (or in the views group
+        //     when Sprints isn't present). Shown when any Google feature is on.
+        if ( class_exists( '\WeDevs\PM\Google_Workspace\Google_Service' ) ) {
+            $gw = '\WeDevs\PM\Google_Workspace\Google_Service';
+            $gw_on = $gw::drive_enabled() || $gw::calendar_master_enabled() || $gw::meet_master_enabled();
+            if ( $gw_on ) {
+                $gw_item = [ __( 'G Workspace', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/google-workspace" ];
+                $list    = isset( $submenu[ $slug ] ) ? $submenu[ $slug ] : [];
+
+                // Find the integer POSITION of the Sprints entry (its array key may
+                // be a string, so never do arithmetic on the key itself).
+                $pos = -1; $i = 0;
+                foreach ( $list as $it ) {
+                    if ( isset( $it[2] ) && strpos( $it[2], '#/sprints' ) !== false ) { $pos = $i; break; }
+                    $i++;
+                }
+
+                // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
+                if ( $pos >= 0 ) {
+                    $submenu[ $slug ] = array_merge(
+                        array_slice( $list, 0, $pos + 1 ),
+                        [ $gw_item ],
+                        array_slice( $list, $pos + 1 )
+                    );
+                } else {
+                    $submenu[ $slug ][] = $gw_item;
+                }
+            }
+        }
+
         // 4. Upgrade to Pro (free only)
         if ( ! $wedevs_pm_pro ) {
             // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
