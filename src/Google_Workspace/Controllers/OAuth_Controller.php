@@ -55,9 +55,6 @@ class OAuth_Controller {
         if ( $request->get_param( 'with_calendar' ) ) {
             $scope .= ' ' . Google_Client::CALENDAR_SCOPE;
         }
-        if ( $request->get_param( 'with_meet' ) ) {
-            $scope .= ' ' . Google_Client::MEET_SCOPE;
-        }
 
         return [
             'data' => [

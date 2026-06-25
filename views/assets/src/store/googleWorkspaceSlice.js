@@ -51,7 +51,6 @@ export const getAuthUrl = createAsyncThunk(
   async (arg, { rejectWithValue }) => {
     const params = {}
     if (arg && arg.withCalendar) params.with_calendar = 1
-    if (arg && arg.withMeet) params.with_meet = 1
     try { const res = await api.get('google-workspace/auth-url', Object.keys(params).length ? params : undefined); return (res.data ?? res).auth_url }
     catch (e) { return rejectWithValue(e.message) }
   },

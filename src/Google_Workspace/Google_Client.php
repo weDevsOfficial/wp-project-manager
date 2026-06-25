@@ -21,9 +21,6 @@ class Google_Client {
     // in via the Pro Calendar settings), so free-only users never grant it.
     const CALENDAR_SCOPE = 'https://www.googleapis.com/auth/calendar.events';
 
-    // Pro Meet feature — incremental scope to create Meet spaces (meeting links).
-    const MEET_SCOPE = 'https://www.googleapis.com/auth/meetings.space.created';
-
     private $client_id;
     private $client_secret;
     private $redirect_uri;
