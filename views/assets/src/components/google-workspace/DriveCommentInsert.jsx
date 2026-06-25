@@ -19,10 +19,18 @@ const MonoDrive = ({ className = 'h-3.5 w-3.5' }) => (
   </svg>
 )
 
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+))
+const safeHttpUrl = (u) => {
+  try { const p = new URL(u, window.location.origin); return (p.protocol === 'https:' || p.protocol === 'http:') ? p.href : '' }
+  catch { return '' }
+}
+
 function linkHtml(f) {
-  const url = f.webViewLink || f.url
+  const url = safeHttpUrl(f.webViewLink || f.url)
   if (!url) return ''
-  return `<p><a href="${url}" target="_blank" rel="noreferrer">${f.name || __('Drive file', 'wedevs-project-manager')}</a></p>`
+  return `<p><a href="${esc(url)}" target="_blank" rel="noreferrer">${esc(f.name || __('Drive file', 'wedevs-project-manager'))}</a></p>`
 }
 
 export default function DriveCommentInsert({ projectId, onInsert }) {

@@ -46,6 +46,16 @@ function iconHtml(kind) {
   return `<span class="pm-gicon text-pm-text-muted/40 shrink-0 inline-flex" aria-hidden="true">${ICONS[kind]}</span>`
 }
 
+/** Only allow http(s) URLs through (blocks javascript:/data: etc. in injected links). */
+function safeHttpUrl(u) {
+  try {
+    const parsed = new URL(u, window.location.origin)
+    return (parsed.protocol === 'https:' || parsed.protocol === 'http:') ? parsed.href : ''
+  } catch {
+    return ''
+  }
+}
+
 export function decorateGoogleLinks(html) {
   if (typeof html !== 'string' || html === '') return html
   if (!/drive\.google\.com|docs\.google\.com|meet\.google\.com/.test(html)) return html
@@ -62,12 +72,31 @@ export function decorateGoogleLinks(html) {
     const text = a.textContent || ''
 
     if (/meet\.google\.com/.test(href)) {
+      // Build via DOM (textContent + setAttribute) so the comment-supplied
+      // title/href can never inject markup (stored XSS guard). The icon span is
+      // a trusted constant, so innerHTML is fine for it only.
       const card = doc.createElement('span')
       card.className =
         'pm-meet-card inline-flex flex-col gap-1 w-fit max-w-full rounded-md border border-pm-text-muted/20 px-3 py-2 my-1 text-sm align-middle'
-      card.innerHTML =
-        `<span class="inline-flex items-center gap-2">${iconHtml('meet')}<span class="text-pm-text">${text || 'Google Meet'}</span></span>` +
-        `<a href="${href}" target="_blank" rel="noreferrer" class="text-pm-accent hover:underline shrink-0">Join Google Meet</a>`
+
+      const top = doc.createElement('span')
+      top.className = 'inline-flex items-center gap-2'
+      top.innerHTML = iconHtml('meet')
+      const titleEl = doc.createElement('span')
+      titleEl.className = 'text-pm-text'
+      titleEl.textContent = text || 'Google Meet'
+      top.appendChild(titleEl)
+
+      const join = doc.createElement('a')
+      join.className = 'text-pm-accent hover:underline shrink-0'
+      join.setAttribute('target', '_blank')
+      join.setAttribute('rel', 'noreferrer')
+      join.textContent = 'Join Google Meet'
+      const safe = safeHttpUrl(href)
+      if (safe) join.setAttribute('href', safe)
+
+      card.appendChild(top)
+      card.appendChild(join)
       a.replaceWith(card)
       return
     }
