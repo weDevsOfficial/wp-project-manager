@@ -52,8 +52,10 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
   const { isPro, userCan, isManager } = usePermissions(project)
   const { setOpen: openProModal } = useProModal()
   const canCreateTask = isManager || userCan('create_task')
-  const canEditTaskList = isManager || userCan('edit_task_list')
-  const canDeleteTaskList = isManager || userCan('delete_task_list')
+  // No edit_task_list/delete_task_list capability exists — list edit/delete is
+  // manager-only (Vue parity). Bogus userCan() keys always returned false here.
+  const canEditTaskList = isManager
+  const canDeleteTaskList = isManager
 
   const api = useApi()
   const [ConfirmDialog, confirm] = useConfirm()

@@ -49,12 +49,14 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
   const navigate = useNavigate();
   const project = useCurrentProject(projectId);
   const { isPro, userCan, isManager, currentUserId } = usePermissions(project);
+  // No edit_milestone/delete_milestone capability exists — milestone edit/delete
+  // is manager-or-creator (Vue can_edit_milestone parity). The bogus userCan keys
+  // always returned false.
   const creatorId = milestone?.creator?.data?.id ?? milestone?.created_by;
   const canEditMilestone =
     isManager ||
-    userCan('edit_milestone') ||
     (currentUserId && creatorId && String(currentUserId) === String(creatorId));
-  const canDeleteMilestone = isManager || userCan('delete_milestone') || canEditMilestone;
+  const canDeleteMilestone = canEditMilestone;
 
   const isComplete =
     milestone.status === "complete" || milestone.status === 1 || milestone.status === "1";

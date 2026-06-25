@@ -635,7 +635,7 @@ export default function TaskDetailSheet() {
                       <Button variant="ghost" size="sm" className="h-6 text-[15px] px-2" onClick={() => setEditingDates(false)}>{__('Cancel', 'wedevs-project-manager')}</Button>
                     </div>
                   ) : (
-                    <button type="button" onClick={() => setEditingDates(true)} className="text-sm text-pm-text-primary hover:text-pm-accent transition-colors">
+                    <button type="button" disabled={!canEditTask(currentTask)} onClick={() => canEditTask(currentTask) && setEditingDates(true)} className={cn('text-sm text-pm-text-primary transition-colors', canEditTask(currentTask) && 'hover:text-pm-accent')}>
                       {extractDateStr(currentTask.start_at) && extractDateStr(currentTask.due_date)
                         ? `${formatPmDate(currentTask.start_at)} → ${formatPmDate(currentTask.due_date)}`
                         : extractDateStr(currentTask.due_date)
@@ -655,17 +655,21 @@ export default function TaskDetailSheet() {
                         <span key={user.id || user.assigned_to} className="inline-flex items-center gap-1 text-sm bg-muted/50 rounded-full pl-0.5 pr-2 py-0.5">
                           <UserAvatar user={user} size="sm" />
                           {user.display_name}
-                          <button type="button" className="ml-0.5 text-pm-text-muted hover:text-destructive" onClick={() => handleRemoveAssignee(user.assigned_to ?? user.id)}>
-                            <X className="h-3.5 w-3.5" />
-                          </button>
+                          {canEditTask(currentTask) && (
+                            <button type="button" className="ml-0.5 text-pm-text-muted hover:text-destructive" onClick={() => handleRemoveAssignee(user.assigned_to ?? user.id)}>
+                              <X className="h-3.5 w-3.5" />
+                            </button>
+                          )}
                         </span>
                       ))}
-                      <button type="button" onClick={() => setShowAssigneeSearch(v => !v)}
-                        className="inline-flex items-center gap-1 text-[15px] text-pm-accent hover:text-pm-accent/80 transition-colors">
-                        <Plus className="h-3.5 w-3.5" />{__('Add', 'wedevs-project-manager')}
-                      </button>
+                      {canEditTask(currentTask) && (
+                        <button type="button" onClick={() => setShowAssigneeSearch(v => !v)}
+                          className="inline-flex items-center gap-1 text-[15px] text-pm-accent hover:text-pm-accent/80 transition-colors">
+                          <Plus className="h-3.5 w-3.5" />{__('Add', 'wedevs-project-manager')}
+                        </button>
+                      )}
                     </div>
-                    {showAssigneeSearch && (
+                    {canEditTask(currentTask) && showAssigneeSearch && (
                       <div className="relative mt-1.5">
                         <Input autoFocus value={assigneeQuery} onChange={e => setAssigneeQuery(e.target.value)}
                           placeholder={__('Search members...', 'wedevs-project-manager')} className="h-7 text-sm"
@@ -696,9 +700,9 @@ export default function TaskDetailSheet() {
 
                 <TaskEstimationField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
 
-                <TaskTypeField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
+                <TaskTypeField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} canEdit={canEditTask(currentTask)} />
 
-                <MilestoneField task={currentTask} projectId={currentTask?.project_id} api={api} />
+                <MilestoneField task={currentTask} projectId={currentTask?.project_id} api={api} canEdit={canEditTask(currentTask)} />
 
                 {canEditTask(currentTask) && userCan('view_private_task') && (
                   <TaskPrivacyField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />

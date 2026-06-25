@@ -9,7 +9,7 @@ import {
 } from '@components/ui/popover';
 import { Check, ListTodo, X } from 'lucide-react';
 
-export default function TaskTypeField({ task, projectId, dispatch, api }) {
+export default function TaskTypeField({ task, projectId, dispatch, api, canEdit = true }) {
   const [open, setOpen] = useState(false);
   const [types, setTypes] = useState([]);
   const [loadingTypes, setLoadingTypes] = useState(false);
@@ -64,13 +64,14 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
       <div className="flex items-center gap-1">
       <Popover open={open} onOpenChange={(v) => { setOpen(v); if (v) loadTypes(); }}>
         <PopoverTrigger asChild>
-          <button className={cn(
+          <button disabled={!canEdit} className={cn(
             'text-sm transition-colors',
             currentType
-              ? 'text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded hover:bg-muted'
-              : 'text-pm-text-muted hover:text-pm-accent'
+              ? 'text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded'
+              : 'text-pm-text-muted',
+            canEdit && (currentType ? 'hover:bg-muted' : 'hover:text-pm-accent')
           )}>
-            {currentType ? currentType.title : __('Add type', 'wedevs-project-manager')}
+            {currentType ? currentType.title : (canEdit ? __('Add type', 'wedevs-project-manager') : __('—', 'wedevs-project-manager'))}
           </button>
         </PopoverTrigger>
         <PopoverContent className="w-44 p-2" align="start">

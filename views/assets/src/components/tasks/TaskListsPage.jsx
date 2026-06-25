@@ -41,7 +41,7 @@ export default function TaskListsPage() {
   const api = useApi();
   const project = useCurrentProject(projectId);
   const { isPro, userCan, isManager } = usePermissions(project);
-  const canCreateList = isManager || userCan('create_task_list');
+  const canCreateList = isManager || userCan('create_list');
 
   const { lists, loading, expandedIds, listsMeta } = useAppSelector((s) => s.taskLists);
 
