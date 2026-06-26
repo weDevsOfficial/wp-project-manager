@@ -209,7 +209,7 @@ export default function TaskListsPage() {
           </h1>
           {lists.length > 0 && (
             <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
-              {lists.length} {lists.length === 1 ? __("list", 'wedevs-project-manager') : __("lists", 'wedevs-project-manager')}
+              {lists.length}
             </span>
           )}
         </div>

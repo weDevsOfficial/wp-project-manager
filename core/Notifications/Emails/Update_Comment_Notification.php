@@ -61,7 +61,7 @@ class Update_Comment_Notification extends Email {
             $comment_link = $this->pm_link() . '#/projects/'.$project->id.'/task-lists/'.$request['commentable_id'];
         }else{
             $type        = __( 'Task', 'wedevs-project-manager' );
-            $comment_link = $this->pm_link() . '#projects/'.$project->id. '/task-lists/tasks/' . $request['commentable_id'];
+            $comment_link = $this->pm_link() . '#/projects/'.$project->id. '/task-lists/tasks/' . $request['commentable_id'];
         }
 
         

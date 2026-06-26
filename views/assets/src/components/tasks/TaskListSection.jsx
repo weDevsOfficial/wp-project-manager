@@ -64,6 +64,8 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
   const [newDesc, setNewDesc] = useState('')
   const [newDueDate, setNewDueDate] = useState('')
   const [assigneeSearch, setAssigneeSearch] = useState('')
+  const [assigneeOpen, setAssigneeOpen] = useState(false)
+  const assigneeBoxRef = useRef(null)
   const projectMembers = project?.assignees?.data ?? []
   const assigneeResults = assigneeSearch.trim().length === 0
     ? projectMembers
@@ -84,6 +86,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
 
   const handleSearchUsers = useCallback((q) => {
     setAssigneeSearch(q)
+    setAssigneeOpen(true)
   }, [])
 
   const addAssignee = useCallback((user) => {
@@ -96,6 +99,15 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
   const removeAssignee = useCallback((userId) => {
     setSelectedAssignees(prev => prev.filter(u => u.id !== userId))
   }, [])
+
+  useEffect(() => {
+    if (!assigneeOpen) return
+    const onDown = (e) => {
+      if (assigneeBoxRef.current && !assigneeBoxRef.current.contains(e.target)) setAssigneeOpen(false)
+    }
+    document.addEventListener('mousedown', onDown)
+    return () => document.removeEventListener('mousedown', onDown)
+  }, [assigneeOpen])
 
   useEffect(() => {
     if (!showNewTask || !projectId || milestones.length > 0) return;
@@ -111,6 +123,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
     setNewDesc('')
     setNewDueDate('')
     setAssigneeSearch('')
+    setAssigneeOpen(false)
     setSelectedAssignees([])
     setSelectedMilestone('')
   }, [])
@@ -534,14 +547,16 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
                       <label className="text-sm text-pm-text-muted w-16 shrink-0">{__('Assign', 'wedevs-project-manager')}</label>
-                      <div className="relative flex-1">
+                      <div className="relative flex-1" ref={assigneeBoxRef}>
                         <Input
                           value={assigneeSearch}
                           onChange={e => handleSearchUsers(e.target.value)}
+                          onFocus={() => setAssigneeOpen(true)}
+                          onKeyDown={e => { if (e.key === 'Escape') setAssigneeOpen(false) }}
                           placeholder={__('Search users...', 'wedevs-project-manager')}
                           className="h-8 text-sm"
                         />
-                        {assigneeResults.length > 0 && (
+                        {assigneeOpen && assigneeResults.length > 0 && (
                           <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50 max-h-40 overflow-y-auto">
                             {assigneeResults.map(user => {
                               const isSelected = selectedAssignees.some(u => parseInt(u.id) === parseInt(user.id))
