@@ -52,7 +52,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
   // No edit_milestone/delete_milestone capability exists — milestone edit/delete
   // is manager-or-creator (Vue can_edit_milestone parity). The bogus userCan keys
   // always returned false.
-  const creatorId = milestone?.creator?.data?.id ?? milestone?.created_by;
+  const creatorId = milestone?.creator?.data?.id ?? milestone?.created_by ?? milestone?.creator?.id;
   const canEditMilestone =
     isManager ||
     (currentUserId && creatorId && String(currentUserId) === String(creatorId));
@@ -138,7 +138,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
     } catch {
       toast.error(__("Failed to update status", 'wedevs-project-manager'));
     }
-  }, [dispatch, projectId, milestone, isComplete, toast, __]);
+  }, [dispatch, projectId, milestone, isComplete, toast, __, canEditMilestone]);
 
   const handleTogglePrivacy = useCallback(async () => {
     const newPrivacy = milestone.meta?.privacy ? 0 : 1;
