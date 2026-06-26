@@ -41,7 +41,7 @@ export default function TaskListsPage() {
   const api = useApi();
   const project = useCurrentProject(projectId);
   const { isPro, userCan, isManager } = usePermissions(project);
-  const canCreateList = isManager || userCan('create_task_list');
+  const canCreateList = isManager || userCan('create_list');
 
   const { lists, loading, expandedIds, listsMeta } = useAppSelector((s) => s.taskLists);
 
@@ -122,7 +122,7 @@ export default function TaskListsPage() {
   const handleCreateList = useCallback(
     async (e) => {
       e.preventDefault();
-      if (!newListTitle.trim() || creatingList) return;
+      if (!canCreateList || !newListTitle.trim() || creatingList) return;
       setCreatingList(true);
       try {
         await dispatch(
@@ -150,10 +150,20 @@ export default function TaskListsPage() {
       newListDesc,
       newListPrivate,
       creatingList,
+      canCreateList,
       toast,
       __,
     ],
   );
+
+  useEffect(() => {
+    if (!canCreateList) {
+      setShowNewList(false);
+      setNewListTitle("");
+      setNewListDesc("");
+      setNewListPrivate(false);
+    }
+  }, [canCreateList, projectId]);
 
   const allExpanded = expandedIds.length === lists.length && lists.length > 0;
 
@@ -248,7 +258,7 @@ export default function TaskListsPage() {
       </div>
 
       {/* New list form */}
-      {showNewList && (
+      {showNewList && canCreateList && (
         <form
           onSubmit={handleCreateList}
           className="rounded-xl border bg-card p-4 space-y-3"

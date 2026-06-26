@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { fetchTask } from '@store/tasksSlice';
 import { cn } from '@lib/utils';
 import {
@@ -9,13 +9,17 @@ import {
 } from '@components/ui/popover';
 import { Check, ListTodo, X } from 'lucide-react';
 
-export default function TaskTypeField({ task, projectId, dispatch, api }) {
+export default function TaskTypeField({ task, projectId, dispatch, api, canEdit = true }) {
   const [open, setOpen] = useState(false);
   const [types, setTypes] = useState([]);
   const [loadingTypes, setLoadingTypes] = useState(false);
   const [saving, setSaving] = useState(false);
 
   const currentType = task?.type;
+
+  useEffect(() => {
+    if (!canEdit) setOpen(false);
+  }, [canEdit, task?.id]);
 
   const loadTypes = useCallback(() => {
     if (types.length > 0) return;
@@ -30,7 +34,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
   }, [api, types.length]);
 
   const handleSelect = useCallback((type) => {
-    if (saving) return;
+    if (!canEdit || saving) return;
     setSaving(true);
     const typeId = type?.id === currentType?.id ? false : type?.id;
     api.post(`projects/${projectId}/tasks/${task.id}/update`, {
@@ -41,10 +45,10 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
       setOpen(false);
     }).catch(() => {})
     .finally(() => setSaving(false));
-  }, [saving, currentType, task, projectId, api, dispatch]);
+  }, [saving, currentType, task, projectId, api, dispatch, canEdit]);
 
   const handleClear = useCallback(() => {
-    if (saving) return;
+    if (!canEdit || saving) return;
     setSaving(true);
     api.post(`projects/${projectId}/tasks/${task.id}/update`, {
       title: task.title,
@@ -54,7 +58,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
       setOpen(false);
     }).catch(() => {})
     .finally(() => setSaving(false));
-  }, [saving, task, projectId, api, dispatch]);
+  }, [saving, task, projectId, api, dispatch, canEdit]);
 
   return (
     <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
@@ -64,13 +68,14 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
       <div className="flex items-center gap-1">
       <Popover open={open} onOpenChange={(v) => { setOpen(v); if (v) loadTypes(); }}>
         <PopoverTrigger asChild>
-          <button className={cn(
+          <button disabled={!canEdit} className={cn(
             'text-sm transition-colors',
             currentType
-              ? 'text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded hover:bg-muted'
-              : 'text-pm-text-muted hover:text-pm-accent'
+              ? 'text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded'
+              : 'text-pm-text-muted',
+            canEdit && (currentType ? 'hover:bg-muted' : 'hover:text-pm-accent')
           )}>
-            {currentType ? currentType.title : __('Add type', 'wedevs-project-manager')}
+            {currentType ? currentType.title : (canEdit ? __('Add type', 'wedevs-project-manager') : __('—', 'wedevs-project-manager'))}
           </button>
         </PopoverTrigger>
         <PopoverContent className="w-44 p-2" align="start">
@@ -112,7 +117,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
           )}
         </PopoverContent>
       </Popover>
-      {currentType && !saving && (
+      {canEdit && currentType && !saving && (
         <button
           type="button"
           onClick={handleClear}
