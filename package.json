@@ -11,7 +11,7 @@
     "build": "wp-scripts build",
     "lint": "eslint views/assets/src --ext .ts,.tsx",
     "makepot": "wp i18n make-pot . languages/wedevs-project-manager.pot --exclude=node_modules,build,tests,views/assets/dist,vendor",
-    "release": "grunt release --force"
+    "release": "php composer-scripts/patch-deprecations.php && grunt release --force"
   },
   "dependencies": {
     "@babel/runtime": "^7.24.0",
