@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { __ } from '@wordpress/i18n'
 import { Popover, PopoverContent, PopoverTrigger } from '@components/ui/popover'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
@@ -93,7 +94,7 @@ const ColorPicker = React.forwardRef(function ColorPicker(
             value={isValidHex(normalizeHex(hexInput)) ? normalizeHex(hexInput) : '#000000'}
             onChange={(e) => handlePickerInput(e.target.value)}
             className="w-full h-24 rounded border border-pm-border cursor-pointer p-0"
-            aria-label="Color picker"
+            aria-label={__('Color picker', 'wedevs-project-manager')}
           />
 
           <div className="flex items-center gap-2">
@@ -141,7 +142,7 @@ const ColorPicker = React.forwardRef(function ColorPicker(
                 className="h-6 text-xs"
                 onClick={clear}
               >
-                Clear
+                {__('Clear', 'wedevs-project-manager')}
               </Button>
             )}
             <Button
@@ -151,7 +152,7 @@ const ColorPicker = React.forwardRef(function ColorPicker(
               className="h-6 text-xs"
               onClick={() => setOpen(false)}
             >
-              Close
+              {__('Close', 'wedevs-project-manager')}
             </Button>
           </div>
         </div>

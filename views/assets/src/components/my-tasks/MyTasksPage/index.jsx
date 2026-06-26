@@ -10,6 +10,7 @@ import { useToast } from "@hooks/useToast";
 import { usePermissions } from "@hooks/usePermissions";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
+import { DatePicker } from "@components/ui/date-picker";
 import { Skeleton } from "@components/ui/skeleton";
 import { Badge } from "@components/ui/badge";
 import {
@@ -559,19 +560,17 @@ export default function MyTasksPage() {
               <div className="flex items-end gap-3 flex-wrap">
                 <div className="space-y-1">
                   <label className="text-[11px] font-medium uppercase text-pm-text-muted">{__('From', 'wedevs-project-manager')}</label>
-                  <Input
-                    type="date"
+                  <DatePicker
                     value={overviewStartDate}
-                    onChange={(e) => setOverviewStartDate(e.target.value)}
+                    onChange={(v) => setOverviewStartDate(v)}
                     className="h-8 text-sm w-40"
                   />
                 </div>
                 <div className="space-y-1">
                   <label className="text-[11px] font-medium uppercase text-pm-text-muted">{__('To', 'wedevs-project-manager')}</label>
-                  <Input
-                    type="date"
+                  <DatePicker
                     value={overviewEndDate}
-                    onChange={(e) => setOverviewEndDate(e.target.value)}
+                    onChange={(v) => setOverviewEndDate(v)}
                     className="h-8 text-sm w-40"
                   />
                 </div>
@@ -756,13 +755,13 @@ export default function MyTasksPage() {
                 <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportStart ? "text-red-500" : "text-pm-text-muted")}>
                   {__("Start Date", 'wedevs-project-manager')}<span className="text-red-500 ml-0.5">*</span>
                 </label>
-                <Input type="date" value={reportStart} onChange={(e) => { setReportStart(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportStart && "border-red-500 ring-1 ring-red-500")} />
+                <DatePicker value={reportStart} onChange={(v) => { setReportStart(v); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportStart && "border-red-500 ring-1 ring-red-500")} />
               </div>
               <div className="space-y-1">
                 <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportEnd ? "text-red-500" : "text-pm-text-muted")}>
                   {__("End Date", 'wedevs-project-manager')}<span className="text-red-500 ml-0.5">*</span>
                 </label>
-                <Input type="date" value={reportEnd} onChange={(e) => { setReportEnd(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportEnd && "border-red-500 ring-1 ring-red-500")} />
+                <DatePicker value={reportEnd} onChange={(v) => { setReportEnd(v); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportEnd && "border-red-500 ring-1 ring-red-500")} />
               </div>
               <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report", 'wedevs-project-manager')}</Button>
             </div>
@@ -778,13 +777,13 @@ export default function MyTasksPage() {
                 <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportStart ? "text-red-500" : "text-pm-text-muted")}>
                   {__("Start Date", 'wedevs-project-manager')}<span className="text-red-500 ml-0.5">*</span>
                 </label>
-                <Input type="date" value={reportStart} onChange={(e) => { setReportStart(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportStart && "border-red-500 ring-1 ring-red-500")} />
+                <DatePicker value={reportStart} onChange={(v) => { setReportStart(v); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportStart && "border-red-500 ring-1 ring-red-500")} />
               </div>
               <div className="space-y-1">
                 <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportEnd ? "text-red-500" : "text-pm-text-muted")}>
                   {__("End Date", 'wedevs-project-manager')}<span className="text-red-500 ml-0.5">*</span>
                 </label>
-                <Input type="date" value={reportEnd} onChange={(e) => { setReportEnd(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportEnd && "border-red-500 ring-1 ring-red-500")} />
+                <DatePicker value={reportEnd} onChange={(v) => { setReportEnd(v); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportEnd && "border-red-500 ring-1 ring-red-500")} />
               </div>
               <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report", 'wedevs-project-manager')}</Button>
             </div>
@@ -991,18 +990,16 @@ export default function MyTasksPage() {
 
             {(activeTab === "outstanding" || activeTab === "complete") && (
               <>
-                <Input
-                  type="date"
+                <DatePicker
                   value={taskStartDate}
-                  onChange={(e) => { setTaskStartDate(e.target.value); setTaskDateError(""); }}
+                  onChange={(v) => { setTaskStartDate(v); setTaskDateError(""); }}
                   className="h-9 text-sm w-[150px]"
                   aria-label={__("Start Date", 'wedevs-project-manager')}
                 />
                 <span className="text-pm-text-muted text-sm">{__("to", 'wedevs-project-manager')}</span>
-                <Input
-                  type="date"
+                <DatePicker
                   value={taskEndDate}
-                  onChange={(e) => { setTaskEndDate(e.target.value); setTaskDateError(""); }}
+                  onChange={(v) => { setTaskEndDate(v); setTaskDateError(""); }}
                   className="h-9 text-sm w-[150px]"
                   aria-label={__("End Date", 'wedevs-project-manager')}
                 />

@@ -150,7 +150,7 @@ module.exports = function(grunt) {
 
             makepot: {
                 cmd: 'wp',
-                args: ['i18n', 'make-pot', '.', 'languages/wedevs-project-manager.pot', '--exclude=node_modules,build,tests,views/assets/src']
+                args: ['i18n', 'make-pot', '.', 'languages/wedevs-project-manager.pot', '--exclude=node_modules,build,tests,views/assets/dist,vendor']
             },
         }
     });

@@ -1,5 +1,6 @@
 import * as React from "react"
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
+import { __ } from "@wordpress/i18n"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button";
@@ -10,7 +11,7 @@ const Pagination = ({
 }) => (
   <nav
     role="navigation"
-    aria-label="pagination"
+    aria-label={__('pagination', 'wedevs-project-manager')}
     className={cn("mx-auto flex w-full justify-center", className)}
     {...props} />
 )
@@ -50,12 +51,12 @@ const PaginationPrevious = ({
   ...props
 }) => (
   <PaginationLink
-    aria-label="Go to previous page"
+    aria-label={__('Go to previous page', 'wedevs-project-manager')}
     size="default"
     className={cn("gap-1 pl-2.5", className)}
     {...props}>
     <ChevronLeft className="h-4 w-4" />
-    <span>Previous</span>
+    <span>{__('Previous', 'wedevs-project-manager')}</span>
   </PaginationLink>
 )
 PaginationPrevious.displayName = "PaginationPrevious"
@@ -65,11 +66,11 @@ const PaginationNext = ({
   ...props
 }) => (
   <PaginationLink
-    aria-label="Go to next page"
+    aria-label={__('Go to next page', 'wedevs-project-manager')}
     size="default"
     className={cn("gap-1 pr-2.5", className)}
     {...props}>
-    <span>Next</span>
+    <span>{__('Next', 'wedevs-project-manager')}</span>
     <ChevronRight className="h-4 w-4" />
   </PaginationLink>
 )
@@ -84,7 +85,7 @@ const PaginationEllipsis = ({
     className={cn("flex h-9 w-9 items-center justify-center", className)}
     {...props}>
     <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">More pages</span>
+    <span className="sr-only">{__('More pages', 'wedevs-project-manager')}</span>
   </span>
 )
 PaginationEllipsis.displayName = "PaginationEllipsis"
