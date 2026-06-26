@@ -12,6 +12,7 @@ import { useConfirm } from '@hooks/useConfirm'
 import { Milestone as MilestoneIcon } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
+import { DatePicker } from '@components/ui/date-picker'
 import RichTextEditor from '@components/common/RichTextEditor'
 import { Progress } from '@components/ui/progress'
 import { UserAvatar } from '@components/common/UserAvatar'
@@ -518,10 +519,9 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   {/* Due date */}
                   <div className="flex items-center gap-2">
                     <label className="text-sm text-pm-text-muted w-16 shrink-0">{__('Due date', 'wedevs-project-manager')}</label>
-                    <Input
-                      type="date"
+                    <DatePicker
                       value={newDueDate}
-                      onChange={e => setNewDueDate(e.target.value)}
+                      onChange={v => setNewDueDate(v)}
                       className="h-8 text-sm w-40"
                     />
                   </div>

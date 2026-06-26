@@ -608,27 +608,40 @@ function wedevs_pm_log( $type = '', $msg = '' ) {
 function wedevs_pm_get_translations_for_plugin_domain( $domain, $language_dir = null ) {
 
     if ( $language_dir == null ) {
-        $language_dir  = wedevs_pm_config('frontend.patch') . '/languages/';
+        $language_dir = wedevs_pm_config( 'frontend.patch' ) . '/languages/';
     }
 
-    $languages     = get_available_languages( $language_dir );
-    $get_site_lang = is_admin() ? get_user_locale() : get_locale();
-    $mo_file_name  = $domain .'-'. $get_site_lang;
-    $translations  = [];
+    $language_dir = trailingslashit( $language_dir );
+    $locale       = apply_filters( 'plugin_locale', determine_locale(), $domain );
+    $mo_basename  = $domain . '-' . $locale . '.mo';
 
-    if (
-        in_array( $mo_file_name, $languages )
-            &&
-        file_exists( $language_dir . $mo_file_name . '.mo' )
-    ) {
-        $mo = new MO();
-        if ( $mo->import_from_file( $language_dir . $mo_file_name . '.mo' ) ) {
-            $translations = $mo->entries;
+    // Mirror WordPress core load order (load_textdomain): user-supplied .mo in
+    // the system path wins over the plugin-bundled one, so site translations in
+    // wp-content/languages/plugins/ apply to the React bundle just like PHP.
+    $mofiles = array(
+        WP_LANG_DIR . '/plugins/' . $mo_basename,
+        $language_dir . $mo_basename,
+    );
+
+    $translations = [];
+    $mo           = null;
+
+    foreach ( $mofiles as $mofile ) {
+        if ( ! is_readable( $mofile ) ) {
+            continue;
         }
+
+        $mo = new MO();
+        if ( $mo->import_from_file( $mofile ) ) {
+            $translations = $mo->entries;
+            break;
+        }
+
+        $mo = null;
     }
 
     return [
-        'header'       => isset( $mo ) ? $mo->headers : '',
+        'header'       => $mo ? $mo->headers : '',
         'translations' => $translations
     ];
 }
@@ -650,7 +663,7 @@ function wedevs_pm_get_jed_locale_data( $domain, $language_dir = null ) {
             $domain => array(
                 '' => array(
                     'domain' => $domain,
-                    'lang'   => is_admin() ? get_user_locale() : get_locale(),
+                    'lang'   => apply_filters( 'plugin_locale', determine_locale(), $domain ),
                 ),
             ),
         ),

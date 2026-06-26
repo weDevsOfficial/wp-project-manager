@@ -4,6 +4,7 @@ import { useApi } from "@hooks/useApi";
 import { useToast } from "@hooks/useToast";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
+import { DatePicker } from "@components/ui/date-picker";
 import { Label } from "@components/ui/label";
 import RichTextEditor from "@components/common/RichTextEditor";
 import { Skeleton } from "@components/ui/skeleton";
@@ -317,21 +318,19 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
                 <span className="text-xs text-pm-text-muted">{__("Start Date", 'wedevs-project-manager')}</span>
-                <input
-                  type="date"
+                <DatePicker
                   value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full h-9 rounded-md border border-input bg-background text-foreground px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                  onChange={(v) => setStartDate(v)}
+                  placeholder={__("Start Date", 'wedevs-project-manager')}
                 />
               </div>
               <div className="space-y-1">
                 <span className="text-xs text-pm-text-muted">{__("Due Date", 'wedevs-project-manager')}</span>
-                <input
-                  type="date"
+                <DatePicker
                   value={dueDate}
-                  onChange={(e) => setDueDate(e.target.value)}
-                  min={startDate || undefined}
-                  className="w-full h-9 rounded-md border border-input bg-background text-foreground px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                  onChange={(v) => setDueDate(v)}
+                  placeholder={__("Due Date", 'wedevs-project-manager')}
+                  min={startDate}
                 />
               </div>
             </div>

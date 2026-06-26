@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { extractDateStr } from "@lib/pm-utils";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
+import { DatePicker } from "@components/ui/date-picker";
 import { Label } from "@components/ui/label";
 import { DialogFooter } from "@components/ui/dialog";
 import RichTextEditor from "@components/common/RichTextEditor";
@@ -49,10 +50,9 @@ export default function MilestoneForm({ milestone, onSubmit, onCancel }) {
       </div>
       <div className="space-y-1.5">
         <Label>{__("Target Date", 'wedevs-project-manager')}</Label>
-        <Input
-          type="date"
+        <DatePicker
           value={achieveDate}
-          onChange={(e) => setAchieveDate(e.target.value)}
+          onChange={(v) => setAchieveDate(v)}
           className="w-full sm:w-[200px]"
         />
       </div>

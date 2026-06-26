@@ -126,6 +126,7 @@ export function TopBar() {
     'modules':     __('Modules', 'wedevs-project-manager'),
     'premium':     __('Premium', 'wedevs-project-manager'),
     'license':     __('License', 'wedevs-project-manager'),
+    'importtools': __('Import Tools', 'wedevs-project-manager'),
   }), [__])
 
   const breadcrumbs = useMemo(() => {

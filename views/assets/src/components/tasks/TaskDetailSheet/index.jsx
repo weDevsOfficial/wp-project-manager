@@ -32,11 +32,7 @@ import NotifyUsers from '@components/common/NotifyUsers'
 import { UserAvatar } from '@components/common/UserAvatar'
 import { Separator } from '@components/ui/separator'
 import { Skeleton } from '@components/ui/skeleton'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@components/ui/popover'
+import { DatePicker } from '@components/ui/date-picker'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -605,37 +601,19 @@ export default function TaskDetailSheet() {
                   </div>
                   {editingDates ? (
                     <div className="flex items-center gap-2 flex-wrap">
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button variant="outline" size="sm" className="h-7 text-sm gap-1.5 font-normal min-w-[120px] justify-start">
-                            <Calendar className="h-3.5 w-3.5" />
-                            {startDate || __('Start', 'wedevs-project-manager')}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-3" align="start">
-                          <div className="space-y-2">
-                            <p className="text-sm font-medium text-pm-text-muted">{__('Start Date', 'wedevs-project-manager')}</p>
-                            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full rounded-md border border-input bg-background text-foreground px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
-                            {startDate && <Button variant="ghost" size="sm" className="h-6 text-[14px] w-full" onClick={() => setStartDate('')}>{__('Clear', 'wedevs-project-manager')}</Button>}
-                          </div>
-                        </PopoverContent>
-                      </Popover>
+                      <DatePicker
+                        value={startDate}
+                        onChange={(v) => setStartDate(v)}
+                        placeholder={__('Start', 'wedevs-project-manager')}
+                        className="h-7 w-auto min-w-[140px]"
+                      />
                       <span className="text-sm text-pm-text-muted">→</span>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button variant="outline" size="sm" className="h-7 text-sm gap-1.5 font-normal min-w-[120px] justify-start">
-                            <Calendar className="h-3.5 w-3.5" />
-                            {dueDate || __('Due', 'wedevs-project-manager')}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-3" align="start">
-                          <div className="space-y-2">
-                            <p className="text-sm font-medium text-pm-text-muted">{__('Due Date', 'wedevs-project-manager')}</p>
-                            <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className="w-full rounded-md border border-input bg-background text-foreground px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
-                            {dueDate && <Button variant="ghost" size="sm" className="h-6 text-[14px] w-full" onClick={() => setDueDate('')}>{__('Clear', 'wedevs-project-manager')}</Button>}
-                          </div>
-                        </PopoverContent>
-                      </Popover>
+                      <DatePicker
+                        value={dueDate}
+                        onChange={(v) => setDueDate(v)}
+                        placeholder={__('Due', 'wedevs-project-manager')}
+                        className="h-7 w-auto min-w-[140px]"
+                      />
                       <Button size="sm" className="h-6 text-[15px] px-2" onClick={handleDateSave}>{__('Save', 'wedevs-project-manager')}</Button>
                       <Button variant="ghost" size="sm" className="h-6 text-[15px] px-2" onClick={() => setEditingDates(false)}>{__('Cancel', 'wedevs-project-manager')}</Button>
                     </div>
