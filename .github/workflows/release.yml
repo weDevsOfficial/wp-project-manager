@@ -37,6 +37,12 @@ jobs:
       - name: Install node deps
         run: pnpm install --frozen-lockfile
 
+      # vendor/ must exist before 'pnpm release' runs the standalone
+      # patch-deprecations.php (it aborts on missing vendor). composer install
+      # also triggers the patch via post-install-cmd.
+      - name: Composer install (no dev)
+        run: composer install --no-dev --optimize-autoloader
+
       # pnpm release = php patch-deprecations.php && grunt release --force
       # grunt release: clean -> pnpm build (React) -> makepot -> composer install
       # --no-dev (runs patch hook) -> dump-autoload -> replace -> copy -> compress
