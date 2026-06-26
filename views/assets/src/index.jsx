@@ -36,6 +36,7 @@ import { sanitizeHtml } from '@lib/sanitize'
 import './tailwind.css'
 
 // ── Free pages (always loaded) ──────────────────────────
+const DashboardPage   = React.lazy(() => import('@components/dashboard/DashboardPage'))
 const ProjectsPage    = React.lazy(() => import('@components/projects/ProjectsPage'))
 const SettingsPage    = React.lazy(() => import('@components/admin-settings/SettingsPage'))
 const TaskListsPage   = React.lazy(() => import('@components/tasks/TaskListsPage'))
@@ -99,7 +100,8 @@ function AppRoutes() {
     <Routes>
       <Route element={<Layout />}>
         {/* ── Free routes ── */}
-        <Route index element={<Navigate to="/projects" replace />} />
+        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route path="dashboard" element={<DashboardPage />} />
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="projects/:projectId/task-lists" element={<ProjectRoute><TaskListsPage /></ProjectRoute>} />
         <Route path="projects/:projectId/task-lists/tasks/:taskId" element={<ProjectRoute><TaskListsPage /><TaskDeepLinkOpener /></ProjectRoute>} />
@@ -159,7 +161,7 @@ function AppRoutes() {
         <Route path="*" element={
           isProInstalled && dynamicRoutes.length === 0
             ? null
-            : <Navigate to="/projects" replace />
+            : <Navigate to="/dashboard" replace />
         } />
       </Route>
     </Routes>

@@ -19,8 +19,12 @@ class Menu {
         $home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, $slug, array( new Output, 'home_page' ), self::pm_svg(), 3 );
 
         // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
-        // 1. Projects
-        $submenu[$slug][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/" ];
+        // 1. Dashboard (landing page)
+        $submenu[$slug][] = [ __( 'Dashboard', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/dashboard" ];
+
+        // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
+        // 2. Projects
+        $submenu[$slug][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/projects" ];
 
         // 2. My Tasks
         $active_task = self::my_task_count();

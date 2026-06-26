@@ -1,3 +1,6 @@
+/* Default UI font — Mona Sans (variable weight + italic), matching WP ERP. */
+@import 'https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap';
+
 /* DO NOT use @tailwind base — Preflight is disabled in config */
 @tailwind components;
 @tailwind utilities;
@@ -75,6 +78,7 @@
   --pm-border:             #E5E7EB;
   --pm-hover:              #F3F4F6;
   --pm-accent:             #7C3AED;
+  --pm-accent-hsl:         262 80% 57%;   /* channels so bg-pm-accent/<opacity> works */
   --pm-accent-hover:       #6D28D9;
   --pm-accent-light:       #EDE9FE;
   --pm-text:               #1F2937;
@@ -125,6 +129,7 @@
   --pm-border:             #2a3a5c;
   --pm-hover:              #1e2d48;
   --pm-accent:             #9D6FFF;
+  --pm-accent-hsl:         258 100% 72%;  /* channels so bg-pm-accent/<opacity> works */
   --pm-accent-hover:       #8B5CF6;
   --pm-accent-light:       #2D1F5E;
   --pm-text:               #CBD5E1;
@@ -170,7 +175,7 @@ body:not(.wp-admin) #wedevs-project-manager {
 }
 
 #wedevs-project-manager {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Mona Sans', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   color: hsl(var(--foreground));
@@ -508,7 +513,7 @@ body.pm-fullscreen-settings.pm-mode-wordpress.folded #wedevs-pm {
      because a Select inside a Sheet still teleports here. ──── */
 [data-radix-popper-content-wrapper] {
   z-index: 3000 !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family: 'Mona Sans', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 14px !important;
   line-height: 1.5 !important;
   color: hsl(var(--foreground)) !important;
@@ -544,7 +549,7 @@ body.pm-fullscreen-settings.pm-mode-wordpress.folded #wedevs-pm {
      Specificity (0,2,0) beats Tailwind z-50 at (0,1,0). ───── */
 [role="dialog"][data-state] {
   z-index: 2001 !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Mona Sans', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   color: hsl(var(--foreground));
@@ -573,7 +578,7 @@ body.pm-fullscreen-settings.pm-mode-wordpress.folded #wedevs-pm {
 }
 [role="alertdialog"][data-state] {
   z-index: 2501 !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Mona Sans', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   color: hsl(var(--foreground));
@@ -678,7 +683,7 @@ body.admin-bar [data-sonner-toaster] {
   min-height: 0 !important;
   min-width: 0 !important;
   padding: 0.5rem 1rem !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family: 'Mona Sans', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 0.875rem !important;
   font-weight: 500 !important;
   line-height: 1 !important;
