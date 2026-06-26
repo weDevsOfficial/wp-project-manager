@@ -119,6 +119,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
   }, [dispatch, projectId, milestone.id, toast, __]);
 
   const handleToggleStatus = useCallback(async () => {
+    if (!canEditMilestone) return;
     const newStatus = isComplete ? "incomplete" : "complete";
     try {
       await dispatch(
@@ -163,7 +164,8 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
           <button
             type="button"
             onClick={handleToggleStatus}
-            className="shrink-0 mt-0.5"
+            disabled={!canEditMilestone}
+            className={cn("shrink-0 mt-0.5", !canEditMilestone && "cursor-default")}
             title={isComplete ? __("Mark Incomplete", 'wedevs-project-manager') : __("Mark Complete", 'wedevs-project-manager')}
           >
             <CheckCircle

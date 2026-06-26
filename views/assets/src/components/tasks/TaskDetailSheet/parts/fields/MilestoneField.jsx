@@ -48,6 +48,10 @@ export default function MilestoneField({ task, projectId, api, canEdit = true })
     setMilestones([]);
   }, [taskId]);
 
+  useEffect(() => {
+    if (!canEdit) setOpen(false);
+  }, [canEdit, taskId]);
+
   // Close on outside click
   useEffect(() => {
     if (!open) return;
@@ -61,7 +65,7 @@ export default function MilestoneField({ task, projectId, api, canEdit = true })
   }, [open]);
 
   const handleSelect = async (milestone) => {
-    if (saving || !taskId || !projectId) return;
+    if (!canEdit || saving || !taskId || !projectId) return;
     setOpen(false);
 
     if (milestone?.id === currentMilestone?.id) return;
@@ -135,7 +139,7 @@ export default function MilestoneField({ task, projectId, api, canEdit = true })
           </button>
         )}
 
-        {open && (
+        {canEdit && open && (
           <div className="absolute left-0 top-full mt-1 z-50 bg-background border rounded-lg shadow-lg min-w-[200px] max-h-48 overflow-y-auto">
             <button
               type="button"

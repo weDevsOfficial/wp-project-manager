@@ -104,6 +104,7 @@ export default function TaskDetailSheet() {
   const isProContext = !storeProjectId && (currentTask?.project_id || currentTask?.project?.id)
   const project = useCurrentProject(projectId)
   const { canEditTask, canEditComment, userCan } = usePermissions(project)
+  const canEditCurrentTask = currentTask ? canEditTask(currentTask) : false
 
   const [editingTitle, setEditingTitle] = useState(false)
   const [title, setTitle] = useState('')
@@ -283,7 +284,7 @@ export default function TaskDetailSheet() {
   }, [dispatch, projectId, currentTask, toast, __])
 
   const handleDateSave = useCallback(async () => {
-    if (!currentTask || !projectId) return
+    if (!currentTask || !projectId || !canEditCurrentTask) return
     try {
       await dispatch(updateTask({
         projectId, taskId: currentTask.id,
@@ -294,7 +295,11 @@ export default function TaskDetailSheet() {
     } catch {
       toast.error(__('Failed to update dates', 'wedevs-project-manager'))
     }
-  }, [dispatch, projectId, currentTask, startDate, dueDate, toast, __])
+  }, [dispatch, projectId, currentTask, startDate, dueDate, toast, __, canEditCurrentTask])
+
+  useEffect(() => {
+    if (!canEditCurrentTask) setEditingDates(false)
+  }, [canEditCurrentTask, currentTask?.id])
 
   const projectMembers = project?.assignees?.data ?? []
   const filteredMembers = assigneeQuery.trim().length === 0
@@ -635,7 +640,7 @@ export default function TaskDetailSheet() {
                       <Button variant="ghost" size="sm" className="h-6 text-[15px] px-2" onClick={() => setEditingDates(false)}>{__('Cancel', 'wedevs-project-manager')}</Button>
                     </div>
                   ) : (
-                    <button type="button" disabled={!canEditTask(currentTask)} onClick={() => canEditTask(currentTask) && setEditingDates(true)} className={cn('text-sm text-pm-text-primary transition-colors', canEditTask(currentTask) && 'hover:text-pm-accent')}>
+                    <button type="button" disabled={!canEditCurrentTask} onClick={() => canEditCurrentTask && setEditingDates(true)} className={cn('text-sm text-pm-text-primary transition-colors', canEditCurrentTask && 'hover:text-pm-accent')}>
                       {extractDateStr(currentTask.start_at) && extractDateStr(currentTask.due_date)
                         ? `${formatPmDate(currentTask.start_at)} → ${formatPmDate(currentTask.due_date)}`
                         : extractDateStr(currentTask.due_date)

@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { fetchTask } from '@store/tasksSlice';
 import { cn } from '@lib/utils';
 import {
@@ -17,6 +17,10 @@ export default function TaskTypeField({ task, projectId, dispatch, api, canEdit 
 
   const currentType = task?.type;
 
+  useEffect(() => {
+    if (!canEdit) setOpen(false);
+  }, [canEdit, task?.id]);
+
   const loadTypes = useCallback(() => {
     if (types.length > 0) return;
     setLoadingTypes(true);
@@ -30,7 +34,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api, canEdit 
   }, [api, types.length]);
 
   const handleSelect = useCallback((type) => {
-    if (saving) return;
+    if (!canEdit || saving) return;
     setSaving(true);
     const typeId = type?.id === currentType?.id ? false : type?.id;
     api.post(`projects/${projectId}/tasks/${task.id}/update`, {
@@ -41,10 +45,10 @@ export default function TaskTypeField({ task, projectId, dispatch, api, canEdit 
       setOpen(false);
     }).catch(() => {})
     .finally(() => setSaving(false));
-  }, [saving, currentType, task, projectId, api, dispatch]);
+  }, [saving, currentType, task, projectId, api, dispatch, canEdit]);
 
   const handleClear = useCallback(() => {
-    if (saving) return;
+    if (!canEdit || saving) return;
     setSaving(true);
     api.post(`projects/${projectId}/tasks/${task.id}/update`, {
       title: task.title,
@@ -54,7 +58,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api, canEdit 
       setOpen(false);
     }).catch(() => {})
     .finally(() => setSaving(false));
-  }, [saving, task, projectId, api, dispatch]);
+  }, [saving, task, projectId, api, dispatch, canEdit]);
 
   return (
     <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
@@ -113,7 +117,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api, canEdit 
           )}
         </PopoverContent>
       </Popover>
-      {currentType && !saving && (
+      {canEdit && currentType && !saving && (
         <button
           type="button"
           onClick={handleClear}

@@ -54,7 +54,7 @@ export default function FilesPage() {
   // can_edit_file parity). The bogus userCan('delete_file') always returned false.
   const canDeleteFile = (f) => {
     if (isManager) return true;
-    const creatorId = f?.creator?.data?.id ?? f?.created_by;
+    const creatorId = f?.creator?.data?.id ?? f?.created_by ?? f?.creator?.id;
     return currentUserId && creatorId && String(currentUserId) === String(creatorId);
   };
   const { setOpen: setProModalOpen } = useProModal();
