@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-import React, { useEffect, useState, useCallback, Suspense } from 'react'
+import React, { useEffect, useState, useCallback, useRef, Suspense } from 'react'
 import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
 import { Skeleton } from '@components/ui/skeleton'
@@ -46,6 +46,7 @@ function LoadingState() {
 
 export default function DashboardPage() {
   const api = useApi()
+  const requestSeqRef = useRef(0)
   const { isPro, canManage, isManagerAnywhere } = usePermissions()
 
   const [data, setData] = useState(null)
@@ -55,17 +56,22 @@ export default function DashboardPage() {
   const [error, setError] = useState(null)
 
   const load = useCallback(async (rangeArg = 7, isInitial = false) => {
+    const seq = ++requestSeqRef.current
     if (isInitial) setLoading(true)
     else setRefetching(true)
     setError(null)
     try {
       const res = await api.get('dashboard', { range: rangeArg })
-      setData(res?.data ?? res)
+      if (seq === requestSeqRef.current) setData(res?.data ?? res)
     } catch (e) {
-      setError(e?.message || __('Failed to load dashboard.', 'wedevs-project-manager'))
+      if (seq === requestSeqRef.current) {
+        setError(e?.message || __('Failed to load dashboard.', 'wedevs-project-manager'))
+      }
     } finally {
-      setLoading(false)
-      setRefetching(false)
+      if (seq === requestSeqRef.current) {
+        setLoading(false)
+        setRefetching(false)
+      }
     }
   }, [api])
 

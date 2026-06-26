@@ -9,11 +9,14 @@ export default function StatCard({ icon: Icon, label, value, sub, trend, accent 
   const TrendIcon = trend?.direction === 'up' ? ArrowUpRight
     : trend?.direction === 'down' ? ArrowDownRight : Minus
 
+  const Tag = onClick ? 'button' : 'div'
+
   return (
-    <div
+    <Tag
+      type={onClick ? 'button' : undefined}
       onClick={onClick}
       className={cn(
-        'rounded-lg border p-3 flex flex-col gap-1.5 transition-shadow',
+        'rounded-lg border p-3 flex flex-col gap-1.5 transition-shadow text-left w-full',
         onClick && 'cursor-pointer hover:shadow-md',
         accent
           ? 'bg-pm-accent text-white border-transparent'
@@ -40,7 +43,13 @@ export default function StatCard({ icon: Icon, label, value, sub, trend, accent 
         {trend && (
           <span className={cn(
             'inline-flex items-center gap-0.5 font-medium',
-            accent ? 'text-white' : trend.direction === 'down' ? 'text-rose-500' : 'text-emerald-500',
+            accent
+              ? 'text-white'
+              : trend.direction === 'down'
+                ? 'text-rose-500'
+                : trend.direction === 'up'
+                  ? 'text-emerald-500'
+                  : 'text-pm-text-muted',
           )}>
             <TrendIcon className="w-3.5 h-3.5" />
             {trend.percent}%
@@ -48,6 +57,6 @@ export default function StatCard({ icon: Icon, label, value, sub, trend, accent 
         )}
         {sub && <span className={cn(accent ? 'text-white/80' : 'text-pm-text-muted')}>{sub}</span>}
       </div>
-    </div>
+    </Tag>
   )
 }

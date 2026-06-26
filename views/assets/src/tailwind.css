@@ -1,5 +1,5 @@
 /* Default UI font — Mona Sans (variable weight + italic), matching WP ERP. */
-@import url('https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+@import 'https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap';
 
 /* DO NOT use @tailwind base — Preflight is disabled in config */
 @tailwind components;
