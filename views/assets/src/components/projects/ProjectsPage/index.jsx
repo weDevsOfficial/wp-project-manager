@@ -19,7 +19,7 @@ import {
 } from "@store/projectsSlice";
 import { cn } from "@lib/utils";
 import { useToast } from "@hooks/useToast";
-import { usePermissions } from "@hooks/usePermissions";
+import { usePermissions, pmIsManager } from "@hooks/usePermissions";
 import { useProApi } from "@hooks/useProApi";
 import { useProModal } from "@components/common/ProUpgradeModal";
 
@@ -333,7 +333,13 @@ export default function ProjectsPage() {
     );
   };
 
-  const renderProjectDropdown = (project) => (
+  const renderProjectDropdown = (project) => {
+    // Project-level actions (edit/complete/settings/duplicate/delete) are
+    // manager-only — mirrors Vue `v-if="is_manager(project)"`. manage_options /
+    // manager cap bypass via pmIsManager.
+    if (!pmIsManager(project)) return null;
+
+    return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="h-8 w-8 text-pm-text-primary">
@@ -377,7 +383,8 @@ export default function ProjectsPage() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+    );
+  };
 
   const renderGridView = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -701,27 +708,29 @@ export default function ProjectsPage() {
         <h1 className="text-2xl font-bold text-pm-text-primary">
           {__("Projects", 'wedevs-project-manager')}
         </h1>
-        <div className="flex items-center gap-2">
-          {/* Templates button — real picker when pro, upgrade teaser when free */}
-          <TemplatesHeaderButton />
-          <Button
-            size="sm"
-            variant="outline"
-            className="gap-1.5"
-            onClick={() => setAiDialogOpen(true)}
-          >
-            <Sparkles className="h-5 w-5" />
-            {__("AI Create", 'wedevs-project-manager')}
-          </Button>
-          <Button
-            size="sm"
-            className="gap-1.5"
-            onClick={() => dispatch(setCreateSheetOpen(true))}
-          >
-            <Plus className="h-5 w-5" />
-            {__("New Project", 'wedevs-project-manager')}
-          </Button>
-        </div>
+        {canCreate && (
+          <div className="flex items-center gap-2">
+            {/* Templates button — real picker when pro, upgrade teaser when free */}
+            <TemplatesHeaderButton />
+            <Button
+              size="sm"
+              variant="outline"
+              className="gap-1.5"
+              onClick={() => setAiDialogOpen(true)}
+            >
+              <Sparkles className="h-5 w-5" />
+              {__("AI Create", 'wedevs-project-manager')}
+            </Button>
+            <Button
+              size="sm"
+              className="gap-1.5"
+              onClick={() => dispatch(setCreateSheetOpen(true))}
+            >
+              <Plus className="h-5 w-5" />
+              {__("New Project", 'wedevs-project-manager')}
+            </Button>
+          </div>
+        )}
       </div>
 
       <div className="flex items-center justify-between flex-wrap gap-3">
