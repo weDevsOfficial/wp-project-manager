@@ -11,6 +11,7 @@ import {
   ChevronDown, Star, LayoutList, Layout, MessageSquare,
   Milestone, FileText, Activity, Tag, Crown, Layers,
   Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
+  LayoutTemplate,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
@@ -284,6 +285,7 @@ export function AppSidebar() {
     if (path.startsWith('/progress')) return 'progress'
     if (path.startsWith('/reports'))  return 'reports'
     if (path.startsWith('/sprints'))  return 'sprints'
+    if (path.startsWith('/templates')) return 'templates'
     if (path.startsWith('/importtools')) return 'importtools'
     if (path.startsWith('/license')) return 'license'
     return 'projects'
@@ -564,6 +566,7 @@ export function AppSidebar() {
               {/* Settings / Tools / License remain wp-admin-only */}
               {!isFrontend && renderNavItem({ key: 'settings',   label: __('Settings', 'wedevs-project-manager'),   short: __('Set', 'wedevs-project-manager'),   icon: Settings, route: '/settings',   adminOnly: true })}
               {!isFrontend && renderNavItem({ key: 'importtools', label: __('Tools', 'wedevs-project-manager'),     short: __('Tools', 'wedevs-project-manager'), icon: Wrench,  route: '/importtools', adminOnly: true })}
+              {!isFrontend && renderNavItem({ key: 'templates',   label: __('Templates', 'wedevs-project-manager'),  short: __('Tmpl', 'wedevs-project-manager'),  icon: LayoutTemplate, route: '/templates', adminOnly: true, pro: !isPro })}
               {!isFrontend && isProInstalled && canManageLicense && renderNavItem({ key: 'license', label: __('License', 'wedevs-project-manager'), short: __('Lic', 'wedevs-project-manager'), icon: Shield, route: '/license' })}
             </div>
           )}
