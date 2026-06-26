@@ -1,0 +1,70 @@
+name: Build & Release (Free)
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build zip and publish GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      # PHP 7.4: locked illuminate v5.8.36 caps at <8.0, so composer install only
+      # resolves on 7.4. The post-install-cmd hook (patch-deprecations.php) then
+      # patches the vendor for PHP 8.x runtime.
+      - name: Setup PHP 7.4 + Composer + WP-CLI
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer, wp-cli
+
+      - name: Install node deps
+        run: pnpm install --frozen-lockfile
+
+      # pnpm release = php patch-deprecations.php && grunt release --force
+      # grunt release: clean -> pnpm build (React) -> makepot -> composer install
+      # --no-dev (runs patch hook) -> dump-autoload -> replace -> copy -> compress
+      # => build/wedevs-project-manager-v<version>.zip. See Gruntfile.js.
+      - name: Build release zip
+        run: pnpm release
+
+      # Safety net: the distributed zip MUST contain the built React bundle, or the
+      # plugin ships without its UI. Fail the release if the build is missing.
+      - name: Verify built assets are in the zip
+        run: |
+          shopt -s nullglob
+          zip=$(ls build/wedevs-project-manager-v*.zip | head -1)
+          [ -n "$zip" ] || { echo "::error::no zip produced by pnpm release"; exit 1; }
+          unzip -l "$zip" | grep -q "views/assets/dist/pm.js" \
+            || { echo "::error::views/assets/dist/pm.js missing from $zip — aborting release"; exit 1; }
+          echo "OK: built assets present in $zip"
+
+      # Pull this version's changelog block out of changelog.txt for the release notes.
+      - name: Extract changelog
+        run: |
+          { echo "## Changelog"; echo ""; \
+            awk '/^= v/{n++; if(n>1) exit} n>=1{print}' changelog.txt; } > RELEASE_NOTES.md
+          echo "---- release notes ----"; cat RELEASE_NOTES.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          files: build/wedevs-project-manager-v*.zip
+          body_path: RELEASE_NOTES.md

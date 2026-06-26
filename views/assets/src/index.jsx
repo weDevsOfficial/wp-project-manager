@@ -61,7 +61,7 @@ const ProgressPlaceholder = React.lazy(() => import('@components/projects/Progre
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
 import { AdminRoute, ProjectRoute, LicenseRoute, ManagerRoute } from '@components/common/ProtectedRoute'
 import { ErrorBoundary } from '@components/common/ErrorBoundary'
-import { Columns3, GitBranch, Receipt, Settings as SettingsIcon, Zap, ShoppingCart } from 'lucide-react'
+import { Columns3, GitBranch, Receipt, Settings as SettingsIcon, Zap, ShoppingCart, LayoutTemplate } from 'lucide-react'
 
 // ── Replaceable page wrapper — pro can override via filters ──
 function FilteredPage({ filterName, fallback: Fallback }) {
@@ -128,6 +128,7 @@ function AppRoutes() {
         <Route path="calendar" element={<FilteredPage filterName="route.calendar.element" fallback={CalendarPlaceholder} />} />
         <Route path="reports/*" element={<FilteredPage filterName="route.reports.element" fallback={ReportsPlaceholder} />} />
         <Route path="progress" element={<FilteredPage filterName="route.progress.element" fallback={ProgressPlaceholder} />} />
+        {!isFrontend && <Route path="templates" element={<AdminRoute><FilteredPage filterName="route.templates.element" fallback={() => <ProFeaturePlaceholder title={__("Templates", 'wedevs-project-manager')} description={__("Create reusable project templates to streamline project setup.", 'wedevs-project-manager')} icon={LayoutTemplate} mockKey="templates" />} /></AdminRoute>} />}
 
         {/* ── Dynamic routes registered by Pro plugin ── */}
         {dynamicRoutes.map(({ path, element }, i) => (

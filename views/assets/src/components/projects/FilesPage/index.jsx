@@ -50,9 +50,11 @@ export default function FilesPage() {
   const [ConfirmDialog, confirm] = useConfirm();
   const project = useCurrentProject(projectId);
   const { isPro, userCan, isManager, currentUserId } = usePermissions(project);
+  // No delete_file capability exists — file delete is manager-or-creator (Vue
+  // can_edit_file parity). The bogus userCan('delete_file') always returned false.
   const canDeleteFile = (f) => {
-    if (isManager || userCan('delete_file')) return true;
-    const creatorId = f?.creator?.data?.id ?? f?.created_by;
+    if (isManager) return true;
+    const creatorId = f?.creator?.data?.id ?? f?.created_by ?? f?.creator?.id;
     return currentUserId && creatorId && String(currentUserId) === String(creatorId);
   };
   const { setOpen: setProModalOpen } = useProModal();

@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v4.0.5 – Jun 26, 2026 =
+
+**New:** Project Templates — create projects faster from reusable templates (full picker and management with Pro).
+**Improved:** Action buttons (create, edit, delete, status) now stay hidden when you do not have the matching capability, across projects, tasks, task lists, milestones, and files.
+**Fixed:** Task list screen inconsistencies, a stuck add-task assignee dropdown, and a broken task link in comment-notification emails.
+**Fixed:** PHP 8.1–8.5 deprecation notices no longer leak into REST API responses.
+
 = v4.0.4 – Jun 11, 2026 =
 
 **Improved:** Settings, project, and task screens now adapt cleanly to phones and small screens.

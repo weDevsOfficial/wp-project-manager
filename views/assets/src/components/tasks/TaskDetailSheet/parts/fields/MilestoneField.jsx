@@ -7,7 +7,7 @@ import { markTaskModified } from '@store/tasksSlice';
 import { removeTaskFromMilestone, addTaskToMilestone } from '@store/milestonesSlice';
 import { Milestone as MilestoneIcon, ChevronDown, X, Check } from 'lucide-react';
 
-export default function MilestoneField({ task, projectId, api }) {
+export default function MilestoneField({ task, projectId, api, canEdit = true }) {
   const toast = useToast();
   const dispatch = useAppDispatch();
   const [milestones, setMilestones] = useState([]);
@@ -48,6 +48,10 @@ export default function MilestoneField({ task, projectId, api }) {
     setMilestones([]);
   }, [taskId]);
 
+  useEffect(() => {
+    if (!canEdit) setOpen(false);
+  }, [canEdit, taskId]);
+
   // Close on outside click
   useEffect(() => {
     if (!open) return;
@@ -61,7 +65,7 @@ export default function MilestoneField({ task, projectId, api }) {
   }, [open]);
 
   const handleSelect = async (milestone) => {
-    if (saving || !taskId || !projectId) return;
+    if (!canEdit || saving || !taskId || !projectId) return;
     setOpen(false);
 
     if (milestone?.id === currentMilestone?.id) return;
@@ -112,19 +116,19 @@ export default function MilestoneField({ task, projectId, api }) {
       <div className="relative flex items-center gap-1 h-full" ref={dropdownRef}>
         <button
           type="button"
-          disabled={saving}
+          disabled={saving || !canEdit}
           onClick={() => setOpen(v => !v)}
           className={cn(
             'flex items-center gap-1 text-sm transition-colors',
             currentMilestone ? 'text-pm-text-primary' : 'text-pm-text-muted',
-            'hover:text-pm-accent disabled:opacity-50'
+            canEdit && 'hover:text-pm-accent disabled:opacity-50'
           )}
         >
           <span>{saving ? __('Saving...', 'wedevs-project-manager') : (currentMilestone?.title || __('None', 'wedevs-project-manager'))}</span>
-          <ChevronDown className="h-3.5 w-3.5 shrink-0 opacity-60" />
+          {canEdit && <ChevronDown className="h-3.5 w-3.5 shrink-0 opacity-60" />}
         </button>
 
-        {currentMilestone && !saving && (
+        {canEdit && currentMilestone && !saving && (
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); handleSelect(null); }}
@@ -135,7 +139,7 @@ export default function MilestoneField({ task, projectId, api }) {
           </button>
         )}
 
-        {open && (
+        {canEdit && open && (
           <div className="absolute left-0 top-full mt-1 z-50 bg-background border rounded-lg shadow-lg min-w-[200px] max-h-48 overflow-y-auto">
             <button
               type="button"

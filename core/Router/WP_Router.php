@@ -29,6 +29,42 @@ class WP_Router {
 		static::$routes = $routes;
 
         add_action( 'rest_api_init', array( new WP_Router, 'make_wp_rest_route' ) );
+
+        // Keep PHP notices/deprecations (incl. PHP 8.1–8.5 ones from vendor libs)
+        // out of the JSON body — they would otherwise corrupt REST responses when
+        // display_errors is on. Errors are still logged; only display is silenced.
+        add_filter( 'rest_pre_dispatch', array( __CLASS__, 'silence_error_display' ), 10, 3 );
+	}
+
+	/**
+	 * Disable error display for this plugin's REST requests so stray PHP
+	 * notices/deprecations never leak into the JSON response body.
+	 *
+	 * @param  mixed            $result
+	 * @param  \WP_REST_Server  $server
+	 * @param  \WP_REST_Request $request
+	 *
+	 * @return mixed
+	 */
+	public static function silence_error_display( $result, $server, $request ) {
+		if ( ! is_object( $request ) ) {
+			return $result;
+		}
+
+		$namespace = wedevs_pm_api_namespace();
+		$route     = ltrim( (string) $request->get_route(), '/' );
+
+		// Exact namespace or a sub-route of it — avoids matching unrelated prefixes (pm/v2 vs pm/v20).
+		if ( $route === $namespace || strpos( $route, $namespace . '/' ) === 0 ) {
+			static $logged = false;
+
+			if ( ini_set( 'display_errors', '0' ) === false && ! $logged ) {
+				$logged = true;
+				error_log( 'WeDevs PM: unable to disable display_errors for REST request; PHP notices may leak into JSON responses.' );
+			}
+		}
+
+		return $result;
 	}
 
 	/**

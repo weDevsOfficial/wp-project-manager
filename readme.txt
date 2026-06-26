@@ -6,7 +6,7 @@ Tags: kanban, project, project management, task management, project manager
 Requires at least: 6.2
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 4.0.4
+Stable tag: 4.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,13 @@ A. If you face any issues, you can contact the support team through the official
 14. Manage projects from the frontend
 
 == Changelog ==
+
+= v4.0.5 – Jun 26, 2026 =
+
+**New:** Project Templates — create projects faster from reusable templates (full picker and management with Pro).
+**Improved:** Action buttons (create, edit, delete, status) now stay hidden when you do not have the matching capability, across projects, tasks, task lists, milestones, and files.
+**Fixed:** Task list screen inconsistencies, a stuck add-task assignee dropdown, and a broken task link in comment-notification emails.
+**Fixed:** PHP 8.1–8.5 deprecation notices no longer leak into REST API responses.
 
 = v4.0.4 – Jun 11, 2026 =
 

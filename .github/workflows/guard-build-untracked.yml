@@ -1,0 +1,21 @@
+name: Guard — built assets must stay untracked
+
+on:
+  pull_request:
+  push:
+    branches: [ develop, master ]
+
+jobs:
+  no-tracked-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail if views/assets/dist is tracked
+        run: |
+          if git ls-files views/assets/dist | grep -q .; then
+            echo "::error::views/assets/dist is tracked — it must be gitignored and built in CI."
+            echo "Fix on your branch:  git rm -r --cached views/assets/dist && git commit -m \"chore: stop tracking built assets\""
+            git ls-files views/assets/dist | head
+            exit 1
+          fi
+          echo "OK: views/assets/dist is not tracked"

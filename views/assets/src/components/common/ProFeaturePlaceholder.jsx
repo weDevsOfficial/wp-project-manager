@@ -4,7 +4,7 @@ import { usePermissions } from '@hooks/usePermissions'
 import { useProModal } from './ProUpgradeModal'
 import { useLicenseGuard } from './LicenseGuard'
 import ProBadge from './ProBadge'
-import { Crown } from 'lucide-react'
+import { Crown, LayoutTemplate, ListChecks, CheckSquare } from 'lucide-react'
 
 /* ── Mock UI backgrounds for each feature ── */
 
@@ -202,6 +202,56 @@ function WooProjectMock() {
   )
 }
 
+function TemplatesMock() {
+  const templates = [
+    { name: __('Software Sprint', 'wedevs-project-manager'), desc: __('Agile sprint with backlog, dev and QA lists.', 'wedevs-project-manager'), lists: 4, tasks: 18, system: true },
+    { name: __('Client Onboarding', 'wedevs-project-manager'), desc: __('Kickoff, contract, setup and handoff steps.', 'wedevs-project-manager'), lists: 3, tasks: 12, system: true },
+    { name: __('Marketing Campaign', 'wedevs-project-manager'), desc: __('Plan, content, launch and reporting phases.', 'wedevs-project-manager'), lists: 5, tasks: 24, system: false },
+    { name: __('Product Launch', 'wedevs-project-manager'), desc: __('Pre-launch, launch day and follow-up tasks.', 'wedevs-project-manager'), lists: 4, tasks: 20, system: false },
+    { name: __('Content Calendar', 'wedevs-project-manager'), desc: __('Editorial pipeline from idea to publish.', 'wedevs-project-manager'), lists: 3, tasks: 15, system: false },
+    { name: __('Bug Triage', 'wedevs-project-manager'), desc: __('Report, prioritize, fix and verify workflow.', 'wedevs-project-manager'), lists: 4, tasks: 10, system: true },
+  ]
+  return (
+    <div className="p-5" style={{ minHeight: '420px' }}>
+      <div className="flex flex-wrap gap-2 items-center justify-between mb-5">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="h-8 w-8 rounded-lg bg-pm-accent/15 flex items-center justify-center shrink-0">
+            <LayoutTemplate className="h-4 w-4 text-pm-accent" />
+          </div>
+          <span className="text-sm font-semibold text-pm-text-primary truncate">{__('Project Templates', 'wedevs-project-manager')}</span>
+        </div>
+        <div className="px-3 py-1.5 rounded-md bg-pm-accent text-white text-sm font-medium">{__('+ New Template', 'wedevs-project-manager')}</div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {templates.map((t, i) => (
+          <div key={i} className="rounded-lg border border-pm-border bg-pm-surface p-4 flex flex-col">
+            <div className="flex items-start justify-between mb-2">
+              <div className="h-9 w-9 rounded-lg bg-pm-accent/10 flex items-center justify-center shrink-0">
+                <LayoutTemplate className="h-4 w-4 text-pm-accent" />
+              </div>
+              {t.system && (
+                <span className="px-2 py-0.5 rounded-full text-[12px] font-medium bg-pm-accent/10 text-pm-accent">{__('System', 'wedevs-project-manager')}</span>
+              )}
+            </div>
+            <div className="text-sm font-semibold text-pm-text-primary mb-1">{t.name}</div>
+            <p className="text-[13px] text-pm-text-muted leading-snug mb-3 grow">{t.desc}</p>
+            <div className="flex items-center gap-4 text-[13px] text-pm-text-muted pt-2 border-t border-pm-border">
+              <div className="flex items-center gap-1">
+                <ListChecks className="h-3.5 w-3.5" />
+                <span>{sprintf(__('%d lists', 'wedevs-project-manager'), t.lists)}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <CheckSquare className="h-3.5 w-3.5" />
+                <span>{sprintf(__('%d tasks', 'wedevs-project-manager'), t.tasks)}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 const MOCK_MAP = {
   kanban: KanbanMock,
   gantt: GanttMock,
@@ -209,6 +259,7 @@ const MOCK_MAP = {
   settings: SettingsMock,
   sprints: SprintsMock,
   'woo-project': WooProjectMock,
+  templates: TemplatesMock,
 }
 
 export default function ProFeaturePlaceholder({ title, description, icon: Icon, mockKey }) {
