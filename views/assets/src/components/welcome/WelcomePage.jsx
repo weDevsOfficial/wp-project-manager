@@ -24,6 +24,7 @@ import {
   Package,
   ExternalLink,
   ArrowRight,
+  CheckCircle2,
 } from 'lucide-react'
 
 const assetsUrl = typeof PM_Vars !== 'undefined' ? PM_Vars.assets_url : ''
@@ -96,7 +97,6 @@ const getResources = () => [
     buttonLabel: __('Upgrade to Pro', 'wedevs-project-manager'),
     buttonUrl: 'https://wedevs.com/wp-project-manager-pro/pricing/',
     icon: Crown,
-    gradient: 'from-emerald-400 to-teal-500',
   },
   {
     title: __('Pro Features', 'wedevs-project-manager'),
@@ -104,7 +104,6 @@ const getResources = () => [
     buttonLabel: __('View Pro Features', 'wedevs-project-manager'),
     buttonUrl: 'https://wedevs.com/wp-project-manager-pro/extensions/',
     icon: Sparkles,
-    gradient: 'from-yellow-400 to-orange-500',
   },
   {
     title: __('Module', 'wedevs-project-manager'),
@@ -112,7 +111,6 @@ const getResources = () => [
     buttonLabel: __('Go to Modules', 'wedevs-project-manager'),
     buttonUrl: 'https://wedevs.com/wp-project-manager-pro/extensions/',
     icon: Package,
-    gradient: 'from-violet-400 to-blue-500',
   },
 ]
 
@@ -140,7 +138,7 @@ function VideoModal({ open, onOpenChange, videoId }) {
   )
 }
 
-function FeatureCard({ feature, __ }) {
+function FeatureCard({ feature, __, index = 0 }) {
   const [videoOpen, setVideoOpen] = useState(false)
 
   return (
@@ -150,7 +148,10 @@ function FeatureCard({ feature, __ }) {
         onOpenChange={setVideoOpen}
         videoId={feature.video}
       />
-      <Card className="group overflow-hidden hover:shadow-lg transition-shadow">
+      <Card
+        className="group overflow-hidden border hover:border-primary/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 animate-in fade-in slide-in-from-bottom-3"
+        style={{ animationDelay: `${index * 70}ms`, animationFillMode: 'both' }}
+      >
         <div
           className="relative cursor-pointer"
           onClick={() => setVideoOpen(true)}
@@ -159,7 +160,7 @@ function FeatureCard({ feature, __ }) {
           <img
             src={getAssetUrl('images/welcome/' + feature.thumb)}
             alt={feature.name}
-            className="w-full h-auto block"
+            className="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
           />
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
             <div className="h-12 w-12 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center shadow-lg">
@@ -169,7 +170,7 @@ function FeatureCard({ feature, __ }) {
         </div>
         <CardContent className="p-5 text-center">
           <div
-            className="inline-flex items-center justify-center h-10 w-10 rounded-xl mb-3 mx-auto"
+            className="inline-flex items-center justify-center h-10 w-10 rounded-xl mb-3 mx-auto transition-transform duration-300 group-hover:scale-110"
             style={{ background: feature.bg }}
           >
             <feature.icon className={`h-5 w-5 ${feature.fg}`} />
@@ -186,6 +187,24 @@ function FeatureCard({ feature, __ }) {
   )
 }
 
+function SectionHeading({ kicker, title, subtitle }) {
+  return (
+    <div className="text-center mb-8">
+      {kicker && (
+        <span className="inline-block text-xs font-semibold uppercase tracking-wider text-primary mb-2">
+          {kicker}
+        </span>
+      )}
+      <h2 className="text-2xl font-bold text-pm-text-primary mb-2">{title}</h2>
+      {subtitle && (
+        <p className="text-sm text-pm-text-muted max-w-xl mx-auto leading-relaxed">
+          {subtitle}
+        </p>
+      )}
+    </div>
+  )
+}
+
 export default function WelcomePage() {
   const navigate = useNavigate()
   const [bannerVideoOpen, setBannerVideoOpen] = useState(false)
@@ -193,7 +212,7 @@ export default function WelcomePage() {
   const RESOURCES = useMemo(() => getResources(), [])
 
   return (
-    <div className="max-w-[960px] mx-auto p-4 sm:p-6 space-y-12">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 space-y-12">
       {/* ── Hero Banner ── */}
       <VideoModal
         open={bannerVideoOpen}
@@ -201,34 +220,38 @@ export default function WelcomePage() {
         videoId="rliDPp4sIyM"
       />
 
-      <div className="relative rounded-2xl overflow-hidden px-8 py-10 md:px-12 md:py-14 text-white"
+      <div className="relative rounded-2xl overflow-hidden px-8 py-10 md:px-12 md:py-14 text-white shadow-xl"
         style={{ backgroundImage: 'linear-gradient(139deg, #C444FB 0%, #5B56D7 100%)' }}
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.12),transparent_70%)]" />
+        <div className="absolute -top-16 -right-10 h-56 w-56 rounded-full bg-white/10 blur-3xl animate-pulse" />
+        <div className="absolute -bottom-20 left-1/4 h-48 w-48 rounded-full bg-fuchsia-300/20 blur-3xl animate-pulse" style={{ animationDelay: '1.2s' }} />
+
         <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           {/* Left - text */}
-          <div>
-            <p className="text-sm text-yellow-300 mb-1 font-medium">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-yellow-200 mb-4 backdrop-blur-sm">
+              <Sparkles className="h-3.5 w-3.5" />
               {__('Welcome to', 'wedevs-project-manager')}
-            </p>
-            <h1 className="text-2xl md:text-3xl font-bold mb-3 text-white">
+            </span>
+            <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white leading-tight">
               {__('WP Project Manager', 'wedevs-project-manager')}
             </h1>
-            <p className="text-white/70 text-sm leading-relaxed mb-5">
+            <p className="text-white/75 text-sm md:text-base leading-relaxed mb-6 max-w-md">
               {__('The best project management tool for WordPress to get things done with your team.', 'wedevs-project-manager')}
             </p>
             <div className="flex flex-wrap gap-3">
               <Button
                 onClick={() => navigate('/projects')}
-                className="bg-white text-purple-600 hover:bg-white/90 font-semibold text-sm no-underline"
+                className="group bg-white text-purple-600 hover:bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all font-semibold text-sm no-underline"
               >
-                <Rocket className="h-5 w-5 mr-1.5" />
+                <Rocket className="h-5 w-5 mr-1.5 transition-transform group-hover:-translate-y-0.5 group-hover:rotate-12" />
                 {__('Create Your First Project', 'wedevs-project-manager')}
               </Button>
               <Button
-                variant="outline"
+                variant="ghost"
                 asChild
-                className="border-white/40 text-white hover:bg-white/10 font-medium text-sm"
+                className="group border border-white/40 text-white hover:bg-white/10 hover:text-white hover:-translate-y-0.5 transition-all font-medium text-sm"
               >
                 <a
                   href="https://wedevs.com/docs/wp-project-manager/"
@@ -236,27 +259,39 @@ export default function WelcomePage() {
                   rel="noopener noreferrer"
                   className="no-underline"
                 >
-                  <BookOpen className="h-5 w-5 mr-1.5" />
+                  <BookOpen className="h-5 w-5 mr-1.5 transition-transform group-hover:scale-110" />
                   {__('Read Full Guide', 'wedevs-project-manager')}
                 </a>
               </Button>
             </div>
+            <div className="flex flex-wrap gap-x-5 gap-y-2 mt-6">
+              {[
+                __('Unlimited Projects', 'wedevs-project-manager'),
+                __('Kanban & List Views', 'wedevs-project-manager'),
+                __('Team Collaboration', 'wedevs-project-manager'),
+              ].map((item) => (
+                <span key={item} className="inline-flex items-center gap-1.5 text-xs text-white/80">
+                  <CheckCircle2 className="h-4 w-4 text-green-300" />
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
 
           {/* Right - video thumbnail */}
-          <div className="flex justify-center md:justify-end">
+          <div className="flex justify-center md:justify-end animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150">
             <div
-              className="relative cursor-pointer group rounded-lg overflow-hidden shadow-2xl"
+              className="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/20 transition-transform hover:scale-[1.02]"
               onClick={() => setBannerVideoOpen(true)}
             >
               <img
                 src={getAssetUrl('images/welcome/intro-video-bg-image.png')}
                 alt={__('Introduction Video', 'wedevs-project-manager')}
-                className="max-w-full h-auto block rounded-lg"
+                className="max-w-full h-auto block rounded-xl"
               />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="h-14 w-14 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform animate-pulse">
-                  <Play className="h-6 w-6 text-white ml-0.5" fill="white" />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors">
+                <div className="h-16 w-16 rounded-full bg-white/95 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <Play className="h-7 w-7 text-purple-600 ml-1" fill="currentColor" />
                 </div>
               </div>
             </div>
@@ -266,16 +301,18 @@ export default function WelcomePage() {
 
       {/* ── Features Section ── */}
       <div>
-        <h2 className="text-xl font-bold text-pm-text-primary text-center mb-8">
-          {__('Features you can use...', 'wedevs-project-manager')}
-        </h2>
+        <SectionHeading
+          kicker={__('Features', 'wedevs-project-manager')}
+          title={__('Features you can use', 'wedevs-project-manager')}
+          subtitle={__('Everything you need to plan, track, and ship your projects.', 'wedevs-project-manager')}
+        />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {FEATURES.map((feature) => (
-            <FeatureCard key={feature.name} feature={feature} __={__} />
+          {FEATURES.map((feature, index) => (
+            <FeatureCard key={feature.name} feature={feature} __={__} index={index} />
           ))}
         </div>
-        <div className="text-center mt-6">
-          <Button asChild variant="default" className="font-medium">
+        <div className="text-center mt-8">
+          <Button asChild variant="outline" className="group font-medium">
             <a
               href="https://wedevs.com/wp-project-manager-pro/features/"
               target="_blank"
@@ -283,7 +320,7 @@ export default function WelcomePage() {
               className="no-underline"
             >
               {__('View All Features', 'wedevs-project-manager')}
-              <ExternalLink className="h-4 w-4 ml-1.5" />
+              <ExternalLink className="h-4 w-4 ml-1.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </Button>
         </div>
@@ -291,20 +328,24 @@ export default function WelcomePage() {
 
       {/* ── Resources Section ── */}
       <div className="rounded-2xl border bg-card p-8 md:p-12">
-        <h2 className="text-xl font-bold text-pm-text-primary text-center mb-10">
-          {__('Resources of Project Manager', 'wedevs-project-manager')}
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {RESOURCES.map((resource) => (
+        <SectionHeading
+          kicker={__('Resources', 'wedevs-project-manager')}
+          title={__('Resources of Project Manager', 'wedevs-project-manager')}
+          subtitle={__('Explore everything you need to get the most out of Project Manager.', 'wedevs-project-manager')}
+        />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {RESOURCES.map((resource, index) => (
             <Card
               key={resource.title}
-              className="text-center hover:shadow-lg transition-shadow"
+              className="group text-center border hover:border-primary/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 animate-in fade-in slide-in-from-bottom-3"
+              style={{ animationDelay: `${index * 90}ms`, animationFillMode: 'both' }}
             >
               <CardContent className="p-6 flex flex-col items-center">
-                <div
-                  className={`h-16 w-16 rounded-full bg-gradient-to-br ${resource.gradient} flex items-center justify-center shadow-md mb-4`}
-                >
-                  <resource.icon className="h-7 w-7 text-white" />
+                <div className="flex items-center justify-center mb-4">
+                  <resource.icon
+                    className="h-10 w-10 text-pm-text-primary transition-all duration-300 group-hover:text-primary group-hover:scale-110"
+                    strokeWidth={1.5}
+                  />
                 </div>
                 <h3 className="text-lg font-semibold text-pm-text-primary mb-2">
                   {resource.title}
@@ -320,7 +361,7 @@ export default function WelcomePage() {
                     className="no-underline"
                   >
                     {resource.buttonLabel}
-                    <ArrowRight className="h-4 w-4 ml-1.5" />
+                    <ArrowRight className="h-4 w-4 ml-1.5 transition-transform group-hover:translate-x-1" />
                   </a>
                 </Button>
               </CardContent>
