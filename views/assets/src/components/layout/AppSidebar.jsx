@@ -44,6 +44,12 @@ export function AppSidebar() {
   const { isAdmin, isPro, canManage, canManageLicense, isManagerAnywhere } = usePermissions()
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
 
+  // Pro plan + version for the sidebar footer badge (Dokan-style). Present only
+  // when the Pro plugin localized PM_Pro_Vars.
+  const proPlan = typeof PM_Pro_Vars !== 'undefined' && typeof PM_Pro_Vars.plan === 'string' ? PM_Pro_Vars.plan : ''
+  const proVersion = typeof PM_Pro_Vars !== 'undefined' && PM_Pro_Vars.version ? PM_Pro_Vars.version : ''
+  const planLabel = proPlan ? proPlan.charAt(0).toUpperCase() + proPlan.slice(1) : ''
+
   // ── Project sub-nav items — inside component so __() is extractable by make-pot ──
   const projectSubNav_FREE = useMemo(() => [
     { key: 'task-lists',   label: __('Task Lists', 'wedevs-project-manager'),   icon: LayoutList,     path: (pid) => `/projects/${pid}/task-lists` },
@@ -585,12 +591,22 @@ export function AppSidebar() {
               <ArrowLeft className="w-5 h-5" />
             </button>
           ) : (
-            <div className="flex justify-center px-2">
+            <div className="flex items-center justify-between gap-2 px-1">
               <img
                 src={`${typeof PM_Vars !== 'undefined' ? PM_Vars.dir_url : '/wp-content/plugins/wedevs-project-manager/'}views/assets/images/pm-logo.svg`}
                 alt="WP Project Manager"
-                className="h-6 opacity-60"
+                className="h-6 opacity-60 shrink-0"
               />
+              {planLabel && (
+                <span className="flex items-center gap-1.5 whitespace-nowrap">
+                  <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary">
+                    {planLabel}
+                  </span>
+                  {proVersion && (
+                    <span className="text-[11px] font-medium text-pm-text-muted">v{proVersion}</span>
+                  )}
+                </span>
+              )}
             </div>
           )}
         </div>
