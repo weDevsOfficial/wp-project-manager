@@ -20,7 +20,7 @@
 - **No raw SQL** for table inserts/updates — use Eloquent. Raw SQL acceptable only for migrations / schema introspection.
 - **WordPress text domain:** literal `'wedevs-project-manager'` (string). Never a variable. Never concatenated.
 - **Hooks:** `do_action()` / `apply_filters()` named `pm_<verb>_<noun>` (e.g., `pm_after_new_task`).
-- **Line endings:** LF (`.editorconfig`).
+- **Line endings:** despite `.editorconfig` saying `eol=lf`, the committed **source files (PHP/JS/JSX/CSS) are actually CRLF** (dotfiles/`.md` under `.claude/` are LF). **Match whatever the file you're editing already uses** — never flip a file's endings, or the whole file churns in the diff. For CRLF source, re-normalize edits with `perl -0777 -i -pe 's/\r?\n/\r\n/g' <file>`.
 - **Final newline** at EOF.
 
 ## JavaScript / JSX
