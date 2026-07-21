@@ -79,7 +79,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.13",
-    "@wordpress/scripts": "^28.0.0",
+    "@wordpress/scripts": "^33.0.0",
     "autoprefixer": "^10.4.0",
     "grunt": "^1.6.1",
     "grunt-cli": "^1.5.0",
