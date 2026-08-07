@@ -70,7 +70,7 @@
     "react-day-picker": "^10.0.1",
     "react-dom": "^18.3.0",
     "react-redux": "^9.1.0",
-    "react-router-dom": "^6.23.0",
+    "react-router-dom": "^6.30.4",
     "recharts": "2.15.4",
     "sonner": "^1.7.4",
     "tailwind-merge": "^2.2.0",
