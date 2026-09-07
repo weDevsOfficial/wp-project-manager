@@ -37,9 +37,12 @@ async function request(method, endpoint, data) {
     ...(data && typeof data === 'object' ? data : {}),
   }
 
+  // no-store: hosts/CDNs that rewrite Cache-Control on wp-json responses
+  // otherwise make the browser replay stale JSON for the whole max-age window.
   const options = {
     method,
     credentials: 'same-origin',
+    cache: 'no-store',
     headers: {
       'X-WP-Nonce': PM_Vars.permission,
     },
@@ -85,6 +88,7 @@ async function uploadFormData(endpoint, formData) {
     res = await fetch(url, {
       method: 'POST',
       credentials: 'same-origin',
+      cache: 'no-store',
       headers: { 'X-WP-Nonce': PM_Vars.permission },
       body: formData,
     })
