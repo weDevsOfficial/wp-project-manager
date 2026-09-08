@@ -186,6 +186,16 @@ export const importTasks = createAsyncThunk(
   },
 )
 
+function adjustBoardTotals(board, delta) {
+  const pagination = board.tasksMeta?.pagination
+  if (!pagination) return
+  for (const key of ['total', 'count']) {
+    if (pagination[key] === undefined || pagination[key] === null) continue
+    const next = parseInt(pagination[key], 10) + delta
+    pagination[key] = Number.isNaN(next) ? pagination[key] : Math.max(next, 0)
+  }
+}
+
 const kanbanSlice = createSlice({
   name: 'kanban',
   initialState,
@@ -208,6 +218,10 @@ const kanbanSlice = createSlice({
       const [task] = tasks.splice(taskIndex, 1)
       const toTasks = toBoard.tasks?.data ?? toBoard.tasks ?? []
       toTasks.push(task)
+      // The column header reads pagination.total, so without this the counts
+      // stay on the fetched numbers until the board is loaded again.
+      adjustBoardTotals(fromBoard, -1)
+      adjustBoardTotals(toBoard, 1)
     },
     resetKanban() { return initialState },
   },
