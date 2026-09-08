@@ -641,7 +641,7 @@ export default function MyTasksPage() {
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                       data={graph.map((d) => ({
-                        date: formatPmDate(d.date_time),
+                        date: formatPmDate(d.date_time, { month: "short", day: "numeric" }),
                         tasks: d.tasks || 0,
                         activities: d.activities || 0,
                       }))}
