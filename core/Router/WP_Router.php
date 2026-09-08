@@ -34,6 +34,49 @@ class WP_Router {
         // out of the JSON body — they would otherwise corrupt REST responses when
         // display_errors is on. Errors are still logged; only display is silenced.
         add_filter( 'rest_pre_dispatch', array( __CLASS__, 'silence_error_display' ), 10, 3 );
+
+        // Mark plugin REST responses as uncacheable. Without this, a host or CDN
+        // that rewrites Cache-Control on wp-json (e.g. an nginx `expires 1h` rule)
+        // makes browsers replay stale JSON, so the UI keeps showing old data.
+        add_filter( 'rest_post_dispatch', array( __CLASS__, 'send_nocache_headers' ), 10, 3 );
+	}
+
+	/**
+	 * Send no-store cache headers for this plugin's REST responses.
+	 *
+	 * @param  \WP_HTTP_Response $response
+	 * @param  \WP_REST_Server   $server
+	 * @param  \WP_REST_Request  $request
+	 *
+	 * @return \WP_HTTP_Response
+	 */
+	public static function send_nocache_headers( $response, $server, $request ) {
+		if ( ! is_object( $request ) || ! is_object( $response ) || ! method_exists( $response, 'header' ) ) {
+			return $response;
+		}
+
+		if ( ! self::is_plugin_route( $request ) ) {
+			return $response;
+		}
+
+		$response->header( 'Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0' );
+		$response->header( 'Expires', 'Wed, 11 Jan 1984 05:00:00 GMT' );
+
+		return $response;
+	}
+
+	/**
+	 * Whether the request targets this plugin's REST namespace.
+	 *
+	 * @param  \WP_REST_Request $request
+	 *
+	 * @return bool
+	 */
+	private static function is_plugin_route( $request ) {
+		$namespace = wedevs_pm_api_namespace();
+		$route     = ltrim( (string) $request->get_route(), '/' );
+
+		return $route === $namespace || strpos( $route, $namespace . '/' ) === 0;
 	}
 
 	/**
@@ -51,11 +94,8 @@ class WP_Router {
 			return $result;
 		}
 
-		$namespace = wedevs_pm_api_namespace();
-		$route     = ltrim( (string) $request->get_route(), '/' );
-
 		// Exact namespace or a sub-route of it — avoids matching unrelated prefixes (pm/v2 vs pm/v20).
-		if ( $route === $namespace || strpos( $route, $namespace . '/' ) === 0 ) {
+		if ( self::is_plugin_route( $request ) ) {
 			static $logged = false;
 
 			if ( ini_set( 'display_errors', '0' ) === false && ! $logged ) {

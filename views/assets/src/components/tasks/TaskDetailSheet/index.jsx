@@ -171,6 +171,15 @@ export default function TaskDetailSheet() {
 
     if (!taskId || !pid) return
 
+    // Navigating to another project while a sheet is open: close it instead of
+    // rewriting the URL back to the open task's project, which used to bounce
+    // the user into the previously visited project.
+    const onOtherProjectMatch = location.pathname.match(/^\/projects\/(\d+)(?:\/|$)/)
+    if (onOtherProjectMatch && String(onOtherProjectMatch[1]) !== String(pid)) {
+      dispatch(closeTaskSheet())
+      return
+    }
+
     const onSingleListMatch = location.pathname.match(/^\/projects\/(\d+)\/task-lists\/(\d+)(?:\/|$)/)
     const onTaskListsOverview = /^\/projects\/(\d+)\/task-lists(?:\/|$)/.test(location.pathname) && !onSingleListMatch
     const onKanbanMatch = location.pathname.match(/^\/projects\/(\d+)\/kanban(?:\/|$)/)

@@ -118,6 +118,7 @@ export async function checkPermissionAndDownload(permissionUrl, downloadUrl, __)
     const res = await fetch(permissionUrl, {
       method: "GET",
       credentials: "same-origin",
+      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
         "X-WP-Nonce": (typeof PM_Vars !== "undefined" && PM_Vars.permission) || "",

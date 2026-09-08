@@ -266,16 +266,13 @@ export const KanbanProvider = ({
     onDataChange?.(newData);
   };
 
-  // Resolve a column's display name. A drag `over` target can be the column
-  // droppable OR a card inside it — when it's a card, fall back to that card's
-  // column id so announcements never read "undefined".
-  const columnName = (id) => columns.find((c) => c.id === id)?.name;
-  const resolveOverColumnName = (over) => {
-    if (!over) return undefined;
-    const direct = columnName(over.id);
-    if (direct) return direct;
-    const overCard = data.find((item) => item.id === over.id);
-    return overCard ? columnName(overCard.column) : undefined;
+  // `over.id` is a card id when the card is dropped on another card, so the
+  // column has to be resolved through that card, the way handleDragOver does.
+  const resolveColumnName = (overId) => {
+    if (overId === undefined || overId === null) return undefined;
+    const overItem = data.find((item) => item.id === overId);
+    const columnId = overItem?.column ?? overId;
+    return columns.find((column) => column.id === columnId)?.name;
   };
 
   const announcements = {
@@ -285,13 +282,12 @@ export const KanbanProvider = ({
         return `Picked up the column "${col?.name}"`;
       }
       const { name, column } = data.find((item) => item.id === active.id) ?? {};
-      return `Picked up the card "${name}" from the "${columnName(column) ?? ""}" column`;
+      return `Picked up the card "${name}" from the "${column}" column`;
     },
     onDragOver({ active, over }) {
       if (active.data?.current?.type === "column") return "";
       const { name } = data.find((item) => item.id === active.id) ?? {};
-      const newColumn = resolveOverColumnName(over);
-      if (!newColumn) return "";
+      const newColumn = resolveColumnName(over?.id);
       return `Dragged the card "${name}" over the "${newColumn}" column`;
     },
     onDragEnd({ active, over }) {
@@ -299,9 +295,9 @@ export const KanbanProvider = ({
         const col = columns.find((c) => c.id === active.id);
         return `Dropped the column "${col?.name}"`;
       }
-      const activeItem = data.find((item) => item.id === active.id) ?? {};
-      const newColumn = resolveOverColumnName(over) ?? columnName(activeItem.column);
-      return `Dropped the card "${activeItem.name}" into the "${newColumn ?? ""}" column`;
+      const { name } = data.find((item) => item.id === active.id) ?? {};
+      const newColumn = resolveColumnName(over?.id);
+      return `Dropped the card "${name}" into the "${newColumn}" column`;
     },
     onDragCancel({ active }) {
       if (active.data?.current?.type === "column") {
