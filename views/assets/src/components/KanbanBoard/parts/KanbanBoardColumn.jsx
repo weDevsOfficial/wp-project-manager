@@ -502,7 +502,7 @@ export default function KanbanBoardColumn({
                         {newTaskDueDate
                           ? new Date(newTaskDueDate).toLocaleDateString(
                               undefined,
-                              { month: "short", day: "numeric" },
+                              { month: "short", day: "numeric", year: "numeric" },
                             )
                           : __("Due date", 'wedevs-project-manager')}
                       </span>
