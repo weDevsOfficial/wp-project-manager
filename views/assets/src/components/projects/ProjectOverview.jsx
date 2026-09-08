@@ -559,7 +559,7 @@ export default function ProjectOverview() {
             (() => {
               const chartData = graph.map((day) => ({
                 date: day.date_time?.date || "",
-                label: formatPmDate(day.date_time),
+                label: formatPmDate(day.date_time, { month: "short", day: "numeric" }),
                 tasks: day.tasks || 0,
                 activities: day.activities || 0,
               }));
