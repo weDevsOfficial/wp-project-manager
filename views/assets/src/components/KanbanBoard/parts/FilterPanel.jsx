@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select";
-import { Filter, X, Search } from "lucide-react";
+import { Filter, X } from "lucide-react";
 
 const api = useApi();
 
@@ -32,12 +32,18 @@ export default function FilterPanel({
   onActiveCountChange,
 }) {
   const DUE_DATE_OPTIONS = useMemo(() => getDueDateOptions(), []);
-  const [title, setTitle] = useState("");
   const [userId, setUserId] = useState("");
   const [status, setStatus] = useState("");
   const [listId, setListId] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState("");
+  const [labelId, setLabelId] = useState("");
+  const [typeId, setTypeId] = useState("");
+  const [milestoneId, setMilestoneId] = useState("");
   const [lists, setLists] = useState([]);
+  const [labels, setLabels] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [milestones, setMilestones] = useState([]);
 
   useEffect(() => {
     if (!open || !projectId) return;
@@ -50,45 +56,69 @@ export default function FilterPanel({
       .catch(() => setLists([]));
   }, [open, projectId]);
 
-  const activeCount = [title.trim(), userId, status, listId, dueDate].filter(Boolean).length
+  useEffect(() => {
+    if (!open || !projectId) return;
+
+    if (labels.length === 0) {
+      api
+        .get(`projects/${projectId}`, { with: "labels" })
+        .then((res) => setLabels(res?.data?.labels?.data ?? []))
+        .catch(() => {});
+    }
+
+    if (types.length === 0) {
+      api
+        .get("settings/task-types")
+        .then((res) => setTypes(res?.data ?? []))
+        .catch(() => {});
+    }
+
+    if (milestones.length === 0) {
+      api
+        .get(`projects/${projectId}/milestones`, { per_page: 50 })
+        .then((res) => setMilestones(res?.data ?? []))
+        .catch(() => {});
+    }
+  }, [open, projectId, labels.length, types.length, milestones.length]);
+
+  // Title is not here: the board search box above owns it, so the panel would
+  // otherwise be a second input writing the same request parameter.
+  const activeCount = [userId, status, listId, dueDate, priority !== "" ? priority : "", labelId, typeId, milestoneId].filter(Boolean).length
 
   useEffect(() => {
     onActiveCountChange?.(activeCount)
   }, [activeCount, onActiveCountChange])
 
   const handleApply = () => {
-    if (title && title.length < 3) return;
     onFilter({
       users: userId ? [userId] : [],
-      title,
       lists: listId ? [listId] : [],
       dueDate,
       status,
+      // "0" is Low, a real choice, so it is passed through as a string and
+      // only the empty string means "no priority filter".
+      priority,
+      labels: labelId ? [Number(labelId)] : [],
+      types: typeId ? [Number(typeId)] : [],
+      milestone: milestoneId ? Number(milestoneId) : "",
     });
   };
 
   const handleClear = () => {
-    setTitle("");
     setUserId("");
     setStatus("");
     setListId("");
     setDueDate("");
+    setPriority("");
+    setLabelId("");
+    setTypeId("");
+    setMilestoneId("");
     onClear();
   };
 
   if (!open) return null;
   return (
     <div className="rounded-lg border bg-card px-3 py-2.5 mb-3 flex items-center gap-2 flex-wrap">
-      <div className="flex items-center gap-1.5 flex-1 min-w-[160px] max-w-[240px] h-11 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
-        <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder={__("Search title (min 3 chars)...", 'wedevs-project-manager')}
-          className="flex-1 min-w-0 h-full bg-transparent text-sm text-pm-text-primary placeholder:text-muted-foreground focus:outline-none !border-0 !p-0 !shadow-none"
-          onKeyDown={(e) => e.key === "Enter" && handleApply()}
-        />
-      </div>
       <Select
         value={userId || "all"}
         onValueChange={(v) => setUserId(v === "all" ? "" : v)}
@@ -153,6 +183,68 @@ export default function FilterPanel({
           <SelectItem value="complete">{__("Complete", 'wedevs-project-manager')}</SelectItem>
         </SelectContent>
       </Select>
+      <Select
+        value={priority === "" ? "all" : priority}
+        onValueChange={(v) => setPriority(v === "all" ? "" : v)}
+      >
+        <SelectTrigger className="h-11 text-sm w-auto sm:w-36">
+          <SelectValue placeholder={__("Any Priority", 'wedevs-project-manager')} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">{__("Any Priority", 'wedevs-project-manager')}</SelectItem>
+          <SelectItem value="0">{__("Low", 'wedevs-project-manager')}</SelectItem>
+          <SelectItem value="1">{__("Medium", 'wedevs-project-manager')}</SelectItem>
+          <SelectItem value="2">{__("High", 'wedevs-project-manager')}</SelectItem>
+        </SelectContent>
+      </Select>
+      {labels.length > 0 && (
+        <Select
+          value={labelId || "all"}
+          onValueChange={(v) => setLabelId(v === "all" ? "" : v)}
+        >
+          <SelectTrigger className="h-11 text-sm w-auto sm:w-36">
+            <SelectValue placeholder={__("All Labels", 'wedevs-project-manager')} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{__("All Labels", 'wedevs-project-manager')}</SelectItem>
+            {labels.map((l) => (
+              <SelectItem key={l.id} value={String(l.id)}>{l.title || l.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+      {types.length > 0 && (
+        <Select
+          value={typeId || "all"}
+          onValueChange={(v) => setTypeId(v === "all" ? "" : v)}
+        >
+          <SelectTrigger className="h-11 text-sm w-auto sm:w-36">
+            <SelectValue placeholder={__("All Types", 'wedevs-project-manager')} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{__("All Types", 'wedevs-project-manager')}</SelectItem>
+            {types.map((t) => (
+              <SelectItem key={t.id} value={String(t.id)}>{t.title}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+      {milestones.length > 0 && (
+        <Select
+          value={milestoneId || "all"}
+          onValueChange={(v) => setMilestoneId(v === "all" ? "" : v)}
+        >
+          <SelectTrigger className="h-11 text-sm w-auto sm:w-40">
+            <SelectValue placeholder={__("All Milestones", 'wedevs-project-manager')} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{__("All Milestones", 'wedevs-project-manager')}</SelectItem>
+            {milestones.map((m) => (
+              <SelectItem key={m.id} value={String(m.id)}>{m.title}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
       <Button size="sm" className="h-11 text-sm gap-1" onClick={handleApply}>
         <Filter className="h-4 w-4" />
         {__("Apply", 'wedevs-project-manager')}

@@ -267,8 +267,19 @@ export default function KanbanBoard() {
           lists: filters.lists || [],
           dueDate: filters.dueDate || "",
           status: filters.status || "",
+          labels: filters.labels || [],
+          types: filters.types || [],
           filterTask: "active",
         };
+
+        // Priority 0 is Low, so only an empty value means "not filtering".
+        if (filters.priority !== undefined && filters.priority !== "") {
+          payload.priority = filters.priority;
+        }
+
+        if (filters.milestone) {
+          payload.milestone = filters.milestone;
+        }
         const res = await api.post(
           `projects/${projectId}/kanboard/filter`,
           payload,
@@ -296,10 +307,12 @@ export default function KanbanBoard() {
     [projectId, dispatch, __],
   );
 
+  // The search box owns the title; the panel owns everything else. They are
+  // composed here so neither clears the other.
   const handleFilter = useCallback(
     (filters) => {
       setPanelFilters(filters);
-      applyFilters({ ...filters, title: filters.title || search });
+      applyFilters({ ...filters, title: search });
     },
     [applyFilters, search],
   );
@@ -384,7 +397,7 @@ export default function KanbanBoard() {
               <button
                 type="button"
                 onClick={clearSearch}
-                title={__("Clear search", 'wedevs-project-manager')}
+                title={__("Clear search and filters", 'wedevs-project-manager')}
                 className="shrink-0 rounded p-0.5 text-pm-text-muted hover:text-pm-text-primary transition-colors"
               >
                 <X className="h-3.5 w-3.5" />
@@ -440,7 +453,7 @@ export default function KanbanBoard() {
         projectId={projectId}
         users={users}
         onFilter={handleFilter}
-        onClear={loadAllBoards}
+        onClear={clearSearch}
       />
 
       <KanbanDndBoard

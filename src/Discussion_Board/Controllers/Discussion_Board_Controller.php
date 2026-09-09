@@ -37,7 +37,16 @@ class Discussion_Board_Controller {
             return $page;
         });
 
+        $title = sanitize_text_field( $request->get_param( 'title' ) );
+
         $discussion_boards = Discussion_Board::where( 'project_id', $project_id );
+
+        if ( $title !== '' ) {
+            $discussion_boards = $discussion_boards->where( 'title', 'like', '%' . $title . '%' );
+        }
+
+        // The privacy filter runs last so a search can never widen what the
+        // current user is allowed to see.
         $discussion_boards = apply_filters( 'wedevs_pm_discuss_index_query', $discussion_boards, $project_id, $request );
         $discussion_boards = $discussion_boards->orderBy( 'created_at', 'DESC' )
                                 ->paginate( $per_page );

@@ -28,6 +28,8 @@ import {
   Unlock,
   Pencil,
   ChevronRight,
+  Search,
+  X,
 } from "lucide-react";
 import FileUploadArea from "@components/common/FileUploadArea";
 import CommentLinkActions from "@components/google-workspace/CommentLinkActions";
@@ -116,15 +118,20 @@ export default function DiscussionsPage() {
   const [creating, setCreating] = useState(false);
 
   const [milestones, setMilestones] = useState([]);
+  const [query, setQuery] = useState("");
+  // Held in a ref as well, so fetchDiscussions can read the current term
+  // without taking `query` as a dependency: that would make the mount effect
+  // re-run on every keystroke and fire an undebounced request each time.
+  const queryRef = useRef("");
+  const searchTimerRef = useRef(null);
 
   const fetchDiscussions = useCallback(
-    async (pg = 1) => {
+    async (pg = 1, title = queryRef.current) => {
       setLoading(true);
       try {
-        const res = await api.get(`projects/${projectId}/discussion-boards`, {
-          per_page: 20,
-          page: pg,
-        });
+        const params = { per_page: 20, page: pg };
+        if (title.trim()) params.title = title.trim();
+        const res = await api.get(`projects/${projectId}/discussion-boards`, params);
         setDiscussions(res.data ?? []);
         if (res.meta?.pagination) {
           setTotalPages(res.meta.pagination.total_pages || 1);
@@ -135,6 +142,20 @@ export default function DiscussionsPage() {
     },
     [api, projectId]
   );
+
+  // The list paginates at 20, so long-lived projects need a way to find an
+  // older thread without paging through everything.
+  const handleSearch = useCallback(
+    (value) => {
+      setQuery(value);
+      queryRef.current = value;
+      clearTimeout(searchTimerRef.current);
+      searchTimerRef.current = setTimeout(() => fetchDiscussions(1, value), 400);
+    },
+    [fetchDiscussions]
+  );
+
+  useEffect(() => () => clearTimeout(searchTimerRef.current), []);
 
   useEffect(() => {
     fetchDiscussions();
@@ -251,12 +272,34 @@ export default function DiscussionsPage() {
                 </span>
               )}
             </div>
-            {canCreateDiscussion && (
-              <Button size="sm" className="gap-1.5 h-11 px-5" onClick={() => setShowForm((v) => !v)}>
-                <Plus className="h-5 w-5" />
-                {__("New", 'wedevs-project-manager')}
-              </Button>
-            )}
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 h-11 w-[180px] max-w-full rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
+                <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
+                <input
+                  value={query}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  placeholder={__("Search discussions", 'wedevs-project-manager')}
+                  className="flex-1 min-w-0 h-full bg-transparent text-sm text-pm-text-primary placeholder:text-muted-foreground focus:outline-none !border-0 !p-0 !shadow-none"
+                />
+                {query && (
+                  <button
+                    type="button"
+                    aria-label={__("Clear search", 'wedevs-project-manager')}
+                    onClick={() => handleSearch("")}
+                    className="text-pm-text-muted hover:text-pm-text-primary shrink-0"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                )}
+              </div>
+
+              {canCreateDiscussion && (
+                <Button size="sm" className="gap-1.5 h-11 px-5" onClick={() => setShowForm((v) => !v)}>
+                  <Plus className="h-5 w-5" />
+                  {__("New", 'wedevs-project-manager')}
+                </Button>
+              )}
+            </div>
           </div>
 
           {showForm && (
@@ -328,10 +371,14 @@ export default function DiscussionsPage() {
             <div className="text-center py-16 rounded-lg border bg-card">
               <MessageSquare className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
               <h3 className="text-sm font-medium text-pm-text-primary mb-1">
-                {__("No discussions yet", 'wedevs-project-manager')}
+                {query.trim()
+                  ? __("No discussions match your search", 'wedevs-project-manager')
+                  : __("No discussions yet", 'wedevs-project-manager')}
               </h3>
               <p className="text-sm text-pm-text-muted">
-                {__("Start a conversation about this project.", 'wedevs-project-manager')}
+                {query.trim()
+                  ? __("Try a different search term.", 'wedevs-project-manager')
+                  : __("Start a conversation about this project.", 'wedevs-project-manager')}
               </p>
             </div>
           ) : (
