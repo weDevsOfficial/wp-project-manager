@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import React from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
@@ -23,7 +24,7 @@ export default function BackButton({ fallback = '/', label, variant = 'ghost', s
   }
 
   return (
-    <Button variant="ghost" size="icon" className={cn('h-8 w-8', className)} onClick={handleClick}>
+    <Button variant="ghost" size="icon" aria-label={__('Go back', 'wedevs-project-manager')} className={cn('h-8 w-8', className)} onClick={handleClick}>
       <ArrowLeft className="h-5 w-5" />
     </Button>
   )

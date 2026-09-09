@@ -428,6 +428,10 @@ export default function ProjectsPage() {
                       !project.favourite && "opacity-0 group-hover:opacity-100",
                     )}
                     onClick={() => handleToggleFavourite(project.id)}
+                    aria-pressed={!!project.favourite}
+                    aria-label={project.favourite
+                      ? __('Remove "%s" from favourites', 'wedevs-project-manager').replace('%s', project.title)
+                      : __('Add "%s" to favourites', 'wedevs-project-manager').replace('%s', project.title)}
                   >
                     <Star
                       className={cn(
@@ -588,6 +592,10 @@ export default function ProjectsPage() {
                                 "opacity-0 group-hover:opacity-100",
                             )}
                             onClick={() => handleToggleFavourite(project.id)}
+                            aria-pressed={!!project.favourite}
+                            aria-label={project.favourite
+                              ? __('Remove "%s" from favourites', 'wedevs-project-manager').replace('%s', project.title)
+                              : __('Add "%s" to favourites', 'wedevs-project-manager').replace('%s', project.title)}
                           >
                             <Star
                               className={cn(

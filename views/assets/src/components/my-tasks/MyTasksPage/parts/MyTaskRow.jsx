@@ -53,7 +53,16 @@ export default function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
     <div className={cn("grid items-center gap-2 px-4 py-3 border-b border-border/40 last:border-b-0 hover:bg-muted/20 transition-colors group", MYTASK_GRID)}>
       {/* Task */}
       <div className="flex items-center gap-2 min-w-0">
-        <button type="button" onClick={handleToggle} disabled={toggling} className="shrink-0">
+        <button
+          type="button"
+          onClick={handleToggle}
+          disabled={toggling}
+          aria-pressed={complete}
+          aria-label={(complete
+            ? __('Mark "%s" incomplete', 'wedevs-project-manager')
+            : __('Mark "%s" complete', 'wedevs-project-manager')).replace('%s', task.title)}
+          className="shrink-0"
+        >
           <TaskStatusCircle complete={complete} />
         </button>
         <button

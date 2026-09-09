@@ -346,7 +346,7 @@ export default function ProjectOverview() {
       {/* Header row */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 min-w-0">
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate("/projects")}>
+          <Button variant="ghost" size="icon" aria-label={__("Back to projects", 'wedevs-project-manager')} className="h-8 w-8" onClick={() => navigate("/projects")}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <h1 className="text-xl font-bold text-pm-text-primary truncate">{__("Projects", 'wedevs-project-manager')}</h1>
