@@ -7,7 +7,7 @@ export function CardHead({ icon: Icon, iconClassName, title, subtitle, action })
   return (
     <div className="flex items-start justify-between gap-3 mb-4">
       <div className="min-w-0">
-        <h3 className="text-2xl font-semibold text-pm-text-primary flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
           {Icon && <Icon className={cn('w-4 h-4 shrink-0 text-pm-text-muted', iconClassName)} />}
           <span className="truncate">{title}</span>
         </h3>
