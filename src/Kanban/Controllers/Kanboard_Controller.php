@@ -305,6 +305,10 @@ class Kanboard_Controller {
 
     function delete_all_relation(Kanboard $board) {
         $board->boardables()->delete();
+
+        // The column's own meta (header_background, automation) outlived the
+        // column, leaving rows keyed to an id that no longer exists.
+        $board->meta()->delete();
     }
 
     function board_order( WP_REST_Request $request ) {
