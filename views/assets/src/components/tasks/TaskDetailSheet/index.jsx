@@ -1,6 +1,6 @@
 import { __, sprintf } from '@wordpress/i18n';
 import React, { useEffect, useCallback, useState, useRef } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { openTaskSheet, closeTaskSheet, fetchTask, updateTask, changeTaskStatus, addTaskComment, updateTaskComment, deleteTaskComment, deleteTask, markTaskModified } from '@store/tasksSlice'
 import { toggleTaskInList, removeTaskFromList } from '@store/taskListsSlice'
@@ -126,7 +126,17 @@ export default function TaskDetailSheet() {
   const [activities, setActivities] = useState([])
   const [showActivities, setShowActivities] = useState(false)
   const [loadingActivities, setLoadingActivities] = useState(false)
-  const [detailTab, setDetailTab] = useState('comments')
+  // Tab kept in the URL as ?tab= so a task can be linked straight to its
+  // comments or activities. A query param rather than a path segment: the
+  // sheet opens from several different task routes.
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tabParam = searchParams.get('tab')
+  const detailTab = ['subtasks', 'comments', 'activities'].includes(tabParam) ? tabParam : 'comments'
+  const setDetailTab = (key) => {
+    const next = new URLSearchParams(searchParams)
+    if (key === 'comments') { next.delete('tab') } else { next.set('tab', key) }
+    setSearchParams(next, { replace: true })
+  }
 
   useEffect(() => {
     if (currentTask) {
@@ -242,8 +252,14 @@ export default function TaskDetailSheet() {
       setShowAssigneeSearch(false)
       setShowActivities(false)
       setNewComment('')
+      // Drop ?tab= with the sheet so the next task opens on comments.
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev)
+        next.delete('tab')
+        return next
+      }, { replace: true })
     }
-  }, [dispatch])
+  }, [dispatch, setSearchParams])
 
   const handleTitleSave = useCallback(async () => {
     if (!currentTask || !projectId || title === currentTask.title) {
@@ -457,6 +473,14 @@ export default function TaskDetailSheet() {
     } catch { setActivities([]) }
     setLoadingActivities(false)
   }, [api, projectId, currentTask])
+
+  // Opening the sheet straight on ?tab=activities has no click to hang the
+  // fetch off, so the feed stayed empty until the tab was clicked again.
+  useEffect(() => {
+    if (detailTab === 'activities' && !showActivities && currentTask && projectId) {
+      handleLoadActivities()
+    }
+  }, [detailTab, showActivities, currentTask, projectId, handleLoadActivities])
 
   const handleDelete = useCallback(async () => {
     if (!currentTask || !projectId) return

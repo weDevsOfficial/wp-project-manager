@@ -126,7 +126,7 @@ function AppRoutes() {
         <Route path="projects/:projectId/activities" element={<ProjectRoute><ActivitiesPage /></ProjectRoute>} />
         <Route path="projects/:projectId/kanban" element={<ProjectRoute><KanbanBoard /></ProjectRoute>} />
         <Route path="projects/:projectId/kanban/tasks/:taskId" element={<ProjectRoute><KanbanBoard /><TaskDeepLinkOpener /></ProjectRoute>} />
-        <Route path="my-tasks" element={<MyTasksPage />} />
+        <Route path="my-tasks/*" element={<MyTasksPage />} />
 
         {/* ── Admin-only routes — gated by AdminRoute. Categories also available on frontend for admins. ── */}
         <Route path="categories" element={<AdminRoute><CategoriesPage /></AdminRoute>} />

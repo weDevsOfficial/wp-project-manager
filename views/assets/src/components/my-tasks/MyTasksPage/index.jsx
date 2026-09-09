@@ -1,7 +1,7 @@
 import { Loader2 } from 'lucide-react'
 import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@store/index";
 import { openTaskSheet } from "@store/tasksSlice";
 import { setProjectId } from "@store/taskListsSlice";
@@ -91,7 +91,12 @@ export default function MyTasksPage() {
   const TABS = useMemo(() => getTabs(), []);
   const ACTIVITY_LABELS = useMemo(() => getActivityLabels(), []);
 
-  const [activeTab, setActiveTab] = useState("current");
+  // The tab lives in the URL (/my-tasks/activities) so it can be linked and
+  // survives a reload; an unknown segment falls back to Current Tasks.
+  const location = useLocation();
+  const urlTab = (location.pathname.split("/my-tasks/")[1] || "").replace(/\/+$/, "");
+  const activeTab = TABS.some((t) => t.key === urlTab) ? urlTab : "current";
+  const setActiveTab = (key) => navigate(key === "current" ? "/my-tasks" : `/my-tasks/${key}`);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [userId, setUserId] = useState(null);
