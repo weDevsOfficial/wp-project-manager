@@ -132,7 +132,13 @@ class Task_List_Controller {
         $task_lists = apply_filters( "wedevs_pm_task_list_check_privacy", $task_lists, $project_id, $request );
 
         if ( $per_page == '-1' ) {
-            $per_page = $task_lists->count();
+            // The query groups by board id, and count() on a grouped query
+            // returns the row count of the first group rather than the number
+            // of groups. That produced an arbitrary page size -- as small as 1
+            // when the first list had a single task -- which silently clipped
+            // the response. getCountForPagination() counts the groups.
+            $per_page = $task_lists->toBase()->getCountForPagination();
+            $per_page = $per_page > 0 ? $per_page : 1;
         }
 
         $task_lists = $task_lists->orderBy( $tb_lists. '.order', 'DESC' )
