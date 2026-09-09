@@ -30,6 +30,7 @@ import {
   User as UserIcon,
   Calendar,
   Paperclip,
+  X,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -267,6 +268,16 @@ export default function FilesPage() {
             placeholder={__("Search files", 'wedevs-project-manager')}
             className="flex-1 min-w-0 h-full bg-transparent text-sm text-pm-text-primary placeholder:text-muted-foreground focus:outline-none !border-0 !p-0 !shadow-none"
           />
+          {query && (
+            <button
+              type="button"
+              aria-label={__("Clear search", 'wedevs-project-manager')}
+              onClick={() => setQuery("")}
+              className="text-pm-text-muted hover:text-pm-text-primary shrink-0"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          )}
         </div>
       </div>
 
@@ -277,7 +288,7 @@ export default function FilesPage() {
           ))}
         </div>
       ) : rows.length === 0 ? (
-        <div className="text-center py-16 rounded-xl border bg-card">
+        <div className="text-center py-16 rounded-lg border bg-card">
           <FileText className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
           <h3 className="text-sm font-medium text-pm-text-primary mb-1">
             {query.trim() || tab === "mine"

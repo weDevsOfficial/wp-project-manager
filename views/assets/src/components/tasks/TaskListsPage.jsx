@@ -23,8 +23,9 @@ import RichTextEditor from "@components/common/RichTextEditor";
 import { Checkbox } from "@components/ui/checkbox";
 import { Skeleton } from "@components/ui/skeleton";
 import { PaginationNav } from "@components/ui/pagination";
-import { Plus, ChevronsUpDown, ListTodo, Filter } from "lucide-react";
+import { Plus, ChevronsUpDown, ListTodo, Filter, X } from "lucide-react";
 import ProBadge from "@components/common/ProBadge";
+import { Badge } from "@components/ui/badge";
 import BackButton from '@components/common/BackButton';
 import { Slot } from "@hooks/useSlot";
 import TaskListSection from "./TaskListSection";
@@ -223,6 +224,10 @@ export default function TaskListsPage() {
     </div>
   );
 
+  const [filterOpen, setFilterOpen] = useState(false)
+  const [filterCount, setFilterCount] = useState(0)
+  const clearFilterRef = useRef(null)
+
   // ── Main render ─────────────────────────────
 
   return (
@@ -254,6 +259,38 @@ export default function TaskListsPage() {
             >
               <ChevronsUpDown className="h-4 w-4" />
               {allExpanded ? __("Collapse all", 'wedevs-project-manager') : __("Expand all", 'wedevs-project-manager')}
+            </Button>
+          )}
+
+          {/* Filter */}
+          {lists.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-sm gap-1.5 h-11 px-5"
+              onClick={() => setFilterOpen((v) => !v)}
+            >
+              <Filter className="h-4 w-4" />
+              {__("Filter", 'wedevs-project-manager')}
+              {filterCount > 0 && (
+                <Badge variant="secondary" className="h-4 px-1 text-[14px] rounded-md ml-0.5">
+                  {filterCount}
+                </Badge>
+              )}
+            </Button>
+          )}
+
+          {/* With the bar closed the Clear sits next to the trigger; with it
+              open the bar's own Clear is the nearer one, so only one shows. */}
+          {filterCount > 0 && !filterOpen && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-sm gap-1 h-11 px-5"
+              onClick={() => clearFilterRef.current?.()}
+            >
+              <X className="h-3.5 w-3.5" />
+              {__("Clear", 'wedevs-project-manager')}
             </Button>
           )}
 
@@ -348,6 +385,10 @@ export default function TaskListsPage() {
         <TaskFilterBar
           projectId={projectId}
           lists={lists}
+          open={filterOpen}
+          onOpenChange={setFilterOpen}
+          onActiveCountChange={setFilterCount}
+          onRegisterClear={(fn) => { clearFilterRef.current = fn }}
           onFilterResults={(tasks) => setFilteredTasks(tasks)}
           onClear={() => setFilteredTasks(null)}
         />
@@ -367,8 +408,8 @@ export default function TaskListsPage() {
             </span>
           </div>
           {filteredTasks.length === 0 ? (
-            <div className="py-8 text-center">
-              <Filter className="h-8 w-8 text-muted-foreground/40 mx-auto mb-2" />
+            <div className="py-16 text-center">
+              <Filter className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
               <p className="text-sm text-pm-text-muted">{__("No tasks match your filters.", 'wedevs-project-manager')}</p>
             </div>
           ) : (

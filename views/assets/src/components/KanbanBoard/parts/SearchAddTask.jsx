@@ -78,7 +78,7 @@ export default function SearchAddTask({
             <DialogTitle>{__("Add existing task", 'wedevs-project-manager')}</DialogTitle>
           </DialogHeader>
 
-          <div className="flex items-center gap-2 h-11 rounded-md border border-input bg-background px-3 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
+          <div className="flex items-center gap-1.5 h-11 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
             <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
             <input
               type="text"

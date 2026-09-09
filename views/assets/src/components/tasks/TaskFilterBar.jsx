@@ -14,11 +14,19 @@ import {
 import { UserAvatar } from '@components/common/UserAvatar'
 import { Search, X, Filter } from 'lucide-react'
 
-export default function TaskFilterBar({ projectId, lists, onFilterResults, onClear }) {
+export default function TaskFilterBar({ projectId, lists, onFilterResults, onClear, open, onOpenChange, onActiveCountChange, onRegisterClear }) {
   const api = useApi()
   const toast = useToast()
 
-  const [isOpen, setIsOpen] = useState(false)
+  // The trigger lives in the page header next to the other list actions, so
+  // open state is the parent's when it passes it, and local otherwise.
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false)
+  const isControlled = open !== undefined
+  const isOpen = isControlled ? open : uncontrolledOpen
+  const setIsOpen = useCallback((v) => {
+    if (isControlled) onOpenChange?.(v)
+    else setUncontrolledOpen(v)
+  }, [isControlled, onOpenChange])
   const [status, setStatus] = useState('')
   const [dueDate, setDueDate] = useState('')
   const [listId, setListId] = useState('')
@@ -86,6 +94,10 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
   const hasActiveFilter = status || dueDate || listId || assigneeId || searchTitle.trim() || priority !== '' || labelId || typeId || milestoneId
   const activeCount = [status, dueDate, listId, assigneeId, searchTitle.trim(), priority !== '' ? priority : '', labelId, typeId, milestoneId].filter(Boolean).length
 
+  useEffect(() => {
+    onActiveCountChange?.(activeCount)
+  }, [activeCount, onActiveCountChange])
+
   const applyFilter = useCallback(async (overrides = {}) => {
     const params = {
       project_id: projectId,
@@ -145,6 +157,10 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
     onClear?.()
   }, [onClear])
 
+  useEffect(() => {
+    onRegisterClear?.(handleClear)
+  }, [handleClear, onRegisterClear])
+
   const handleSearchChange = useCallback((value) => {
     setSearchTitle(value)
     if (searchTimerRef.current) clearTimeout(searchTimerRef.current)
@@ -160,6 +176,8 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
   }, [])
 
   if (!isOpen) {
+    if (isControlled) return null
+
     return (
       <div className="flex items-center gap-2">
         <Button
@@ -312,7 +330,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       )}
 
       {/* Close */}
-      <Button variant="ghost" size="icon" className="h-7 w-7 ml-auto shrink-0" onClick={() => { setIsOpen(false); if (!hasActiveFilter) onClear?.() }}>
+      <Button aria-label={__('Close filters', 'wedevs-project-manager')} variant="ghost" size="icon" className="h-7 w-7 ml-auto shrink-0" onClick={() => { setIsOpen(false); if (!hasActiveFilter) onClear?.() }}>
         <X className="h-4 w-4" />
       </Button>
     </div>

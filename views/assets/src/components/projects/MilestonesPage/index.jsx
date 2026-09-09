@@ -246,7 +246,7 @@ export default function MilestonesPage() {
           ))}
         </div>
       ) : milestones.length === 0 ? (
-        <div className="text-center py-16">
+        <div className="text-center py-16 rounded-lg border bg-card">
           <MilestoneIcon className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
           <h3 className="text-sm font-medium text-pm-text-primary mb-1">
             {__("No milestones yet", 'wedevs-project-manager')}
@@ -266,7 +266,7 @@ export default function MilestonesPage() {
           )}
         </div>
       ) : totalVisible === 0 ? (
-        <div className="text-center py-12">
+        <div className="text-center py-16 rounded-lg border bg-card">
           <Filter className="h-10 w-10 text-muted-foreground/30 mx-auto mb-2" />
           <p className="text-sm text-pm-text-muted">
             {__("No milestones match the selected filter.", 'wedevs-project-manager')}

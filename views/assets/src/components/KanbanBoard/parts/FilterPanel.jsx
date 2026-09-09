@@ -29,6 +29,7 @@ export default function FilterPanel({
   users,
   onFilter,
   onClear,
+  onActiveCountChange,
 }) {
   const DUE_DATE_OPTIONS = useMemo(() => getDueDateOptions(), []);
   const [title, setTitle] = useState("");
@@ -48,6 +49,12 @@ export default function FilterPanel({
       })
       .catch(() => setLists([]));
   }, [open, projectId]);
+
+  const activeCount = [title.trim(), userId, status, listId, dueDate].filter(Boolean).length
+
+  useEffect(() => {
+    onActiveCountChange?.(activeCount)
+  }, [activeCount, onActiveCountChange])
 
   const handleApply = () => {
     if (title && title.length < 3) return;
@@ -71,7 +78,7 @@ export default function FilterPanel({
 
   if (!open) return null;
   return (
-    <div className="flex flex-wrap items-center gap-2 p-3 bg-muted/30 rounded-lg border mb-3">
+    <div className="rounded-lg border bg-card px-3 py-2.5 mb-3 flex items-center gap-2 flex-wrap">
       <div className="flex items-center gap-1.5 flex-1 min-w-[160px] max-w-[240px] h-11 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
         <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
         <input
@@ -146,18 +153,21 @@ export default function FilterPanel({
           <SelectItem value="complete">{__("Complete", 'wedevs-project-manager')}</SelectItem>
         </SelectContent>
       </Select>
-      <Button size="sm" className="h-11" onClick={handleApply}>
-        <Filter className="h-4 w-4 mr-1" />
+      <Button size="sm" className="h-11 text-sm gap-1" onClick={handleApply}>
+        <Filter className="h-4 w-4" />
         {__("Apply", 'wedevs-project-manager')}
       </Button>
-      <Button size="sm" variant="ghost" className="h-11" onClick={handleClear}>
-        <X className="h-4 w-4 mr-1" />
-        {__("Clear", 'wedevs-project-manager')}
-      </Button>
+      {activeCount > 0 && (
+        <Button variant="outline" size="sm" className="h-11 text-sm gap-1" onClick={handleClear}>
+          <X className="h-3.5 w-3.5" />
+          {__("Clear", 'wedevs-project-manager')}
+        </Button>
+      )}
       <Button
-        size="sm"
+        aria-label={__("Close filters", 'wedevs-project-manager')}
+        size="icon"
         variant="ghost"
-        className="h-11 ml-auto"
+        className="h-7 w-7 ml-auto shrink-0"
         onClick={onClose}
       >
         <X className="h-4 w-4" />

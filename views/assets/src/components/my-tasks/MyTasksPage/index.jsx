@@ -558,8 +558,8 @@ export default function MyTasksPage() {
                   {__('Activity Filter', 'wedevs-project-manager')}
                 </span>
                 {(overviewStartDate || overviewEndDate) && (
-                  <Button variant="ghost" size="sm" className="h-11 text-xs text-pm-text-muted hover:text-destructive" onClick={() => { setOverviewStartDate(''); setOverviewEndDate(''); setAppliedFilterDates({ start: '', end: '' }) }}>
-                    <X className="h-3.5 w-3.5 mr-1" />{__('Clear', 'wedevs-project-manager')}
+                  <Button variant="outline" size="sm" className="h-11 text-sm gap-1" onClick={() => { setOverviewStartDate(''); setOverviewEndDate(''); setAppliedFilterDates({ start: '', end: '' }) }}>
+                    <X className="h-3.5 w-3.5" />{__('Clear', 'wedevs-project-manager')}
                   </Button>
                 )}
               </div>
@@ -580,8 +580,8 @@ export default function MyTasksPage() {
                     className="h-11 text-sm w-auto sm:w-40"
                   />
                 </div>
-                <Button size="sm" className="h-11 text-sm" onClick={() => setAppliedFilterDates({ start: overviewStartDate, end: overviewEndDate })}>
-                  <Filter className="h-3.5 w-3.5 mr-1" />{__('Filter', 'wedevs-project-manager')}
+                <Button size="sm" className="h-11 text-sm gap-1" onClick={() => setAppliedFilterDates({ start: overviewStartDate, end: overviewEndDate })}>
+                  <Filter className="h-4 w-4" />{__('Filter', 'wedevs-project-manager')}
                 </Button>
               </div>
             </div>
@@ -981,7 +981,7 @@ export default function MyTasksPage() {
         )
       ) : activeTab !== "activities" ? (
         <div className="space-y-4">
-          <div className="rounded-xl border bg-card px-3 py-2.5 flex items-center gap-2 flex-wrap">
+          <div className="rounded-lg border bg-card px-3 py-2.5 flex items-center gap-2 flex-wrap">
             <div className="flex items-center gap-1.5 flex-1 min-w-[160px] max-w-[240px] h-11 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
               <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
               <input
@@ -1050,7 +1050,7 @@ export default function MyTasksPage() {
 
             {(searchTitle || filterProjectId || taskStartDate || taskEndDate) && (
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 onClick={() => {
                   setSearchTitle("");
@@ -1059,9 +1059,9 @@ export default function MyTasksPage() {
                   setTaskEndDate("");
                   setTaskDateError("");
                 }}
-                className="gap-1 text-pm-text-muted h-11 px-2"
+                className="h-11 text-sm gap-1"
               >
-                <X className="h-4 w-4" />
+                <X className="h-3.5 w-3.5" />
                 {__("Clear", 'wedevs-project-manager')}
               </Button>
             )}
@@ -1111,12 +1111,15 @@ export default function MyTasksPage() {
               ))}
             </div>
           ) : tasks.length === 0 ? (
-            <div className="text-center py-12">
+            <div className="text-center py-16 rounded-lg border bg-card">
+              <ListChecks className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
               <p className="text-sm text-pm-text-muted">
-                {activeTab === "current"
+                {(searchTitle || filterProjectId || taskStartDate || taskEndDate)
+                  ? __("No tasks match your filters.", 'wedevs-project-manager')
+                  : activeTab === "current"
                   ? __("No current tasks", 'wedevs-project-manager')
                   : activeTab === "outstanding"
-                  ? __("No overdue tasks — great job!", 'wedevs-project-manager')
+                  ? __("No overdue tasks, great job!", 'wedevs-project-manager')
                   : __("No completed tasks yet", 'wedevs-project-manager')}
               </p>
             </div>
@@ -1167,8 +1170,8 @@ export default function MyTasksPage() {
               ))}
             </div>
           ) : activities.length === 0 ? (
-            <div className="text-center py-12">
-              <Activity className="h-12 w-12 text-muted-foreground/30 mx-auto mb-3" />
+            <div className="text-center py-16 rounded-lg border bg-card">
+              <Activity className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
               <p className="text-sm text-pm-text-muted">
                 {__("No activities found", 'wedevs-project-manager')}
               </p>

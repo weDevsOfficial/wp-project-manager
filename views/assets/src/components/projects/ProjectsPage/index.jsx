@@ -86,6 +86,7 @@ import {
   Calendar,
   Users,
   Activity,
+  X,
 } from "lucide-react";
 
 import AiCreateDialog from "../AiCreateDialog";
@@ -171,6 +172,13 @@ export default function ProjectsPage() {
     },
     [dispatch],
   );
+
+  const handleClearFilters = useCallback(() => {
+    clearTimeout(searchTimerRef.current);
+    setSearchQuery("");
+    dispatch(setCategory(undefined));
+    dispatch(fetchProjects({ page: 1, title: undefined }));
+  }, [dispatch]);
 
   const handleSortChange = useCallback(
     (value) => {
@@ -260,23 +268,38 @@ export default function ProjectsPage() {
     </div>
   );
 
-  const renderEmpty = () => (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      <FolderKanban className="h-16 w-16 text-muted-foreground/40 mb-4" />
-      <h3 className="text-lg font-medium text-pm-text-primary mb-1">
-        {__("No projects found", 'wedevs-project-manager')}
-      </h3>
-      <p className="text-sm text-pm-text-muted mb-4">
-        {__("Get started by creating a new project.", 'wedevs-project-manager')}
-      </p>
-      {canCreate && (
-        <Button className="h-11 px-5" onClick={() => dispatch(setCreateSheetOpen(true))}>
-          <Plus className="h-4 w-4 mr-2" />
-          {__("New Project", 'wedevs-project-manager')}
-        </Button>
-      )}
-    </div>
-  );
+  const renderEmpty = () => {
+    const filtered = Boolean(searchQuery || categoryId !== undefined);
+
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center rounded-lg border bg-card">
+        <FolderKanban className="h-14 w-14 text-muted-foreground/30 mb-3" />
+        <h3 className="text-sm font-medium text-pm-text-primary mb-1">
+          {filtered
+            ? __("No projects match your filters", 'wedevs-project-manager')
+            : __("No projects found", 'wedevs-project-manager')}
+        </h3>
+        <p className="text-sm text-pm-text-muted mb-4">
+          {filtered
+            ? __("Try a different search or category.", 'wedevs-project-manager')
+            : __("Get started by creating a new project.", 'wedevs-project-manager')}
+        </p>
+        {filtered ? (
+          <Button variant="outline" size="sm" className="h-11 text-sm gap-1" onClick={handleClearFilters}>
+            <X className="h-3.5 w-3.5" />
+            {__("Clear", 'wedevs-project-manager')}
+          </Button>
+        ) : (
+          canCreate && (
+            <Button className="h-11 px-5" onClick={() => dispatch(setCreateSheetOpen(true))}>
+              <Plus className="h-4 w-4 mr-2" />
+              {__("New Project", 'wedevs-project-manager')}
+            </Button>
+          )
+        )}
+      </div>
+    );
+  };
 
   const renderMetaCounters = (project) => {
     const meta = getMeta(project);
@@ -773,6 +796,13 @@ export default function ProjectsPage() {
               <SelectItem value="title:desc">{__("Title Z-A", 'wedevs-project-manager')}</SelectItem>
             </SelectContent>
           </Select>
+
+          {(searchQuery || categoryId !== undefined) && (
+            <Button variant="outline" size="sm" className="h-11 text-sm gap-1" onClick={handleClearFilters}>
+              <X className="h-3.5 w-3.5" />
+              {__("Clear", 'wedevs-project-manager')}
+            </Button>
+          )}
 
           <div className="inline-flex h-11 items-center gap-0.5 rounded-lg border border-pm-border bg-muted/60 p-1">
             <button

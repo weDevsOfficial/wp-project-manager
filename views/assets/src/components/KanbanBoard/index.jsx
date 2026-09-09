@@ -19,6 +19,7 @@ import { usePermissions } from "@hooks/usePermissions";
 import { useProjectAssignees } from "@hooks/useProjectAssignees";
 import TaskDetailSheet from "@components/tasks/TaskDetailSheet";
 import { Button } from "@components/ui/button";
+import { Badge } from "@components/ui/badge";
 import { Skeleton } from "@components/ui/skeleton";
 import {
   Dialog,
@@ -44,6 +45,7 @@ export default function KanbanBoard() {
   const { boards, loading } = useAppSelector((s) => s.kanban);
   const [newColTitle, setNewColTitle] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
+  const [filterCount, setFilterCount] = useState(0);
   const [search, setSearch] = useState("");
   const [panelFilters, setPanelFilters] = useState(null);
   const [searching, setSearching] = useState(false);
@@ -364,17 +366,17 @@ export default function KanbanBoard() {
         <div className="flex items-center gap-2">
           {/* Search is scoped to this project by the route it posts to. */}
           <div className={cn(
-            "flex items-center gap-2 h-11 rounded-lg border border-pm-border bg-pm-surface px-3 w-[200px] sm:w-[260px] focus-within:border-pm-accent focus-within:ring-1 focus-within:ring-pm-accent/40 transition-colors",
+            "flex items-center gap-1.5 h-11 rounded-md border border-input bg-background px-2.5 w-[200px] sm:w-[260px] focus-within:border-pm-accent focus-within:ring-1 focus-within:ring-pm-accent/40 transition-colors",
             boardBg && "bg-pm-surface/90 backdrop-blur",
           )}>
-            <Search className="h-3.5 w-3.5 text-pm-text-muted shrink-0" />
+            <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
             <input
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={__("Search tasks…", 'wedevs-project-manager')}
               aria-label={__("Search tasks on this board", 'wedevs-project-manager')}
-              className="flex-1 min-w-0 h-full bg-transparent text-xs text-pm-text-primary placeholder:text-pm-text-muted focus:outline-none !border-0 !p-0 !shadow-none [&::-webkit-search-cancel-button]:appearance-none"
+              className="flex-1 min-w-0 h-full bg-transparent text-sm text-pm-text-primary placeholder:text-muted-foreground focus:outline-none !border-0 !p-0 !shadow-none [&::-webkit-search-cancel-button]:appearance-none"
             />
             {searching ? (
               <Loader2 className="h-3.5 w-3.5 text-pm-text-muted shrink-0 animate-spin" />
@@ -417,16 +419,22 @@ export default function KanbanBoard() {
           <Button
             size="sm"
             variant="outline"
-            className="h-11 text-xs gap-1.5 border-pm-border text-pm-text hover:bg-pm-surface-muted"
+            className="h-11 text-sm gap-1.5"
             onClick={() => setFilterOpen(!filterOpen)}
           >
-            <Filter className="h-3.5 w-3.5" />
+            <Filter className="h-4 w-4" />
             {__("Filter", 'wedevs-project-manager')}
+            {filterCount > 0 && (
+              <Badge variant="secondary" className="h-4 px-1 text-[14px] rounded-md ml-0.5">
+                {filterCount}
+              </Badge>
+            )}
           </Button>
         </div>
       </div>
 
       <FilterPanel
+        onActiveCountChange={setFilterCount}
         open={filterOpen}
         onClose={() => setFilterOpen(false)}
         projectId={projectId}

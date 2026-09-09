@@ -125,7 +125,7 @@ export default function LicensePage() {
             </div>
           ) : (
             <div className="space-y-2">
-              <div className="flex items-center gap-1.5 h-11 rounded-md border border-pm-border bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
+              <div className="flex items-center gap-1.5 h-11 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
                 <Mail className="h-4 w-4 text-pm-text-muted shrink-0" />
                 <input
                   value={email}
@@ -136,7 +136,7 @@ export default function LicensePage() {
                 />
               </div>
               <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1.5 flex-1 h-11 rounded-md border border-pm-border bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
+                <div className="flex items-center gap-1.5 flex-1 h-11 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
                   <Key className="h-4 w-4 text-pm-text-muted shrink-0" />
                   <input
                     value={key}

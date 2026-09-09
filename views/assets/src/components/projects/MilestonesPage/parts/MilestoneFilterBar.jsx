@@ -51,7 +51,7 @@ export default function MilestoneFilterBar({ filter, sort, counts, onFilterChang
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm" className="h-11 gap-1.5 text-sm">
-            <ArrowUpDown className="h-3.5 w-3.5" />
+            <ArrowUpDown className="h-4 w-4" />
             {sortOptions.find((s) => s.value === sort)?.label ?? __("Sort", 'wedevs-project-manager')}
           </Button>
         </DropdownMenuTrigger>

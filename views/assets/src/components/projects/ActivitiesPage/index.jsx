@@ -224,9 +224,9 @@ export default function ActivitiesPage() {
           ))}
         </div>
       ) : activities.length === 0 ? (
-        <div className="text-center py-16">
+        <div className="text-center py-16 rounded-lg border bg-card">
           <Activity className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
-          <h3 className="text-sm font-medium text-pm-text mb-1">{__('No activities yet', 'wedevs-project-manager')}</h3>
+          <h3 className="text-sm font-medium text-pm-text-primary mb-1">{__('No activities yet', 'wedevs-project-manager')}</h3>
           <p className="text-sm text-pm-text-muted">{__('Project activity will appear here.', 'wedevs-project-manager')}</p>
         </div>
       ) : (
