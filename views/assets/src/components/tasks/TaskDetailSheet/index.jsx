@@ -90,7 +90,7 @@ export default function TaskDetailSheet() {
   const prePathRef = useRef(null)
   const toast = useToast()
   const [ConfirmDialog, confirm] = useConfirm()
-  const { currentTask, taskSheetOpen, loading } = useAppSelector(s => s.tasks)
+  const { currentTask, taskSheetOpen, loading, saving } = useAppSelector(s => s.tasks)
   const storeProjectId = useAppSelector(s => s.taskLists.projectId)
 
   const projectId = storeProjectId || currentTask?.project_id || currentTask?.project?.id
@@ -126,6 +126,7 @@ export default function TaskDetailSheet() {
   const [activities, setActivities] = useState([])
   const [showActivities, setShowActivities] = useState(false)
   const [loadingActivities, setLoadingActivities] = useState(false)
+  const [activityTotal, setActivityTotal] = useState(0)
   // Tab kept in the URL as ?tab= so a task can be linked straight to its
   // comments or activities. A query param rather than a path segment: the
   // sheet opens from several different task routes.
@@ -251,6 +252,7 @@ export default function TaskDetailSheet() {
       setEditingDates(false)
       setShowAssigneeSearch(false)
       setShowActivities(false)
+      setActivityTotal(0)
       setNewComment('')
       // Drop ?tab= with the sheet so the next task opens on comments.
       setSearchParams((prev) => {
@@ -470,9 +472,33 @@ export default function TaskDetailSheet() {
     try {
       const res = await api.post(`projects/${projectId}/tasks/${currentTask.id}/activity`, { per_page: 20 })
       setActivities(res.data ?? [])
-    } catch { setActivities([]) }
+      // The badge must show how many activities exist, not how many this page
+      // returned, so take the count from pagination rather than the array.
+      setActivityTotal(res.meta?.pagination?.total ?? 0)
+    } catch { setActivities([]); setActivityTotal(0) }
     setLoadingActivities(false)
   }, [api, projectId, currentTask])
+
+  // A task edit writes a new activity server-side, so refresh the feed when a
+  // save completes. `saving` going true then false is the edge every mutation
+  // passes through, which the sticky taskModifiedInSheet flag is not.
+  const prevSaving = useRef(false)
+  useEffect(() => {
+    if (prevSaving.current && !saving && taskSheetOpen && currentTask && projectId) {
+      handleLoadActivities()
+    }
+    prevSaving.current = saving
+  }, [saving, taskSheetOpen, currentTask?.id, projectId]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // The Activities tab badge read activities.length, which is empty until the
+  // tab is clicked, so the count only appeared after the first click. Load once
+  // when the sheet opens so the badge is right straight away, which also means
+  // the tab opens populated instead of spinning.
+  useEffect(() => {
+    if (taskSheetOpen && currentTask && projectId && !showActivities) {
+      handleLoadActivities()
+    }
+  }, [taskSheetOpen, currentTask?.id, projectId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Opening the sheet straight on ?tab=activities has no click to hang the
   // fetch off, so the feed stayed empty until the tab was clicked again.
@@ -841,7 +867,7 @@ export default function TaskDetailSheet() {
                 {[
                   { key: 'subtasks', label: __('Subtasks', 'wedevs-project-manager'), count: subtaskCount, pro: !isPro, icon: ListChecks },
                   { key: 'comments', label: __('Comments', 'wedevs-project-manager'), count: comments.length, icon: MessageSquare },
-                  { key: 'activities', label: __('Activities', 'wedevs-project-manager'), count: activities.length, icon: Activity },
+                  { key: 'activities', label: __('Activities', 'wedevs-project-manager'), count: activityTotal, icon: Activity },
                 ].map(t => (
                   <button
                     key={t.key}
