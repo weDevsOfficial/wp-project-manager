@@ -93,20 +93,20 @@ export default function DashboardHeader({ user, onTaskCreated, range, onRangeCha
           </div>
         )}
         {/* New Task — any user, matches MyTasksPage (ungated) */}
-        <Button variant="outline" size="sm" onClick={() => setNewTaskOpen(true)} className="gap-1.5">
+        <Button variant="outline" size="sm" onClick={() => setNewTaskOpen(true)} className="gap-1.5 h-11 px-5">
           <ListPlus className="w-4 h-4" />
           {__('New Task', 'wedevs-project-manager')}
         </Button>
         {/* Milestone — manager only; creation is project-scoped, so route to projects */}
         {canManageMilestone && (
-          <Button variant="outline" size="sm" onClick={() => navigate('/projects')} className="gap-1.5 hidden sm:inline-flex">
+          <Button variant="outline" size="sm" onClick={() => navigate('/projects')} className="gap-1.5 h-11 px-5 hidden sm:inline-flex">
             <Flag className="w-4 h-4" />
             {__('Milestone', 'wedevs-project-manager')}
           </Button>
         )}
         {/* New Project — admin/manager only, opens the shared ProjectCreateSheet */}
         {canCreate && (
-          <Button size="sm" onClick={openNewProject} className="gap-1.5">
+          <Button size="sm" onClick={openNewProject} className="gap-1.5 h-11 px-5">
             <Plus className="w-4 h-4" />
             {__('New Project', 'wedevs-project-manager')}
           </Button>
