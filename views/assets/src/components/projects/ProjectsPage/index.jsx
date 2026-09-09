@@ -659,7 +659,7 @@ export default function ProjectsPage() {
       <PromoBanner placement="projects" />
 
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <h1 className="text-2xl font-bold text-pm-text-primary">
+        <h1 className="text-xl font-bold text-pm-text-primary">
           {__("Projects", 'wedevs-project-manager')}
         </h1>
         {canCreate && (

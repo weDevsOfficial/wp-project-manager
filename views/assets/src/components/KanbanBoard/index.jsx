@@ -355,7 +355,7 @@ export default function KanbanBoard() {
       <div className="flex items-center justify-between mb-4">
         <h2
           className={cn(
-            "text-lg font-semibold text-pm-text-primary",
+            "text-xl font-bold text-pm-text-primary",
             boardBg && "rounded-lg bg-pm-surface/90 px-3 py-1.5 shadow-sm backdrop-blur",
           )}
         >

@@ -427,7 +427,7 @@ export default function MyTasksPage() {
           className="h-11 w-11"
         />
         <div className="flex-1 min-w-0">
-          <h1 className="text-lg font-bold text-pm-text-primary">
+          <h1 className="text-xl font-bold text-pm-text-primary">
             {__("My Tasks", 'wedevs-project-manager')}
           </h1>
           <p className="text-sm text-pm-text-muted">

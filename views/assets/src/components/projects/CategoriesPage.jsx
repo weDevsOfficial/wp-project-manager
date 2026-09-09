@@ -194,7 +194,7 @@ export default function CategoriesPage() {
     <div className="w-full p-4 sm:p-6 space-y-6">
       {/* Header — same pattern as ProjectsPage */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-pm-text-primary">
+        <h1 className="text-xl font-bold text-pm-text-primary">
           {__("Categories", 'wedevs-project-manager')}
         </h1>
         {canManage && (
