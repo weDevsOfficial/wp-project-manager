@@ -44,7 +44,8 @@ import {
   SelectValue,
 } from "@components/ui/select";
 import { useAppDispatch, useAppSelector } from "@store/index";
-import { fetchRoles } from "@store/projectsSlice";
+import { fetchRoles, invalidateProjectAssignees } from "@store/projectsSlice";
+import { invalidateProjectCache } from "@hooks/useCurrentProject";
 import CreateUserDialog from "@components/common/CreateUserDialog";
 import { Area, AreaChart, XAxis, CartesianGrid } from "recharts";
 import {
@@ -66,6 +67,11 @@ export default function ProjectOverview() {
   const { isPro, isManager, canManage } = usePermissions(project);
   const canManageMembers = isManager || canManage;
   const dispatch = useAppDispatch();
+
+  const invalidateMemberCaches = useCallback(() => {
+    invalidateProjectCache(projectId);
+    dispatch(invalidateProjectAssignees(projectId));
+  }, [projectId, dispatch]);
   const roles = useAppSelector((s) => s.projects.roles);
 
   const [loading, setLoading] = useState(true);
@@ -153,6 +159,7 @@ export default function ProjectOverview() {
         ...prev,
         assignees: { data: [...(prev.assignees?.data ?? []), userWithRole] },
       }));
+      invalidateMemberCaches();
       toast.success(__('Member added', 'wedevs-project-manager'));
     } catch { toast.error(__('Failed to add member', 'wedevs-project-manager')); }
   }, [api, projectId, project, toast, __, pendingUser, pendingRoleId, roles]);
@@ -181,6 +188,7 @@ export default function ProjectOverview() {
           ),
         },
       }));
+      invalidateMemberCaches();
       toast.success(__('Role updated', 'wedevs-project-manager'));
     } catch { toast.error(__('Failed to update role', 'wedevs-project-manager')); }
   }, [api, projectId, project, toast, __, roles]);
@@ -201,6 +209,7 @@ export default function ProjectOverview() {
         ...prev,
         assignees: { data: (prev.assignees?.data ?? []).filter(u => parseInt(u.id) !== parseInt(userId)) },
       }));
+      invalidateMemberCaches();
       toast.success(__('Member removed', 'wedevs-project-manager'));
     } catch { toast.error(__('Failed to remove member', 'wedevs-project-manager')); }
   }, [api, projectId, project, toast, __]);

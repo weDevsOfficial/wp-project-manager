@@ -1,6 +1,8 @@
 import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback } from "react";
 import { useApi } from "@hooks/useApi";
+import { useAppDispatch } from "@store/index";
+import { invalidateCategories } from "@store/projectsSlice";
 import { useToast } from "@hooks/useToast";
 import { useConfirm } from "@hooks/useConfirm";
 import { usePermissions } from "@hooks/usePermissions";
@@ -38,6 +40,7 @@ export default function CategoriesPage() {
   const [ConfirmDialog, confirm] = useConfirm();
   const { canManage } = usePermissions();
 
+  const dispatch = useAppDispatch();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -118,6 +121,7 @@ export default function CategoriesPage() {
       }
       setSheetOpen(false);
       fetchCategories(page);
+      dispatch(invalidateCategories());
     } catch {
       toast.error(
         sheetMode === "create"
@@ -136,6 +140,7 @@ export default function CategoriesPage() {
     try {
       await api.post(`categories/${id}/delete`);
       setCategories((prev) => prev.filter((c) => c.id !== id));
+      dispatch(invalidateCategories());
       setSelected((prev) => {
         const n = new Set(prev);
         n.delete(id);
@@ -156,6 +161,7 @@ export default function CategoriesPage() {
         category_ids: Array.from(selected),
       });
       setCategories((prev) => prev.filter((c) => !selected.has(c.id)));
+      dispatch(invalidateCategories());
       setSelected(new Set());
       toast.success(__("Categories deleted", 'wedevs-project-manager'));
     } catch {
