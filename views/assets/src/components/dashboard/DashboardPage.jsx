@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n'
 import React, { useEffect, useState, useCallback, useRef, Suspense } from 'react'
 import { useApi } from '@hooks/useApi'
-import { usePermissions } from '@hooks/usePermissions'
+import { usePermissions, pmCanSeeUpgrade } from '@hooks/usePermissions'
 import { Skeleton } from '@components/ui/skeleton'
 import { cn } from '@lib/utils'
 
@@ -161,7 +161,9 @@ export default function DashboardPage() {
 
       {/* Ambient, not actionable — so it closes the page. The upsell rides
           alongside it rather than displacing a member's workload card. */}
-      {isPro ? (
+      {/* The upsell tile is only useful to someone who can act on it, so a
+          co-worker or client keeps the full-width heatmap instead. */}
+      {isPro || !pmCanSeeUpgrade() ? (
         <Lazy h="h-44"><ProductivityHeatmapCard /></Lazy>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">

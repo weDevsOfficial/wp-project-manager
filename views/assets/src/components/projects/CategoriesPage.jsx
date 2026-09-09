@@ -305,7 +305,7 @@ export default function CategoriesPage() {
               <div className="col-span-2 flex items-center justify-end">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button
+                    <Button aria-label={__('Category actions', 'wedevs-project-manager')}
                       variant="ghost"
                       size="icon"
                       className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"

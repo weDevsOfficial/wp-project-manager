@@ -359,7 +359,7 @@ export default function DiscussionsPage() {
                           <div className="shrink-0 -mr-1.5 -mt-1" onClick={(e) => e.stopPropagation()}>
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-6 w-6">
+                                <Button variant="ghost" size="icon" className="h-6 w-6" aria-label={__('Discussion actions', 'wedevs-project-manager')}>
                                   <MoreHorizontal className="h-4 w-4" />
                                 </Button>
                               </DropdownMenuTrigger>

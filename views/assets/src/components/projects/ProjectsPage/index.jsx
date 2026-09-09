@@ -347,7 +347,7 @@ export default function ProjectsPage() {
     return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8 text-pm-text-primary">
+        <Button aria-label={__('Project actions', 'wedevs-project-manager')} variant="ghost" size="icon" className="h-8 w-8 text-pm-text-primary">
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>

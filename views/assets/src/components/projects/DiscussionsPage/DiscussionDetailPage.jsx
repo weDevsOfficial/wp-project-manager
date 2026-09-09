@@ -414,7 +414,7 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
               {canEditDiscussion(discussion) && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0">
+                    <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0" aria-label={__('Discussion actions', 'wedevs-project-manager')}>
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -600,6 +600,7 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
               className="absolute bottom-2 right-2 h-9 w-9 shrink-0 rounded-lg"
               onClick={handleAddComment}
               disabled={!newComment.trim() || submitting}
+              aria-label={__("Add Comment", 'wedevs-project-manager')}
             >
               <Send className="h-4 w-4" />
             </Button>

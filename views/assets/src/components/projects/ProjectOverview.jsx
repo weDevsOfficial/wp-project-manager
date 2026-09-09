@@ -59,7 +59,7 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@components/ui/chart";
-import { unwrapData, formatPmDate } from "@lib/pm-utils";
+import { unwrapData, formatPmDate, defaultMemberRoleId } from "@lib/pm-utils";
 import { usePermissions } from "@hooks/usePermissions";
 
 export default function ProjectOverview() {
@@ -148,7 +148,7 @@ export default function ProjectOverview() {
   }, [api, project]);
 
   const handleSelectUserForAdd = useCallback((user) => {
-    const defaultRoleId = roles.length > 0 ? roles[0].id : 2;
+    const defaultRoleId = defaultMemberRoleId(roles);
     setPendingUser(user);
     setPendingRoleId(defaultRoleId);
     setMemberSearch('');
@@ -770,7 +770,7 @@ export default function ProjectOverview() {
                     type="button"
                     className="opacity-0 group-hover:opacity-100 transition-opacity text-pm-text-muted hover:text-destructive shrink-0"
                     onClick={() => handleRemoveMember(user.id)}
-                    title={__("Remove", 'wedevs-project-manager')}
+                    title={sprintf(/* translators: %s is the member's name. */ __("Remove %s", 'wedevs-project-manager'), user.display_name)}
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>

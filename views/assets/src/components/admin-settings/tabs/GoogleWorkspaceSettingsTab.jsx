@@ -29,17 +29,17 @@ const LockedSettingCard = ({ title, description }) => {
   const { setOpen } = useProModal()
   return (
     <div
-      className="mb-4 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4 cursor-pointer hover:border-gray-300"
+      className="mb-4 flex items-center justify-between rounded-lg border border-pm-border bg-pm-surface p-4 cursor-pointer hover:border-pm-border"
       onClick={() => setOpen(true)}
     >
       <div>
-        <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
+        <div className="text-sm font-medium text-pm-text-primary flex items-center gap-2">
           {title}
           <ProBadge />
         </div>
-        <div className="text-xs text-gray-500 mt-0.5">{description}</div>
+        <div className="text-xs text-pm-text-muted mt-0.5">{description}</div>
       </div>
-      <Lock className="h-4 w-4 text-gray-300 shrink-0" />
+      <Lock className="h-4 w-4 text-pm-text-muted shrink-0" />
     </div>
   )
 }
@@ -116,7 +116,7 @@ export default function GoogleWorkspaceSettingsTab() {
             <GoogleMonoGlyph className="h-5 w-5 text-pm-accent" />
             {__('Google Workspace', 'wedevs-project-manager')}
           </h2>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-pm-text-muted mt-1">
             {__('Set up your Google Cloud project once. Users then connect their own account.', 'wedevs-project-manager')}
           </p>
         </div>
@@ -124,26 +124,26 @@ export default function GoogleWorkspaceSettingsTab() {
           href={DOCS_URL}
           target="_blank" rel="noreferrer"
           title={__('Setup guide', 'wedevs-project-manager')}
-          className="mt-0.5 shrink-0 text-gray-400 hover:text-blue-600"
+          className="mt-0.5 shrink-0 text-pm-text-muted hover:text-blue-600"
         >
           <ExternalLink className="h-4 w-4" />
         </a>
       </div>
 
-      <div className="mb-4 rounded-lg border border-gray-200 bg-white p-4">
+      <div className="mb-4 rounded-lg border border-pm-border bg-pm-surface p-4">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <div className="text-sm font-medium text-gray-900">{__('Enable Google Drive', 'wedevs-project-manager')}</div>
-            <div className="text-xs text-gray-500 mt-0.5">{__('Show Google Drive in the sidebar and on tasks. Turn off to hide it everywhere.', 'wedevs-project-manager')}</div>
+            <div className="text-sm font-medium text-pm-text-primary">{__('Enable Google Drive', 'wedevs-project-manager')}</div>
+            <div className="text-xs text-pm-text-muted mt-0.5">{__('Show Google Drive in the sidebar and on tasks. Turn off to hide it everywhere.', 'wedevs-project-manager')}</div>
           </div>
           <Switch checked={driveEnabled} onCheckedChange={toggleDrive} disabled={settingsLoading} />
         </div>
 
         {driveEnabled && (
-          <div className="mt-4 pl-8 border-t border-gray-100 pt-3 flex items-center justify-between gap-3">
+          <div className="mt-4 pl-8 border-t border-pm-border pt-3 flex items-center justify-between gap-3">
             <div>
-              <div className="text-sm font-medium text-gray-900">{__('Allow Drive in comments', 'wedevs-project-manager')}</div>
-              <div className="text-xs text-gray-500 mt-0.5">{__('Let team members attach Drive files inside comments. Turn off to hide the Drive button in comments only.', 'wedevs-project-manager')}</div>
+              <div className="text-sm font-medium text-pm-text-primary">{__('Allow Drive in comments', 'wedevs-project-manager')}</div>
+              <div className="text-xs text-pm-text-muted mt-0.5">{__('Let team members attach Drive files inside comments. Turn off to hide the Drive button in comments only.', 'wedevs-project-manager')}</div>
             </div>
             <Switch checked={driveComments} onCheckedChange={toggleComments} disabled={settingsLoading} />
           </div>
@@ -169,16 +169,16 @@ export default function GoogleWorkspaceSettingsTab() {
 
       <h3 className="text-sm font-medium text-pm-text-primary mt-6 mb-2">{__('API credentials & keys', 'wedevs-project-manager')}</h3>
 
-      <div className="rounded-lg border border-gray-200 bg-white p-5">
+      <div className="rounded-lg border border-pm-border bg-pm-surface p-5">
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">{__('Authorized redirect URI', 'wedevs-project-manager')}</label>
+          <label className="block text-sm font-medium text-pm-text-primary mb-1">{__('Authorized redirect URI', 'wedevs-project-manager')}</label>
           <div className="flex items-center gap-2">
-            <code className="flex-1 text-xs bg-gray-50 border border-gray-200 rounded px-3 py-2 break-all">{redirectUri}</code>
+            <code className="flex-1 text-xs bg-pm-surface-muted border border-pm-border rounded px-3 py-2 break-all">{redirectUri}</code>
             <Button className="h-11 px-5" type="button" variant="outline" size="sm" onClick={copyRedirect}>
               {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
-          <p className="text-xs text-gray-400 mt-1">{__('Add this exact URI to your Google OAuth client (Web application).', 'wedevs-project-manager')}</p>
+          <p className="text-xs text-pm-text-muted mt-1">{__('Add this exact URI to your Google OAuth client (Web application).', 'wedevs-project-manager')}</p>
         </div>
 
         {settingsLoading ? (
@@ -186,11 +186,11 @@ export default function GoogleWorkspaceSettingsTab() {
         ) : (
           <form onSubmit={onSave} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{__('Client ID', 'wedevs-project-manager')}</label>
+              <label className="block text-sm font-medium text-pm-text-primary mb-1">{__('Client ID', 'wedevs-project-manager')}</label>
               <Input value={clientId} onChange={e => setClientId(e.target.value)} placeholder="xxxxxxxx.apps.googleusercontent.com" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{__('Client Secret', 'wedevs-project-manager')}</label>
+              <label className="block text-sm font-medium text-pm-text-primary mb-1">{__('Client Secret', 'wedevs-project-manager')}</label>
               <Input
                 type="password"
                 value={clientSecret}
@@ -199,14 +199,14 @@ export default function GoogleWorkspaceSettingsTab() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{__('API Key', 'wedevs-project-manager')}</label>
+              <label className="block text-sm font-medium text-pm-text-primary mb-1">{__('API Key', 'wedevs-project-manager')}</label>
               <Input value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="AIza…" />
-              <p className="text-xs text-gray-400 mt-1">{__('Used by the Google Picker. Create under Credentials → API key, and enable the Picker API.', 'wedevs-project-manager')}</p>
+              <p className="text-xs text-pm-text-muted mt-1">{__('Used by the Google Picker. Create under Credentials → API key, and enable the Picker API.', 'wedevs-project-manager')}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{__('App ID (project number)', 'wedevs-project-manager')}</label>
+              <label className="block text-sm font-medium text-pm-text-primary mb-1">{__('App ID (project number)', 'wedevs-project-manager')}</label>
               <Input value={appId} onChange={e => setAppId(e.target.value)} placeholder="123456789012" />
-              <p className="text-xs text-gray-400 mt-1">{__('Your Google Cloud project number (Dashboard → Project info).', 'wedevs-project-manager')}</p>
+              <p className="text-xs text-pm-text-muted mt-1">{__('Your Google Cloud project number (Dashboard → Project info).', 'wedevs-project-manager')}</p>
             </div>
             <div className="flex items-center gap-3 pt-1">
               <Button className="h-11 px-5" type="submit" disabled={saving}>{saving ? __('Saving…', 'wedevs-project-manager') : __('Save credentials', 'wedevs-project-manager')}</Button>

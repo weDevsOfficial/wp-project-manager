@@ -52,6 +52,7 @@ import { resolveActivityUrl } from '@lib/activity-links'
 import TaskPrivacyField from './parts/fields/TaskPrivacyField'
 import TaskEstimationField from './parts/fields/TaskEstimationField'
 import TaskTypeField from './parts/fields/TaskTypeField'
+import TaskPriorityField from './parts/fields/TaskPriorityField'
 import MilestoneField from './parts/fields/MilestoneField'
 import ProInlineProperties from './parts/ProInlineProperties'
 import ProSubtasksSection from './parts/ProSubtasksSection'
@@ -228,6 +229,9 @@ export default function TaskDetailSheet() {
     ? (Array.isArray(currentTask.assignees) ? currentTask.assignees : (currentTask.assignees?.data) ?? [])
     : []
   const comments = useAppSelector(s => s.tasks.taskComments)
+  // Subtasks live in a Pro slice that only loads once its tab is opened, so take
+  // the count off the task itself. Every subtask mutation refetches the task.
+  const subtaskCount = parseInt(currentTask?.meta?.total_sub_task) || 0
   const complete = currentTask ? isTaskComplete(currentTask.status) : false
 
   const handleClose = useCallback((open) => {
@@ -529,7 +533,7 @@ export default function TaskDetailSheet() {
               </button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="p-1.5 rounded-md hover:bg-muted text-pm-text-muted hover:text-pm-text-primary transition-colors">
+                  <button aria-label={__('Task actions', 'wedevs-project-manager')} className="p-1.5 rounded-md hover:bg-muted text-pm-text-muted hover:text-pm-text-primary transition-colors">
                     <MoreHorizontal className="h-4 w-4" />
                   </button>
                 </DropdownMenuTrigger>
@@ -737,6 +741,8 @@ export default function TaskDetailSheet() {
 
                 <TaskTypeField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} canEdit={canEditTask(currentTask)} />
 
+                <TaskPriorityField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} canEdit={canEditTask(currentTask)} />
+
                 <MilestoneField task={currentTask} projectId={currentTask?.project_id} api={api} canEdit={canEditTask(currentTask)} />
 
                 {canEditTask(currentTask) && userCan('view_private_task') && (
@@ -809,7 +815,7 @@ export default function TaskDetailSheet() {
             <div className="px-6 pt-4">
               <div className="inline-flex max-w-full items-center rounded-lg border border-pm-border bg-muted/60 p-1 gap-0.5 overflow-x-auto scrollbar-none max-md:flex-wrap max-md:overflow-visible">
                 {[
-                  { key: 'subtasks', label: __('Subtasks', 'wedevs-project-manager'), count: 0, pro: !isPro, icon: ListChecks },
+                  { key: 'subtasks', label: __('Subtasks', 'wedevs-project-manager'), count: subtaskCount, pro: !isPro, icon: ListChecks },
                   { key: 'comments', label: __('Comments', 'wedevs-project-manager'), count: comments.length, icon: MessageSquare },
                   { key: 'activities', label: __('Activities', 'wedevs-project-manager'), count: activities.length, icon: Activity },
                 ].map(t => (
@@ -966,9 +972,9 @@ export default function TaskDetailSheet() {
                             {/* Avatar rail with connector */}
                             <div className="flex flex-col items-center shrink-0">
                               {actActor ? (
-                                <UserAvatar user={actActor} size="sm" />
+                                <UserAvatar user={actActor} size="sm" className="-mt-1" />
                               ) : (
-                                <span className="flex h-7 w-7 items-center justify-center rounded-md bg-muted">
+                                <span className="-mt-1 flex h-7 w-7 items-center justify-center rounded-md bg-muted">
                                   <Activity className="h-3.5 w-3.5 text-pm-text-muted" />
                                 </span>
                               )}
@@ -982,7 +988,7 @@ export default function TaskDetailSheet() {
                                   <button
                                     type="button"
                                     onClick={() => { dispatch(closeTaskSheet()); navigate('/my-tasks'); }}
-                                    className="font-medium text-pm-text-primary hover:text-pm-accent transition-colors cursor-pointer mr-1"
+                                    className="border-0 bg-transparent p-0 align-baseline font-medium text-pm-text-primary hover:text-pm-accent transition-colors cursor-pointer mr-1"
                                   >
                                     {actActor.display_name}
                                   </button>
@@ -991,7 +997,7 @@ export default function TaskDetailSheet() {
                                   <button
                                     type="button"
                                     onClick={handleActClick}
-                                    className="text-left text-pm-text-muted hover:text-pm-accent transition-colors cursor-pointer"
+                                    className="border-0 bg-transparent p-0 align-baseline text-left text-pm-text-muted hover:text-pm-accent transition-colors cursor-pointer"
                                   >
                                     {parseActivityMessage(act) || act.action}
                                   </button>

@@ -31,21 +31,21 @@ const ProFeatureCard = ({ icon: Icon, title, description }) => {
   const { setOpen } = useProModal()
   return (
     <section
-      className="rounded-lg border border-gray-200 bg-white p-5 cursor-pointer hover:border-gray-300"
+      className="rounded-lg border border-pm-border bg-pm-surface p-5 cursor-pointer hover:border-pm-border"
       onClick={() => setOpen(true)}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-start gap-3">
-          <Icon className="h-5 w-5 text-gray-400 mt-0.5" />
+          <Icon className="h-5 w-5 text-pm-text-muted mt-0.5" />
           <div>
-            <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
+            <div className="text-sm font-medium text-pm-text-primary flex items-center gap-2">
               {title}
               <ProBadge />
             </div>
-            <div className="text-xs text-gray-500 mt-0.5">{description}</div>
+            <div className="text-xs text-pm-text-muted mt-0.5">{description}</div>
           </div>
         </div>
-        <Lock className="h-4 w-4 text-gray-300 shrink-0" />
+        <Lock className="h-4 w-4 text-pm-text-muted shrink-0" />
       </div>
     </section>
   )
@@ -95,12 +95,12 @@ export default function GoogleWorkspacePage() {
       <header className="flex items-center gap-3">
         <GoogleColorGlyph />
         <div>
-          <h1 className="text-xl font-semibold text-gray-900">{__('Google Workspace', 'wedevs-project-manager')}</h1>
-          <p className="text-sm text-gray-500">{__('Connect your Google account to use Google features inside Project Manager.', 'wedevs-project-manager')}</p>
+          <h1 className="text-xl font-semibold text-pm-text-primary">{__('Google Workspace', 'wedevs-project-manager')}</h1>
+          <p className="text-sm text-pm-text-muted">{__('Connect your Google account to use Google features inside Project Manager.', 'wedevs-project-manager')}</p>
         </div>
       </header>
 
-      <section className="rounded-lg border border-gray-200 bg-white p-5">
+      <section className="rounded-lg border border-pm-border bg-pm-surface p-5">
         {status.expired && (
           <p className="text-sm text-amber-700 bg-amber-50 rounded-md px-3 py-2 mb-3">
             {__('Your Google connection expired (site security keys changed). Please reconnect — your attached files are unaffected.', 'wedevs-project-manager')}
@@ -116,7 +116,7 @@ export default function GoogleWorkspacePage() {
           </div>
         ) : status.connected ? (
           <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2 text-sm text-gray-700">
+            <div className="flex items-center gap-2 text-sm text-pm-text-primary">
               <ShieldCheck className="h-5 w-5 text-green-600" />
               <span>{__('Connected as', 'wedevs-project-manager')} <strong>{status.account_email || __('Google account', 'wedevs-project-manager')}</strong></span>
             </div>
@@ -126,7 +126,7 @@ export default function GoogleWorkspacePage() {
           </div>
         ) : (
           <div className="flex items-center justify-between gap-4">
-            <p className="text-sm text-gray-600">{__('Connect your Google account to browse and attach Drive files to tasks.', 'wedevs-project-manager')}</p>
+            <p className="text-sm text-pm-text-muted">{__('Connect your Google account to browse and attach Drive files to tasks.', 'wedevs-project-manager')}</p>
             <Button className="h-11 px-5" size="sm" onClick={onConnect} disabled={connecting}>
               <GoogleColorGlyph width="16" height="16" /> <span className="ml-1.5">{connecting ? __('Redirecting…', 'wedevs-project-manager') : __('Connect Google', 'wedevs-project-manager')}</span>
             </Button>
@@ -134,7 +134,7 @@ export default function GoogleWorkspacePage() {
         )}
 
         {status.configured && (
-          <p className="mt-3 flex items-start gap-1.5 text-xs text-gray-400">
+          <p className="mt-3 flex items-start gap-1.5 text-xs text-pm-text-muted">
             <Info className="h-3.5 w-3.5 mt-0.5 shrink-0" />
             <span>{__('All Google features — Drive, Calendar and Meet — use this one account.', 'wedevs-project-manager')}</span>
           </p>
@@ -145,13 +145,13 @@ export default function GoogleWorkspacePage() {
       <h2 className="text-sm font-medium text-pm-text-primary">{__('Connected services', 'wedevs-project-manager')}</h2>
 
       {/* Google Drive (free) — admin master gate + per-user on/off */}
-      <section className={`rounded-lg border border-gray-200 bg-white p-5${!status.drive_enabled ? ' opacity-70' : ''}`}>
+      <section className={`rounded-lg border border-pm-border bg-pm-surface p-5${!status.drive_enabled ? ' opacity-70' : ''}`}>
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-start gap-3">
             <GoogleDriveColorGlyph width="20" height="20" />
             <div>
               <div className="text-sm font-medium text-pm-text-primary">{__('Google Drive', 'wedevs-project-manager')}</div>
-              <div className="text-xs text-gray-500 mt-0.5">{__('Attach Drive files to tasks, comments, discussions and files.', 'wedevs-project-manager')}</div>
+              <div className="text-xs text-pm-text-muted mt-0.5">{__('Attach Drive files to tasks, comments, discussions and files.', 'wedevs-project-manager')}</div>
             </div>
           </div>
           {status.drive_enabled ? (
@@ -168,11 +168,11 @@ export default function GoogleWorkspacePage() {
               }}
             />
           ) : (
-            <span className="text-[11px] font-medium text-gray-500 bg-gray-100 rounded-md px-2 py-0.5">{__('Off', 'wedevs-project-manager')}</span>
+            <span className="text-[11px] font-medium text-pm-text-muted bg-pm-surface-muted rounded-md px-2 py-0.5">{__('Off', 'wedevs-project-manager')}</span>
           )}
         </div>
         {!status.drive_enabled ? (
-          <p className="mt-2 pl-8 text-xs text-gray-400">{__('Drive is turned off. An administrator can enable it in Settings → Google Workspace.', 'wedevs-project-manager')}</p>
+          <p className="mt-2 pl-8 text-xs text-pm-text-muted">{__('Drive is turned off. An administrator can enable it in Settings → Google Workspace.', 'wedevs-project-manager')}</p>
         ) : !status.connected ? (
           <p className="mt-2 pl-8 text-xs text-amber-700">{__('Connect your Google account above to use Drive.', 'wedevs-project-manager')}</p>
         ) : null}
@@ -200,7 +200,7 @@ export default function GoogleWorkspacePage() {
               {__('This unlinks your Google account from Project Manager. Here’s what happens:', 'wedevs-project-manager')}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <ul className="space-y-2 text-sm text-gray-600 list-disc pl-5">
+          <ul className="space-y-2 text-sm text-pm-text-muted list-disc pl-5">
             <li>{__('Calendar events created from your tasks and milestones are removed from Google Calendar.', 'wedevs-project-manager')}</li>
             <li>{__('Drive files you attached stay listed, but you can’t open or attach more until you reconnect.', 'wedevs-project-manager')}</li>
             <li>{__('All Google features (Drive, Calendar, Meet) stop working for you until you reconnect.', 'wedevs-project-manager')}</li>

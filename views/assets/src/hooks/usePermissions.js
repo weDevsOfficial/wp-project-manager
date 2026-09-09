@@ -16,6 +16,18 @@ export function pmUserCanAccess(capSlug) {
   return false
 }
 
+/**
+ * Whether the current user can act on a Pro upsell.
+ * The marketing previews and the upgrade dialog only make sense for someone
+ * who can install or license the plugin. A co-worker or client cannot, and
+ * the invented sample data in those previews reads as real project data.
+ */
+export function pmCanSeeUpgrade() {
+  const user = getCurrentUser()
+  const isAdmin = !!(user?.allcaps?.manage_options || user?.caps?.manage_options)
+  return isAdmin || pmHasManageCapability()
+}
+
 export function pmHasManageCapability() {
   const slug = (typeof PM_Vars !== 'undefined' && PM_Vars.manager_cap_slug) || ''
   if (!!PM_Vars?.manage_capability) return true

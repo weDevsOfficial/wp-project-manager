@@ -61,7 +61,7 @@ export default function MiniCalendarCard({ calendar }) {
           className={cn(
             'h-1.5 w-1.5 rounded-full',
             !info ? 'bg-transparent'
-              : modifiers?.selected ? 'bg-white'
+              : modifiers?.selected ? 'bg-pm-surface'
               : info.overdue ? 'bg-rose-500' : 'bg-pm-accent',
           )}
         />

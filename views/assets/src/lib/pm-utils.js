@@ -3,6 +3,7 @@
  *
  * The WP Project Manager PHP backend returns values in inconsistent formats:
  * - Status: integer 0/1 (Transformer) OR string 'incomplete'/'complete' (Helper)
+ * - Priority: string 'low'/'medium'/'high' (Transformer) OR integer 0/1/2 (raw row)
  * - Privacy: integer 0/1 OR string 'true'/'false' OR boolean true/false
  * - Booleans: string '1'/'0' OR 'true'/'false' OR actual boolean OR integer
  * - Dates: object { date, time, datetime, timezone, timestamp } OR null
@@ -39,6 +40,21 @@ export function isTaskComplete(status) {
  */
 export function isProjectComplete(status) {
   return status === 'complete' || status === 1 || status === '1'
+}
+
+// ── Task Priority ─────────────────────────────────────
+
+const PRIORITY_SLUGS = ['low', 'medium', 'high']
+
+/**
+ * Normalize a task priority to a slug.
+ * API returns the slug ('low' | 'medium' | 'high'); the DB int (0 | 1 | 2)
+ * only reaches the client on payloads that bypass the model accessor.
+ */
+export function taskPriority(value) {
+  if (value === null || value === undefined || value === '') return null
+  const slug = typeof value === 'number' ? PRIORITY_SLUGS[value] : String(value).toLowerCase()
+  return PRIORITY_SLUGS.includes(slug) ? slug : null
 }
 
 // ── Privacy ───────────────────────────────────────────
@@ -161,4 +177,66 @@ export function userInitials(name) {
     .map(w => w[0]?.toUpperCase() ?? '')
     .slice(0, 2)
     .join('')
+}
+
+// ── Project Roles ─────────────────────────────────────
+
+/**
+ * Default role for a member being added to a project.
+ * roles[0] is Manager (id 1), so falling back to it handed full project
+ * control (member management, project delete) to anyone added in two clicks.
+ * Co-Worker is the least-privilege role that can still do project work.
+ */
+export function defaultMemberRoleId(roles) {
+  const list = roles || []
+  const coWorker = list.find(r => r.slug === 'co_worker')
+  return coWorker ? coWorker.id : (list[0]?.id ?? 2)
+}
+
+// ── Local Calendar Dates ──────────────────────────────
+
+/**
+ * YYYY-MM-DD for the viewer's own calendar day.
+ * toISOString() converts to UTC first, so east of UTC it returns yesterday:
+ * in Asia/Dhaka (UTC+6) a local Sep 9 came back as 2026-09-08, which moved
+ * "today", the week start and every overdue comparison a day early.
+ */
+export function toLocalDateStr(value) {
+  const date = value instanceof Date ? value : new Date(value)
+  if (isNaN(date.getTime())) return ''
+  const pad = (n) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+/**
+ * YYYY-MM-DD for today in the SITE's timezone (PM_Vars.wp_time_zone).
+ * Server-stamped rows (activities, comments) carry site time, so grouping
+ * them against the viewer's local day mislabels everything whenever the two
+ * zones disagree. Falls back to the viewer's own day if the zone is unknown.
+ */
+export function siteTodayStr() {
+  const zone = typeof PM_Vars !== 'undefined' ? PM_Vars?.wp_time_zone : null
+  if (!zone) return toLocalDateStr(new Date())
+  try {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: zone, year: 'numeric', month: '2-digit', day: '2-digit',
+    }).format(new Date())
+  } catch {
+    return toLocalDateStr(new Date())
+  }
+}
+
+/**
+ * Human file size. `(bytes / 1024).toFixed(0) + 'KB'` reported every file
+ * under 512 bytes as "0KB", so a real attachment looked empty.
+ */
+export function formatFileSize(bytes) {
+  const size = Number(bytes)
+  if (!Number.isFinite(size) || size < 0) return ''
+  if (size < 1024) return `${Math.round(size)} B`
+  const kb = size / 1024
+  if (kb < 1024) return `${kb < 10 ? kb.toFixed(1) : Math.round(kb)} KB`
+  const mb = kb / 1024
+  if (mb < 1024) return `${mb < 10 ? mb.toFixed(1) : Math.round(mb)} MB`
+  return `${(mb / 1024).toFixed(1)} GB`
 }

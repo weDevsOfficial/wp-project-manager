@@ -222,7 +222,7 @@ export function TopBar() {
         </span>
 
         {/* Notifications */}
-        <Button variant="ghost" size="icon" className="h-8 w-8 relative shrink-0" onClick={() => setNotifOpen(true)}>
+        <Button variant="ghost" size="icon" className="h-8 w-8 relative shrink-0" onClick={() => setNotifOpen(true)} aria-label={__('Notifications', 'wedevs-project-manager')}>
           <Bell className="h-5 w-5 text-pm-text-muted" />
           {unreadCount > 0 && (
             <span className="absolute -top-0.5 -right-0.5 h-4 min-w-[16px] flex items-center justify-center rounded-md bg-destructive text-[11px] text-white font-bold px-1">

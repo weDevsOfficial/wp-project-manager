@@ -1,9 +1,10 @@
 import { __ } from '@wordpress/i18n';
 import React, { useMemo } from "react";
-import { usePermissions } from "@hooks/usePermissions";
+import { usePermissions, pmCanSeeUpgrade } from "@hooks/usePermissions";
 import { useLicenseGuard } from "@components/common/LicenseGuard";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import ProBadge from "@components/common/ProBadge";
+import ProUnavailable from "@components/common/ProUnavailable";
 import { Button } from "@components/ui/button";
 import {
   AlertTriangle,
@@ -69,6 +70,13 @@ export default function ReportsPage() {
 
   const licenseGuard = useLicenseGuard();
   if (licenseGuard) return licenseGuard;
+
+  // A co-worker or client cannot install or license Pro, so the marketing
+  // preview below (invented tasks, teammates, invoices) is replaced by a
+  // plain unavailable card for them.
+  if (!isPro && !pmCanSeeUpgrade()) {
+    return <ProUnavailable title={__('Reports', 'wedevs-project-manager')} description={__('Select a report type to view detailed data.', 'wedevs-project-manager')} />;
+  }
 
   return (
     <div className="w-full p-4 sm:p-6 space-y-6">

@@ -42,6 +42,7 @@ function ToolbarBtn({ icon: Icon, label, active, disabled, onClick }) {
             )}
             disabled={disabled}
             onClick={onClick}
+            aria-label={label}
           >
             <Icon className="h-4 w-4" />
           </Button>
@@ -67,6 +68,7 @@ function ColorBtn({ icon: Icon, label, value, onChange }) {
               size="icon"
               className="h-7 w-7 text-pm-text-muted hover:text-pm-text hover:bg-pm-hover"
               onClick={(e) => { e.preventDefault(); inputRef.current?.click() }}
+              aria-label={label}
             >
               <Icon className="h-4 w-4" />
             </Button>

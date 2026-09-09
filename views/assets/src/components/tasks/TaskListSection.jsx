@@ -350,6 +350,10 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
           type="button"
           onClick={handleToggle}
           className="p-0.5 hover:bg-muted rounded transition-colors"
+          aria-expanded={expanded}
+          aria-label={expanded
+            ? __('Collapse section', 'wedevs-project-manager')
+            : __('Expand section', 'wedevs-project-manager')}
         >
           <ChevronDown
             className="h-5 w-5 text-pm-text-muted transition-transform duration-200"

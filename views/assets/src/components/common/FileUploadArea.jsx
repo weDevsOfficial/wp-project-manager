@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n';
 import React, { useRef, useState, useEffect } from 'react'
 import { Button } from '@components/ui/button'
 import { Paperclip, X, FileText, Image as ImageIcon } from 'lucide-react'
+import { formatFileSize } from '@lib/pm-utils'
 
 function fileIcon(file) {
   if (file.type?.startsWith('image')) return ImageIcon
@@ -44,7 +45,7 @@ export default function FileUploadArea({ files = [], onFilesChange, compact = fa
           <span key={i} className="inline-flex items-center gap-1.5 text-sm bg-muted/50 px-2 py-1 rounded-md border border-border/50">
             <FileThumbnail file={f} />
             <span className="truncate max-w-[120px]">{f.name}</span>
-            <span className="text-[11px] text-pm-text-muted tabular-nums">{(f.size / 1024).toFixed(0)}KB</span>
+            <span className="text-[11px] text-pm-text-muted tabular-nums">{formatFileSize(f.size)}</span>
             <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive ml-0.5">
               <X className="h-3.5 w-3.5" />
             </button>
@@ -83,7 +84,7 @@ export default function FileUploadArea({ files = [], onFilesChange, compact = fa
             <div key={i} className="flex items-center gap-2 bg-muted/30 rounded-md px-3 py-1.5 min-w-0">
               <FileThumbnail file={f} />
               <span className="text-sm text-pm-text-primary flex-1 min-w-0 truncate">{f.name}</span>
-              <span className="text-[13px] text-pm-text-muted tabular-nums shrink-0">{(f.size / 1024).toFixed(0)} KB</span>
+              <span className="text-[13px] text-pm-text-muted tabular-nums shrink-0">{formatFileSize(f.size)}</span>
               <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive shrink-0">
                 <X className="h-4 w-4" />
               </button>

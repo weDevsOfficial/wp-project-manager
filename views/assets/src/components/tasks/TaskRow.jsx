@@ -35,6 +35,7 @@ import {
   formatPmDate,
   dueDateColorClass,
   isOverdue,
+  taskPriority,
 } from '@lib/pm-utils'
 
 // Shared column grid template — header row (TaskListSection) + task rows must match.
@@ -122,15 +123,15 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
     dispatch(removeTaskFromList({ listId: fromListId, taskId }))
   }, [dispatch])
 
-  // Backend priority: 1 = High, 2 = Medium, 3 = Low (0/null = none).
-  const priorityPill = task.priority === 1
+  const priority = taskPriority(task.priority)
+  const priorityPill = priority === 'high'
     ? 'bg-red-100 text-red-700'
-    : task.priority === 2
+    : priority === 'medium'
       ? 'bg-amber-100 text-amber-700'
       : 'bg-emerald-100 text-emerald-700'
-  const priorityLabel = task.priority === 1
+  const priorityLabel = priority === 'high'
     ? __('High', 'wedevs-project-manager')
-    : task.priority === 2
+    : priority === 'medium'
       ? __('Medium', 'wedevs-project-manager')
       : __('Low', 'wedevs-project-manager')
 
@@ -282,7 +283,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
 
       {/* Col 7 — Priority */}
       <div className="min-w-0">
-        {task.priority > 0 ? (
+        {priority ? (
           <span className={cn('inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-[12px] font-medium', priorityPill)}>
             <Flag className="h-4 w-4" />
             {priorityLabel}
@@ -302,7 +303,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
       <div className="opacity-0 group-hover:opacity-100 transition-opacity justify-self-end">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-6 w-6">
+            <Button aria-label={__('Task actions', 'wedevs-project-manager')} variant="ghost" size="icon" className="h-6 w-6">
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>

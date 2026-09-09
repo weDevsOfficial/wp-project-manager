@@ -3,9 +3,10 @@ import React, { useState, useMemo, useCallback } from "react";
 import { useLicenseGuard } from "@components/common/LicenseGuard";
 import { useAppDispatch } from "@store/index";
 import { fetchTask, openTaskSheet } from "@store/tasksSlice";
-import { usePermissions } from "@hooks/usePermissions";
+import { usePermissions, pmCanSeeUpgrade } from "@hooks/usePermissions";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import ProBadge from "@components/common/ProBadge";
+import ProUnavailable from "@components/common/ProUnavailable";
 import { Calendar, Crown, Lock, ChevronLeft, ChevronRight } from "lucide-react";
 import { createPortal } from "react-dom";
 
@@ -45,6 +46,13 @@ export default function CalendarPage() {
   // License guard — admins go to /license, lower users see inline message
   const licenseGuard = useLicenseGuard();
   if (licenseGuard) return licenseGuard;
+
+  // A co-worker or client cannot install or license Pro, so the marketing
+  // preview below (invented tasks, teammates, invoices) is replaced by a
+  // plain unavailable card for them.
+  if (!isPro && !pmCanSeeUpgrade()) {
+    return <ProUnavailable title={__('Calendar', 'wedevs-project-manager')} description={__('Get the birdseye view of all tasks from an interactive calendar', 'wedevs-project-manager')} />;
+  }
 
   const handlePrevMonth = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));

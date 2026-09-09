@@ -11,6 +11,7 @@ import {
   isTaskComplete,
   formatPmDate,
   isOverdue,
+  taskPriority,
 } from "@lib/pm-utils";
 
 // Shared column grid — header (MyTasksPage) + rows must match.
@@ -36,15 +37,15 @@ export default function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
   const overdue = isOverdue(task.due_date, task.status);
   const project = projectTitle || task.project?.data?.title || "";
 
-  // Backend priority: 1 = High, 2 = Medium, 3 = Low (0/null = none).
-  const priorityPill = task.priority === 1
+  const priority = taskPriority(task.priority);
+  const priorityPill = priority === "high"
     ? "bg-red-100 text-red-700"
-    : task.priority === 2
+    : priority === "medium"
       ? "bg-amber-100 text-amber-700"
       : "bg-emerald-100 text-emerald-700";
-  const priorityLabel = task.priority === 1
+  const priorityLabel = priority === "high"
     ? __("High", 'wedevs-project-manager')
-    : task.priority === 2
+    : priority === "medium"
       ? __("Medium", 'wedevs-project-manager')
       : __("Low", 'wedevs-project-manager');
 
@@ -96,7 +97,7 @@ export default function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
 
       {/* Priority */}
       <div className="min-w-0">
-        {task.priority > 0 ? (
+        {priority ? (
           <span className={cn("inline-flex items-center rounded-md px-2.5 py-0.5 text-[12px] font-medium", priorityPill)}>
             {priorityLabel}
           </span>

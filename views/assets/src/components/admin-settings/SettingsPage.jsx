@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
-import React, { useState, useMemo, lazy, Suspense } from 'react'
+import React, { useMemo, lazy, Suspense } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { usePermissions } from '@hooks/usePermissions'
 import ProBadge from '@components/common/ProBadge'
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
@@ -65,7 +66,8 @@ const getProTabConfig = () => ({
 // ── Component ────────────────────────────────────────────────
 const SettingsPage = () => {
   const { isPro } = usePermissions()
-  const [activeTab, setActiveTab] = useState('general')
+  const location = useLocation()
+  const navigate = useNavigate()
   const PRO_TAB_CONFIG = useMemo(() => getProTabConfig(), [])
 
   // Woo Project tab component — injected by pm-pro via filter (only when module is active)
@@ -124,7 +126,15 @@ const SettingsPage = () => {
     },
   ]
 
-  const activeTabConfig = tabGroups.flatMap(g => g.tabs).find(t => t.key === activeTab)
+  // The open tab lives in the URL (/settings/email), so a tab can be linked,
+  // reloaded and walked with the browser's back button. An unknown or missing
+  // segment falls back to General.
+  const urlTab = (location.pathname.split('/settings/')[1] || '').replace(/\/+$/, '')
+  const allTabs = tabGroups.flatMap(g => g.tabs)
+  const activeTab = allTabs.some(t => t.key === urlTab) ? urlTab : 'general'
+  const setActiveTab = (key) => navigate(key === 'general' ? '/settings' : `/settings/${key}`)
+
+  const activeTabConfig = allTabs.find(t => t.key === activeTab)
   const isProTab = activeTabConfig?.pro && !isPro
   // For woo-project tab: use the filter-injected component (set by pm-pro when module is active).
   // For all other tabs: use the static tabComponents map.

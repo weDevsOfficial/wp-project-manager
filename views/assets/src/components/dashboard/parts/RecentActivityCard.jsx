@@ -43,16 +43,16 @@ export default function RecentActivityCard({ activity, range = 7 }) {
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] text-pm-text-primary leading-snug">
                   {a.project_id ? (
-                    <button type="button" onClick={() => goActivity(a)} className="font-medium hover:text-pm-accent hover:underline">{a.actor}</button>
+                    <button type="button" onClick={() => goActivity(a)} className="text-left align-baseline font-medium hover:text-pm-accent hover:underline">{a.actor}</button>
                   ) : (
                     <span className="font-medium">{a.actor}</span>
                   )}{' '}
                   <span className="text-pm-text-muted">{a.action}</span>
                   {a.project && <> <span className="text-pm-text-muted">·</span>{' '}
                     {a.project_id ? (
-                      <button type="button" onClick={() => goProject(a)} className="text-pm-text-primary hover:text-pm-accent hover:underline">{a.project}</button>
+                      <button type="button" onClick={() => goProject(a)} className="inline-block max-w-full truncate align-bottom text-left text-pm-text-primary hover:text-pm-accent hover:underline">{a.project}</button>
                     ) : (
-                      <span className="text-pm-text-primary">{a.project}</span>
+                      <span className="inline-block max-w-full truncate align-bottom text-pm-text-primary">{a.project}</span>
                     )}</>}
                 </p>
                 <span className="text-[11px] text-pm-text-muted">{a.time}</span>

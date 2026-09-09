@@ -5,6 +5,7 @@ import {
   reorderBoardsLocal,
   reorderBoards,
   moveTaskBetweenBoards,
+  taskAddedToBoard,
 } from "@store/kanbanSlice";
 import { useApi } from "@hooks/useApi";
 import { Input } from "@components/ui/input";
@@ -71,6 +72,8 @@ export default function KanbanDndBoard({
   }, []);
 
   const handleTaskCreated = useCallback((columnId, task) => {
+    // Keep the store in step so the column header count moves with the card.
+    dispatch(taskAddedToBoard({ boardId: columnId, task }));
     setKanbanData((prev) => [
       ...prev,
       {
@@ -81,7 +84,7 @@ export default function KanbanDndBoard({
         boardId: parseInt(columnId),
       },
     ]);
-  }, []);
+  }, [dispatch]);
 
   const handleColumnReorder = useCallback(
     (reorderedColumns) => {

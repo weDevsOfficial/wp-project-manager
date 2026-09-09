@@ -7,6 +7,7 @@ import TaskLabelBadges from "@components/tasks/TaskLabelBadges";
 import { Calendar, MessageSquare, Minus, Github, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { fmtDate, isOverdue } from "../utils";
+import { taskPriority } from "@lib/pm-utils";
 
 export default function KanbanCard({ task, boardId, onRemove }) {
   const [ConfirmDialog, confirm] = useConfirm();
@@ -34,12 +35,12 @@ export default function KanbanCard({ task, boardId, onRemove }) {
     .replace(/\s+/g, " ")
     .trim();
 
-  // Backend priority: 1 = High, 2 = Medium, 3 = Low (0/null = none).
-  const priority = task.priority === 1
+  const prioritySlug = taskPriority(task.priority);
+  const priority = prioritySlug === "high"
     ? { label: __("High", 'wedevs-project-manager'), cls: "bg-red-100 text-red-700", dot: "bg-red-500" }
-    : task.priority === 2
+    : prioritySlug === "medium"
       ? { label: __("Medium", 'wedevs-project-manager'), cls: "bg-amber-100 text-amber-700", dot: "bg-amber-500" }
-      : task.priority === 3
+      : prioritySlug === "low"
         ? { label: __("Low", 'wedevs-project-manager'), cls: "bg-emerald-100 text-emerald-700", dot: "bg-emerald-500" }
         : null;
 

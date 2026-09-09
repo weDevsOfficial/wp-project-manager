@@ -268,6 +268,7 @@ body:not(.wp-admin) #wedevs-project-manager {
 
   /* Reset WP admin interference on common elements */
   h1, h2, h3, h4, h5, h6 {
+    color: inherit;
     font-size: inherit;
     font-weight: inherit;
     margin: 0;
@@ -309,6 +310,7 @@ body:not(.wp-admin) #wedevs-project-manager {
     font-size: inherit;
     line-height: inherit;
     color: inherit;
+    text-align: inherit;
     margin: 0;
     padding: 0;
     background-color: transparent;
@@ -903,6 +905,80 @@ body.admin-bar [data-sonner-toaster] {
   outline: none;
 }
 
+/* -- Portaled UI reset -- Sheet, Dialog, Dropdown, Popover and Toast render
+   outside #wedevs-project-manager, so the scoped reset above never reached
+   them and browser/WordPress element styles leaked in: buttons picked up the
+   UA `padding: 1px 6px` + `text-align: center` (a 16px hole between an actor
+   name and its sentence in the task sheet activity feed), links picked up WP
+   admin blue, headings and paragraphs picked up WP margins. Same declarations
+   as the app-scoped reset; Tailwind utilities carry !important, so they still
+   win. `.media-modal` is WP's own dialog and stays untouched. -- */
+[role="dialog"][data-state]:not(.media-modal),
+[role="alertdialog"][data-state],
+[data-radix-popper-content-wrapper],
+[data-sonner-toaster] {
+  /* WordPress paints wp-admin text #1d2327 on <body>; portals inherit from
+     there, not from the app root, so in dark mode a heading with no explicit
+     colour class (the task sheet title) rendered near-black on near-black.
+     The app font is set on #wedevs-project-manager for the same reason, so
+     every sheet, dialog, dropdown and toast rendered in WordPress's admin
+     font instead of ours. */
+  color: hsl(var(--foreground));
+  font-family: 'Plus Jakarta Sans', 'Google Sans', 'Google Sans Text', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+
+  h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+  p { margin: 0; }
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    text-align: inherit;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  button {
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  img, svg {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  table { border-collapse: collapse; border-spacing: 0; }
+  th { text-align: left; font-weight: 600; }
+  td, th { padding: 0; }
+
+  label {
+    display: inline-block;
+    font-weight: inherit;
+    margin: 0;
+  }
+}
+
 /* ── AlertDialog button reset — portals outside #wedevs-project-manager so
    WP admin global button styles bleed in. Strip them here so Tailwind's
    buttonVariants classes on AlertDialogAction/AlertDialogCancel take over. ── */
@@ -987,6 +1063,29 @@ body.admin-bar [data-sonner-toaster] {
 [role="dialog"][data-state] .tiptap p.is-editor-empty:first-child::before,
 [role="dialog"][data-state] .ProseMirror p.is-editor-empty:first-child::before {
   color: hsl(var(--muted-foreground)) !important;
+}
+
+/* ── Long words and URLs in rich text ──────────────────────────────────
+     An auto-linked URL or a long unbroken token used to render wider than
+     the comment/description body, pushing a horizontal scrollbar into the
+     task sheet and clipping the text. Anchors need break-all because a URL
+     has no break opportunities at all. ──────────────────────────────── */
+#wedevs-project-manager .prose,
+#wedevs-project-manager .pm-rich-comment-content,
+#wedevs-project-manager .ProseMirror,
+[role="dialog"][data-state] .prose,
+[role="dialog"][data-state] .pm-rich-comment-content,
+[role="dialog"][data-state] .ProseMirror {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+#wedevs-project-manager .prose a,
+#wedevs-project-manager .pm-rich-comment-content a,
+#wedevs-project-manager .ProseMirror a,
+[role="dialog"][data-state] .prose a,
+[role="dialog"][data-state] .pm-rich-comment-content a,
+[role="dialog"][data-state] .ProseMirror a {
+  word-break: break-all;
 }
 
 /* ── Rendered tables (pasted from Excel/Word) and Tiptap editor tables ──

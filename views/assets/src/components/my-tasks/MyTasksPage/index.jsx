@@ -8,7 +8,7 @@ import { setProjectId } from "@store/taskListsSlice";
 import { useApi } from "@hooks/useApi";
 import { useProApi } from "@hooks/useProApi";
 import { useToast } from "@hooks/useToast";
-import { usePermissions } from "@hooks/usePermissions";
+import { usePermissions, pmCanSeeUpgrade } from "@hooks/usePermissions";
 import { Button } from "@components/ui/button";
 import { DatePicker } from "@components/ui/date-picker";
 import { Skeleton } from "@components/ui/skeleton";
@@ -61,11 +61,7 @@ import {
   Bar,
   Legend,
 } from "recharts";
-import {
-  isTaskComplete,
-  formatPmDate,
-  extractDateStr,
-} from "@lib/pm-utils";
+import { extractDateStr, formatPmDate, isTaskComplete, toLocalDateStr } from "@lib/pm-utils";
 import TaskDetailSheet from "@components/tasks/TaskDetailSheet";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import { cn } from "@lib/utils";
@@ -89,6 +85,7 @@ export default function MyTasksPage() {
   const proApi = useProApi();
   const toast = useToast();
   const { canManage } = usePermissions();
+  const canSeeUpgrade = pmCanSeeUpgrade();
   const { setOpen: setProModalOpen } = useProModal();
 
   const TABS = useMemo(() => getTabs(), []);
@@ -117,12 +114,12 @@ export default function MyTasksPage() {
   const [overviewLoading, setOverviewLoading] = useState(false);
   const [overviewStartDate, setOverviewStartDate] = useState(() => {
     const d = new Date(); d.setMonth(d.getMonth() - 1);
-    return d.toISOString().substring(0, 10);
+    return toLocalDateStr(d);
   });
-  const [overviewEndDate, setOverviewEndDate] = useState(() => new Date().toISOString().substring(0, 10));
+  const [overviewEndDate, setOverviewEndDate] = useState(() => toLocalDateStr(new Date()));
   const [appliedFilterDates, setAppliedFilterDates] = useState(() => {
     const d = new Date(); d.setMonth(d.getMonth() - 1);
-    return { start: d.toISOString().substring(0, 10), end: new Date().toISOString().substring(0, 10) };
+    return { start: toLocalDateStr(d), end: toLocalDateStr(new Date()) };
   });
 
   const [calDate, setCalDate] = useState(new Date());
@@ -478,7 +475,7 @@ export default function MyTasksPage() {
               key={tab.key}
               type="button"
               onClick={() => {
-                if (tab.pro && !isPro) { setProModalOpen(true); return; }
+                if (tab.pro && !isPro) { if (canSeeUpgrade) setProModalOpen(true); return; }
                 setActiveTab(tab.key);
               }}
               className={`relative inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
@@ -489,7 +486,7 @@ export default function MyTasksPage() {
             >
               <Icon className="h-4 w-4" />
               {tab.label}
-              {tab.pro && !isPro && (
+              {tab.pro && !isPro && canSeeUpgrade && (
                 <span className="inline-flex items-center gap-0.5 bg-pm-accent/10 text-pm-accent text-[11px] font-medium px-1.5 py-0.5 rounded">
                   <Crown className="h-3 w-3" />PRO
                 </span>
@@ -701,7 +698,7 @@ export default function MyTasksPage() {
                 {Array.from({ length: calDaysInMonth }).map((_, i) => {
                   const day = i + 1;
                   const dateStr = `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-                  const todayStr = new Date().toISOString().substring(0, 10);
+                  const todayStr = toLocalDateStr(new Date());
                   const isToday = dateStr === todayStr;
                   const dayEvts = calEventsByDate[dateStr] || [];
                   return (
@@ -1200,11 +1197,16 @@ export default function MyTasksPage() {
                     key={act.id || i}
                     className="flex items-start gap-3 py-2.5 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors"
                   >
-                    <div className={cn('h-7 w-7 rounded-full flex items-center justify-center shrink-0 mt-0.5', tone)}>
+                    <div className={cn('h-7 w-7 rounded-md flex items-center justify-center shrink-0 -mt-1', tone)}>
                       <Icon className="h-3.5 w-3.5" />
                     </div>
                     <div className="flex-1 min-w-0 flex items-start gap-2">
                       <p className="flex-1 min-w-0 text-sm leading-snug">
+                        {/* Avatar beside the name, matching the project Activities
+                            and Progress feeds. */}
+                        <span className="inline-block align-middle mr-1.5 -mt-0.5">
+                          <UserAvatar user={actor} size="xs" className="h-5 w-5" fallbackClassName="text-[9px]" />
+                        </span>
                         <button
                           type="button"
                           onClick={() => navigate('/my-tasks')}

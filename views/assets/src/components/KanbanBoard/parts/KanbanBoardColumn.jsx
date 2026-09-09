@@ -29,6 +29,7 @@ import {
   Settings,
   Import,
   Calendar,
+  Flag,
   User as UserIcon,
   List as ListIcon,
   Check,
@@ -76,6 +77,7 @@ export default function KanbanBoardColumn({
   const [newTaskAssignees, setNewTaskAssignees] = useState([]);
   const [newTaskDueDate, setNewTaskDueDate] = useState("");
   const [newTaskListId, setNewTaskListId] = useState(defaultListId || "");
+  const [newTaskPriority, setNewTaskPriority] = useState("medium");
   const [creating, setCreating] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
   const [automationOpen, setAutomationOpen] = useState(false);
@@ -160,6 +162,7 @@ export default function KanbanBoardColumn({
     setNewTaskTitle("");
     setNewTaskAssignees([]);
     setNewTaskDueDate("");
+    setNewTaskPriority("medium");
     setNewTaskListId(defaultListId || "");
     setAddingTask(false);
   };
@@ -178,6 +181,7 @@ export default function KanbanBoardColumn({
       if (newTaskAssignees.length)
         payload.assignees = newTaskAssignees.map((id) => parseInt(id, 10));
       if (newTaskDueDate) payload.due_date = newTaskDueDate;
+      if (newTaskPriority) payload.priority = newTaskPriority;
 
       const res = await api.post(`projects/${projectId}/tasks`, payload);
       toast.success(__("Task created", 'wedevs-project-manager'));
@@ -250,7 +254,7 @@ export default function KanbanBoardColumn({
               {(canManage || canCreate) && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button
+                    <button aria-label={__('Column actions', 'wedevs-project-manager')}
                       className="p-1 rounded-lg hover:bg-muted border-none outline-none shadow-none bg-transparent transition-colors"
                       style={{ color: "var(--pm-text-muted)" }}
                     >
@@ -519,6 +523,22 @@ export default function KanbanBoardColumn({
                       tabIndex={-1}
                       aria-hidden="true"
                     />
+                  </div>
+
+                  {/* Nothing in the app could set priority, so every card was
+                      stuck on the model default (medium). */}
+                  <div className="inline-flex items-center gap-1 rounded-md border border-pm-border bg-pm-surface-muted">
+                    <Flag className="h-3 w-3 ml-2 text-pm-text-muted" />
+                    <select
+                      value={newTaskPriority}
+                      onChange={(e) => setNewTaskPriority(e.target.value)}
+                      aria-label={__("Priority", 'wedevs-project-manager')}
+                      className="text-[11px] font-medium bg-transparent border-none outline-none shadow-none py-1 pl-1 pr-2 cursor-pointer text-pm-text"
+                    >
+                      <option value="low">{__("Low", 'wedevs-project-manager')}</option>
+                      <option value="medium">{__("Medium", 'wedevs-project-manager')}</option>
+                      <option value="high">{__("High", 'wedevs-project-manager')}</option>
+                    </select>
                   </div>
                 </div>
 

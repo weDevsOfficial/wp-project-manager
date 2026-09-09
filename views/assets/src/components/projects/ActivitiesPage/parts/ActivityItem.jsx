@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@store/index';
 import { openTaskSheet } from '@store/tasksSlice';
 import { cn } from '@lib/utils';
+import { UserAvatar } from '@components/common/UserAvatar';
 import {
   ACTION_ICON_MAP,
   Activity,
@@ -69,11 +70,18 @@ export default function ActivityItem({ act, projectId: fallbackProjectId }) {
 
   return (
     <div className="flex items-start gap-3 py-2.5 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors">
-      <div className={cn('h-7 w-7 rounded-full flex items-center justify-center shrink-0 mt-0.5', tone)}>
+      <div className={cn('h-7 w-7 rounded-md flex items-center justify-center shrink-0 -mt-1', tone)}>
         <Icon className="h-3.5 w-3.5" />
       </div>
       <div className="flex-1 min-w-0 flex items-start gap-2">
         <p className="flex-1 min-w-0 text-sm leading-snug">
+          {/* Avatar beside the name: the feed showed the action icon alone, so
+              every row looked anonymous until you read the sentence. The name
+              stays in normal flow, otherwise an inline-flex wrapper drops its
+              baseline ~1.6px below the rest of the sentence. */}
+          <span className="inline-block align-middle mr-1.5 -mt-0.5">
+            <UserAvatar user={actor} size="xs" className="h-5 w-5" fallbackClassName="text-[9px]" />
+          </span>
           {actor.id ? (
             <button
               type="button"

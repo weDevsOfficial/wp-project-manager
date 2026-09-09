@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { extractDateStr } from '@lib/pm-utils';
+import { extractDateStr, siteTodayStr, toLocalDateStr } from '@lib/pm-utils';
 import { ACTION_FALLBACKS } from './constants';
 
 export function parseMessage(activity) {
@@ -55,15 +55,17 @@ export function formatGroupDate(dateStr, __) {
   if (!dateStr) return __('Unknown', 'wedevs-project-manager');
   try {
     const d = new Date(dateStr);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-    const dateOnly = new Date(d);
-    dateOnly.setHours(0, 0, 0, 0);
+    // Activity rows are stamped in the site's timezone, so "today" has to be
+    // the site's day. Comparing against the viewer's local day labelled every
+    // fresh activity "Yesterday" for anyone east of the site timezone.
+    const today = siteTodayStr();
+    const yesterdayDate = new Date(`${today}T00:00:00`);
+    yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+    const yesterday = toLocalDateStr(yesterdayDate);
+    const dateKey = toLocalDateStr(d);
 
-    if (dateOnly.getTime() === today.getTime()) return __('Today', 'wedevs-project-manager');
-    if (dateOnly.getTime() === yesterday.getTime()) return __('Yesterday', 'wedevs-project-manager');
+    if (dateKey === today) return __('Today', 'wedevs-project-manager');
+    if (dateKey === yesterday) return __('Yesterday', 'wedevs-project-manager');
     return d.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
   } catch {
     return dateStr;

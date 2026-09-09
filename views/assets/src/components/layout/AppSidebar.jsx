@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useApi } from '@hooks/useApi'
-import { usePermissions } from '@hooks/usePermissions'
+import { usePermissions, pmCanSeeUpgrade } from '@hooks/usePermissions'
 import { useActiveProModules, isProModuleActive, isProPluginInstalled } from '@hooks/useActiveProModules'
 import ProBadge from '@components/common/ProBadge'
 import { FolderKanban, CheckSquare, Calendar, BarChart3, Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen, ChevronDown, Star, LayoutList, Layout, MessageSquare, Milestone, FileText, Activity, Tag, Crown, Layers, Columns3, GitBranch, Receipt, Timer, Shield, Wrench, LayoutTemplate, Sparkles, LayoutDashboard } from 'lucide-react'
@@ -37,6 +37,7 @@ function TruncText({ children, className }) {
 
 export function AppSidebar() {
   const { isAdmin, isPro, canManage, canManageLicense, isManagerAnywhere } = usePermissions()
+  const canSeeUpgrade = pmCanSeeUpgrade()
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
 
   // Pro plan + version for the sidebar footer badge (Dokan-style). Present only
@@ -593,8 +594,8 @@ export function AppSidebar() {
         </nav>
       </div>
 
-      {/* Become Pro upsell card */}
-      {!isFrontend && !isPro && !collapsed && (
+      {/* Become Pro upsell card — only for someone who can act on it. */}
+      {!isFrontend && !isPro && !collapsed && canSeeUpgrade && (
         <div className="px-3 pb-3">
           <div className="rounded-lg border border-pm-border bg-pm-accent-light/50 p-4 text-center">
             <div className="mx-auto mb-2.5 flex h-10 w-10 items-center justify-center rounded-lg bg-pm-accent text-white shadow-sm">

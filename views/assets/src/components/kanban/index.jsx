@@ -2,9 +2,11 @@
 
 import {
   closestCenter,
+  closestCorners,
   DndContext,
   DragOverlay,
 
+  KeyboardSensor,
   MouseSensor,
   pointerWithin,
   TouchSensor,
@@ -16,11 +18,13 @@ import {
   arrayMove,
   horizontalListSortingStrategy,
   SortableContext,
+  sortableKeyboardCoordinates,
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
   createContext,
+  useCallback,
   useContext,
   useState,
 } from "react";
@@ -184,6 +188,11 @@ export const KanbanProvider = ({
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 8 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+    // Without a keyboard sensor the board is pointer-only, while every card
+    // still exposes role=button, tabindex=0 and dnd-kit's "press space bar to
+    // lift" hint, so a keyboard or screen-reader user is told to do something
+    // that does nothing.
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
   const columnIds = columns.map((c) => c.id);
@@ -282,12 +291,13 @@ export const KanbanProvider = ({
         return `Picked up the column "${col?.name}"`;
       }
       const { name, column } = data.find((item) => item.id === active.id) ?? {};
-      return `Picked up the card "${name}" from the "${column}" column`;
+      // `column` is the board id, so announcing it raw read as "from the 3 column".
+      return `Picked up the card "${name}" from the "${resolveColumnName(column)}" column`;
     },
     onDragOver({ active, over }) {
       if (active.data?.current?.type === "column") return "";
-      const { name } = data.find((item) => item.id === active.id) ?? {};
-      const newColumn = resolveColumnName(over?.id);
+      const { name, column } = data.find((item) => item.id === active.id) ?? {};
+      const newColumn = resolveColumnName(over?.id) ?? resolveColumnName(column);
       return `Dragged the card "${name}" over the "${newColumn}" column`;
     },
     onDragEnd({ active, over }) {
@@ -295,9 +305,11 @@ export const KanbanProvider = ({
         const col = columns.find((c) => c.id === active.id);
         return `Dropped the column "${col?.name}"`;
       }
-      const { name } = data.find((item) => item.id === active.id) ?? {};
-      const newColumn = resolveColumnName(over?.id);
-      return `Dropped the card "${name}" into the "${newColumn}" column`;
+      const item = data.find((entry) => entry.id === active.id) ?? {};
+      // A drop with no droppable under it lands back where it started, so fall
+      // back to the card's own column instead of announcing "undefined".
+      const newColumn = resolveColumnName(over?.id) ?? resolveColumnName(item.column);
+      return `Dropped the card "${item.name}" into the "${newColumn}" column`;
     },
     onDragCancel({ active }) {
       if (active.data?.current?.type === "column") {
@@ -309,9 +321,18 @@ export const KanbanProvider = ({
     },
   };
 
-  // Use pointerWithin when dragging cards (better for nested droppables),
-  // closestCenter when dragging columns
-  const collisionDetection = activeColumnId ? closestCenter : pointerWithin;
+  // Cards use pointerWithin (better for nested droppables), columns use
+  // closestCenter. pointerWithin needs pointer coordinates, so during a
+  // keyboard drag it returns nothing at all and a card could be lifted but
+  // never dropped into another column: fall back to geometry in that case.
+  const collisionDetection = useCallback(
+    (args) => {
+      if (activeColumnId) return closestCenter(args);
+      const pointerCollisions = pointerWithin(args);
+      return pointerCollisions.length > 0 ? pointerCollisions : closestCorners(args);
+    },
+    [activeColumnId],
+  );
 
   return (
     <KanbanContext.Provider value={{ columns, data, activeCardId, activeColumnId }}>

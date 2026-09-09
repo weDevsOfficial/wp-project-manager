@@ -1,10 +1,12 @@
 import { __, sprintf } from '@wordpress/i18n';
 import React from 'react'
-import { usePermissions } from '@hooks/usePermissions'
+import { usePermissions, pmCanSeeUpgrade } from '@hooks/usePermissions'
+import ProUnavailable from './ProUnavailable'
 import { useProModal } from './ProUpgradeModal'
 import { useLicenseGuard } from './LicenseGuard'
 import ProBadge from './ProBadge'
-import { Crown, LayoutTemplate, ListChecks, CheckSquare } from 'lucide-react'
+import { isProPluginInstalled } from '@hooks/useActiveProModules'
+import { Crown, LayoutTemplate, ListChecks, CheckSquare, Puzzle } from 'lucide-react'
 
 /* ── Mock UI backgrounds for each feature ── */
 
@@ -264,11 +266,51 @@ const MOCK_MAP = {
 
 export default function ProFeaturePlaceholder({ title, description, icon: Icon, mockKey }) {
   const { isPro } = usePermissions()
+  const canSeeUpgrade = pmCanSeeUpgrade()
   const { setOpen } = useProModal()
   const MockComponent = mockKey && MOCK_MAP[mockKey]
 
   const licenseGuard = useLicenseGuard()
   if (licenseGuard) return licenseGuard
+
+  // Co-workers and clients cannot install or license Pro, so the marketing
+  // mock (invented invoices, sprints, teammates) and its upgrade CTA are
+  // replaced by a plain unavailable card for them.
+  if (!canSeeUpgrade) {
+    return <ProUnavailable title={title} description={description} />
+  }
+
+  // Pro is installed and licensed, so this route is only reachable because the
+  // module is switched off. The mocks below are marketing samples (invented
+  // invoice totals, sprint progress); showing them to someone who already owns
+  // the feature reads as real project data. Point at Modules instead.
+  if (isPro && isProPluginInstalled()) {
+    return (
+      <div className="w-full p-4 sm:p-6 space-y-6">
+        <div>
+          <h1 className="text-xl font-bold text-pm-text-primary">{title}</h1>
+          <p className="text-sm text-pm-text-muted mt-0.5">{description}</p>
+        </div>
+        <div className="rounded-lg border bg-card p-10 text-center">
+          <div className="mx-auto h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-4">
+            <Puzzle className="h-6 w-6 text-pm-text-muted" />
+          </div>
+          <h2 className="text-lg font-semibold text-pm-text-primary mb-1">
+            {__('This module is turned off', 'wedevs-project-manager')}
+          </h2>
+          <p className="text-sm text-pm-text-muted">
+            {__('Enable it under Modules to use this feature.', 'wedevs-project-manager')}
+          </p>
+          <a
+            href="#/modules"
+            className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg bg-pm-accent text-white text-sm font-medium"
+          >
+            {__('Go to Modules', 'wedevs-project-manager')}
+          </a>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="w-full p-4 sm:p-6 space-y-6">

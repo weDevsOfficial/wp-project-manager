@@ -17,7 +17,7 @@ import { useConfirm } from "@hooks/useConfirm";
 import { usePermissions } from "@hooks/usePermissions";
 import { useCurrentProject } from "@hooks/useCurrentProject";
 import { cn } from "@lib/utils";
-import { formatPmDateTime, isOverdue, isPrivate as checkPrivate, dueDateColorClass } from "@lib/pm-utils";
+import { formatPmDateTime, isOverdue, isPrivate as checkPrivate, dueDateColorClass, taskPriority } from "@lib/pm-utils";
 import TaskLabelBadges from "@components/tasks/TaskLabelBadges";
 import { Button } from "@components/ui/button";
 import { UserAvatar } from '@components/common/UserAvatar';
@@ -326,11 +326,12 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                 const taskIsPrivate = checkPrivate(task.meta?.privacy);
                 const overdueTask = isOverdue(task.due_date, task.status);
                 const descText = (task.description?.content || task.description?.html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-                const prio = task.priority === 1
+                const prioSlug = taskPriority(task.priority);
+                const prio = prioSlug === 'high'
                   ? { label: __('High', 'wedevs-project-manager'), cls: 'bg-red-100 text-red-700' }
-                  : task.priority === 2
+                  : prioSlug === 'medium'
                     ? { label: __('Medium', 'wedevs-project-manager'), cls: 'bg-amber-100 text-amber-700' }
-                    : task.priority === 3
+                    : prioSlug === 'low'
                       ? { label: __('Low', 'wedevs-project-manager'), cls: 'bg-emerald-100 text-emerald-700' }
                       : null;
                 const progressPct = taskComplete ? 100 : 0;

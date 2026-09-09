@@ -61,7 +61,9 @@ export default function CreateUserDialog({ open, onOpenChange, defaultSeed = '',
       const raw = typeof err === 'string' ? err : err?.message
       // Treat internal snake_case keys as non-user-friendly; only surface
       // strings that contain whitespace (real sentences from WP_Error etc.).
-      const looksFriendly = typeof raw === 'string' && /\s/.test(raw)
+      // Markup is never friendly: a 500 hands back WordPress's critical-error
+      // page, which is whitespace-rich and would otherwise land in the toast.
+      const looksFriendly = typeof raw === 'string' && /\s/.test(raw) && !/<[a-z/!]/i.test(raw)
       const msg = (typeof raw === 'string' && errorMap[raw]) || (looksFriendly ? raw : fallback)
       toast.error(msg)
     } finally {

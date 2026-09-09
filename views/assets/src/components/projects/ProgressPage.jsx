@@ -1,10 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { usePermissions } from '@hooks/usePermissions'
+import { usePermissions, pmCanSeeUpgrade } from '@hooks/usePermissions';
 import { useLicenseGuard } from '@components/common/LicenseGuard'
 import { useProModal } from '@components/common/ProUpgradeModal'
 import ProBadge from '@components/common/ProBadge'
+import ProUnavailable from '@components/common/ProUnavailable'
 import { Activity, Crown, User, FolderKanban, CheckSquare, MessageSquare, FileText, Plus, BarChart2, Clock, Upload } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@components/ui/avatar'
 import { Badge } from '@components/ui/badge'
@@ -99,6 +100,13 @@ export default function ProgressPage() {
 
   const licenseGuard = useLicenseGuard()
   if (licenseGuard) return licenseGuard
+
+  // A co-worker or client cannot install or license Pro, so the marketing
+  // preview below (invented tasks, teammates, invoices) is replaced by a
+  // plain unavailable card for them.
+  if (!isPro && !pmCanSeeUpgrade()) {
+    return <ProUnavailable title={__('Progress', 'wedevs-project-manager')} description={__('Track all project activity and team progress in one place', 'wedevs-project-manager')} />;
+  }
 
   return (
     <div className="w-full p-4 sm:p-6 space-y-6">

@@ -131,7 +131,7 @@ function AppRoutes() {
         {/* ── Admin-only routes — gated by AdminRoute. Categories also available on frontend for admins. ── */}
         <Route path="categories" element={<AdminRoute><CategoriesPage /></AdminRoute>} />
         {/* settings/tools/welcome/modules stay wp-admin-only */}
-        {!isFrontend && <Route path="settings" element={<AdminRoute><SettingsPage /></AdminRoute>} />}
+        {!isFrontend && <Route path="settings/*" element={<AdminRoute><SettingsPage /></AdminRoute>} />}
         {!isFrontend && <Route path="importtools" element={<AdminRoute><ToolsPage /></AdminRoute>} />}
         {!isFrontend && <Route path="welcome" element={<AdminRoute><WelcomePage /></AdminRoute>} />}
         {!isFrontend && <Route path="modules" element={<AdminRoute><FilteredPage filterName="route.modules.element" fallback={ModulesPage} /></AdminRoute>} />}

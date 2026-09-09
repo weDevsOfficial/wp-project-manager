@@ -13,7 +13,7 @@ import { Badge } from '@components/ui/badge';
 import { Separator } from '@components/ui/separator';
 import { Avatar, AvatarFallback } from '@components/ui/avatar';
 import { Activity, CheckSquare, MessageSquare, FileText, Edit3, ArrowUpDown, ChevronDown, Loader2, BarChart2, Clock, PlusCircle, RefreshCw, Crown } from 'lucide-react';
-import { extractDateStr } from '@lib/pm-utils';
+import { extractDateStr, toLocalDateStr, siteTodayStr } from '@lib/pm-utils';
 import { cn } from '@lib/utils';
 import { ACTION_SOFT_MAP, ACTION_LABELS } from './constants';
 import { groupByDate } from './utils';
@@ -81,7 +81,7 @@ export default function ActivitiesPage() {
   const grouped = useMemo(() => groupByDate(activities, __), [activities, __]);
 
   const stats = useMemo(() => {
-    const todayStr = new Date().toISOString().split('T')[0];
+    const todayStr = siteTodayStr();
     const todayItems = activities.filter(a => extractDateStr(a.committed_at) === todayStr);
     return {
       total: total || activities.length,

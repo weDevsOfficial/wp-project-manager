@@ -49,6 +49,7 @@ import {
   CommandList,
 } from '@components/ui/command'
 import CreateUserDialog from '@components/common/CreateUserDialog'
+import { defaultMemberRoleId } from '@lib/pm-utils'
 
 import { Plus, X, Loader2, UserPlus } from 'lucide-react'
 
@@ -129,7 +130,7 @@ export function ProjectCreateSheet() {
         setNotifyUsers(false)
 
         const assignees = editProject.assignees?.data || []
-        const defaultRoleId = roles.length > 0 ? roles[0].id : 1
+        const defaultRoleId = defaultMemberRoleId(roles)
         setSelectedUsers(
           assignees.map((a) => ({
             id: a.id || a.assigned_to,
@@ -189,7 +190,7 @@ export function ProjectCreateSheet() {
 
   const handleAddUser = useCallback(
     (user) => {
-      const defaultRoleId = roles.length > 0 ? roles[0].id : 1
+      const defaultRoleId = defaultMemberRoleId(roles)
       setSelectedUsers((prev) => [...prev, { ...user, roleId: defaultRoleId }])
       setSearchResults((prev) => prev.filter((u) => u.id !== user.id))
       setSearchQuery('')
@@ -211,7 +212,7 @@ export function ProjectCreateSheet() {
 
   const handleUserCreated = useCallback(
     (created) => {
-      const defaultRoleId = roles.length > 0 ? roles[0].id : 1
+      const defaultRoleId = defaultMemberRoleId(roles)
       setSelectedUsers((prev) => [...prev, { ...created, roleId: defaultRoleId }])
       setSearchQuery('')
       setSearchResults([])
