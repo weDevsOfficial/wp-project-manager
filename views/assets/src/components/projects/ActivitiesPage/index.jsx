@@ -80,6 +80,15 @@ export default function ActivitiesPage() {
 
   const grouped = useMemo(() => groupByDate(activities, __), [activities, __]);
 
+  // Total comes from pagination and is project-wide. The other three can only
+  // count the activities fetched so far, so they climb as you Load More. Saying
+  // which scope each number belongs to stops them reading as wrong.
+  const loadedHint = sprintf(
+    /* translators: %s is the number of activities loaded so far. */
+    __('of %s loaded', 'wedevs-project-manager'),
+    activities.length
+  );
+
   const stats = useMemo(() => {
     const todayStr = siteTodayStr();
     const todayItems = activities.filter(a => extractDateStr(a.committed_at) === todayStr);
@@ -224,10 +233,10 @@ export default function ActivitiesPage() {
         <>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
-              { label: __('Total', 'wedevs-project-manager'),   value: stats.total,   icon: BarChart2,  color: 'text-pm-accent bg-indigo-50' },
-              { label: __('Today', 'wedevs-project-manager'),   value: stats.today,   icon: Clock,      color: 'text-emerald-500 bg-emerald-50' },
-              { label: __('Created', 'wedevs-project-manager'), value: stats.creates, icon: PlusCircle, color: 'text-blue-500 bg-blue-50' },
-              { label: __('Updated', 'wedevs-project-manager'), value: stats.updates, icon: RefreshCw,  color: 'text-amber-500 bg-amber-50' },
+              { label: __('Total', 'wedevs-project-manager'),   value: stats.total,   icon: BarChart2,  color: 'text-pm-accent bg-indigo-50', hint: __('in this project', 'wedevs-project-manager') },
+              { label: __('Today', 'wedevs-project-manager'),   value: stats.today,   icon: Clock,      color: 'text-emerald-500 bg-emerald-50', hint: loadedHint },
+              { label: __('Created', 'wedevs-project-manager'), value: stats.creates, icon: PlusCircle, color: 'text-blue-500 bg-blue-50', hint: loadedHint },
+              { label: __('Updated', 'wedevs-project-manager'), value: stats.updates, icon: RefreshCw,  color: 'text-amber-500 bg-amber-50', hint: loadedHint },
             ].map(stat => (
               <div key={stat.label} className="rounded-xl border bg-card p-4 flex items-center gap-3">
                 <div className={`p-2 rounded-lg ${stat.color.split(' ')[1]}`}>
@@ -236,6 +245,9 @@ export default function ActivitiesPage() {
                 <div>
                   <p className={`text-2xl font-bold tabular-nums ${stat.color.split(' ')[0]}`}>{stat.value}</p>
                   <p className="text-[13px] text-pm-text-muted font-medium">{stat.label}</p>
+                  {stat.hint && (
+                    <p className="text-[11px] text-pm-text-muted/70">{stat.hint}</p>
+                  )}
                 </div>
               </div>
             ))}
