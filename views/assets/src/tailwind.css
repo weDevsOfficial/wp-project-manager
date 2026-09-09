@@ -879,6 +879,24 @@ ol[data-sonner-toaster],
   .pm-page-transition > * > * { animation: none; }
 }
 
+/* Radix overlays (dialog, sheet, dropdown, select, popover, tooltip) animate
+   through tailwindcss-animate's enter/exit keyframes, which carry no motion
+   query of their own, so the OS setting was honoured everywhere except the
+   overlays. Matching the class substring catches every variant form
+   (`data-[state=open]:animate-in` and friends). Radix unmounts synchronously
+   when the computed animation-name is none, so exits stay correct.
+   `animate-spin`/`animate-pulse` deliberately keep running: a loading
+   indicator is essential feedback, not decorative motion. */
+@media (prefers-reduced-motion: reduce) {
+  /* The repeated [class] is a specificity bump, not a typo: the config sets
+     `important: true`, so Tailwind's own rule already carries !important and
+     its compiled variant selector (.data-\[state\=open\]\:animate-in[data-state="open"])
+     scores 0,2,0. A plain [class*=...] is 0,1,0 and loses, leaving the
+     override silently dead. */
+  [class*="animate-in"][class][class],
+  [class*="animate-out"][class][class] { animation: none !important; }
+}
+
 /* ── Logged-in/admin-bar mode — bump PM portals above
      WP admin bar (z-index 99999) and optional WP sidebar ── */
 body.pm-mode-wordpress [data-state].fixed,
