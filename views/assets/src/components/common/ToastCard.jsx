@@ -27,6 +27,7 @@ export default function ToastCard({
   cancel,
   duration = 4000,
   progress = null, // 0–100 for a determinate bar (downloads); null = none
+  indeterminate = false, // sweeping bar while the total size is unknown
   onDismiss,
   closeButton = true,
 }) {
@@ -118,12 +119,19 @@ export default function ToastCard({
         )}
       </div>
 
-      {hasProgress && (
-        <div className="relative z-10 h-1 w-full bg-muted">
-          <div
-            className="h-full transition-[width] duration-200 ease-out"
-            style={{ width: `${Math.max(0, Math.min(100, progress))}%`, background: conf.color }}
-          />
+      {(hasProgress || indeterminate) && (
+        <div className="relative z-10 h-1 w-full bg-muted overflow-hidden">
+          {indeterminate ? (
+            <div
+              className="pm-download-indeterminate h-full rounded-full"
+              style={{ background: conf.color }}
+            />
+          ) : (
+            <div
+              className="h-full transition-[width] duration-200 ease-out"
+              style={{ width: `${Math.max(0, Math.min(100, progress))}%`, background: conf.color }}
+            />
+          )}
         </div>
       )}
     </div>

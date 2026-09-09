@@ -174,7 +174,7 @@ export default function CalendarPage() {
                               <button
                                 key={task.id}
                                 onClick={() => handleTaskClick(task)}
-                                className={`h-1.5 rounded-full w-full block hover:h-2 hover:opacity-100 opacity-80 transition-all ${task.color} hover:shadow-sm cursor-pointer`}
+                                className={`h-1.5 rounded-full w-full block origin-center hover:scale-y-[1.333] hover:opacity-100 opacity-80 transition-[transform,opacity,box-shadow] duration-150 ${task.color} hover:shadow-sm cursor-pointer`}
                                 title={task.title}
                               />
                             ))}

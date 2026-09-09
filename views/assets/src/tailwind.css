@@ -861,10 +861,18 @@ ol[data-sonner-toaster],
   from { opacity: 0; transform: translateY(8px) scale(0.98); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
-.pm-download-indeterminate { animation: pm-download-indeterminate 1.1s ease-in-out infinite; }
+/* A sliver that sweeps the track while the download size is unknown.
+   Driven by transform, not margin-left: margin animates layout on every
+   frame, and this one loops forever. translateX is a percentage of the
+   sliver's own width, so -100% parks it just off the left edge and 250%
+   carries it fully past the right. */
+.pm-download-indeterminate {
+  width: 40%;
+  animation: pm-download-indeterminate 1.1s ease-in-out infinite;
+}
 @keyframes pm-download-indeterminate {
-  0%   { margin-left: -40%; }
-  100% { margin-left: 100%; }
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(250%); }
 }
 @media (prefers-reduced-motion: reduce) {
   .pm-download-in, .pm-download-indeterminate { animation: none; }

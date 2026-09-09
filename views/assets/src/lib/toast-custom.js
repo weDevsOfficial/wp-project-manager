@@ -77,6 +77,7 @@ export function createDownloadToast(name) {
           title: name,
           description,
           progress: error || (active && state.indeterminate) ? null : (done ? 100 : pct),
+          indeterminate: active && state.indeterminate,
           duration,
           onDismiss: () => toast.dismiss(id),
         }),
