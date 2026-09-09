@@ -88,7 +88,7 @@ const PusherTab = () => {
               {__('Master switch. Disables all real-time notifications when off.', 'wedevs-project-manager')}
             </p>
           </div>
-          <Switch
+          <Switch aria-label={__('Master switch. Disables all real-time notifications when off.', 'wedevs-project-manager')}
             id="pusher_enable"
             checked={enabled}
             onCheckedChange={(val) => updateField('pusher_enable', val)}
@@ -129,7 +129,7 @@ const PusherTab = () => {
               {__('Pusher notification links point to the WP admin backend', 'wedevs-project-manager')}
             </p>
           </div>
-          <Switch
+          <Switch aria-label={__('Pusher notification links point to the WP admin backend', 'wedevs-project-manager')}
             id="pusher_link_to_backend"
             checked={!!form.pusher_link_to_backend}
             onCheckedChange={(val) => updateField('pusher_link_to_backend', val)}
@@ -162,6 +162,7 @@ const PusherTab = () => {
               </div>
               <Switch
                 id={t.key}
+                aria-label={t.label}
                 checked={!!form[t.key]}
                 onCheckedChange={(val) => updateField(t.key, val)}
               />

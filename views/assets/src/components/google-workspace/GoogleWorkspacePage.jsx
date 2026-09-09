@@ -155,7 +155,7 @@ export default function GoogleWorkspacePage() {
             </div>
           </div>
           {status.drive_enabled ? (
-            <Switch
+            <Switch aria-label={__('Attach Drive files to tasks, comments, discussions and files.', 'wedevs-project-manager')}
               checked={!!status.connected && !!status.drive_user_on}
               disabled={!status.connected}
               onCheckedChange={async v => {

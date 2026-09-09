@@ -143,7 +143,7 @@ export default function ModulesPage() {
                     <m.icon className={`h-6 w-6 ${fg}`} />
                   </div>
                   {isPro ? (
-                    <Switch disabled className="opacity-60" />
+                    <Switch disabled aria-label={m.name} className="opacity-60" />
                   ) : (
                     <button
                       type="button"

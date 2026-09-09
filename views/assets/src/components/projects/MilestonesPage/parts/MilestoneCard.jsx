@@ -339,7 +339,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                   <div key={task.id} className={cn("group grid items-center gap-2 px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-muted/20 transition-colors", TASK_GRID, taskComplete && "opacity-60")}>
                     {/* Task */}
                     <div className="flex items-center gap-2 min-w-0">
-                      <TaskCheckbox complete={taskComplete} onClick={() => handleToggleTaskStatus(task)} />
+                      <TaskCheckbox complete={taskComplete} taskTitle={task.title} onClick={() => handleToggleTaskStatus(task)} />
                       <button
                         type="button"
                         onClick={() => handleOpenTask(task)}

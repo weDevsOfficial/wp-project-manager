@@ -225,7 +225,7 @@ const GitHubSettingsTab = () => {
             <Label>{__('Enable Previews', 'wedevs-project-manager')}</Label>
             <p className="text-sm text-pm-text-muted mt-1">{__('Show GitHub issue/PR preview cards automatically.', 'wedevs-project-manager')}</p>
           </div>
-          <Switch checked={enablePreviews} onCheckedChange={(v) => { setEnablePreviews(v); markDirty() }} />
+          <Switch aria-label={__('Show GitHub issue/PR preview cards automatically.', 'wedevs-project-manager')} checked={enablePreviews} onCheckedChange={(v) => { setEnablePreviews(v); markDirty() }} />
         </div>
 
         <div className="border-t border-pm-border" />

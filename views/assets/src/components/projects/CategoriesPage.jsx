@@ -269,6 +269,7 @@ export default function CategoriesPage() {
                   selected.size === categories.length && categories.length > 0
                 }
                 onCheckedChange={toggleAll}
+                aria-label={__("Select all categories", 'wedevs-project-manager')}
                 className="h-4 w-4"
               />
             </div>
@@ -289,6 +290,7 @@ export default function CategoriesPage() {
                 <Checkbox
                   checked={selected.has(cat.id)}
                   onCheckedChange={() => toggleSelect(cat.id)}
+                  aria-label={cat.title}
                   className="h-4 w-4"
                 />
               </div>

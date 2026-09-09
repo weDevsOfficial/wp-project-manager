@@ -177,7 +177,7 @@ const GeneralTab = () => {
               </Label>
               <p className="text-sm text-pm-text-muted mt-0.5">{__('Enable start date field for tasks', 'wedevs-project-manager')}</p>
             </div>
-            <Switch checked={taskStartField} onCheckedChange={(v) => { setTaskStartField(v); setIsDirty(true) }} />
+            <Switch aria-label={__('Enable start date field for tasks', 'wedevs-project-manager')} checked={taskStartField} onCheckedChange={(v) => { setTaskStartField(v); setIsDirty(true) }} />
           </div>
 
           <div className="border-t border-pm-border" />
@@ -189,7 +189,7 @@ const GeneralTab = () => {
               </Label>
               <p className="text-sm text-pm-text-muted mt-0.5">{__('Send daily digest emails to team members', 'wedevs-project-manager')}</p>
             </div>
-            <Switch checked={dailyDigest} onCheckedChange={(v) => { setDailyDigest(v); setIsDirty(true) }} />
+            <Switch aria-label={__('Send daily digest emails to team members', 'wedevs-project-manager')} checked={dailyDigest} onCheckedChange={(v) => { setDailyDigest(v); setIsDirty(true) }} />
           </div>
 
           <div className="border-t border-pm-border" />

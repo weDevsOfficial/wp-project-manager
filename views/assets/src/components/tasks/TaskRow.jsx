@@ -168,6 +168,10 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
           onMouseLeave={() => setHovered(false)}
           className="shrink-0 focus:outline-none"
           disabled={toggling}
+          aria-pressed={isComplete}
+          aria-label={isComplete
+            ? __('Mark "%s" incomplete', 'wedevs-project-manager').replace('%s', task.title)
+            : __('Mark "%s" complete', 'wedevs-project-manager').replace('%s', task.title)}
         >
           <TaskStatusCircle complete={isComplete} hovered={hovered} />
         </button>

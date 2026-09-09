@@ -102,7 +102,7 @@ const EmailTab = () => {
               {__('Email links point to the WP admin backend', 'wedevs-project-manager')}
             </p>
           </div>
-          <Switch
+          <Switch aria-label={__('Email links point to the WP admin backend', 'wedevs-project-manager')}
             id="link_to_backend"
             checked={!!form.link_to_backend}
             onCheckedChange={(val) => updateField('link_to_backend', val)}
@@ -120,7 +120,7 @@ const EmailTab = () => {
               {__('All recipients added as BCC instead of TO', 'wedevs-project-manager')}
             </p>
           </div>
-          <Switch
+          <Switch aria-label={__('All recipients added as BCC instead of TO', 'wedevs-project-manager')}
             id="enable_bcc"
             checked={!!form.enable_bcc}
             onCheckedChange={(val) => updateField('enable_bcc', val)}

@@ -153,7 +153,7 @@ export default function InvoiceSettingsTab() {
                 <p className="text-[15px] text-pm-text-muted">{__('Accept payments via PayPal', 'wedevs-project-manager')}</p>
               </div>
             </div>
-            <Switch checked={paypalEnabled} onCheckedChange={set(setPaypalEnabled)} />
+            <Switch aria-label={__('Accept payments via PayPal', 'wedevs-project-manager')} checked={paypalEnabled} onCheckedChange={set(setPaypalEnabled)} />
           </div>
           {paypalEnabled && (
             <div className="px-5 pb-4 pt-0 space-y-3 ml-[52px]">
@@ -166,7 +166,7 @@ export default function InvoiceSettingsTab() {
                   <Label className="text-sm">{__('Sandbox Mode', 'wedevs-project-manager')}</Label>
                   <p className="text-[13px] text-pm-text-muted">{__('Use demo mode for testing', 'wedevs-project-manager')}</p>
                 </div>
-                <Switch checked={sandboxMode} onCheckedChange={set(setSandboxMode)} />
+                <Switch aria-label={__('Use demo mode for testing', 'wedevs-project-manager')} checked={sandboxMode} onCheckedChange={set(setSandboxMode)} />
               </div>
               <div>
                 <Label className="text-sm mb-1 block">{__('PayPal Instruction', 'wedevs-project-manager')}</Label>
@@ -187,7 +187,7 @@ export default function InvoiceSettingsTab() {
                 <p className="text-[15px] text-pm-text-muted">{__('Accept credit card payments via Stripe', 'wedevs-project-manager')}</p>
               </div>
             </div>
-            <Switch checked={stripeEnabled} onCheckedChange={set(setStripeEnabled)} />
+            <Switch aria-label={__('Accept credit card payments via Stripe', 'wedevs-project-manager')} checked={stripeEnabled} onCheckedChange={set(setStripeEnabled)} />
           </div>
           {stripeEnabled && (
             <div className="px-5 pb-4 pt-0 space-y-3 ml-[52px]">
@@ -200,7 +200,7 @@ export default function InvoiceSettingsTab() {
                   <Label className="text-sm">{__('Enable Test Secret Key', 'wedevs-project-manager')}</Label>
                   <p className="text-[13px] text-pm-text-muted">{__('Use sandbox mode for testing', 'wedevs-project-manager')}</p>
                 </div>
-                <Switch checked={stripeTestSecret} onCheckedChange={set(setStripeTestSecret)} />
+                <Switch aria-label={__('Use sandbox mode for testing', 'wedevs-project-manager')} checked={stripeTestSecret} onCheckedChange={set(setStripeTestSecret)} />
               </div>
               {stripeTestSecret ? (
                 <>

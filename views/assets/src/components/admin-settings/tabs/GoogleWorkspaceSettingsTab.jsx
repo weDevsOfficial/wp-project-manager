@@ -136,7 +136,7 @@ export default function GoogleWorkspaceSettingsTab() {
             <div className="text-sm font-medium text-pm-text-primary">{__('Enable Google Drive', 'wedevs-project-manager')}</div>
             <div className="text-xs text-pm-text-muted mt-0.5">{__('Show Google Drive in the sidebar and on tasks. Turn off to hide it everywhere.', 'wedevs-project-manager')}</div>
           </div>
-          <Switch checked={driveEnabled} onCheckedChange={toggleDrive} disabled={settingsLoading} />
+          <Switch aria-label={__('Show Google Drive in the sidebar and on tasks. Turn off to hide it everywhere.', 'wedevs-project-manager')} checked={driveEnabled} onCheckedChange={toggleDrive} disabled={settingsLoading} />
         </div>
 
         {driveEnabled && (
@@ -145,7 +145,7 @@ export default function GoogleWorkspaceSettingsTab() {
               <div className="text-sm font-medium text-pm-text-primary">{__('Allow Drive in comments', 'wedevs-project-manager')}</div>
               <div className="text-xs text-pm-text-muted mt-0.5">{__('Let team members attach Drive files inside comments. Turn off to hide the Drive button in comments only.', 'wedevs-project-manager')}</div>
             </div>
-            <Switch checked={driveComments} onCheckedChange={toggleComments} disabled={settingsLoading} />
+            <Switch aria-label={__('Let team members attach Drive files inside comments. Turn off to hide the Drive button in comments only.', 'wedevs-project-manager')} checked={driveComments} onCheckedChange={toggleComments} disabled={settingsLoading} />
           </div>
         )}
       </div>
