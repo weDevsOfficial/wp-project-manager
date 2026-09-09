@@ -199,6 +199,22 @@ class WP_Router {
 				}
 			}
 		}	
+
+		// Permission classes return a WP_Error with no status, so the REST API
+		// answered 500 for what is really an authorization failure. Default the
+		// merged error to 401/403 so clients can tell denial from a server fault.
+		$code = $wp_error_merged->get_error_code();
+
+		if ( $code ) {
+			$data = $wp_error_merged->get_error_data( $code );
+
+			if ( ! is_array( $data ) || ! isset( $data['status'] ) ) {
+				$data = is_array( $data ) ? $data : array();
+				$data['status'] = rest_authorization_required_code();
+				$wp_error_merged->add_data( $data, $code );
+			}
+		}
+
 		return $wp_error_merged;
 	}
 

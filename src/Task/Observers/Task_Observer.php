@@ -10,6 +10,15 @@ use Carbon\Carbon;
 
 class Task_Observer extends Model_Observer {
 
+    /**
+     * The *_old value handed to an observer is the raw column int, while the new
+     * value comes back through the model accessor as a slug. Map the old one so
+     * the activity reads "medium to high" instead of "1 to high".
+     */
+    private static function enum_label( array $map, $value ) {
+        return array_key_exists( (int) $value, $map ) ? $map[ (int) $value ] : $value;
+    }
+
     public function created( $resource ) {
         $meta = [
             'task_title' => $resource->title,
@@ -86,7 +95,7 @@ class Task_Observer extends Model_Observer {
     public function complexity( Task $item, $old_value ) {
         $meta = [
             'task_title'          => $item->title,
-            'task_complexity_old' => $old_value,
+            'task_complexity_old' => self::enum_label( Task::$complexity, $old_value ),
             'task_complexity_new' => $item->complexity,
         ];
 
@@ -96,7 +105,7 @@ class Task_Observer extends Model_Observer {
     public function priority( Task $item, $old_value ) {
         $meta = [
             'task_title'        => $item->title,
-            'task_priority_old' => $old_value,
+            'task_priority_old' => self::enum_label( Task::$priorities, $old_value ),
             'task_priority_new' => $item->priority,
         ];
 
@@ -106,7 +115,7 @@ class Task_Observer extends Model_Observer {
     public function payable( Task $item, $old_value ) {
         $meta = [
             'task_title'       => $item->title,
-            'task_payable_old' => $old_value,
+            'task_payable_old' => self::enum_label( Task::$payability, $old_value ),
             'task_payable_new' => $item->payable,
         ];
 

@@ -89,7 +89,7 @@ Class File_System {
         return $uploaded;
     }
 
-    public static function multiple_upload( $file ) {
+    public static function multiple_upload( $file, &$errors = [] ) {
         if ( ! function_exists( 'wp_handle_upload' ) ) {
             require_once( ABSPATH . 'wp-admin/includes/file.php' );
         }
@@ -107,10 +107,32 @@ Class File_System {
             ];
 
             $uploaded_file = wp_handle_upload( $file_to_upload, array( 'test_form' => false ) );
-            $attachment_ids[] = self::attachment_id( $uploaded_file );
+
+            // Collect rejections instead of dropping them: array_filter() used to
+            // swallow every failure, so a disallowed type came back as a plain
+            // success with an empty list and the user was told nothing.
+            if ( isset( $uploaded_file['error'] ) ) {
+                $errors[] = [
+                    'name'    => $file_to_upload['name'],
+                    'message' => $uploaded_file['error'],
+                ];
+                continue;
+            }
+
+            $attachment_id = self::attachment_id( $uploaded_file );
+
+            if ( ! $attachment_id ) {
+                $errors[] = [
+                    'name'    => $file_to_upload['name'],
+                    'message' => __( 'The file could not be saved.', 'wedevs-project-manager' ),
+                ];
+                continue;
+            }
+
+            $attachment_ids[] = $attachment_id;
         }
 
-        return array_filter( $attachment_ids );
+        return $attachment_ids;
     }
 
     public static function attachment_id( $uploaded_file ) {

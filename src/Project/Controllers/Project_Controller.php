@@ -17,6 +17,9 @@ use WeDevs\PM\Category\Models\Category;
 use WeDevs\PM\Common\Traits\File_Attachment;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Meta;
+use WeDevs\PM\Common\Models\Board;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Common\Models\Assignee;
 use WeDevs\PM\Task_List\Models\Task_List;
 use WeDevs\PM\Project\Helper\Project_Role_Relation;
 use WeDevs\PM\Settings\Models\Settings;
@@ -294,8 +297,16 @@ class Project_Controller {
 		$assignees = wedevs_pm_validate_assignee( $request->get_param( 'assignees' ) );
 
 		if ( is_array( $assignees ) ) {
+			$previous_ids = array_map( 'intval', User_Role::where( 'project_id', $project->id )->pluck( 'user_id' )->all() );
 			$project->assignees()->detach();
 			$this->assign_users( $project, $assignees );
+
+			$kept_ids    = array_map( 'intval', wp_list_pluck( $assignees, 'user_id' ) );
+			$removed_ids = array_diff( $previous_ids, $kept_ids );
+
+			if ( ! empty( $removed_ids ) ) {
+				$this->detach_project_work( $project->id, $removed_ids );
+			}
 		}
 
 		do_action( 'wedevs_pm_project_update', $project, $request->get_params() );
@@ -386,6 +397,16 @@ class Project_Controller {
 
 		$project->discussion_boards()->delete();
 		$project->milestones()->delete();
+
+		// task_lists/discussion_boards/milestones above cover three of the four
+		// board types; kanboard columns share wp_pm_boards and were surviving the
+		// delete as orphans. Sweep whatever is left for this project by id.
+		$board_ids = Board::where( 'project_id', $id )->pluck( 'id' )->all();
+		if ( ! empty( $board_ids ) ) {
+			Boardable::whereIn( 'board_id', $board_ids )->delete();
+			Board::whereIn( 'id', $board_ids )->delete();
+		}
+
 		$project->comments()->delete();
 		$project->assignees()->detach();
 		$this->detach_files( $project );
@@ -401,6 +422,34 @@ class Project_Controller {
 		return [
 			'message' => __( 'A project has been deleted successfully.', 'wedevs-project-manager' )
 		];
+	}
+
+	/**
+	 * Drop per-entity assignments for users who just lost project access.
+	 * The pivot detach above only clears project membership, so a removed user
+	 * stayed on their tasks, discussions and lists: the task showed an assignee
+	 * who can no longer open it, and re-adding the user silently restored the
+	 * old workload.
+	 */
+	private function detach_project_work( $project_id, array $user_ids ) {
+		$user_ids = array_values( array_filter( array_map( 'intval', $user_ids ) ) );
+
+		if ( empty( $user_ids ) ) {
+			return;
+		}
+
+		Assignee::where( 'project_id', $project_id )
+			->whereIn( 'assigned_to', $user_ids )
+			->delete();
+
+		$board_ids = Board::where( 'project_id', $project_id )->pluck( 'id' )->all();
+
+		if ( ! empty( $board_ids ) ) {
+			Boardable::whereIn( 'board_id', $board_ids )
+				->where( 'boardable_type', 'user' )
+				->whereIn( 'boardable_id', $user_ids )
+				->delete();
+		}
 	}
 
 	private function assign_users( Project $project, $assignees = [] ) {
