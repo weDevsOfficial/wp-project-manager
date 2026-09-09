@@ -115,7 +115,7 @@ const AiSettingsTab = () => {
       <div>
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-sm font-medium text-pm-text-primary flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
               <Bot className="w-5 h-5 text-pm-accent" />
               {__('AI Settings', 'wedevs-project-manager')}
             </h2>
@@ -134,7 +134,7 @@ const AiSettingsTab = () => {
     <div>
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-sm font-medium text-pm-text-primary flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
             <Bot className="w-5 h-5 text-pm-accent" />
             {__('AI Settings', 'wedevs-project-manager')}
           </h2>

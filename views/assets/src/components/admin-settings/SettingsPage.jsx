@@ -141,49 +141,86 @@ const SettingsPage = () => {
   const ActiveComponent = activeTab === 'woo-project' ? WooProjectComponent : tabComponents[activeTab]
 
   return (
-    <div className="pm-settings-page flex flex-col h-full overflow-hidden">
+    <div className="pm-settings-page flex flex-col h-full overflow-hidden bg-pm-surface-muted">
 
-      {/* ── Settings top nav (segmented) ───────────────────── */}
-      <div className="shrink-0 bg-pm-surface border-b border-pm-border px-6 pt-6 pb-4">
-        <h1 className="text-pm-text font-semibold text-2xl mb-4">
+      {/* ── Page header ────────────────────────────────────── */}
+      <div className="shrink-0 px-6 pt-6 pb-2">
+        <h1 className="text-xl font-bold text-pm-text-primary">
           {__('Settings', 'wedevs-project-manager')}
         </h1>
-        <nav className="inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-xl border border-pm-border bg-muted/60 p-1.5 scrollbar-none">
+      </div>
+
+      {/* ── Left nav + content ─────────────────────────────
+           The tab list used to be a second horizontal bar. With 12 entries it
+           scrolled sideways and threw away the grouping that tabGroups already
+           describes. A column shows every entry at once, keeps the group
+           headings, and has room to grow. */}
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="px-6 pb-6 flex flex-col md:flex-row md:items-start gap-4 md:gap-6">
+
+          <nav className="hidden md:block w-60 shrink-0 self-start sticky top-0 rounded-xl border bg-card shadow-sm p-3">
+          {tabGroups.map((group) => (
+            <div key={group.title} className="mb-5 last:mb-0">
+              <div className="px-3 mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-pm-text-muted">
+                {group.title}
+              </div>
+              <div className="space-y-0.5">
+                {group.tabs.map((tab) => {
+                  const Icon = tab.icon
+                  const isActive = activeTab === tab.key
+                  const needsPro = tab.pro && !isPro
+                  return (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      aria-current={isActive ? "page" : undefined}
+                      className={cn(
+                        'group/tab w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-left transition-colors',
+                        isActive
+                          ? 'bg-pm-accent-light text-pm-accent'
+                          : 'text-pm-text-muted hover:text-pm-text-primary hover:bg-muted',
+                      )}
+                      onClick={() => setActiveTab(tab.key)}
+                    >
+                      <Icon className={cn(
+                        'w-5 h-5 shrink-0',
+                        isActive ? 'text-pm-accent' : 'text-pm-text-muted group-hover/tab:text-pm-text',
+                      )} />
+                      <span className="truncate">{tab.label}</span>
+                      {needsPro && <span className="ml-auto shrink-0"><ProBadge interactive={false} /></span>}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        {/* Narrow viewports keep a horizontal strip: a 240px column would eat
+           the content area. */}
+          <nav className="md:hidden w-full shrink-0 flex items-center gap-1 overflow-x-auto rounded-xl border bg-card shadow-sm p-1.5 scrollbar-none">
           {tabGroups.flatMap(g => g.tabs).map((tab) => {
             const Icon = tab.icon
             const isActive = activeTab === tab.key
-            const needsPro = tab.pro && !isPro
-
             return (
               <button
                 key={tab.key}
                 type="button"
                 className={cn(
-                  'group/tab flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-all duration-200 shrink-0',
-                  isActive
-                    ? 'bg-background text-pm-accent shadow-sm'
-                    : 'text-pm-text-muted hover:text-pm-text-primary',
+                  'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium whitespace-nowrap shrink-0 transition-colors',
+                  isActive ? 'bg-pm-accent-light text-pm-accent' : 'text-pm-text-muted hover:text-pm-text-primary',
                 )}
                 onClick={() => setActiveTab(tab.key)}
               >
-                <Icon className={cn(
-                  'w-[18px] h-[18px] shrink-0',
-                  isActive ? 'text-pm-accent' : 'text-pm-text-muted group-hover/tab:text-pm-text',
-                )} />
+                <Icon className="w-[18px] h-[18px] shrink-0" />
                 {tab.label}
-                {needsPro && (
-                  <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover/tab:max-w-fit group-hover/tab:ml-1 transition-all">
-                    <ProBadge interactive={false} />
-                  </span>
-                )}
               </button>
             )
           })}
         </nav>
-      </div>
 
       {/* ── Content area ──────────────────────────────────── */}
-      <main className="flex-1 overflow-y-auto bg-pm-surface-muted">
+          <main className="flex-1 min-w-0 w-full">
         {isProTab ? (
           <ProFeaturePlaceholder {...(PRO_TAB_CONFIG[activeTab] ?? PRO_TAB_CONFIG['invoices'])} />
         ) : ActiveComponent ? (
@@ -205,18 +242,22 @@ const SettingsPage = () => {
               )
             }
           >
-            {activeTab === 'woo-project' ? (
-              <ActiveComponent />
-            ) : (
-              <div className="w-full p-4 sm:p-6">
-                <div className="rounded-xl border bg-card p-4 sm:p-6 shadow-sm">
-                  <ActiveComponent />
-                </div>
+            {/* Every tab gets the same card. WooCommerce brings its own
+                padding, so the card supplies only the surface for it, which
+                is why it used to render bare. */}
+            <div className="w-full">
+              <div className={cn(
+                'rounded-xl border bg-card shadow-sm',
+                activeTab !== 'woo-project' && 'p-4 sm:p-6',
+              )}>
+                <ActiveComponent />
               </div>
-            )}
+            </div>
           </Suspense>
         ) : null}
-      </main>
+          </main>
+        </div>
+      </div>
     </div>
   )
 }

@@ -68,7 +68,7 @@ const PusherTab = () => {
     <form onSubmit={onSubmit}>
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-sm font-medium text-pm-text-primary flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
             <Radio className="w-5 h-5 text-pm-accent" />
             {__('Pusher Settings', 'wedevs-project-manager')}
           </h2>
@@ -138,7 +138,7 @@ const PusherTab = () => {
       </div>
 
       <div className="mt-6">
-        <h3 className="text-sm font-medium text-pm-text-primary flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
           <Bell className="w-4 h-4 text-pm-accent" />
           {__('Notification Triggers', 'wedevs-project-manager')}
         </h3>

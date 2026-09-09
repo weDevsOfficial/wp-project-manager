@@ -33,7 +33,7 @@ const LockedSettingCard = ({ title, description }) => {
       onClick={() => setOpen(true)}
     >
       <div>
-        <div className="text-sm font-medium text-pm-text-primary flex items-center gap-2">
+        <div className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
           {title}
           <ProBadge />
         </div>
@@ -112,7 +112,7 @@ export default function GoogleWorkspaceSettingsTab() {
     <div className="w-full">
       <div className="mb-5 flex items-start justify-between gap-3">
         <div>
-          <h2 className="text-sm font-medium text-pm-text-primary flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
             <GoogleMonoGlyph className="h-5 w-5 text-pm-accent" />
             {__('Google Workspace', 'wedevs-project-manager')}
           </h2>
