@@ -133,7 +133,7 @@ function TrelloImportCard() {
               </svg>
             </div>
             <div>
-              <CardTitle className="text-sm text-pm-text-primary">{__('Trello', 'wedevs-project-manager')}</CardTitle>
+              <CardTitle className="text-pm-text-primary">{__('Trello', 'wedevs-project-manager')}</CardTitle>
               <CardDescription className="text-sm">
                 {__('Import boards, lists, and cards from Trello', 'wedevs-project-manager')}
               </CardDescription>

@@ -86,7 +86,7 @@ export default function LicensePage() {
               <ShieldX className="h-8 w-8 text-pm-text-muted" />
             )}
             <div>
-              <CardTitle className="text-sm text-pm-text-primary">
+              <CardTitle className="text-pm-text-primary">
                 {isActive ? __('License Active', 'wedevs-project-manager') : __('No Active License', 'wedevs-project-manager')}
               </CardTitle>
               <CardDescription className="text-sm">
