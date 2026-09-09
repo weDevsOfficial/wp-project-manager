@@ -26,6 +26,9 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
   const [searchTitle, setSearchTitle] = useState('')
   const [priority, setPriority] = useState('')
   const [labelId, setLabelId] = useState('')
+  const [typeId, setTypeId] = useState('')
+  const [milestoneId, setMilestoneId] = useState('')
+  const [milestones, setMilestones] = useState([])
   const [filtering, setFiltering] = useState(false)
 
   const searchTimerRef = useRef(null)
@@ -57,8 +60,31 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
     return Array.from(map.values())
   }, [lists])
 
-  const hasActiveFilter = status || dueDate || listId || assigneeId || searchTitle.trim() || priority !== '' || labelId
-  const activeCount = [status, dueDate, listId, assigneeId, searchTitle.trim(), priority !== '' ? priority : '', labelId].filter(Boolean).length
+  // Every task carries its type in the response, so the options come off the
+  // loaded tasks rather than a settings request.
+  const allTypes = React.useMemo(() => {
+    const map = new Map()
+    lists?.forEach(list => {
+      const tasks = [...(list.incomplete_tasks?.data ?? []), ...(list.complete_tasks?.data ?? [])]
+      tasks.forEach(task => {
+        const type = task.type
+        if (type?.id && !map.has(type.id)) map.set(type.id, type)
+      })
+    })
+    return Array.from(map.values())
+  }, [lists])
+
+  // Milestones are not on the task payload, so they need their own request.
+  // Only made once the filter bar is actually opened.
+  useEffect(() => {
+    if (!isOpen || !projectId || milestones.length > 0) return
+    api.get(`projects/${projectId}/milestones`, { per_page: 50 })
+      .then(res => setMilestones(res?.data ?? []))
+      .catch(() => {})
+  }, [isOpen, projectId, api, milestones.length])
+
+  const hasActiveFilter = status || dueDate || listId || assigneeId || searchTitle.trim() || priority !== '' || labelId || typeId || milestoneId
+  const activeCount = [status, dueDate, listId, assigneeId, searchTitle.trim(), priority !== '' ? priority : '', labelId, typeId, milestoneId].filter(Boolean).length
 
   const applyFilter = useCallback(async (overrides = {}) => {
     const params = {
@@ -72,6 +98,8 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       // (it does: only '' is falsy here, not the string '0').
       priority: overrides.priority ?? priority,
       labels: (overrides.labelId ?? labelId) ? [Number(overrides.labelId ?? labelId)] : undefined,
+      types: (overrides.typeId ?? typeId) ? [Number(overrides.typeId ?? typeId)] : undefined,
+      milestone: (overrides.milestoneId ?? milestoneId) ? Number(overrides.milestoneId ?? milestoneId) : undefined,
     }
 
     // Remove empty params
@@ -102,7 +130,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       toast.error(__('Failed to filter tasks', 'wedevs-project-manager'))
     }
     setFiltering(false)
-  }, [api, projectId, status, dueDate, listId, assigneeId, searchTitle, priority, labelId, onFilterResults, onClear])
+  }, [api, projectId, status, dueDate, listId, assigneeId, searchTitle, priority, labelId, typeId, milestoneId, onFilterResults, onClear])
 
   const handleClear = useCallback(() => {
     setStatus('')
@@ -112,6 +140,8 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
     setSearchTitle('')
     setPriority('')
     setLabelId('')
+    setTypeId('')
+    setMilestoneId('')
     onClear?.()
   }, [onClear])
 
@@ -195,6 +225,34 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
           <SelectContent>
             {allLabels.map(l => (
               <SelectItem key={l.id} value={String(l.id)}>{l.title || l.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
+      {/* Task type - only offered when this project actually uses types */}
+      {allTypes.length > 0 && (
+        <Select value={typeId} onValueChange={(v) => { setTypeId(v); applyFilter({ typeId: v }) }}>
+          <SelectTrigger className="h-11 w-auto sm:w-[130px] text-sm">
+            <SelectValue placeholder={__('Type', 'wedevs-project-manager')} />
+          </SelectTrigger>
+          <SelectContent>
+            {allTypes.map(t => (
+              <SelectItem key={t.id} value={String(t.id)}>{t.title}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
+      {/* Milestone */}
+      {milestones.length > 0 && (
+        <Select value={milestoneId} onValueChange={(v) => { setMilestoneId(v); applyFilter({ milestoneId: v }) }}>
+          <SelectTrigger className="h-11 w-auto sm:w-[140px] text-sm">
+            <SelectValue placeholder={__('Milestone', 'wedevs-project-manager')} />
+          </SelectTrigger>
+          <SelectContent>
+            {milestones.map(m => (
+              <SelectItem key={m.id} value={String(m.id)}>{m.title}</SelectItem>
             ))}
           </SelectContent>
         </Select>

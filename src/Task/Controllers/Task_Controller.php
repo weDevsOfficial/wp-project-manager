@@ -877,13 +877,68 @@ class Task_Controller {
         $priority     = $request->get_param('priority');
         $priority     = ( $priority === null || $priority === '' ) ? null : intval( $priority );
         $labels       = array_filter( array_map( 'intval', (array) $request->get_param('labels') ) );
+        $types        = array_filter( array_map( 'intval', (array) $request->get_param('types') ) );
+        $milestone    = intval( $request->get_param('milestone') );
 
         $tb_lists     = wedevs_pm_tb_prefix() . 'pm_boards';
+
+        // Priority, labels, task type and milestone narrow both the tasks inside a
+        // list and which lists come back at all, so the same conditions have to run
+        // in the `with` closure and in the `whereHas` guard below.
+        $narrow = function ( $q ) use ( $priority, $labels, $types, $milestone ) {
+            $tb_tasks = wedevs_pm_tb_prefix() . 'pm_tasks';
+
+            if ( $priority !== null ) {
+                $q->where( $tb_tasks . '.priority', $priority );
+            }
+
+            if ( ! empty( $labels ) ) {
+                // Labels are a Pro concept: the pivot table only exists when the
+                // Label module shipped, so check before joining rather than
+                // erroring on a free install that somehow sends the param.
+                global $wpdb;
+                $tb_label_task = wedevs_pm_tb_prefix() . 'pm_task_label_task';
+                $exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $tb_label_task ) );
+
+                if ( $exists === $tb_label_task ) {
+                    // Qualify the column: this query joins pm_boardables, so a bare
+                    // `id` is ambiguous and MySQL rejects the subquery.
+                    $q->whereIn( $tb_tasks . '.id', function ( $sub ) use ( $tb_label_task, $labels ) {
+                        $sub->select( 'task_id' )
+                            ->from( $tb_label_task )
+                            ->whereIn( 'label_id', $labels );
+                    } );
+                }
+            }
+
+            if ( ! empty( $types ) ) {
+                $tb_type_task = wedevs_pm_tb_prefix() . 'pm_task_type_task';
+
+                $q->whereIn( $tb_tasks . '.id', function ( $sub ) use ( $tb_type_task, $types ) {
+                    $sub->select( 'task_id' )
+                        ->from( $tb_type_task )
+                        ->whereIn( 'type_id', $types );
+                } );
+            }
+
+            if ( ! empty( $milestone ) ) {
+                $tb_boardables = wedevs_pm_tb_prefix() . 'pm_boardables';
+
+                $q->whereIn( $tb_tasks . '.id', function ( $sub ) use ( $tb_boardables, $milestone ) {
+                    $sub->select( 'boardable_id' )
+                        ->from( $tb_boardables )
+                        ->where( 'boardable_type', 'task' )
+                        ->where( 'board_type', 'milestone' )
+                        ->where( 'board_id', $milestone );
+                } );
+            }
+        };
+
 
 
         $task_lists = Task_List::select( $tb_lists.'.*' )->with(
             [
-                'tasks' => function($q) use( $status, $due_date, $assignees, $project_id, $title, $priority, $labels ) {
+                'tasks' => function($q) use( $status, $due_date, $assignees, $project_id, $title, $narrow ) {
                     if ( ! empty( $title ) ) {
                         $q->where('title', 'like', "%{$title}%");
                     }
@@ -911,28 +966,7 @@ class Task_Controller {
                         }
                     }
 
-                    if ( $priority !== null ) {
-                        $q->where( 'priority', $priority );
-                    }
-
-                    if ( ! empty( $labels ) ) {
-                        // Labels are a Pro concept: the pivot table only exists when the
-                        // Label module shipped, so check before joining rather than
-                        // erroring on a free install that somehow sends the param.
-                        global $wpdb;
-                        $tb_label_task = wedevs_pm_tb_prefix() . 'pm_task_label_task';
-                        $exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $tb_label_task ) );
-
-                        if ( $exists === $tb_label_task ) {
-                            // Qualify the column: this query joins pm_boardables, so a bare
-                            // `id` is ambiguous and MySQL rejects the subquery.
-                            $q->whereIn( wedevs_pm_tb_prefix() . 'pm_tasks.id', function ( $sub ) use ( $tb_label_task, $labels ) {
-                                $sub->select( 'task_id' )
-                                    ->from( $tb_label_task )
-                                    ->whereIn( 'label_id', $labels );
-                            } );
-                        }
-                    }
+                    $narrow( $q );
 
                     if ( ! empty(  $assignees ) && ! empty(  $assignees[0] ) ) {
                         $q->whereHas('assignees', function( $assign_query ) use( $assignees ) {
@@ -948,7 +982,7 @@ class Task_Controller {
                 }
             ]
         )
-        ->whereHas('tasks', function($q) use( $status, $due_date, $assignees, $project_id, $title ) {
+        ->whereHas('tasks', function($q) use( $status, $due_date, $assignees, $project_id, $title, $narrow ) {
                 if ( ! empty( $title ) ) {
                     $q->where('title', 'like', "%{$title}%");
                 }
@@ -974,6 +1008,8 @@ class Task_Controller {
                         $q->where( 'due_date', '<=', $today );
                     }
                 }
+
+                $narrow( $q );
 
                 if ( ! empty(  $assignees ) && ! empty(  $assignees[0] ) ) {
                     $q->whereHas('assignees', function( $assign_query ) use( $assignees ) {
@@ -1039,11 +1075,19 @@ class Task_Controller {
             }
         }
 
+        // Priority 0 is Low, so the count query has to tell 'not sent' from '0'.
+        $count_priority = $request->get_param('priority');
+        $count_priority = ( $count_priority === null || $count_priority === '' ) ? null : intval( $count_priority );
+
         $filter = [
             'status' => sanitize_key( $request->get_param('status') ),
             'due_date' =>  sanitize_text_field( $request->get_param('dueDate') ),
             'users' => is_array( $request->get_param('users') ) ? array_map( 'intval', $request->get_param('users') )  : ( is_numeric( $request->get_param('users') ) ? intval( $request->get_param('users') ) : null ),
-            'title' => sanitize_text_field( $request->get_param('title') )
+            'title' => sanitize_text_field( $request->get_param('title') ),
+            'priority' => $count_priority,
+            'labels' => array_filter( array_map( 'intval', (array) $request->get_param('labels') ) ),
+            'types' => array_filter( array_map( 'intval', (array) $request->get_param('types') ) ),
+            'milestone' => intval( $request->get_param('milestone') ),
         ];
        
 
