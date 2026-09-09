@@ -198,6 +198,18 @@ export default function KanbanBoardColumn({
 
   const headerBg = board.header_background;
 
+  // The action is called "Background Color" and the value is stored as
+  // header_background, but it only tinted a 14px ring, so a colour a user
+  // picked was almost invisible. Tint the header strip with it as well,
+  // lightly enough to keep the title readable in both themes.
+  const headerTint = (() => {
+    const hex = String(headerBg || '').trim();
+    const match = /^#?([0-9a-f]{6})$/i.exec(hex);
+    if (!match) return undefined;
+    const int = parseInt(match[1], 16);
+    return `rgba(${(int >> 16) & 255}, ${(int >> 8) & 255}, ${int & 255}, 0.16)`;
+  })();
+
   const tasksArr = Array.isArray(board.tasks)
     ? board.tasks
     : board.tasks?.data ?? [];
@@ -214,11 +226,14 @@ export default function KanbanBoardColumn({
     <>
       <KanbanBoardDnd id={column.id} className={boardBg ? "bg-pm-surface border-pm-border shadow-sm" : undefined}>
         <KanbanHeaderDnd className="!p-0">
-          <div className="flex items-center justify-between w-full px-3 py-2.5">
+          <div
+            className="flex items-center justify-between w-full px-3 py-2.5"
+            style={headerTint ? { backgroundColor: headerTint } : undefined}
+          >
             <div className="flex items-center gap-2 flex-1 min-w-0">
               <span
                 className="h-3.5 w-3.5 rounded-full border-2 shrink-0"
-                style={{ borderColor: headerBg || 'var(--pm-accent)' }}
+                style={{ borderColor: headerBg || 'var(--pm-accent)', backgroundColor: headerBg || 'transparent' }}
               />
               {editing && canManage ? (
                 <Input

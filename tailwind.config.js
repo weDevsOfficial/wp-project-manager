@@ -59,7 +59,7 @@ module.exports = {
         'pm-sidebar-active':     'var(--pm-sidebar-active)',
         'pm-sidebar-text':       'var(--pm-sidebar-text)',
         'pm-sidebar-txt-active': 'var(--pm-sidebar-txt-active)',
-        'pm-surface':            'var(--pm-surface)',
+        'pm-surface':            'rgb(var(--pm-surface-rgb) / <alpha-value>)',
         'pm-surface-muted':      'rgb(var(--pm-surface-muted-rgb) / <alpha-value>)',
         'pm-border':             'rgb(var(--pm-border-rgb) / <alpha-value>)',
         'pm-hover':              'rgb(var(--pm-hover-rgb) / <alpha-value>)',

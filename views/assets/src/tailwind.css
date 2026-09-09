@@ -19,6 +19,19 @@
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
+  /* Same reason for backdrop filters: `backdrop-blur` sets only
+     --tw-backdrop-blur and then composes eight more vars. With Preflight off
+     none of them exist, the shorthand is invalid and the blur silently does
+     nothing (the scrim behind the Kanban board header). */
+  --tw-backdrop-blur: ;
+  --tw-backdrop-brightness: ;
+  --tw-backdrop-contrast: ;
+  --tw-backdrop-grayscale: ;
+  --tw-backdrop-hue-rotate: ;
+  --tw-backdrop-invert: ;
+  --tw-backdrop-opacity: ;
+  --tw-backdrop-saturate: ;
+  --tw-backdrop-sepia: ;
 }
 
 /* Inter — self-hosted variable font (OFL) */
@@ -153,6 +166,7 @@
   --pm-text:               #27272A;
   --pm-text-muted:         #71717A;
   /* RGB channels so Tailwind /opacity modifiers work (hex vars above kept for direct var() use) */
+  --pm-surface-rgb:        255 255 255;
   --pm-surface-muted-rgb:  244 244 245;
   --pm-border-rgb:         228 228 231;
   --pm-hover-rgb:          244 244 245;
@@ -210,6 +224,7 @@
   --pm-text:               #CBD5E1;
   --pm-text-muted:         #7B8DB0;
   /* RGB channels (dark) for Tailwind /opacity modifiers */
+  --pm-surface-rgb:        21 29 46;
   --pm-surface-muted-rgb:  16 24 40;
   --pm-border-rgb:         42 58 92;
   --pm-hover-rgb:          30 45 72;
