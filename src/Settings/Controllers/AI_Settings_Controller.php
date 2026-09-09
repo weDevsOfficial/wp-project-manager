@@ -84,18 +84,26 @@ class AI_Settings_Controller {
         // Get models
         $models = self::get_models();
 
-        // If we have an API key but no cache, try to fetch models in the background
+        // If the selected provider has a key but no models yet (e.g. the key was
+        // added after the cache was first built for another provider), refresh
+        // so its models actually appear.
         if ( $provider && isset( $api_key_setting ) && !empty( $api_key_setting->value ) ) {
-            $cached_models = get_transient( 'pm_ai_models_cache' );
-            if ( empty( $cached_models ) || !isset( $cached_models['models'] ) || empty( $cached_models['models'] ) ) {
-                // Trigger model update in background (non-blocking)
-                // Use a transient flag to prevent multiple simultaneous fetches
+            $has_provider_models = false;
+            foreach ( $models as $model_config ) {
+                if ( isset( $model_config['provider'] ) && $model_config['provider'] === $provider ) {
+                    $has_provider_models = true;
+                    break;
+                }
+            }
+
+            if ( ! $has_provider_models ) {
                 $fetch_lock = get_transient( 'pm_ai_models_fetching' );
                 if ( !$fetch_lock ) {
                     set_transient( 'pm_ai_models_fetching', true, 60 ); // Lock for 60 seconds
-                    // Schedule the fetch (non-blocking)
+                    AI_Config::clear_models_cache();
                     AI_Config::update_all_models();
                     delete_transient( 'pm_ai_models_fetching' );
+                    $models = self::get_models(); // re-read with the fresh cache
                 }
             }
         }
@@ -191,11 +199,14 @@ class AI_Settings_Controller {
 
         do_action( 'wedevs_pm_after_save_settings', $settings );
 
-        // Update models cache if API key was saved
+        // Update models cache if an API key was saved. Incoming keys are the
+        // literal 'ai_api_key' (provider suffix is added later), so match the
+        // 'ai_api_key' prefix — matching 'ai_api_key_' misses every save.
         if ( is_array( $settings_data ) ) {
             foreach ( $settings_data as $setting_item ) {
-                if ( isset( $setting_item['key'] ) && strpos( $setting_item['key'], 'ai_api_key_' ) === 0 ) {
-                    // API key was saved, refresh models cache
+                if ( isset( $setting_item['key'] ) && strpos( $setting_item['key'], 'ai_api_key' ) === 0 ) {
+                    // API key was saved — rebuild the models cache from scratch.
+                    AI_Config::clear_models_cache();
                     AI_Config::update_all_models();
                     break;
                 }
