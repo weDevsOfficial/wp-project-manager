@@ -872,13 +872,18 @@ class Task_Controller {
         $lists        = array_map('intval', (array) $request->get_param('lists'));
         $project_id   = intval($request->get_param('project_id'));
         $title        = sanitize_text_field($request->get_param('title'));
+        // Priority is 0..2 (low/medium/high), so 0 is a real value and cannot be
+        // tested with empty(). Keep it null when the param was not sent at all.
+        $priority     = $request->get_param('priority');
+        $priority     = ( $priority === null || $priority === '' ) ? null : intval( $priority );
+        $labels       = array_filter( array_map( 'intval', (array) $request->get_param('labels') ) );
 
         $tb_lists     = wedevs_pm_tb_prefix() . 'pm_boards';
 
 
         $task_lists = Task_List::select( $tb_lists.'.*' )->with(
             [
-                'tasks' => function($q) use( $status, $due_date, $assignees, $project_id, $title ) {
+                'tasks' => function($q) use( $status, $due_date, $assignees, $project_id, $title, $priority, $labels ) {
                     if ( ! empty( $title ) ) {
                         $q->where('title', 'like', "%{$title}%");
                     }
@@ -903,6 +908,29 @@ class Task_Controller {
 
                             $q->where( 'due_date', '>=', $last );
                             $q->where( 'due_date', '<=', $today );
+                        }
+                    }
+
+                    if ( $priority !== null ) {
+                        $q->where( 'priority', $priority );
+                    }
+
+                    if ( ! empty( $labels ) ) {
+                        // Labels are a Pro concept: the pivot table only exists when the
+                        // Label module shipped, so check before joining rather than
+                        // erroring on a free install that somehow sends the param.
+                        global $wpdb;
+                        $tb_label_task = wedevs_pm_tb_prefix() . 'pm_task_label_task';
+                        $exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $tb_label_task ) );
+
+                        if ( $exists === $tb_label_task ) {
+                            // Qualify the column: this query joins pm_boardables, so a bare
+                            // `id` is ambiguous and MySQL rejects the subquery.
+                            $q->whereIn( wedevs_pm_tb_prefix() . 'pm_tasks.id', function ( $sub ) use ( $tb_label_task, $labels ) {
+                                $sub->select( 'task_id' )
+                                    ->from( $tb_label_task )
+                                    ->whereIn( 'label_id', $labels );
+                            } );
                         }
                     }
 

@@ -24,6 +24,8 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
   const [listId, setListId] = useState('')
   const [assigneeId, setAssigneeId] = useState('')
   const [searchTitle, setSearchTitle] = useState('')
+  const [priority, setPriority] = useState('')
+  const [labelId, setLabelId] = useState('')
   const [filtering, setFiltering] = useState(false)
 
   const searchTimerRef = useRef(null)
@@ -41,8 +43,22 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
     return Array.from(map.values())
   }, [lists])
 
-  const hasActiveFilter = status || dueDate || listId || assigneeId || searchTitle.trim()
-  const activeCount = [status, dueDate, listId, assigneeId, searchTitle.trim()].filter(Boolean).length
+  // Labels come off the loaded tasks, the same way assignees do, so the filter
+  // offers exactly the labels in play on this project and needs no extra fetch.
+  const allLabels = React.useMemo(() => {
+    const map = new Map()
+    lists?.forEach(list => {
+      const tasks = [...(list.incomplete_tasks?.data ?? []), ...(list.complete_tasks?.data ?? [])]
+      tasks.forEach(task => {
+        const labels = Array.isArray(task.labels) ? task.labels : (task.labels?.data ?? [])
+        labels.forEach(l => { if (l.id && !map.has(l.id)) map.set(l.id, l) })
+      })
+    })
+    return Array.from(map.values())
+  }, [lists])
+
+  const hasActiveFilter = status || dueDate || listId || assigneeId || searchTitle.trim() || priority !== '' || labelId
+  const activeCount = [status, dueDate, listId, assigneeId, searchTitle.trim(), priority !== '' ? priority : '', labelId].filter(Boolean).length
 
   const applyFilter = useCallback(async (overrides = {}) => {
     const params = {
@@ -52,6 +68,10 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       lists: (overrides.listId ?? listId) ? [Number(overrides.listId ?? listId)] : undefined,
       users: (overrides.assigneeId ?? assigneeId) ? [Number(overrides.assigneeId ?? assigneeId)] : undefined,
       title: overrides.searchTitle ?? searchTitle.trim(),
+      // '0' is Low, a real choice, so it must survive the empty-param cull below
+      // (it does: only '' is falsy here, not the string '0').
+      priority: overrides.priority ?? priority,
+      labels: (overrides.labelId ?? labelId) ? [Number(overrides.labelId ?? labelId)] : undefined,
     }
 
     // Remove empty params
@@ -82,7 +102,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       toast.error(__('Failed to filter tasks', 'wedevs-project-manager'))
     }
     setFiltering(false)
-  }, [api, projectId, status, dueDate, listId, assigneeId, searchTitle, onFilterResults, onClear])
+  }, [api, projectId, status, dueDate, listId, assigneeId, searchTitle, priority, labelId, onFilterResults, onClear])
 
   const handleClear = useCallback(() => {
     setStatus('')
@@ -90,6 +110,8 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
     setListId('')
     setAssigneeId('')
     setSearchTitle('')
+    setPriority('')
+    setLabelId('')
     onClear?.()
   }, [onClear])
 
@@ -151,6 +173,32 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
           <SelectItem value="complete">{__('Complete', 'wedevs-project-manager')}</SelectItem>
         </SelectContent>
       </Select>
+
+      {/* Priority */}
+      <Select value={priority} onValueChange={(v) => { setPriority(v); applyFilter({ priority: v }) }}>
+        <SelectTrigger className="h-11 w-auto sm:w-[120px] text-sm">
+          <SelectValue placeholder={__('Priority', 'wedevs-project-manager')} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="0">{__('Low', 'wedevs-project-manager')}</SelectItem>
+          <SelectItem value="1">{__('Medium', 'wedevs-project-manager')}</SelectItem>
+          <SelectItem value="2">{__('High', 'wedevs-project-manager')}</SelectItem>
+        </SelectContent>
+      </Select>
+
+      {/* Label — only offered when this project actually uses labels */}
+      {allLabels.length > 0 && (
+        <Select value={labelId} onValueChange={(v) => { setLabelId(v); applyFilter({ labelId: v }) }}>
+          <SelectTrigger className="h-11 w-auto sm:w-[130px] text-sm">
+            <SelectValue placeholder={__('Label', 'wedevs-project-manager')} />
+          </SelectTrigger>
+          <SelectContent>
+            {allLabels.map(l => (
+              <SelectItem key={l.id} value={String(l.id)}>{l.title || l.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
 
       {/* Due date */}
       <Select value={dueDate} onValueChange={(v) => { setDueDate(v); applyFilter({ dueDate: v }) }}>
