@@ -34,6 +34,7 @@ import {
   List as ListIcon,
   Check,
   X,
+  ChevronDown,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -43,6 +44,19 @@ import {
   KanbanHeader as KanbanHeaderDnd,
 } from "../../kanban/index";
 import KanbanCard from "./KanbanCard";
+
+// Same three colours the cards use, so the composer previews what it will make.
+const PRIORITY_ICON_CLASS = {
+  low: "text-emerald-500",
+  medium: "text-amber-500",
+  high: "text-red-500",
+};
+
+const PRIORITY_LABELS = () => ({
+  low: __("Low", 'wedevs-project-manager'),
+  medium: __("Medium", 'wedevs-project-manager'),
+  high: __("High", 'wedevs-project-manager'),
+});
 import ImportTaskModal from "./ImportTaskModal";
 import AutomationModal from "./AutomationModal";
 import ColorPickerDialog from "./ColorPickerDialog";
@@ -371,14 +385,14 @@ export default function KanbanBoardColumn({
                   <Popover>
                     <PopoverTrigger asChild>
                       <button
-                        className={`inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-1 rounded-md border transition-colors ${
+                        className={`inline-flex items-center gap-1.5 h-8 text-xs font-medium px-3 rounded-md border transition-colors ${
                           selectedList
                             ? "border-pm-accent/20 bg-pm-accent/5 text-pm-accent hover:bg-pm-accent/10"
                             : "border-pm-border bg-pm-surface-muted text-pm-text hover:bg-pm-hover"
                         }`}
                         title={__("Choose list", 'wedevs-project-manager')}
                       >
-                        <ListIcon className="h-3 w-3" />
+                        <ListIcon className="h-3.5 w-3.5 shrink-0" />
                         <span className="truncate max-w-[100px]">
                           {selectedList ? selectedList.title : __("List", 'wedevs-project-manager')}
                         </span>
@@ -415,7 +429,7 @@ export default function KanbanBoardColumn({
                   <Popover>
                     <PopoverTrigger asChild>
                       <button
-                        className={`inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-1 rounded-md border transition-colors ${
+                        className={`inline-flex items-center gap-1.5 h-8 text-xs font-medium px-3 rounded-md border transition-colors ${
                           selectedAssigneeObjs.length > 0
                             ? "border-pm-accent/20 bg-pm-accent/5 text-pm-accent hover:bg-pm-accent/10"
                             : "border-pm-border bg-pm-surface-muted text-pm-text hover:bg-pm-hover"
@@ -436,7 +450,7 @@ export default function KanbanBoardColumn({
                           </>
                         ) : (
                           <>
-                            <UserIcon className="h-3 w-3" />
+                            <UserIcon className="h-3.5 w-3.5 shrink-0" />
                             <span>{__("Assign", 'wedevs-project-manager')}</span>
                           </>
                         )}
@@ -480,7 +494,7 @@ export default function KanbanBoardColumn({
                   </Popover>
 
                   <div
-                    className={`inline-flex items-center gap-1 text-[11px] font-medium rounded-md border transition-colors ${
+                    className={`inline-flex items-center gap-1 h-8 text-xs font-medium rounded-md border transition-colors ${
                       newTaskDueDate
                         ? "border-pm-accent/20 bg-pm-accent/5 text-pm-accent"
                         : "border-pm-border bg-pm-surface-muted text-pm-text hover:bg-pm-hover"
@@ -502,10 +516,10 @@ export default function KanbanBoardColumn({
                         el.focus();
                         el.click();
                       }}
-                      className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md border-none outline-none shadow-none bg-transparent cursor-pointer"
+                      className="inline-flex items-center gap-1.5 h-full px-3 rounded-md border-none outline-none shadow-none bg-transparent cursor-pointer"
                       title={__("Pick due date", 'wedevs-project-manager')}
                     >
-                      <Calendar className="h-3 w-3" />
+                      <Calendar className="h-3.5 w-3.5 shrink-0" />
                       <span>
                         {newTaskDueDate
                           ? new Date(newTaskDueDate).toLocaleDateString(
@@ -542,19 +556,38 @@ export default function KanbanBoardColumn({
 
                   {/* Nothing in the app could set priority, so every card was
                       stuck on the model default (medium). */}
-                  <div className="inline-flex items-center gap-1 rounded-md border border-pm-border bg-pm-surface-muted">
-                    <Flag className="h-3 w-3 ml-2 text-pm-text-muted" />
-                    <select
-                      value={newTaskPriority}
-                      onChange={(e) => setNewTaskPriority(e.target.value)}
-                      aria-label={__("Priority", 'wedevs-project-manager')}
-                      className="text-[11px] font-medium bg-transparent border-none outline-none shadow-none py-1 pl-1 pr-2 cursor-pointer text-pm-text"
-                    >
-                      <option value="low">{__("Low", 'wedevs-project-manager')}</option>
-                      <option value="medium">{__("Medium", 'wedevs-project-manager')}</option>
-                      <option value="high">{__("High", 'wedevs-project-manager')}</option>
-                    </select>
-                  </div>
+                  {/* A native select here rendered an OS dropdown next to three
+                      Radix ones, and painted its own arrow over the label. */}
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        className="inline-flex items-center gap-1.5 h-8 text-xs font-medium px-3 rounded-md border border-pm-border bg-pm-surface-muted text-pm-text hover:bg-pm-hover transition-colors"
+                        aria-label={__("Priority", 'wedevs-project-manager')}
+                        title={__("Set priority", 'wedevs-project-manager')}
+                      >
+                        <Flag className={`h-3.5 w-3.5 shrink-0 ${PRIORITY_ICON_CLASS[newTaskPriority] || "text-pm-text-muted"}`} />
+                        <span>{PRIORITY_LABELS()[newTaskPriority] ?? PRIORITY_LABELS().medium}</span>
+                        <ChevronDown className="h-3.5 w-3.5 shrink-0 text-pm-text-muted" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-36 p-1" align="start" side="bottom">
+                      {Object.entries(PRIORITY_LABELS()).map(([value, label]) => (
+                        <button
+                          key={value}
+                          className={`w-full flex items-center gap-2 text-left px-2 py-1.5 text-xs rounded-md transition-colors ${
+                            value === newTaskPriority ? "bg-pm-accent/5" : "hover:bg-pm-surface-muted"
+                          }`}
+                          onClick={() => setNewTaskPriority(value)}
+                        >
+                          <Flag className={`h-3 w-3 shrink-0 ${PRIORITY_ICON_CLASS[value]}`} />
+                          <span className="flex-1 truncate">{label}</span>
+                          {value === newTaskPriority && (
+                            <Check className="h-3 w-3 text-emerald-600 shrink-0" />
+                          )}
+                        </button>
+                      ))}
+                    </PopoverContent>
+                  </Popover>
                 </div>
 
                 <div className="flex items-center justify-end pt-1 border-t border-pm-border/40">
