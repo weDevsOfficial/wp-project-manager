@@ -24,32 +24,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@components/ui/tooltip'
-import {
-  Bold,
-  Italic,
-  Underline as UnderlineIcon,
-  Strikethrough,
-  List,
-  ListOrdered,
-  Quote,
-  Code,
-  Link as LinkIcon,
-  Undo,
-  Redo,
-  Minus,
-  RemoveFormatting,
-  Heading1,
-  Heading2,
-  Heading3,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  AlignJustify,
-  Table as TableIcon,
-  Image as ImageIcon,
-  Palette,
-  Highlighter,
-} from 'lucide-react'
+import { Bold, Italic, Underline as UnderlineIcon, Strikethrough, List, ListOrdered, Quote, Code, Link as LinkIcon, Undo, Redo, Minus, RemoveFormatting, Heading1, Heading2, Heading3, AlignLeft, AlignCenter, AlignRight, AlignJustify, Table as TableIcon, Image as ImageIcon, Palette, Highlighter } from 'lucide-react'
 import { createPortal } from 'react-dom'
 
 function ToolbarBtn({ icon: Icon, label, active, disabled, onClick }) {
@@ -67,6 +42,7 @@ function ToolbarBtn({ icon: Icon, label, active, disabled, onClick }) {
             )}
             disabled={disabled}
             onClick={onClick}
+            aria-label={label}
           >
             <Icon className="h-4 w-4" />
           </Button>
@@ -92,6 +68,7 @@ function ColorBtn({ icon: Icon, label, value, onChange }) {
               size="icon"
               className="h-7 w-7 text-pm-text-muted hover:text-pm-text hover:bg-pm-hover"
               onClick={(e) => { e.preventDefault(); inputRef.current?.click() }}
+              aria-label={label}
             >
               <Icon className="h-4 w-4" />
             </Button>
@@ -129,8 +106,21 @@ const MentionList = forwardRef(({ items, command, clientRect, editorElement }, r
   useEffect(() => {
     if (!clientRect) return
     const r = clientRect()
-    if (r) setPos({ top: r.bottom + 4, left: r.left })
-  }, [clientRect, items])
+    if (!r) return
+    // clientRect() is in viewport coords. When the popup is portaled into the
+    // task modal, that dialog has a CSS transform (centering) which makes
+    // position:fixed resolve against the dialog box, not the viewport — so
+    // subtract the dialog's rect to keep the popup pinned to the caret.
+    let top = r.bottom + 4
+    let left = r.left
+    const target = getMentionPortalTarget(editorElement)
+    if (target && target !== document.body) {
+      const tr = target.getBoundingClientRect()
+      top -= tr.top
+      left -= tr.left
+    }
+    setPos({ top, left })
+  }, [clientRect, items, editorElement])
 
   useImperativeHandle(ref, () => ({
     onKeyDown({ event }) {

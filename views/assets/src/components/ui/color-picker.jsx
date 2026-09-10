@@ -139,7 +139,7 @@ const ColorPicker = React.forwardRef(function ColorPicker(
                 type="button"
                 size="sm"
                 variant="ghost"
-                className="h-6 text-xs"
+                className="h-11 text-xs"
                 onClick={clear}
               >
                 {__('Clear', 'wedevs-project-manager')}
@@ -149,7 +149,7 @@ const ColorPicker = React.forwardRef(function ColorPicker(
               type="button"
               size="sm"
               variant="outline"
-              className="h-6 text-xs"
+              className="h-11 text-xs"
               onClick={() => setOpen(false)}
             >
               {__('Close', 'wedevs-project-manager')}

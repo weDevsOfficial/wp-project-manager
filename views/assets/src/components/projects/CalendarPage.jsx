@@ -3,9 +3,10 @@ import React, { useState, useMemo, useCallback } from "react";
 import { useLicenseGuard } from "@components/common/LicenseGuard";
 import { useAppDispatch } from "@store/index";
 import { fetchTask, openTaskSheet } from "@store/tasksSlice";
-import { usePermissions } from "@hooks/usePermissions";
+import { usePermissions, pmCanSeeUpgrade } from "@hooks/usePermissions";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import ProBadge from "@components/common/ProBadge";
+import ProUnavailable from "@components/common/ProUnavailable";
 import { Calendar, Crown, Lock, ChevronLeft, ChevronRight } from "lucide-react";
 import { createPortal } from "react-dom";
 
@@ -46,6 +47,13 @@ export default function CalendarPage() {
   const licenseGuard = useLicenseGuard();
   if (licenseGuard) return licenseGuard;
 
+  // A co-worker or client cannot install or license Pro, so the marketing
+  // preview below (invented tasks, teammates, invoices) is replaced by a
+  // plain unavailable card for them.
+  if (!isPro && !pmCanSeeUpgrade()) {
+    return <ProUnavailable title={__('Calendar', 'wedevs-project-manager')} description={__('Get the birdseye view of all tasks from an interactive calendar', 'wedevs-project-manager')} />;
+  }
+
   const handlePrevMonth = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
   };
@@ -61,7 +69,7 @@ export default function CalendarPage() {
   };
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+    <div className="w-full p-4 sm:p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -78,13 +86,13 @@ export default function CalendarPage() {
       </div>
 
       {/* Calendar preview card */}
-      <div className="group relative rounded-xl border bg-card overflow-hidden">
+      <div className="group relative rounded-lg border bg-card overflow-hidden">
         <div className="p-6">
           {/* Calendar mockup */}
           <div className="space-y-4">
             {/* Month header */}
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-pm-text-primary">
+              <h3 className="text-sm font-medium text-pm-text-primary">
                 {currentDate.toLocaleDateString("en-US", {
                   month: "long",
                   year: "numeric",
@@ -166,7 +174,7 @@ export default function CalendarPage() {
                               <button
                                 key={task.id}
                                 onClick={() => handleTaskClick(task)}
-                                className={`h-1.5 rounded-full w-full block hover:h-2 hover:opacity-100 opacity-80 transition-all ${task.color} hover:shadow-sm cursor-pointer`}
+                                className={`h-1.5 rounded-full w-full block origin-center hover:scale-y-[1.333] hover:opacity-100 opacity-80 transition-[transform,opacity,box-shadow] duration-150 ${task.color} hover:shadow-sm cursor-pointer`}
                                 title={task.title}
                               />
                             ))}
@@ -184,7 +192,7 @@ export default function CalendarPage() {
         {/* Pro overlay */}
         {!isPro && (
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={() => setOpen(true)}
           >
             <div className="bg-pm-surface rounded-2xl px-8 py-6 shadow-xl text-center">

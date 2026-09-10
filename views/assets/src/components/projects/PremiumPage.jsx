@@ -138,17 +138,17 @@ export default function PremiumPage() {
   const MORE_FEATURES = useMemo(() => getMoreFeatures(), []);
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-8">
+    <div className="w-full p-4 sm:p-6 space-y-8">
       <PromoBanner placement="premium" />
 
       {/* ── Hero Banner ── */}
       <div
         className="relative rounded-2xl overflow-hidden px-8 py-10 md:px-12 md:py-14 text-center text-white"
-        style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #4F46E5 50%, #2563EB 100%)' }}
+        style={{ background: 'linear-gradient(135deg, #6F56A3 0%, #5E4789 50%, #2563EB 100%)' }}
       >
         <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 50%, rgba(255,255,255,0.12), transparent 70%)' }} />
         <div className="relative z-10">
-          <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-sm font-medium px-3 py-1 rounded-full mb-3">
+          <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-sm font-medium px-3 py-1 rounded-md mb-3">
             <Sparkles className="h-4 w-4" />
             {__("Project Manager Pro", 'wedevs-project-manager')}
           </span>
@@ -180,15 +180,15 @@ export default function PremiumPage() {
         {FEATURES.map((f) => (
           <div
             key={f.title}
-            className="rounded-xl border bg-card p-5 hover:shadow-lg transition-shadow group"
+            className="rounded-lg border bg-card p-5 hover:shadow-lg transition-shadow group"
           >
             <div
-              className="inline-flex items-center justify-center h-11 w-11 rounded-xl mb-3"
+              className="inline-flex items-center justify-center h-11 w-11 rounded-lg mb-3"
               style={{ background: f.bg }}
             >
               <f.icon className={`h-5 w-5 ${f.fg}`} />
             </div>
-            <h3 className="text-sm font-semibold text-pm-text-primary mb-1">
+            <h3 className="text-sm font-medium text-pm-text-primary mb-1">
               {f.title}
             </h3>
             <p className="text-sm text-pm-text-muted leading-relaxed mb-2">
@@ -221,14 +221,14 @@ export default function PremiumPage() {
           {MODULES.map((m) => (
             <div
               key={m.title}
-              className="rounded-xl border bg-card p-4 hover:shadow-md transition-shadow group"
+              className="rounded-lg border bg-card p-4 hover:shadow-md transition-shadow group"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 rounded-lg bg-muted/50 shrink-0 group-hover:scale-110 transition-transform">
                   <m.icon className="h-5 w-5 text-pm-accent" />
                 </div>
                 <div className="min-w-0">
-                  <h4 className="text-sm font-semibold text-pm-text-primary mb-0.5">
+                  <h4 className="text-sm font-medium text-pm-text-primary mb-0.5">
                     {m.title}
                   </h4>
                   <p className="text-[15px] text-pm-text-muted leading-relaxed">
@@ -287,7 +287,7 @@ export default function PremiumPage() {
           <div
             className="w-full rounded-2xl p-6 text-center text-white"
             style={{
-              background: "linear-gradient(-147deg, #C444FB 0%, #5B56D7 100%)",
+              background: "linear-gradient(-147deg, #8A6FBB 0%, #6F56A3 100%)",
             }}
           >
             <Sparkles className="h-8 w-8 mx-auto mb-3 opacity-80" />

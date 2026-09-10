@@ -15,10 +15,11 @@ import RichTextEditor from '@components/common/RichTextEditor'
 import NotifyUsers from '@components/common/NotifyUsers'
 import FileUploadArea from '@components/common/FileUploadArea'
 import CommentAttachment from '@components/common/CommentAttachment'
-import { Lock, MessageSquare, Pencil, Trash2 } from 'lucide-react'
+import { Lock, MessageSquare, Pencil, Trash2, Loader2, ChevronDown, CheckCircle2, Clock, ListChecks, Tag, AlignLeft, Users, Calendar, Flag, BarChart3 } from 'lucide-react'
 import BackButton from '@components/common/BackButton'
 import { formatPmDateTime, isPrivate } from '@lib/pm-utils'
-import TaskRow from './TaskRow'
+import { cn } from '@lib/utils'
+import TaskRow, { TASK_GRID } from './TaskRow'
 import TaskDetailSheet from './TaskDetailSheet'
 import { sanitizeHtml } from '@lib/sanitize'
 import { decorateGoogleLinks } from '@lib/google-links'
@@ -234,9 +235,9 @@ export default function SingleTaskListPage() {
 
   if (loading) {
     return (
-      <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
+      <div className="w-full p-4 sm:p-6 space-y-5">
         <Skeleton className="h-8 w-48" />
-        <div className="rounded-xl border bg-card overflow-hidden">
+        <div className="rounded-lg border bg-card overflow-hidden">
           <div className="px-4 py-3 bg-muted/30 border-b">
             <Skeleton className="h-5 w-1/3" />
           </div>
@@ -252,7 +253,7 @@ export default function SingleTaskListPage() {
 
   if (!currentList) {
     return (
-      <div className="max-w-[1400px] mx-auto p-4 sm:p-6">
+      <div className="w-full p-4 sm:p-6">
         <BackButton fallback={`/projects/${projectId}/task-lists`} label={__('Back to Task Lists', 'wedevs-project-manager')} className="mb-4" />
         <p className="text-sm text-pm-text-muted">{__('Task list not found.', 'wedevs-project-manager')}</p>
       </div>
@@ -270,7 +271,7 @@ export default function SingleTaskListPage() {
   return (
     <>
     <ConfirmDialog />
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
+    <div className="w-full p-4 sm:p-6 space-y-5">
       {/* Back button */}
       <BackButton fallback={`/projects/${projectId}/task-lists`} label={__('Back to Task Lists', 'wedevs-project-manager')} />
 
@@ -296,72 +297,105 @@ export default function SingleTaskListPage() {
 
       {/* Tasks */}
       <div className="rounded-xl border bg-card overflow-hidden">
-        {/* Incomplete tasks */}
-        {incompleteTasks.length > 0 ? (
-          incompleteTasks.map(task => (
-            <TaskRow key={task.id} task={task} projectId={projectId} listId={listId} showLabels={showLabels} />
-          ))
-        ) : (
-          <div className="px-4 py-8 text-center text-sm text-pm-text-muted">
-            {__('No incomplete tasks', 'wedevs-project-manager')}
-          </div>
-        )}
+        <div className="overflow-x-auto">
+          <div className="min-w-[1180px]">
+            {/* Pending header */}
+            {totalIncomplete > 0 && (
+              <div className="px-4 pt-3 pb-1.5">
+                <span className="inline-flex items-center gap-1.5 rounded-md bg-amber-100 text-amber-700 px-2.5 py-0.5 text-[12px] font-medium uppercase tracking-wide">
+                  <Clock className="h-3.5 w-3.5" />{__('Pending', 'wedevs-project-manager')} ({totalIncomplete})
+                </span>
+              </div>
+            )}
 
-        {/* Load more incomplete */}
-        {!allIncompleteLoaded && incompleteTasks.length > 0 && incompleteTasks.length < totalIncomplete && (
-          <div className="px-4 py-1.5 border-b border-border/40">
-            <button
-              type="button"
-              className="text-sm text-pm-accent hover:underline disabled:opacity-50"
-              disabled={loadingMore}
-              onClick={() => handleLoadMore(0)}
-            >
-              {loadingMore ? __('Loading...', 'wedevs-project-manager') : __('Load more tasks', 'wedevs-project-manager')}
-            </button>
-          </div>
-        )}
+            {/* Column header */}
+            {(incompleteTasks.length > 0 || completeTasks.length > 0) && (
+              <div className={cn('grid items-center gap-2 px-4 py-2 border-b bg-muted/20 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70', TASK_GRID)}>
+                <div className="flex items-center gap-1.5"><ListChecks className="h-3.5 w-3.5" />{__('Task', 'wedevs-project-manager')}</div>
+                <div className="flex items-center gap-1.5"><Tag className="h-3.5 w-3.5" />{__('Type', 'wedevs-project-manager')}</div>
+                <div className="flex items-center gap-1.5"><Tag className="h-3.5 w-3.5" />{__('Labels', 'wedevs-project-manager')}</div>
+                <div className="flex items-center gap-1.5"><AlignLeft className="h-3.5 w-3.5" />{__('Description', 'wedevs-project-manager')}</div>
+                <div className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5" />{__('Assignee', 'wedevs-project-manager')}</div>
+                <div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{__('Due Date', 'wedevs-project-manager')}</div>
+                <div className="flex items-center gap-1.5"><Flag className="h-3.5 w-3.5" />{__('Priority', 'wedevs-project-manager')}</div>
+                <div className="flex items-center gap-1.5"><BarChart3 className="h-3.5 w-3.5" />{__('Progress', 'wedevs-project-manager')}</div>
+                <div></div>
+              </div>
+            )}
 
-        {/* Completed tasks toggle */}
-        {totalComplete > 0 && (
-          <div className="border-t border-border/40">
-            <button
-              type="button"
-              onClick={() => setShowCompleted(v => !v)}
-              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-pm-text-muted hover:bg-muted/20 transition-colors"
-            >
-              <span className="font-medium">
-                {totalComplete} {__('Completed', 'wedevs-project-manager')}
-              </span>
-            </button>
-            {showCompleted && (
-              <>
-                {completeTasks.map(task => (
-                  <TaskRow key={task.id} task={task} projectId={projectId} listId={listId} showLabels={showLabels} />
-                ))}
-                {!allCompleteLoaded && completeTasks.length < totalComplete && (
-                  <div className="px-4 py-1.5">
-                    <button
-                      type="button"
-                      className="text-sm text-pm-accent hover:underline disabled:opacity-50"
-                      disabled={loadingMoreComplete}
-                      onClick={() => handleLoadMore(1)}
-                    >
-                      {loadingMoreComplete ? __('Loading...', 'wedevs-project-manager') : __('Load more completed', 'wedevs-project-manager')}
-                    </button>
-                  </div>
+            {/* Incomplete tasks */}
+            {incompleteTasks.length > 0 ? (
+              incompleteTasks.map(task => (
+                <TaskRow key={task.id} task={task} projectId={projectId} listId={listId} showLabels={showLabels} />
+              ))
+            ) : (
+              <div className="px-4 py-8 text-center text-sm text-pm-text-muted">
+                {__('No incomplete tasks', 'wedevs-project-manager')}
+              </div>
+            )}
+
+            {/* Load more incomplete */}
+            {!allIncompleteLoaded && incompleteTasks.length > 0 && incompleteTasks.length < totalIncomplete && (
+              <div className="px-4 py-1.5 border-b border-border/40">
+                <button
+                  type="button"
+                  className="text-sm text-pm-accent hover:underline disabled:opacity-50"
+                  disabled={loadingMore}
+                  onClick={() => handleLoadMore(0)}
+                >
+                  {loadingMore ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Loading...', 'wedevs-project-manager')}</> : __('Load more tasks', 'wedevs-project-manager')}
+                </button>
+              </div>
+            )}
+
+            {/* Completed tasks toggle */}
+            {totalComplete > 0 && (
+              <div className="border-t border-border/40">
+                <button
+                  type="button"
+                  onClick={() => setShowCompleted(v => !v)}
+                  className="w-full flex items-center gap-2 px-4 py-2.5 text-[13px] font-medium text-pm-text-muted hover:bg-muted/20 transition-colors bg-muted/10"
+                >
+                  <ChevronDown
+                    className="h-4 w-4 transition-transform duration-200"
+                    style={{ transform: showCompleted ? 'rotate(0deg)' : 'rotate(-90deg)' }}
+                  />
+                  <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-100 text-emerald-700 px-2.5 py-0.5 text-[12px] font-medium uppercase tracking-wide">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    {totalComplete} {__('Completed', 'wedevs-project-manager')}
+                  </span>
+                </button>
+                {showCompleted && (
+                  <>
+                    {completeTasks.map(task => (
+                      <TaskRow key={task.id} task={task} projectId={projectId} listId={listId} showLabels={showLabels} />
+                    ))}
+                    {!allCompleteLoaded && completeTasks.length < totalComplete && (
+                      <div className="px-4 py-1.5">
+                        <button
+                          type="button"
+                          className="text-sm text-pm-accent hover:underline disabled:opacity-50"
+                          disabled={loadingMoreComplete}
+                          onClick={() => handleLoadMore(1)}
+                        >
+                          {loadingMoreComplete ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Loading...', 'wedevs-project-manager')}</> : __('Load more completed', 'wedevs-project-manager')}
+                        </button>
+                      </div>
+                    )}
+                  </>
                 )}
-              </>
+              </div>
             )}
           </div>
-        )}
+        </div>
       </div>
 
       {/* ── Discussion ── */}
-      <div className="rounded-xl border bg-card p-4 space-y-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted flex items-center gap-1.5">
+      <div className="rounded-lg border bg-card p-4 space-y-4">
+        <h3 className="text-sm font-medium uppercase tracking-wide text-muted-foreground/70 flex items-center gap-1.5">
           <MessageSquare className="h-4 w-4" />{__('Discussion', 'wedevs-project-manager')}
           {comments.length > 0 && (
-            <span className="text-[14px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums">{comments.length}</span>
+            <span className="text-[14px] bg-muted px-1.5 py-0.5 rounded-md tabular-nums">{comments.length}</span>
           )}
         </h3>
 
@@ -401,10 +435,10 @@ export default function SingleTaskListPage() {
                         )}
                         <FileUploadArea files={editCommentNewFiles} onFilesChange={setEditCommentNewFiles} compact />
                         <div className="flex items-center gap-2">
-                          <Button size="sm" className="h-6 text-[15px]" onClick={handleUpdateComment} disabled={savingEditComment || !editCommentText.trim()}>
-                            {savingEditComment ? __('Saving...', 'wedevs-project-manager') : __('Save', 'wedevs-project-manager')}
+                          <Button size="sm" className="h-11 text-[15px]" onClick={handleUpdateComment} disabled={savingEditComment || !editCommentText.trim()}>
+                            {savingEditComment ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</> : __('Save', 'wedevs-project-manager')}
                           </Button>
-                          <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment} disabled={savingEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                          <Button size="sm" variant="ghost" className="h-11 text-[15px]" onClick={cancelEditComment} disabled={savingEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
                         </div>
                       </div>
                     ) : (
@@ -435,14 +469,16 @@ export default function SingleTaskListPage() {
             users={projectUsers}
           />
           <FileUploadArea files={commentFiles} onFilesChange={setCommentFiles} compact />
-          <NotifyUsers
-            users={projectUsers}
-            value={commentNotifyUsers}
-            onChange={setCommentNotifyUsers}
-          />
-          <Button size="sm" className="h-7 text-sm" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
-            {submittingComment ? __('Sending...', 'wedevs-project-manager') : __('Post Comment', 'wedevs-project-manager')}
-          </Button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <NotifyUsers
+              users={projectUsers}
+              value={commentNotifyUsers}
+              onChange={setCommentNotifyUsers}
+            />
+            <Button size="sm" className="h-11 text-sm" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
+              {submittingComment ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Sending...', 'wedevs-project-manager')}</> : __('Post Comment', 'wedevs-project-manager')}
+            </Button>
+          </div>
         </div>
       </div>
 

@@ -5,10 +5,7 @@ import { __ } from '@wordpress/i18n';
 import React from 'react'
 import { cn } from '@lib/utils'
 import { Skeleton } from '@components/ui/skeleton'
-import {
-  GitPullRequest, GitPullRequestClosed, GitMerge,
-  CircleDot, CircleCheck, RefreshCw, ExternalLink,
-} from 'lucide-react'
+import { GitPullRequest, GitPullRequestClosed, GitMerge, CircleDot, CircleCheck, RefreshCw, ExternalLink } from 'lucide-react'
 
 // GitHub Octocat brand SVG (not available as non-deprecated lucide icon)
 const GitHubLogo = ({ className = '' }) => (
@@ -53,7 +50,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
   if (loading) {
     return (
       <div className="flex items-center gap-3 rounded-lg border border-pm-border p-3 bg-pm-surface max-w-md">
-        <Skeleton className="h-8 w-8 rounded-full shrink-0" />
+        <Skeleton className="h-8 w-8 rounded-md shrink-0" />
         <div className="flex-1 space-y-1.5">
           <Skeleton className="h-3.5 w-3/4" />
           <Skeleton className="h-3 w-1/2" />
@@ -68,9 +65,9 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
   const typeLabel = previewData.type === 'pull_request' ? __('PR', 'wedevs-project-manager') : __('Issue', 'wedevs-project-manager')
 
   const stateColors = {
-    open:   'text-green-600 bg-green-50',
-    closed: 'text-red-600 bg-red-50',
-    merged: 'text-purple-600 bg-purple-50',
+    open:   'text-emerald-700 bg-emerald-100',
+    closed: 'text-red-700 bg-red-100',
+    merged: 'text-purple-700 bg-purple-100',
   }
 
   const openInGitHubLogo = () => {
@@ -101,7 +98,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
           <GitHubLogo className="h-4 w-4" />
           <span>GitHub</span>
           {previewData.repository?.full_name && (
-            <span className="text-pm-text-muted/60">&middot; {previewData.repository.full_name}</span>
+            <span className="text-muted-foreground/70">&middot; {previewData.repository.full_name}</span>
           )}
         </div>
         <div className="flex items-center gap-1">
@@ -128,9 +125,9 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
           {/* Author avatar */}
           <div className="shrink-0 mt-0.5">
             {previewData.author?.avatar_url ? (
-              <img src={previewData.author.avatar_url} alt={previewData.author.login} className="h-7 w-7 rounded-full" />
+              <img src={previewData.author.avatar_url} alt={previewData.author.login} className="h-7 w-7 rounded-md" />
             ) : (
-              <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-pm-text-muted">
+              <div className="h-7 w-7 rounded-md bg-muted flex items-center justify-center text-pm-text-muted">
                 <GitHubLogo className="h-5 w-5" />
               </div>
             )}
@@ -141,7 +138,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
             <div className="flex items-center gap-1.5 flex-wrap">
               <span className="text-sm font-medium text-pm-text leading-tight">{previewData.title}</span>
               {previewData.state && (
-                <span className={cn('inline-flex items-center gap-0.5 text-[14px] font-medium px-1.5 py-0.5 rounded-full capitalize', stateColors[previewData.state] || 'text-pm-text-muted bg-muted')}>
+                <span className={cn('inline-flex items-center gap-0.5 text-[14px] font-medium px-1.5 py-0.5 rounded-md capitalize', stateColors[previewData.state] || 'text-pm-text-muted bg-muted')}>
                   <StateIcon state={previewData.state} type={previewData.type} />
                   {previewData.state}
                 </span>
@@ -160,7 +157,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
             {previewData.labels?.length > 0 && (
               <div className="flex items-center gap-1 mt-1.5 flex-wrap">
                 {previewData.labels.map((label, i) => (
-                  <span key={i} className="text-[14px] px-1.5 py-0.5 rounded-full font-medium"
+                  <span key={i} className="text-[14px] px-1.5 py-0.5 rounded-md font-medium"
                     style={{ backgroundColor: `#${label.color}`, color: labelTextColor(label.color) }}>
                     {label.name}
                   </span>

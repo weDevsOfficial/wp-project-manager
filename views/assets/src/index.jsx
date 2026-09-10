@@ -17,6 +17,7 @@ import * as ReactRouterDom from 'react-router-dom'
 import * as ReduxToolkit from '@reduxjs/toolkit'
 import { HashRouter, Routes, Route, Navigate, useParams } from 'react-router-dom'
 import * as SonnerLib from 'sonner'
+import '@lib/toast-custom' // patch Sonner → custom ToastCard (full-body countdown) app-wide
 const { Toaster } = SonnerLib
 import { store, injectReducer, resetProjectState } from '@store/index'
 import { fetchTask, openTaskSheet, closeTaskSheet, markTaskModified } from '@store/tasksSlice'
@@ -33,16 +34,17 @@ import { registerSlot, registerFilter, applyFilters, doAction, addAction, Slot, 
 import { registerRoute, useRegisteredRoutes } from '@/router/routeRegistry'
 import { registerNavItem, useRegisteredNavItems } from '@hooks/useNavRegistry'
 import { sanitizeHtml } from '@lib/sanitize'
+import * as downloadLib from '@lib/download'
 import './tailwind.css'
 
 // ── Free pages (always loaded) ──────────────────────────
+const DashboardPage   = React.lazy(() => import('@components/dashboard/DashboardPage'))
 const ProjectsPage    = React.lazy(() => import('@components/projects/ProjectsPage'))
 const SettingsPage    = React.lazy(() => import('@components/admin-settings/SettingsPage'))
 const TaskListsPage   = React.lazy(() => import('@components/tasks/TaskListsPage'))
 const SingleTaskListPage = React.lazy(() => import('@components/tasks/SingleTaskListPage'))
 const ProjectOverview = React.lazy(() => import('@components/projects/ProjectOverview'))
 const DiscussionsPage = React.lazy(() => import('@components/projects/DiscussionsPage'))
-const DiscussionDetailPage = React.lazy(() => import('@components/projects/DiscussionsPage/DiscussionDetailPage'))
 const MilestonesPage  = React.lazy(() => import('@components/projects/MilestonesPage'))
 const FilesPage       = React.lazy(() => import('@components/projects/FilesPage'))
 const ActivitiesPage  = React.lazy(() => import('@components/projects/ActivitiesPage'))
@@ -108,7 +110,8 @@ function AppRoutes() {
     <Routes>
       <Route element={<Layout />}>
         {/* ── Free routes ── */}
-        <Route index element={<Navigate to="/projects" replace />} />
+        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route path="dashboard" element={<DashboardPage />} />
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="projects/:projectId/task-lists" element={<ProjectRoute><TaskListsPage /></ProjectRoute>} />
         <Route path="projects/:projectId/task-lists/tasks/:taskId" element={<ProjectRoute><TaskListsPage /><TaskDeepLinkOpener /></ProjectRoute>} />
@@ -116,19 +119,19 @@ function AppRoutes() {
         <Route path="projects/:projectId/task-lists/:listId/tasks/:taskId" element={<ProjectRoute><SingleTaskListPage /><TaskDeepLinkOpener /></ProjectRoute>} />
         <Route path="projects/:projectId/overview" element={<ProjectRoute><ProjectOverview /></ProjectRoute>} />
         <Route path="projects/:projectId/discussions" element={<ProjectRoute><DiscussionsPage /></ProjectRoute>} />
-        <Route path="projects/:projectId/discussions/:discussionId" element={<ProjectRoute><DiscussionDetailPage /></ProjectRoute>} />
+        <Route path="projects/:projectId/discussions/:discussionId" element={<ProjectRoute><DiscussionsPage /></ProjectRoute>} />
         <Route path="projects/:projectId/milestones" element={<ProjectRoute><MilestonesPage /></ProjectRoute>} />
         <Route path="projects/:projectId/milestones/tasks/:taskId" element={<ProjectRoute><MilestonesPage /><TaskDeepLinkOpener /></ProjectRoute>} />
         <Route path="projects/:projectId/files" element={<ProjectRoute><FilteredPage filterName="route.files.element" fallback={FilesPage} /></ProjectRoute>} />
         <Route path="projects/:projectId/activities" element={<ProjectRoute><ActivitiesPage /></ProjectRoute>} />
         <Route path="projects/:projectId/kanban" element={<ProjectRoute><KanbanBoard /></ProjectRoute>} />
         <Route path="projects/:projectId/kanban/tasks/:taskId" element={<ProjectRoute><KanbanBoard /><TaskDeepLinkOpener /></ProjectRoute>} />
-        <Route path="my-tasks" element={<MyTasksPage />} />
+        <Route path="my-tasks/*" element={<MyTasksPage />} />
 
         {/* ── Admin-only routes — gated by AdminRoute. Categories also available on frontend for admins. ── */}
         <Route path="categories" element={<AdminRoute><CategoriesPage /></AdminRoute>} />
         {/* settings/tools/welcome/modules stay wp-admin-only */}
-        {!isFrontend && <Route path="settings" element={<AdminRoute><SettingsPage /></AdminRoute>} />}
+        {!isFrontend && <Route path="settings/*" element={<AdminRoute><SettingsPage /></AdminRoute>} />}
         {!isFrontend && <Route path="importtools" element={<AdminRoute><ToolsPage /></AdminRoute>} />}
         {!isFrontend && <Route path="welcome" element={<AdminRoute><WelcomePage /></AdminRoute>} />}
         {!isFrontend && <Route path="modules" element={<AdminRoute><FilteredPage filterName="route.modules.element" fallback={ModulesPage} /></AdminRoute>} />}
@@ -169,10 +172,23 @@ function AppRoutes() {
         <Route path="*" element={
           isProInstalled && dynamicRoutes.length === 0
             ? null
-            : <Navigate to="/projects" replace />
+            : <Navigate to="/dashboard" replace />
         } />
       </Route>
     </Routes>
+  )
+}
+
+// Toasts sit bottom-center everywhere, task detail sheet open or not.
+function RoutedToaster({ position = 'bottom-center' }) {
+  return createPortal(
+    <Toaster
+      position={position}
+      richColors
+      toastOptions={{ style: { zIndex: 99999 } }}
+      style={{ zIndex: 99999 }}
+    />,
+    document.body
   )
 }
 
@@ -188,7 +204,7 @@ function App() {
       const descNode = message
         ? <span className="pm-pusher-toast" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripInlineColor(message)) }} />
         : null
-      SonnerLib.toast(titleNode || descNode, {
+      SonnerLib.toast.message(titleNode || descNode, {
         description: titleNode && descNode ? descNode : undefined,
       })
     }
@@ -212,10 +228,7 @@ function App() {
           </React.Suspense>
         </div>
         </ProModalProvider>
-        {createPortal(
-          <Toaster position="bottom-center" richColors toastOptions={{ style: { zIndex: 99999 } }} style={{ zIndex: 99999 }} />,
-          document.body
-        )}
+        <RoutedToaster position="bottom-center" />
       </HashRouter>
     </Provider>
   )
@@ -348,12 +361,21 @@ window.PM = {
     LoomPreviewContainer:   require('@components/common/LoomPreviewContainer'),
   },
 
+  // Shared download-with-progress API (renders the progress popup). Pro routes
+  // its CSV/PDF exports through this so users get 0–100% feedback.
+  download: {
+    file: downloadLib.downloadFile,
+    blob: downloadLib.downloadBlob,
+    saveBlob: downloadLib.saveBlob,
+  },
+
   // Shared utilities for pro plugin
   utils: {
     urlStrippers: require('@/lib/url-strippers'),
     sanitize: require('@lib/sanitize'),
     pmUtils: require('@lib/pm-utils'),
     googleLinks: require('@lib/google-links'),
+    download: downloadLib,
   },
 
   // Re-export Radix UI primitives so pro uses the SAME context instances.

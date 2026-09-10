@@ -14,16 +14,29 @@ import {
 import { UserAvatar } from '@components/common/UserAvatar'
 import { Search, X, Filter } from 'lucide-react'
 
-export default function TaskFilterBar({ projectId, lists, onFilterResults, onClear }) {
+export default function TaskFilterBar({ projectId, lists, onFilterResults, onClear, open, onOpenChange, onActiveCountChange, onRegisterClear }) {
   const api = useApi()
   const toast = useToast()
 
-  const [isOpen, setIsOpen] = useState(false)
+  // The trigger lives in the page header next to the other list actions, so
+  // open state is the parent's when it passes it, and local otherwise.
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false)
+  const isControlled = open !== undefined
+  const isOpen = isControlled ? open : uncontrolledOpen
+  const setIsOpen = useCallback((v) => {
+    if (isControlled) onOpenChange?.(v)
+    else setUncontrolledOpen(v)
+  }, [isControlled, onOpenChange])
   const [status, setStatus] = useState('')
   const [dueDate, setDueDate] = useState('')
   const [listId, setListId] = useState('')
   const [assigneeId, setAssigneeId] = useState('')
   const [searchTitle, setSearchTitle] = useState('')
+  const [priority, setPriority] = useState('')
+  const [labelId, setLabelId] = useState('')
+  const [typeId, setTypeId] = useState('')
+  const [milestoneId, setMilestoneId] = useState('')
+  const [milestones, setMilestones] = useState([])
   const [filtering, setFiltering] = useState(false)
 
   const searchTimerRef = useRef(null)
@@ -41,8 +54,49 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
     return Array.from(map.values())
   }, [lists])
 
-  const hasActiveFilter = status || dueDate || listId || assigneeId || searchTitle.trim()
-  const activeCount = [status, dueDate, listId, assigneeId, searchTitle.trim()].filter(Boolean).length
+  // Labels come off the loaded tasks, the same way assignees do, so the filter
+  // offers exactly the labels in play on this project and needs no extra fetch.
+  const allLabels = React.useMemo(() => {
+    const map = new Map()
+    lists?.forEach(list => {
+      const tasks = [...(list.incomplete_tasks?.data ?? []), ...(list.complete_tasks?.data ?? [])]
+      tasks.forEach(task => {
+        const labels = Array.isArray(task.labels) ? task.labels : (task.labels?.data ?? [])
+        labels.forEach(l => { if (l.id && !map.has(l.id)) map.set(l.id, l) })
+      })
+    })
+    return Array.from(map.values())
+  }, [lists])
+
+  // Every task carries its type in the response, so the options come off the
+  // loaded tasks rather than a settings request.
+  const allTypes = React.useMemo(() => {
+    const map = new Map()
+    lists?.forEach(list => {
+      const tasks = [...(list.incomplete_tasks?.data ?? []), ...(list.complete_tasks?.data ?? [])]
+      tasks.forEach(task => {
+        const type = task.type
+        if (type?.id && !map.has(type.id)) map.set(type.id, type)
+      })
+    })
+    return Array.from(map.values())
+  }, [lists])
+
+  // Milestones are not on the task payload, so they need their own request.
+  // Only made once the filter bar is actually opened.
+  useEffect(() => {
+    if (!isOpen || !projectId || milestones.length > 0) return
+    api.get(`projects/${projectId}/milestones`, { per_page: 50 })
+      .then(res => setMilestones(res?.data ?? []))
+      .catch(() => {})
+  }, [isOpen, projectId, api, milestones.length])
+
+  const hasActiveFilter = status || dueDate || listId || assigneeId || searchTitle.trim() || priority !== '' || labelId || typeId || milestoneId
+  const activeCount = [status, dueDate, listId, assigneeId, searchTitle.trim(), priority !== '' ? priority : '', labelId, typeId, milestoneId].filter(Boolean).length
+
+  useEffect(() => {
+    onActiveCountChange?.(activeCount)
+  }, [activeCount, onActiveCountChange])
 
   const applyFilter = useCallback(async (overrides = {}) => {
     const params = {
@@ -52,6 +106,12 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       lists: (overrides.listId ?? listId) ? [Number(overrides.listId ?? listId)] : undefined,
       users: (overrides.assigneeId ?? assigneeId) ? [Number(overrides.assigneeId ?? assigneeId)] : undefined,
       title: overrides.searchTitle ?? searchTitle.trim(),
+      // '0' is Low, a real choice, so it must survive the empty-param cull below
+      // (it does: only '' is falsy here, not the string '0').
+      priority: overrides.priority ?? priority,
+      labels: (overrides.labelId ?? labelId) ? [Number(overrides.labelId ?? labelId)] : undefined,
+      types: (overrides.typeId ?? typeId) ? [Number(overrides.typeId ?? typeId)] : undefined,
+      milestone: (overrides.milestoneId ?? milestoneId) ? Number(overrides.milestoneId ?? milestoneId) : undefined,
     }
 
     // Remove empty params
@@ -82,7 +142,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       toast.error(__('Failed to filter tasks', 'wedevs-project-manager'))
     }
     setFiltering(false)
-  }, [api, projectId, status, dueDate, listId, assigneeId, searchTitle, onFilterResults, onClear])
+  }, [api, projectId, status, dueDate, listId, assigneeId, searchTitle, priority, labelId, typeId, milestoneId, onFilterResults, onClear])
 
   const handleClear = useCallback(() => {
     setStatus('')
@@ -90,8 +150,16 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
     setListId('')
     setAssigneeId('')
     setSearchTitle('')
+    setPriority('')
+    setLabelId('')
+    setTypeId('')
+    setMilestoneId('')
     onClear?.()
   }, [onClear])
+
+  useEffect(() => {
+    onRegisterClear?.(handleClear)
+  }, [handleClear, onRegisterClear])
 
   const handleSearchChange = useCallback((value) => {
     setSearchTitle(value)
@@ -108,18 +176,20 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
   }, [])
 
   if (!isOpen) {
+    if (isControlled) return null
+
     return (
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
           size="sm"
-          className="gap-1.5 h-8 text-sm"
+          className="gap-1.5 h-11 text-sm"
           onClick={() => setIsOpen(true)}
         >
           <Filter className="h-4 w-4" />
           {__('Filter', 'wedevs-project-manager')}
           {activeCount > 0 && (
-            <Badge variant="secondary" className="h-4 px-1 text-[14px] rounded-full ml-0.5">
+            <Badge variant="secondary" className="h-4 px-1 text-[14px] rounded-md ml-0.5">
               {activeCount}
             </Badge>
           )}
@@ -131,7 +201,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
   return (
     <div className="rounded-lg border bg-card px-3 py-2.5 flex items-center gap-2 flex-wrap">
       {/* Search */}
-      <div className="flex items-center gap-1.5 flex-1 min-w-[160px] max-w-[240px] h-8 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent">
+      <div className="flex items-center gap-1.5 flex-1 min-w-[160px] max-w-[240px] h-11 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
         <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
         <input
           value={searchTitle}
@@ -143,7 +213,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
 
       {/* Status */}
       <Select value={status} onValueChange={(v) => { setStatus(v); applyFilter({ status: v }) }}>
-        <SelectTrigger className="h-8 w-auto sm:w-[120px] text-sm">
+        <SelectTrigger className="h-11 w-auto sm:w-[120px] text-sm">
           <SelectValue placeholder={__('Status', 'wedevs-project-manager')} />
         </SelectTrigger>
         <SelectContent>
@@ -152,9 +222,63 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
         </SelectContent>
       </Select>
 
+      {/* Priority */}
+      <Select value={priority} onValueChange={(v) => { setPriority(v); applyFilter({ priority: v }) }}>
+        <SelectTrigger className="h-11 w-auto sm:w-[120px] text-sm">
+          <SelectValue placeholder={__('Priority', 'wedevs-project-manager')} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="0">{__('Low', 'wedevs-project-manager')}</SelectItem>
+          <SelectItem value="1">{__('Medium', 'wedevs-project-manager')}</SelectItem>
+          <SelectItem value="2">{__('High', 'wedevs-project-manager')}</SelectItem>
+        </SelectContent>
+      </Select>
+
+      {/* Label — only offered when this project actually uses labels */}
+      {allLabels.length > 0 && (
+        <Select value={labelId} onValueChange={(v) => { setLabelId(v); applyFilter({ labelId: v }) }}>
+          <SelectTrigger className="h-11 w-auto sm:w-[130px] text-sm">
+            <SelectValue placeholder={__('Label', 'wedevs-project-manager')} />
+          </SelectTrigger>
+          <SelectContent>
+            {allLabels.map(l => (
+              <SelectItem key={l.id} value={String(l.id)}>{l.title || l.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
+      {/* Task type - only offered when this project actually uses types */}
+      {allTypes.length > 0 && (
+        <Select value={typeId} onValueChange={(v) => { setTypeId(v); applyFilter({ typeId: v }) }}>
+          <SelectTrigger className="h-11 w-auto sm:w-[130px] text-sm">
+            <SelectValue placeholder={__('Type', 'wedevs-project-manager')} />
+          </SelectTrigger>
+          <SelectContent>
+            {allTypes.map(t => (
+              <SelectItem key={t.id} value={String(t.id)}>{t.title}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
+      {/* Milestone */}
+      {milestones.length > 0 && (
+        <Select value={milestoneId} onValueChange={(v) => { setMilestoneId(v); applyFilter({ milestoneId: v }) }}>
+          <SelectTrigger className="h-11 w-auto sm:w-[140px] text-sm">
+            <SelectValue placeholder={__('Milestone', 'wedevs-project-manager')} />
+          </SelectTrigger>
+          <SelectContent>
+            {milestones.map(m => (
+              <SelectItem key={m.id} value={String(m.id)}>{m.title}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
       {/* Due date */}
       <Select value={dueDate} onValueChange={(v) => { setDueDate(v); applyFilter({ dueDate: v }) }}>
-        <SelectTrigger className="h-8 w-auto sm:w-[120px] text-sm">
+        <SelectTrigger className="h-11 w-auto sm:w-[120px] text-sm">
           <SelectValue placeholder={__('Due Date', 'wedevs-project-manager')} />
         </SelectTrigger>
         <SelectContent>
@@ -167,7 +291,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {/* List */}
       {lists?.length > 0 && (
         <Select value={listId} onValueChange={(v) => { setListId(v); applyFilter({ listId: v }) }}>
-          <SelectTrigger className="h-8 w-auto sm:w-[140px] text-sm">
+          <SelectTrigger className="h-11 w-auto sm:w-[140px] text-sm">
             <SelectValue placeholder={__('Task List', 'wedevs-project-manager')} />
           </SelectTrigger>
           <SelectContent>
@@ -181,7 +305,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {/* Assignee */}
       {allAssignees.length > 0 && (
         <Select value={assigneeId} onValueChange={(v) => { setAssigneeId(v); applyFilter({ assigneeId: v }) }}>
-          <SelectTrigger className="h-8 w-auto sm:w-[140px] text-sm">
+          <SelectTrigger className="h-11 w-auto sm:w-[140px] text-sm">
             <SelectValue placeholder={__('Assignee', 'wedevs-project-manager')} />
           </SelectTrigger>
           <SelectContent>
@@ -199,14 +323,14 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
 
       {/* Clear */}
       {hasActiveFilter && (
-        <Button variant="outline" size="sm" className="h-8 text-sm gap-1" onClick={handleClear}>
+        <Button variant="outline" size="sm" className="h-11 text-sm gap-1" onClick={handleClear}>
           <X className="h-3.5 w-3.5" />
           {__('Clear', 'wedevs-project-manager')}
         </Button>
       )}
 
       {/* Close */}
-      <Button variant="ghost" size="icon" className="h-7 w-7 ml-auto shrink-0" onClick={() => { setIsOpen(false); if (!hasActiveFilter) onClear?.() }}>
+      <Button aria-label={__('Close filters', 'wedevs-project-manager')} variant="ghost" size="icon" className="h-7 w-7 ml-auto shrink-0" onClick={() => { setIsOpen(false); if (!hasActiveFilter) onClear?.() }}>
         <X className="h-4 w-4" />
       </Button>
     </div>

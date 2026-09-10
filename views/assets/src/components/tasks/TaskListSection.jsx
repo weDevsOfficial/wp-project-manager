@@ -10,7 +10,7 @@ import { cn } from '@lib/utils'
 import { isPrivate } from '@lib/pm-utils'
 import { useToast } from '@hooks/useToast'
 import { useConfirm } from '@hooks/useConfirm'
-import { Milestone as MilestoneIcon } from 'lucide-react'
+import { Milestone as MilestoneIcon, Loader2 } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Checkbox } from '@components/ui/checkbox'
@@ -39,13 +39,22 @@ import {
   Archive,
   Copy,
   Crown,
+  ListChecks,
+  AlignLeft,
+  Users,
+  Calendar,
+  Flag,
+  BarChart3,
+  Tag,
+  CheckCircle2,
+  Clock,
 } from 'lucide-react'
 import { Slot } from '@hooks/useSlot'
 import { usePermissions } from '@hooks/usePermissions'
 import { useCurrentProject } from '@hooks/useCurrentProject'
 import { useProModal } from '@components/common/ProUpgradeModal'
 import TaskStatusCircle from '@components/common/TaskStatusCircle'
-import TaskRow from './TaskRow'
+import TaskRow, { TASK_GRID } from './TaskRow'
 import { sanitizeHtml } from '@lib/sanitize'
 
 export default function TaskListSection({ list, projectId, showLabels, isInbox = false }) {
@@ -155,6 +164,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
     dispatch(updateListPrivacy({ listId: list.id, privacy: next }))
     try {
       await api.post(`projects/${projectId}/task-lists/privacy/${list.id}`, { is_private: next })
+      toast.success(next ? __('List set to private', 'wedevs-project-manager') : __('List set to public', 'wedevs-project-manager'))
     } catch {
       dispatch(updateListPrivacy({ listId: list.id, privacy: next ? 0 : 1 }))
       toast.error(__('Failed to update list privacy', 'wedevs-project-manager'))
@@ -267,6 +277,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
 
     try {
       await dispatch(sortTasks({ projectId, listId: list.id, taskId: moved.id, orders, receive: 0 })).unwrap()
+      toast.success(__('Tasks reordered', 'wedevs-project-manager'))
     } catch {
       // Undo the optimistic move by reversing the splice
       dispatch(reorderTasksLocal({ listId: list.id, fromIndex: toIdx, toIndex: fromIdx }))
@@ -339,6 +350,10 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
           type="button"
           onClick={handleToggle}
           className="p-0.5 hover:bg-muted rounded transition-colors"
+          aria-expanded={expanded}
+          aria-label={expanded
+            ? __('Collapse section', 'wedevs-project-manager')
+            : __('Expand section', 'wedevs-project-manager')}
         >
           <ChevronDown
             className="h-5 w-5 text-pm-text-muted transition-transform duration-200"
@@ -353,13 +368,13 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
               value={renameTitle}
               onChange={(e) => setRenameTitle(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') setRenaming(false); }}
-              className="text-sm font-semibold text-pm-text-primary flex-1 bg-transparent border-b border-pm-accent outline-none px-0 py-0"
+              className="text-sm font-medium text-pm-text-primary flex-1 bg-transparent border-b border-pm-accent outline-none px-0 py-0"
             />
             <button type="button" onClick={handleRename} className="text-pm-accent hover:text-pm-accent/80 p-1 rounded hover:bg-muted transition-colors" title={__('Save', 'wedevs-project-manager')}><Check className="h-4 w-4" /></button>
             <button type="button" onClick={() => setRenaming(false)} className="text-pm-text-muted hover:text-pm-text p-1 rounded hover:bg-muted transition-colors" title={__('Cancel', 'wedevs-project-manager')}><X className="h-4 w-4" /></button>
           </div>
         ) : (
-          <h3 className="text-sm font-semibold text-pm-text-primary flex-1 truncate" dangerouslySetInnerHTML={{ __html: sanitizeHtml(list.title) }} />
+          <h3 className="text-sm font-medium text-pm-text-primary flex-1 truncate" dangerouslySetInnerHTML={{ __html: sanitizeHtml(list.title) }} />
         )}
 
         {!renaming && isPrivate(list.meta?.privacy) && (
@@ -474,7 +489,28 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
 
       {/* Expanded content */}
       {expanded && (
-        <div>
+        <div className="overflow-x-auto">
+          <div className="min-w-[1180px]">
+          {totalIncomplete > 0 && (
+            <div className="px-4 pt-3 pb-1.5">
+              <span className="inline-flex items-center gap-1.5 rounded-md bg-amber-100 text-amber-700 px-2.5 py-0.5 text-[12px] font-medium uppercase tracking-wide">
+                <Clock className="h-3.5 w-3.5" />{__('Pending', 'wedevs-project-manager')} ({totalIncomplete})
+              </span>
+            </div>
+          )}
+          {(incompleteTasks.length > 0 || completeTasks.length > 0) && (
+            <div className={cn('grid items-center gap-2 px-4 py-2 border-b bg-muted/20 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70', TASK_GRID)}>
+              <div className="flex items-center gap-1.5"><ListChecks className="h-3.5 w-3.5" />{__('Task', 'wedevs-project-manager')}</div>
+              <div className="flex items-center gap-1.5"><Tag className="h-3.5 w-3.5" />{__('Type', 'wedevs-project-manager')}</div>
+              <div className="flex items-center gap-1.5"><Tag className="h-3.5 w-3.5" />{__('Labels', 'wedevs-project-manager')}</div>
+              <div className="flex items-center gap-1.5"><AlignLeft className="h-3.5 w-3.5" />{__('Description', 'wedevs-project-manager')}</div>
+              <div className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5" />{__('Assignee', 'wedevs-project-manager')}</div>
+              <div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{__('Due Date', 'wedevs-project-manager')}</div>
+              <div className="flex items-center gap-1.5"><Flag className="h-3.5 w-3.5" />{__('Priority', 'wedevs-project-manager')}</div>
+              <div className="flex items-center gap-1.5"><BarChart3 className="h-3.5 w-3.5" />{__('Progress', 'wedevs-project-manager')}</div>
+              <div></div>
+            </div>
+          )}
           {/* Incomplete tasks */}
           {incompleteTasks.length > 0 ? (
             incompleteTasks.map((task, idx) => (
@@ -503,7 +539,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                 disabled={loadingMore}
                 onClick={() => handleLoadMore(0)}
               >
-                {loadingMore ? __('Loading...', 'wedevs-project-manager') : __('Load more tasks', 'wedevs-project-manager')}
+                {loadingMore ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Loading...', 'wedevs-project-manager')}</> : __('Load more tasks', 'wedevs-project-manager')}
               </button>
             </div>
           )}
@@ -514,7 +550,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
               {canCreateTask && (
                 <Button
                   size="sm"
-                  className="gap-1.5"
+                  className="gap-1.5 h-11 px-5"
                   onClick={() => setShowNewTask(true)}
                 >
                   <Plus className="h-5 w-5" />
@@ -538,14 +574,14 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   value={newTitle}
                   onChange={e => setNewTitle(e.target.value)}
                   placeholder={__('Task name...', 'wedevs-project-manager')}
-                  className="h-8 text-sm flex-1"
+                  className="h-11 text-sm flex-1"
                   onKeyDown={e => { if (e.key === 'Escape') resetForm() }}
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="h-7 text-sm px-1.5 text-pm-text-muted"
+                  className="h-11 text-sm px-1.5 text-pm-text-muted"
                   onClick={() => setExpandedForm(v => !v)}
                   title={__('More options', 'wedevs-project-manager')}
                 >
@@ -571,7 +607,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                     <DatePicker
                       value={newDueDate}
                       onChange={v => setNewDueDate(v)}
-                      className="h-8 text-sm w-40"
+                      className="h-11 text-sm w-40"
                     />
                   </div>
 
@@ -584,7 +620,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                       <select
                         value={selectedMilestone}
                         onChange={e => setSelectedMilestone(e.target.value)}
-                        className="h-8 text-sm text-foreground rounded-md border border-input bg-background px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-48"
+                        className="h-11 text-sm text-foreground rounded-md border border-input bg-background px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-48"
                       >
                         <option value="">{__('None', 'wedevs-project-manager')}</option>
                         {milestones.map(m => (
@@ -605,21 +641,24 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                           onFocus={() => setAssigneeOpen(true)}
                           onKeyDown={e => { if (e.key === 'Escape') setAssigneeOpen(false) }}
                           placeholder={__('Search users...', 'wedevs-project-manager')}
-                          className="h-8 text-sm"
+                          className="h-11 text-sm"
                         />
                         {assigneeOpen && assigneeResults.length > 0 && (
-                          <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50 max-h-40 overflow-y-auto">
+                          <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50 max-h-72 overflow-y-auto p-1">
                             {assigneeResults.map(user => {
                               const isSelected = selectedAssignees.some(u => parseInt(u.id) === parseInt(user.id))
                               return (
                                 <button
                                   key={user.id}
                                   type="button"
-                                  className={cn("w-full flex items-center gap-2 px-3 py-2 text-sm text-left transition-colors", isSelected ? "bg-pm-accent/5 text-pm-accent" : "hover:bg-muted/50")}
+                                  className={cn("w-full flex items-center gap-2.5 rounded-md px-2 py-1.5 text-left transition-colors", isSelected ? "bg-pm-accent/5" : "hover:bg-muted/60")}
                                   onClick={() => isSelected ? removeAssignee(user.id) : addAssignee(user)}
                                 >
-                                  <UserAvatar user={user} size="sm" />
-                                  <span className="flex-1 truncate">{user.display_name}</span>
+                                  <UserAvatar user={user} size="md" className="shrink-0" />
+                                  <div className="min-w-0 flex-1">
+                                    <p className="text-sm font-medium text-pm-text-primary truncate">{user.display_name}</p>
+                                    {user.email && <p className="text-[12px] text-pm-text-muted truncate">{user.email}</p>}
+                                  </div>
                                   {isSelected && <Check className="h-4 w-4 text-pm-accent shrink-0" />}
                                 </button>
                               )
@@ -634,7 +673,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                         {selectedAssignees.map(user => (
                           <span
                             key={user.id}
-                            className="inline-flex items-center gap-1 text-sm bg-muted rounded-full pl-1 pr-2 py-0.5"
+                            className="inline-flex items-center gap-1 text-sm bg-muted rounded-md pl-1 pr-2 py-0.5"
                           >
                             <UserAvatar user={user} size="sm" />
                             {user.display_name}
@@ -676,16 +715,16 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                 <Button
                   type="submit"
                   size="sm"
-                  className="h-7 text-sm"
+                  className="h-11 text-sm"
                   disabled={!newTitle.trim() || creating}
                 >
-                  {creating ? __('Adding...', 'wedevs-project-manager') : __('Add Task', 'wedevs-project-manager')}
+                  {creating ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Adding...', 'wedevs-project-manager')}</> : __('Add Task', 'wedevs-project-manager')}
                 </Button>
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="h-7 text-sm"
+                  className="h-11 text-sm"
                   onClick={resetForm}
                 >
                   {__('Cancel', 'wedevs-project-manager')}
@@ -700,13 +739,14 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
               <button
                 type="button"
                 onClick={() => setShowCompleted(v => !v)}
-                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-pm-text-muted hover:bg-muted/20 transition-colors"
+                className="w-full flex items-center gap-2 px-4 py-2.5 text-[13px] font-medium text-pm-text-muted hover:bg-muted/20 transition-colors bg-muted/10"
               >
                 <ChevronDown
-                  className="h-3.5 w-3.5 transition-transform duration-200"
+                  className="h-4 w-4 transition-transform duration-200"
                   style={{ transform: showCompleted ? 'rotate(0deg)' : 'rotate(-90deg)' }}
                 />
-                <span className="font-medium">
+                <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-100 text-emerald-700 px-2.5 py-0.5 text-[12px] font-medium uppercase tracking-wide">
+                  <CheckCircle2 className="h-3.5 w-3.5" />
                   {totalComplete} {__('Completed', 'wedevs-project-manager')}
                 </span>
               </button>
@@ -723,7 +763,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                         disabled={loadingMoreComplete}
                         onClick={() => handleLoadMore(1)}
                       >
-                        {loadingMoreComplete ? __('Loading...', 'wedevs-project-manager') : __('Load more completed', 'wedevs-project-manager')}
+                        {loadingMoreComplete ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Loading...', 'wedevs-project-manager')}</> : __('Load more completed', 'wedevs-project-manager')}
                       </button>
                     </div>
                   )}
@@ -731,6 +771,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
               )}
             </div>
           )}
+          </div>
         </div>
       )}
     </div>

@@ -8,7 +8,7 @@ import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Label } from '@components/ui/label'
 import { Switch } from '@components/ui/switch'
-import { Radio, Zap, Bell } from 'lucide-react'
+import { Radio, Zap, Bell, Loader2 } from 'lucide-react'
 
 const getTriggers = () => [
   { key: 'pusher_notify_task_assign',    label: __('Task assigned',          'wedevs-project-manager'), desc: __('Notify users when assigned to a task',           'wedevs-project-manager') },
@@ -68,7 +68,7 @@ const PusherTab = () => {
     <form onSubmit={onSubmit}>
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
             <Radio className="w-5 h-5 text-pm-accent" />
             {__('Pusher Settings', 'wedevs-project-manager')}
           </h2>
@@ -88,7 +88,7 @@ const PusherTab = () => {
               {__('Master switch. Disables all real-time notifications when off.', 'wedevs-project-manager')}
             </p>
           </div>
-          <Switch
+          <Switch aria-label={__('Master switch. Disables all real-time notifications when off.', 'wedevs-project-manager')}
             id="pusher_enable"
             checked={enabled}
             onCheckedChange={(val) => updateField('pusher_enable', val)}
@@ -129,7 +129,7 @@ const PusherTab = () => {
               {__('Pusher notification links point to the WP admin backend', 'wedevs-project-manager')}
             </p>
           </div>
-          <Switch
+          <Switch aria-label={__('Pusher notification links point to the WP admin backend', 'wedevs-project-manager')}
             id="pusher_link_to_backend"
             checked={!!form.pusher_link_to_backend}
             onCheckedChange={(val) => updateField('pusher_link_to_backend', val)}
@@ -138,7 +138,7 @@ const PusherTab = () => {
       </div>
 
       <div className="mt-6">
-        <h3 className="text-sm font-semibold text-pm-text flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
           <Bell className="w-4 h-4 text-pm-accent" />
           {__('Notification Triggers', 'wedevs-project-manager')}
         </h3>
@@ -162,6 +162,7 @@ const PusherTab = () => {
               </div>
               <Switch
                 id={t.key}
+                aria-label={t.label}
                 checked={!!form[t.key]}
                 onCheckedChange={(val) => updateField(t.key, val)}
               />
@@ -171,18 +172,18 @@ const PusherTab = () => {
       </div>
 
       <div className="flex items-center gap-3 mt-5">
-        <Button type="submit" disabled={!isDirty || pusherSaving}>
-          {pusherSaving ? __('Saving...', 'wedevs-project-manager') : __('Save Changes', 'wedevs-project-manager')}
+        <Button className="h-11 px-5" type="submit" disabled={!isDirty || pusherSaving}>
+          {pusherSaving ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</> : __('Save Changes', 'wedevs-project-manager')}
         </Button>
         <Button
           type="button"
           variant="outline"
           onClick={handleTest}
           disabled={testing || isDirty || !form.pusher_app_key || !enabled}
-          className="gap-1.5"
+          className="gap-1.5 h-11 px-5"
         >
           <Zap className="w-4 h-4" />
-          {testing ? __('Testing...', 'wedevs-project-manager') : __('Test Connection', 'wedevs-project-manager')}
+          {testing ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Testing...', 'wedevs-project-manager')}</> : __('Test Connection', 'wedevs-project-manager')}
         </Button>
         {isDirty && !pusherSaving && (
           <span className="text-sm text-pm-text-muted">{__('Save changes before testing', 'wedevs-project-manager')}</span>

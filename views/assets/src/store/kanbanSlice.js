@@ -150,7 +150,7 @@ export const fetchBoardTasks = createAsyncThunk(
   'kanban/fetchBoardTasks',
   async ({ projectId, boardId, page = 1, perPage = 50 }, { rejectWithValue }) => {
     try {
-      const res = await api.get(`projects/${projectId}/kanboard/${boardId}`, { page, per_page: perPage })
+      const res = await api.get(`projects/${projectId}/kanboard/${boardId}`, { page, per_page: perPage, with: 'assignees,labels' })
       const data = Array.isArray(res?.data) ? res.data : (res?.data ?? res)
       const meta = res?.meta ?? null
       return { boardId, tasks: data, meta, page }
@@ -164,7 +164,7 @@ export const loadMoreBoardTasks = createAsyncThunk(
   'kanban/loadMoreBoardTasks',
   async ({ projectId, boardId, page, perPage = 50 }, { rejectWithValue }) => {
     try {
-      const res = await api.get(`projects/${projectId}/kanboard/${boardId}`, { page, per_page: perPage })
+      const res = await api.get(`projects/${projectId}/kanboard/${boardId}`, { page, per_page: perPage, with: 'assignees,labels' })
       const data = Array.isArray(res?.data) ? res.data : (res?.data ?? res)
       const meta = res?.meta ?? null
       return { boardId, tasks: data, meta }
@@ -222,6 +222,19 @@ const kanbanSlice = createSlice({
       // stay on the fetched numbers until the board is loaded again.
       adjustBoardTotals(fromBoard, -1)
       adjustBoardTotals(toBoard, 1)
+    },
+    taskAddedToBoard(state, action) {
+      // The column header reads pagination.total, so a card created in the
+      // composer rendered immediately while the header stayed on the count
+      // fetched at load time.
+      const { boardId, task } = action.payload
+      const board = state.boards.find(b => String(b.id) === String(boardId))
+      if (!board || !task?.id) return
+      const tasks = Array.isArray(board.tasks) ? board.tasks : (board.tasks?.data ?? [])
+      if (tasks.some(t => String(t.id) === String(task.id))) return
+      tasks.push(task)
+      if (!Array.isArray(board.tasks)) board.tasks = tasks
+      adjustBoardTotals(board, 1)
     },
     resetKanban() { return initialState },
   },
@@ -282,7 +295,9 @@ const kanbanSlice = createSlice({
         const board = state.boards.find(b => b.id === boardId)
         if (board) {
           const tasks = Array.isArray(board.tasks) ? board.tasks : (board.tasks?.data ?? [])
-          board.tasks = tasks.filter(t => t.id !== taskId)
+          const remaining = tasks.filter(t => t.id !== taskId)
+          if (remaining.length !== tasks.length) adjustBoardTotals(board, -1)
+          board.tasks = remaining
         }
       })
       .addCase(addTaskToBoard.fulfilled, (state, action) => {
@@ -371,5 +386,5 @@ const kanbanSlice = createSlice({
   },
 })
 
-export const { setDragState, clearDragState, reorderBoardsLocal, moveTaskBetweenBoards, resetKanban } = kanbanSlice.actions
+export const { setDragState, clearDragState, reorderBoardsLocal, moveTaskBetweenBoards, taskAddedToBoard, resetKanban } = kanbanSlice.actions
 export default kanbanSlice.reducer

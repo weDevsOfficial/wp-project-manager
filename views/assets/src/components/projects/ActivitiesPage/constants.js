@@ -53,6 +53,12 @@ export const ACTION_COLOR_MAP = {
   delete: 'bg-red-500',
 };
 
+export const ACTION_SOFT_MAP = {
+  create: 'bg-emerald-500/15 text-emerald-600',
+  update: 'bg-blue-500/15 text-blue-600',
+  delete: 'bg-red-500/15 text-red-600',
+};
+
 export const ACTION_LABELS = {
   create: __('Created', 'wedevs-project-manager'),
   update: __('Updated', 'wedevs-project-manager'),

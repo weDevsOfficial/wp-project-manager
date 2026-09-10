@@ -83,8 +83,6 @@
 
       "Bash(pnpm publish:*)",
       "Bash(npm publish:*)",
-      "Bash(pnpm release:*)",
-      "Bash(grunt release:*)",
       "Bash(composer update:*)",
       "Bash(composer require:*)",
       "Bash(composer remove:*)",

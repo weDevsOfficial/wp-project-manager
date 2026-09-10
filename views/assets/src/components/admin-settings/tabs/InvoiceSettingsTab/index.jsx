@@ -108,12 +108,12 @@ export default function InvoiceSettingsTab() {
 
   return (
     <form onSubmit={onSubmit}>
-      <h2 className="text-lg font-semibold text-pm-text mb-1">{__('Invoice Settings', 'wedevs-project-manager')}</h2>
+      <h2 className="text-lg font-semibold text-pm-text-primary mb-1">{__('Invoice Settings', 'wedevs-project-manager')}</h2>
       <p className="text-sm text-pm-text-muted mb-5">{__('Configure invoice appearance and payment gateways', 'wedevs-project-manager')}</p>
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Appearance', 'wedevs-project-manager')}</h3>
+          <h3 className="text-sm font-medium text-pm-text-primary">{__('Appearance', 'wedevs-project-manager')}</h3>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <div>
@@ -127,7 +127,7 @@ export default function InvoiceSettingsTab() {
             <Label className="text-sm font-medium">{__('Currency', 'wedevs-project-manager')}</Label>
           </div>
           <Select value={currencyCode} onValueChange={set(setCurrencyCode)}>
-            <SelectTrigger className="w-52 h-8 text-sm">
+            <SelectTrigger className="w-52 h-11 text-sm">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -139,7 +139,7 @@ export default function InvoiceSettingsTab() {
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Payment Gateways', 'wedevs-project-manager')}</h3>
+          <h3 className="text-sm font-medium text-pm-text-primary">{__('Payment Gateways', 'wedevs-project-manager')}</h3>
         </div>
 
         <div className="border-b border-pm-border">
@@ -149,11 +149,11 @@ export default function InvoiceSettingsTab() {
                 <span className="text-blue-600 font-bold text-sm">PP</span>
               </div>
               <div className="min-w-0">
-                <Label className="text-sm font-semibold">{__('PayPal', 'wedevs-project-manager')}</Label>
+                <Label className="text-sm font-medium">{__('PayPal', 'wedevs-project-manager')}</Label>
                 <p className="text-[15px] text-pm-text-muted">{__('Accept payments via PayPal', 'wedevs-project-manager')}</p>
               </div>
             </div>
-            <Switch checked={paypalEnabled} onCheckedChange={set(setPaypalEnabled)} />
+            <Switch aria-label={__('Accept payments via PayPal', 'wedevs-project-manager')} checked={paypalEnabled} onCheckedChange={set(setPaypalEnabled)} />
           </div>
           {paypalEnabled && (
             <div className="px-5 pb-4 pt-0 space-y-3 ml-[52px]">
@@ -166,7 +166,7 @@ export default function InvoiceSettingsTab() {
                   <Label className="text-sm">{__('Sandbox Mode', 'wedevs-project-manager')}</Label>
                   <p className="text-[13px] text-pm-text-muted">{__('Use demo mode for testing', 'wedevs-project-manager')}</p>
                 </div>
-                <Switch checked={sandboxMode} onCheckedChange={set(setSandboxMode)} />
+                <Switch aria-label={__('Use demo mode for testing', 'wedevs-project-manager')} checked={sandboxMode} onCheckedChange={set(setSandboxMode)} />
               </div>
               <div>
                 <Label className="text-sm mb-1 block">{__('PayPal Instruction', 'wedevs-project-manager')}</Label>
@@ -183,11 +183,11 @@ export default function InvoiceSettingsTab() {
                 <span className="text-purple-600 font-bold text-sm">S</span>
               </div>
               <div className="min-w-0">
-                <Label className="text-sm font-semibold">{__('Stripe', 'wedevs-project-manager')}</Label>
+                <Label className="text-sm font-medium">{__('Stripe', 'wedevs-project-manager')}</Label>
                 <p className="text-[15px] text-pm-text-muted">{__('Accept credit card payments via Stripe', 'wedevs-project-manager')}</p>
               </div>
             </div>
-            <Switch checked={stripeEnabled} onCheckedChange={set(setStripeEnabled)} />
+            <Switch aria-label={__('Accept credit card payments via Stripe', 'wedevs-project-manager')} checked={stripeEnabled} onCheckedChange={set(setStripeEnabled)} />
           </div>
           {stripeEnabled && (
             <div className="px-5 pb-4 pt-0 space-y-3 ml-[52px]">
@@ -200,7 +200,7 @@ export default function InvoiceSettingsTab() {
                   <Label className="text-sm">{__('Enable Test Secret Key', 'wedevs-project-manager')}</Label>
                   <p className="text-[13px] text-pm-text-muted">{__('Use sandbox mode for testing', 'wedevs-project-manager')}</p>
                 </div>
-                <Switch checked={stripeTestSecret} onCheckedChange={set(setStripeTestSecret)} />
+                <Switch aria-label={__('Use sandbox mode for testing', 'wedevs-project-manager')} checked={stripeTestSecret} onCheckedChange={set(setStripeTestSecret)} />
               </div>
               {stripeTestSecret ? (
                 <>
@@ -232,14 +232,14 @@ export default function InvoiceSettingsTab() {
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Invoice Defaults', 'wedevs-project-manager')}</h3>
+          <h3 className="text-sm font-medium text-pm-text-primary">{__('Invoice Defaults', 'wedevs-project-manager')}</h3>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <div>
             <Label className="text-sm font-medium">{__('Company Name', 'wedevs-project-manager')}</Label>
             <p className="text-sm text-pm-text-muted mt-0.5">{__('Displayed on invoices as the billing entity', 'wedevs-project-manager')}</p>
           </div>
-          <Input value={companyName} onChange={e => set(setCompanyName)(e.target.value)} className="w-64 h-8 text-sm" placeholder={__('Your Company Name', 'wedevs-project-manager')} />
+          <Input value={companyName} onChange={e => set(setCompanyName)(e.target.value)} className="w-64 h-11 text-sm" placeholder={__('Your Company Name', 'wedevs-project-manager')} />
         </div>
         <div className="px-5 py-4 border-b border-pm-border">
           <div className="flex items-center justify-between mb-1">
@@ -262,7 +262,7 @@ export default function InvoiceSettingsTab() {
             step="0.01"
             value={taxRate}
             onChange={e => set(setTaxRate)(e.target.value)}
-            className="w-32 h-8 text-sm text-right"
+            className="w-32 h-11 text-sm text-right"
             placeholder="0.00"
           />
         </div>
@@ -279,36 +279,36 @@ export default function InvoiceSettingsTab() {
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Organization', 'wedevs-project-manager')}</h3>
+          <h3 className="text-sm font-medium text-pm-text-primary">{__('Organization', 'wedevs-project-manager')}</h3>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('Organization Name', 'wedevs-project-manager')}</Label>
-          <Input value={organization} onChange={e => set(setOrganization)(e.target.value)} className="w-64 h-8 text-sm" />
+          <Input value={organization} onChange={e => set(setOrganization)(e.target.value)} className="w-64 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('Address Line 1', 'wedevs-project-manager')}</Label>
-          <Input value={address1} onChange={e => set(setAddress1)(e.target.value)} className="w-64 h-8 text-sm" />
+          <Input value={address1} onChange={e => set(setAddress1)(e.target.value)} className="w-64 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('Address Line 2', 'wedevs-project-manager')}</Label>
-          <Input value={address2} onChange={e => set(setAddress2)(e.target.value)} className="w-64 h-8 text-sm" />
+          <Input value={address2} onChange={e => set(setAddress2)(e.target.value)} className="w-64 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('City', 'wedevs-project-manager')}</Label>
-          <Input value={city} onChange={e => set(setCity)(e.target.value)} className="w-64 h-8 text-sm" />
+          <Input value={city} onChange={e => set(setCity)(e.target.value)} className="w-64 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('State/Province', 'wedevs-project-manager')}</Label>
-          <Input value={state} onChange={e => set(setState)(e.target.value)} className="w-64 h-8 text-sm" />
+          <Input value={state} onChange={e => set(setState)(e.target.value)} className="w-64 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('Zip/Postal Code', 'wedevs-project-manager')}</Label>
-          <Input value={zip} onChange={e => set(setZip)(e.target.value)} className="w-40 h-8 text-sm" />
+          <Input value={zip} onChange={e => set(setZip)(e.target.value)} className="w-40 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <Label className="text-sm font-medium">{__('Country', 'wedevs-project-manager')}</Label>
           <Select value={countryCode} onValueChange={set(setCountryCode)}>
-            <SelectTrigger className="w-52 h-8 text-sm">
+            <SelectTrigger className="w-52 h-11 text-sm">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -319,7 +319,7 @@ export default function InvoiceSettingsTab() {
       </div>
 
       <div className="flex items-center gap-3">
-        <Button type="submit" disabled={!isDirty}>
+        <Button className="h-11 px-5" type="submit" disabled={!isDirty}>
           {__('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && (

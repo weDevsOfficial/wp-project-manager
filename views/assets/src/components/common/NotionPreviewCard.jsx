@@ -123,7 +123,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
 
             <div className="flex-1 min-w-0">
               {/* Title */}
-              <p className="text-sm font-semibold text-pm-text leading-snug">
+              <p className="text-sm font-medium text-pm-text-primary leading-snug">
                 {previewData.title || __('Untitled', 'wedevs-project-manager')}
               </p>
 

@@ -25,6 +25,7 @@ module.exports = {
       '@store':      path.resolve(__dirname, 'views/assets/src/store'),
       '@hooks':      path.resolve(__dirname, 'views/assets/src/hooks'),
       '@lib':        path.resolve(__dirname, 'views/assets/src/lib'),
+      'lucide-react': path.resolve(__dirname, 'views/assets/src/lib/lucide-shim.jsx'),
     },
     extensions: ['.jsx', '.js', '.json'],
   },

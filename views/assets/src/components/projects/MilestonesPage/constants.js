@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import {
-  CheckCircle, Clock, AlertCircle, AlertTriangle,
+  CheckCircle, Clock, AlertCircle, AlertTriangle, LayoutGrid, CalendarClock,
 } from "lucide-react";
 
 export const getHealthConfig = () => ({
@@ -12,12 +12,12 @@ export const getHealthConfig = () => ({
 });
 
 export const getFilterTabs = () => [
-  { key: "all",       label: __("All",       'wedevs-project-manager'), color: "#6b7280" },
-  { key: "upcoming",  label: __("Upcoming",  'wedevs-project-manager'), color: "#3b82f6" },
-  { key: "at-risk",   label: __("At Risk",   'wedevs-project-manager'), color: "#f59e0b" },
-  { key: "overdue",   label: __("Overdue",   'wedevs-project-manager'), color: "#ef4444" },
-  { key: "completed", label: __("Completed", 'wedevs-project-manager'), color: "#10b981" },
-  { key: "no-date",   label: __("No Date",   'wedevs-project-manager'), color: "#9ca3af" },
+  { key: "all",       label: __("All",       'wedevs-project-manager'), color: "#6b7280", icon: LayoutGrid },
+  { key: "upcoming",  label: __("Upcoming",  'wedevs-project-manager'), color: "#3b82f6", icon: Clock },
+  { key: "at-risk",   label: __("At Risk",   'wedevs-project-manager'), color: "#f59e0b", icon: AlertTriangle },
+  { key: "overdue",   label: __("Overdue",   'wedevs-project-manager'), color: "#ef4444", icon: AlertCircle },
+  { key: "completed", label: __("Completed", 'wedevs-project-manager'), color: "#10b981", icon: CheckCircle },
+  { key: "no-date",   label: __("No Date",   'wedevs-project-manager'), color: "#9ca3af", icon: CalendarClock },
 ];
 
 export const getSortOptions = () => [

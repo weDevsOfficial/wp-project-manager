@@ -147,7 +147,7 @@ const GitHubSettingsTab = () => {
       <div>
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
               <GitHubLogo className="w-5 h-5 text-pm-accent" />
               {__('GitHub Integration', 'wedevs-project-manager')}
             </h2>
@@ -166,7 +166,7 @@ const GitHubSettingsTab = () => {
     <form onSubmit={onSubmit}>
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
             <GitHubLogo className="w-5 h-5 text-pm-accent" />
             {__('GitHub Integration', 'wedevs-project-manager')}
           </h2>
@@ -195,7 +195,7 @@ const GitHubSettingsTab = () => {
                 <Button type="button" variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={handleToggleShow} disabled={revealing}>
                   {revealing ? <Loader2 className="h-4 w-4 animate-spin" /> : (showToken ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />)}
                 </Button>
-                <Button type="button" variant="outline" size="sm" className="h-9 shrink-0" onClick={() => { setEditingToken(true); markDirty() }}>
+                <Button type="button" variant="outline" size="sm" className="h-11 shrink-0" onClick={() => { setEditingToken(true); markDirty() }}>
                   {__('Change', 'wedevs-project-manager')}
                 </Button>
               </>
@@ -208,7 +208,7 @@ const GitHubSettingsTab = () => {
                   className="max-w-full w-56"
                 />
                 {editingToken && maskedToken && (
-                  <Button type="button" variant="outline" size="sm" className="h-9 shrink-0" onClick={() => { setEditingToken(false); setAccessToken('') }}>
+                  <Button type="button" variant="outline" size="sm" className="h-11 shrink-0" onClick={() => { setEditingToken(false); setAccessToken('') }}>
                     {__('Cancel', 'wedevs-project-manager')}
                   </Button>
                 )}
@@ -225,7 +225,7 @@ const GitHubSettingsTab = () => {
             <Label>{__('Enable Previews', 'wedevs-project-manager')}</Label>
             <p className="text-sm text-pm-text-muted mt-1">{__('Show GitHub issue/PR preview cards automatically.', 'wedevs-project-manager')}</p>
           </div>
-          <Switch checked={enablePreviews} onCheckedChange={(v) => { setEnablePreviews(v); markDirty() }} />
+          <Switch aria-label={__('Show GitHub issue/PR preview cards automatically.', 'wedevs-project-manager')} checked={enablePreviews} onCheckedChange={(v) => { setEnablePreviews(v); markDirty() }} />
         </div>
 
         <div className="border-t border-pm-border" />
@@ -248,7 +248,7 @@ const GitHubSettingsTab = () => {
               {connStatus === 'failed' && <><XCircle className="h-4 w-4 text-destructive" /><span className="text-destructive">{connError}</span></>}
             </div>
           </div>
-          <Button type="button" variant="outline" size="sm" onClick={testConnection} disabled={connStatus === 'testing'}>
+          <Button className="h-11 px-5" type="button" variant="outline" size="sm" onClick={testConnection} disabled={connStatus === 'testing'}>
             {__('Test Connection', 'wedevs-project-manager')}
           </Button>
         </div>
@@ -262,8 +262,8 @@ const GitHubSettingsTab = () => {
       </div>
 
       <div className="flex items-center gap-3 mt-5">
-        <Button type="submit" disabled={!isDirty || saving}>
-          {saving ? __('Saving...', 'wedevs-project-manager') : __('Save Changes', 'wedevs-project-manager')}
+        <Button className="h-11 px-5" type="submit" disabled={!isDirty || saving}>
+          {saving ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</> : __('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && !saving && (
           <span className="text-sm text-pm-text-muted">{__('You have unsaved changes', 'wedevs-project-manager')}</span>

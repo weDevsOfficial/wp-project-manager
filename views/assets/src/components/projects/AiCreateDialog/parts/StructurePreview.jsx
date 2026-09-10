@@ -4,12 +4,13 @@ import { Button } from '@components/ui/button';
 import { Input } from '@components/ui/input';
 import { Checkbox } from '@components/ui/checkbox';
 import { Badge } from '@components/ui/badge';
-import { Card } from '@components/ui/card';
-import { Separator } from '@components/ui/separator';
-import { Sparkles, Trash2, Loader2, FolderOpen } from 'lucide-react';
+import { AiMagic, Trash2, FolderOpen } from 'lucide-react';
 import TaskItem from './TaskItem';
 
-export default function PreviewStep({ data, onSave, saving, onBack }) {
+// Editable project structure rendered inline as an assistant message. Same edit
+// / select / delete behaviour as the old PreviewStep, without the standalone
+// dialog chrome — the chat owns scrolling and the composer.
+export default function StructurePreview({ data, onCreate, disabled, created }) {
   const [project, setProject] = useState(() => ({
     title: data.title || '',
     description: data.description || '',
@@ -75,12 +76,12 @@ export default function PreviewStep({ data, onSave, saving, onBack }) {
     }));
   }, []);
 
-  const handleSave = () => {
+  const handleCreate = () => {
     if (!project.title.trim()) {
       setTitleError(true);
       return;
     }
-    onSave({
+    onCreate({
       title: project.title,
       description: project.description,
       tasks: project.tasks.map(({ title }) => ({ title })),
@@ -92,37 +93,38 @@ export default function PreviewStep({ data, onSave, saving, onBack }) {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-2 sm:flex-nowrap">
+    <div className="rounded-2xl border border-pm-border bg-card p-3.5 shadow-sm">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
-          <p className="text-sm font-medium text-foreground">
-            {__('Preview & Edit', 'wedevs-project-manager')}
+          <p className="text-sm font-medium text-pm-text-primary">
+            {__('Here’s a structure', 'wedevs-project-manager')}
           </p>
-          <Badge variant="secondary" className="text-[14px] px-1.5 py-0 h-5">
+          <Badge variant="secondary" className="h-5 px-1.5 py-0 text-[12px]">
             {totalLists} {totalLists === 1 ? __('list', 'wedevs-project-manager') : __('lists', 'wedevs-project-manager')}
           </Badge>
-          <Badge variant="secondary" className="text-[14px] px-1.5 py-0 h-5">
+          <Badge variant="secondary" className="h-5 px-1.5 py-0 text-[12px]">
             {totalTasks} {totalTasks === 1 ? __('task', 'wedevs-project-manager') : __('tasks', 'wedevs-project-manager')}
           </Badge>
         </div>
-        {hasSelected && (
-          <Button variant="destructive" size="sm" className="gap-1.5 h-7 text-sm" onClick={deleteSelected}>
+        {hasSelected && !created && (
+          <Button variant="destructive" size="sm" className="h-11 gap-1.5 text-sm" onClick={deleteSelected} disabled={disabled}>
             <Trash2 className="h-3.5 w-3.5" />
-            {__('Delete Selected', 'wedevs-project-manager')}
+            {__('Delete selected', 'wedevs-project-manager')}
           </Button>
         )}
       </div>
 
-      <div className="max-h-[420px] overflow-y-auto space-y-4 pr-1">
+      <div className="space-y-3">
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-            {__('Project Name', 'wedevs-project-manager')}
+          <label className="text-[11px] font-medium uppercase tracking-wide text-pm-text-muted/70">
+            {__('Project name', 'wedevs-project-manager')}
           </label>
           <Input
             value={project.title}
-            onChange={(e) => { setProject((p) => ({ ...p, title: e.target.value })); setTitleError(false) }}
+            onChange={(e) => { setProject((p) => ({ ...p, title: e.target.value })); setTitleError(false); }}
             className={titleError ? 'border-destructive focus-visible:ring-destructive' : ''}
-            placeholder={__('Project Name', 'wedevs-project-manager')}
+            placeholder={__('Project name', 'wedevs-project-manager')}
+            disabled={disabled || created}
           />
           {titleError && (
             <p className="text-sm text-destructive">{__('Project name is required', 'wedevs-project-manager')}</p>
@@ -138,43 +140,38 @@ export default function PreviewStep({ data, onSave, saving, onBack }) {
         )}
 
         {project.task_groups.map((group) => (
-          <Card key={group._id} className="shadow-none p-0 overflow-hidden">
-            <div className="flex items-center gap-2 py-2 px-3 bg-muted/30">
-              <Checkbox
-                checked={group._selected}
-                onCheckedChange={() => toggleGroupSelected(group._id)}
-              />
-              <FolderOpen className="h-4 w-4 text-muted-foreground shrink-0" />
+          <div key={group._id} className="overflow-hidden rounded-lg border border-pm-border">
+            <div className="flex items-center gap-2 bg-muted/40 px-3 py-2">
+              <Checkbox checked={group._selected} onCheckedChange={() => toggleGroupSelected(group._id)} disabled={disabled || created} />
+              <FolderOpen className="h-4 w-4 shrink-0 text-pm-text-muted" />
               <Input
                 value={group.title}
                 onChange={(e) => updateGroupTitle(group._id, e.target.value)}
-                className="h-7 font-semibold text-sm border-transparent hover:border-input focus-visible:border-input bg-transparent px-1.5 shadow-none"
-                placeholder={__('Task List Name', 'wedevs-project-manager')}
+                className="h-7 border-transparent bg-transparent px-1.5 text-sm font-semibold shadow-none hover:border-input focus-visible:border-input"
+                placeholder={__('Task list name', 'wedevs-project-manager')}
+                disabled={disabled || created}
               />
-              <Badge variant="outline" className="text-[14px] px-1.5 py-0 h-4 shrink-0">
+              <Badge variant="outline" className="h-4 shrink-0 px-1.5 py-0 text-[12px]">
                 {group.tasks.length}
               </Badge>
             </div>
-            <div className="px-2 py-1 space-y-0.5">
+            <div className="space-y-0.5 px-2 py-1">
               {group.tasks.map((task) => (
                 <TaskItem key={task._id} task={task} onToggle={toggleTaskSelected} onTitleChange={updateTaskTitle} />
               ))}
             </div>
-          </Card>
+          </div>
         ))}
       </div>
 
-      <Separator />
-
-      <div className="flex items-center justify-between">
-        <Button variant="ghost" size="sm" onClick={onBack} disabled={saving}>
-          {__('Back', 'wedevs-project-manager')}
-        </Button>
-        <Button onClick={handleSave} disabled={saving} className="gap-2">
-          {saving ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5" />}
-          {saving ? __('Creating...', 'wedevs-project-manager') : __('Create Project', 'wedevs-project-manager')}
-        </Button>
-      </div>
+      {!created && (
+        <div className="mt-3 flex justify-end">
+          <Button onClick={handleCreate} disabled={disabled} className="gap-2 h-11 px-5">
+            <AiMagic className="h-4 w-4" />
+            {__('Create project', 'wedevs-project-manager')}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

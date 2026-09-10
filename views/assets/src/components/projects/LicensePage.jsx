@@ -70,7 +70,7 @@ export default function LicensePage() {
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-6">
+    <div className="w-full p-6 space-y-6">
       <ConfirmDialog />
       <div className="flex items-center gap-3 mb-6">
         <Shield className="h-5 w-5 text-pm-accent" />
@@ -86,7 +86,7 @@ export default function LicensePage() {
               <ShieldX className="h-8 w-8 text-pm-text-muted" />
             )}
             <div>
-              <CardTitle className="text-sm">
+              <CardTitle className="text-pm-text-primary">
                 {isActive ? __('License Active', 'wedevs-project-manager') : __('No Active License', 'wedevs-project-manager')}
               </CardTitle>
               <CardDescription className="text-sm">
@@ -118,35 +118,35 @@ export default function LicensePage() {
                     ? `${license.key.substring(0, 4)}${'*'.repeat(Math.max(license.key.length - 8, 8))}${license.key.slice(-4)}`
                     : '****-****-****-****'}
                 </div>
-                <Button size="sm" variant="destructive" onClick={handleDelete}>
+                <Button size="sm" variant="destructive" className="h-11 px-5" onClick={handleDelete}>
                   <Trash2 className="h-4 w-4 mr-1" />{__('Deactivate', 'wedevs-project-manager')}
                 </Button>
               </div>
             </div>
           ) : (
             <div className="space-y-2">
-              <div className="flex items-center gap-1.5 h-9 rounded-md border border-pm-border bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent">
+              <div className="flex items-center gap-1.5 h-11 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
                 <Mail className="h-4 w-4 text-pm-text-muted shrink-0" />
                 <input
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={__('Enter your purchase email address...', 'wedevs-project-manager')}
                   type="email"
-                  className="flex-1 min-w-0 h-full bg-transparent text-sm placeholder:text-pm-text-muted/60 focus:outline-none !border-0 !p-0 !shadow-none"
+                  className="flex-1 min-w-0 h-full bg-transparent text-sm placeholder:text-muted-foreground/70 focus:outline-none !border-0 !p-0 !shadow-none"
                 />
               </div>
               <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1.5 flex-1 h-9 rounded-md border border-pm-border bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent">
+                <div className="flex items-center gap-1.5 flex-1 h-11 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
                   <Key className="h-4 w-4 text-pm-text-muted shrink-0" />
                   <input
                     value={key}
                     onChange={(e) => setKey(e.target.value)}
                     placeholder={__('Enter license key...', 'wedevs-project-manager')}
-                    className="flex-1 min-w-0 h-full bg-transparent text-sm placeholder:text-pm-text-muted/60 focus:outline-none !border-0 !p-0 !shadow-none"
+                    className="flex-1 min-w-0 h-full bg-transparent text-sm placeholder:text-muted-foreground/70 focus:outline-none !border-0 !p-0 !shadow-none"
                     onKeyDown={(e) => e.key === 'Enter' && handleActivate()}
                   />
                 </div>
-                <Button size="sm" onClick={handleActivate} disabled={submitting || !email.trim() || !key.trim()}>
+                <Button size="sm" className="h-11 px-5" onClick={handleActivate} disabled={submitting || !email.trim() || !key.trim()}>
                   {__('Save & Activate', 'wedevs-project-manager')}
                 </Button>
               </div>

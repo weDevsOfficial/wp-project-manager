@@ -41,10 +41,10 @@ export default function ColorPickerDialog({ open, onOpenChange, currentColor, on
           />
         </div>
         <DialogFooter className="gap-2 sm:justify-between">
-          <Button type="button" variant="ghost" size="sm" onClick={remove}>
+          <Button className="h-11 px-5" type="button" variant="ghost" size="sm" onClick={remove}>
             {__("Remove Color", 'wedevs-project-manager')}
           </Button>
-          <Button type="button" size="sm" onClick={apply}>
+          <Button className="h-11 px-5" type="button" size="sm" onClick={apply}>
             {__("Apply", 'wedevs-project-manager')}
           </Button>
         </DialogFooter>

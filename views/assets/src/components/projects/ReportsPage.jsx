@@ -1,9 +1,10 @@
 import { __ } from '@wordpress/i18n';
 import React, { useMemo } from "react";
-import { usePermissions } from "@hooks/usePermissions";
+import { usePermissions, pmCanSeeUpgrade } from "@hooks/usePermissions";
 import { useLicenseGuard } from "@components/common/LicenseGuard";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import ProBadge from "@components/common/ProBadge";
+import ProUnavailable from "@components/common/ProUnavailable";
 import { Button } from "@components/ui/button";
 import {
   AlertTriangle,
@@ -70,8 +71,15 @@ export default function ReportsPage() {
   const licenseGuard = useLicenseGuard();
   if (licenseGuard) return licenseGuard;
 
+  // A co-worker or client cannot install or license Pro, so the marketing
+  // preview below (invented tasks, teammates, invoices) is replaced by a
+  // plain unavailable card for them.
+  if (!isPro && !pmCanSeeUpgrade()) {
+    return <ProUnavailable title={__('Reports', 'wedevs-project-manager')} description={__('Select a report type to view detailed data.', 'wedevs-project-manager')} />;
+  }
+
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+    <div className="w-full p-4 sm:p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -92,20 +100,20 @@ export default function ReportsPage() {
           return (
             <div
               key={r.id}
-              className="group relative rounded-xl border bg-card overflow-hidden hover:shadow-md transition-shadow"
+              className="group relative rounded-xl border bg-card overflow-hidden hover:border-border/80 transition-colors"
             >
               <div className="p-5 text-center space-y-3">
                 {/* Icon */}
                 <div className="inline-flex">
                   <div
-                    className={`p-3 rounded-xl ${bg} group-hover:scale-110 transition-transform`}
+                    className={`p-3 rounded-lg ${bg} group-hover:scale-110 transition-transform`}
                   >
                     <r.icon className={`h-6 w-6 ${fg}`} />
                   </div>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-sm font-semibold text-pm-text-primary">
+                <h3 className="text-sm font-medium text-pm-text-primary">
                   {r.title}
                   {!isPro && <ProBadge className="ml-2 align-middle" />}
                 </h3>
@@ -117,7 +125,7 @@ export default function ReportsPage() {
 
                 {/* Action button */}
                 {isPro ? (
-                  <Button variant="outline" size="sm" className="gap-1.5">
+                  <Button variant="outline" size="sm" className="gap-1.5 h-11 px-5">
                     <Eye className="h-4 w-4" />
                     {__("View Full Report", 'wedevs-project-manager')}
                   </Button>
@@ -125,7 +133,7 @@ export default function ReportsPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="gap-1.5"
+                    className="gap-1.5 h-11 px-5"
                     onClick={() => setOpen(true)}
                   >
                     <Lock className="h-4 w-4" />
@@ -137,12 +145,12 @@ export default function ReportsPage() {
               {/* Hover overlay for free users */}
               {!isPro && (
                 <div
-                  className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-xl"
+                  className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-lg"
                   onClick={() => setOpen(true)}
                 >
-                  <div className="flex items-center gap-2 bg-pm-surface rounded-full px-4 py-2 shadow-lg">
+                  <div className="flex items-center gap-2 bg-pm-surface rounded-md px-4 py-2 shadow-lg">
                     <Crown className="h-5 w-5 text-orange-500" />
-                    <span className="text-sm font-semibold text-pm-text-primary">
+                    <span className="text-sm font-medium text-pm-text-primary">
                       {__("Upgrade to Pro", 'wedevs-project-manager')}
                     </span>
                   </div>

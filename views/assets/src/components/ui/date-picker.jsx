@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n'
 import { cn } from '@/lib/utils'
 import { Popover, PopoverTrigger, PopoverContent } from '@components/ui/popover'
 import { Calendar } from '@components/ui/calendar'
-import { dateFormatters, getWeekStartsOn } from '@/lib/date-locale'
+import { dateFormatters, getWeekStartsOn, getDatePlaceholder } from '@/lib/date-locale'
 
 // Localize month/weekday/day labels via Intl without modifying the shadcn Calendar.
 const localeFormatters = {
@@ -67,7 +67,7 @@ function DatePicker({
           type="button"
           disabled={disabled}
           className={cn(
-            'flex h-9 w-full items-center justify-between gap-2 rounded-md border border-pm-border bg-pm-surface px-3 text-sm text-pm-text-primary disabled:opacity-50',
+            'flex h-11 w-full items-center justify-between gap-2 rounded-md border border-pm-border bg-pm-surface px-3 text-sm text-pm-text-primary disabled:opacity-50',
             !selected && 'text-pm-text-muted',
             className
           )}
@@ -76,7 +76,7 @@ function DatePicker({
           <span className="truncate">
             {selected
               ? dateFormatters.display(selected)
-              : placeholder || __('dd/mm/yyyy', 'wedevs-project-manager')}
+              : placeholder || getDatePlaceholder()}
           </span>
           <CalendarIcon className="h-4 w-4 shrink-0 text-pm-text-muted" />
         </button>

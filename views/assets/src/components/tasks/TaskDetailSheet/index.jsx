@@ -1,8 +1,8 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import React, { useEffect, useCallback, useState, useRef } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@store/index'
-import { closeTaskSheet, fetchTask, updateTask, changeTaskStatus, addTaskComment, updateTaskComment, deleteTaskComment, deleteTask, markTaskModified } from '@store/tasksSlice'
+import { openTaskSheet, closeTaskSheet, fetchTask, updateTask, changeTaskStatus, addTaskComment, updateTaskComment, deleteTaskComment, deleteTask, markTaskModified } from '@store/tasksSlice'
 import { toggleTaskInList, removeTaskFromList } from '@store/taskListsSlice'
 import { useApi } from '@hooks/useApi'
 import { cn } from '@lib/utils'
@@ -11,12 +11,10 @@ import { usePermissions } from '@hooks/usePermissions'
 import { useCurrentProject } from '@hooks/useCurrentProject'
 import { useConfirm } from '@hooks/useConfirm'
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from '@components/ui/sheet'
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from '@components/ui/dialog'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import RichTextEditor from '@components/common/RichTextEditor'
@@ -41,27 +39,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu'
-import {
-  Calendar,
-  Users,
-  MessageSquare,
-  Check,
-  Maximize2,
-  Minimize2,
-  MoreHorizontal,
-  Trash2,
-  Link2,
-  Activity,
-  X,
-  Plus,
-  Eye,
-  EyeOff,
-  Layers,
-  Pencil,
-  FileText,
-  Loader2,
-  Video,
-} from 'lucide-react'
+import { Calendar, Users, Check, Maximize2, Minimize2, MoreHorizontal, Trash2, Link2, X, Plus, FolderKanban, Pencil, FileText, Loader2, Video, ListChecks, MessageSquare, Activity } from 'lucide-react'
 import { DriveMonoGlyph } from '@components/google-workspace/GoogleIcons'
 import {
   isTaskComplete,
@@ -74,9 +52,11 @@ import { resolveActivityUrl } from '@lib/activity-links'
 import TaskPrivacyField from './parts/fields/TaskPrivacyField'
 import TaskEstimationField from './parts/fields/TaskEstimationField'
 import TaskTypeField from './parts/fields/TaskTypeField'
+import TaskPriorityField from './parts/fields/TaskPriorityField'
 import MilestoneField from './parts/fields/MilestoneField'
 import ProInlineProperties from './parts/ProInlineProperties'
 import ProSubtasksSection from './parts/ProSubtasksSection'
+import ProBadge from '@components/common/ProBadge'
 
 function extractMentionedUsers(html) {
   const parser = new DOMParser()
@@ -110,13 +90,13 @@ export default function TaskDetailSheet() {
   const prePathRef = useRef(null)
   const toast = useToast()
   const [ConfirmDialog, confirm] = useConfirm()
-  const { currentTask, taskSheetOpen, loading } = useAppSelector(s => s.tasks)
+  const { currentTask, taskSheetOpen, loading, saving } = useAppSelector(s => s.tasks)
   const storeProjectId = useAppSelector(s => s.taskLists.projectId)
 
   const projectId = storeProjectId || currentTask?.project_id || currentTask?.project?.id
   const isProContext = !storeProjectId && (currentTask?.project_id || currentTask?.project?.id)
   const project = useCurrentProject(projectId)
-  const { canEditTask, canEditComment, userCan } = usePermissions(project)
+  const { canEditTask, canEditComment, userCan, isPro } = usePermissions(project)
   const canEditCurrentTask = currentTask ? canEditTask(currentTask) : false
 
   const [editingTitle, setEditingTitle] = useState(false)
@@ -146,6 +126,18 @@ export default function TaskDetailSheet() {
   const [activities, setActivities] = useState([])
   const [showActivities, setShowActivities] = useState(false)
   const [loadingActivities, setLoadingActivities] = useState(false)
+  const [activityTotal, setActivityTotal] = useState(0)
+  // Tab kept in the URL as ?tab= so a task can be linked straight to its
+  // comments or activities. A query param rather than a path segment: the
+  // sheet opens from several different task routes.
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tabParam = searchParams.get('tab')
+  const detailTab = ['subtasks', 'comments', 'activities'].includes(tabParam) ? tabParam : 'comments'
+  const setDetailTab = (key) => {
+    const next = new URLSearchParams(searchParams)
+    if (key === 'comments') { next.delete('tab') } else { next.set('tab', key) }
+    setSearchParams(next, { replace: true })
+  }
 
   useEffect(() => {
     if (currentTask) {
@@ -248,6 +240,9 @@ export default function TaskDetailSheet() {
     ? (Array.isArray(currentTask.assignees) ? currentTask.assignees : (currentTask.assignees?.data) ?? [])
     : []
   const comments = useAppSelector(s => s.tasks.taskComments)
+  // Subtasks live in a Pro slice that only loads once its tab is opened, so take
+  // the count off the task itself. Every subtask mutation refetches the task.
+  const subtaskCount = parseInt(currentTask?.meta?.total_sub_task) || 0
   const complete = currentTask ? isTaskComplete(currentTask.status) : false
 
   const handleClose = useCallback((open) => {
@@ -257,9 +252,16 @@ export default function TaskDetailSheet() {
       setEditingDates(false)
       setShowAssigneeSearch(false)
       setShowActivities(false)
+      setActivityTotal(0)
       setNewComment('')
+      // Drop ?tab= with the sheet so the next task opens on comments.
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev)
+        next.delete('tab')
+        return next
+      }, { replace: true })
     }
-  }, [dispatch])
+  }, [dispatch, setSearchParams])
 
   const handleTitleSave = useCallback(async () => {
     if (!currentTask || !projectId || title === currentTask.title) {
@@ -307,6 +309,11 @@ export default function TaskDetailSheet() {
 
   const handleDateSave = useCallback(async () => {
     if (!currentTask || !projectId || !canEditCurrentTask) return
+    // Local validation: due date can't be before start date.
+    if (startDate && dueDate && dueDate < startDate) {
+      toast.warning(__('Due date cannot be earlier than the start date', 'wedevs-project-manager'))
+      return
+    }
     try {
       await dispatch(updateTask({
         projectId, taskId: currentTask.id,
@@ -339,7 +346,11 @@ export default function TaskDetailSheet() {
         data: { assignees: newAssignees },
       })).unwrap()
       dispatch(fetchTask({ projectId, taskId: currentTask.id }))
-      toast.success(__('Assignee added', 'wedevs-project-manager'))
+      toast.success(
+        __('Assignee added', 'wedevs-project-manager'),
+        sprintf(/* translators: %s is the name of the user assigned to the task. */ __('%s was assigned to this task.', 'wedevs-project-manager'), user.display_name),
+        { user }
+      )
     } catch {
       toast.error(__('Failed to add assignee', 'wedevs-project-manager'))
     }
@@ -349,6 +360,8 @@ export default function TaskDetailSheet() {
 
   const handleRemoveAssignee = useCallback(async (userId) => {
     if (!currentTask || !projectId) return
+    const removedUser = projectMembers.find(u => parseInt(u.id) === parseInt(userId))
+    const removedName = removedUser?.display_name
     const remainingIds = assignees.map(a => a.assigned_to ?? a.id).filter(id => parseInt(id) !== parseInt(userId))
     try {
       const assigneePayload = remainingIds.length > 0 ? remainingIds : [-1]
@@ -357,11 +370,17 @@ export default function TaskDetailSheet() {
         data: { assignees: assigneePayload },
       })).unwrap()
       dispatch(fetchTask({ projectId, taskId: currentTask.id }))
-      toast.success(__('Assignee removed', 'wedevs-project-manager'))
+      toast.success(
+        __('Assignee removed', 'wedevs-project-manager'),
+        removedName
+          ? sprintf(/* translators: %s is the name of the user removed from the task. */ __('%s was removed from this task.', 'wedevs-project-manager'), removedName)
+          : undefined,
+        removedUser ? { user: removedUser } : undefined
+      )
     } catch {
       toast.error(__('Failed to remove assignee', 'wedevs-project-manager'))
     }
-  }, [dispatch, projectId, currentTask, assignees, toast, __])
+  }, [dispatch, projectId, currentTask, assignees, projectMembers, toast, __])
 
   const handleSubmitComment = useCallback(async () => {
     if (!currentTask || !projectId || !newComment.trim()) return
@@ -453,9 +472,41 @@ export default function TaskDetailSheet() {
     try {
       const res = await api.post(`projects/${projectId}/tasks/${currentTask.id}/activity`, { per_page: 20 })
       setActivities(res.data ?? [])
-    } catch { setActivities([]) }
+      // The badge must show how many activities exist, not how many this page
+      // returned, so take the count from pagination rather than the array.
+      setActivityTotal(res.meta?.pagination?.total ?? 0)
+    } catch { setActivities([]); setActivityTotal(0) }
     setLoadingActivities(false)
   }, [api, projectId, currentTask])
+
+  // A task edit writes a new activity server-side, so refresh the feed when a
+  // save completes. `saving` going true then false is the edge every mutation
+  // passes through, which the sticky taskModifiedInSheet flag is not.
+  const prevSaving = useRef(false)
+  useEffect(() => {
+    if (prevSaving.current && !saving && taskSheetOpen && currentTask && projectId) {
+      handleLoadActivities()
+    }
+    prevSaving.current = saving
+  }, [saving, taskSheetOpen, currentTask?.id, projectId]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // The Activities tab badge read activities.length, which is empty until the
+  // tab is clicked, so the count only appeared after the first click. Load once
+  // when the sheet opens so the badge is right straight away, which also means
+  // the tab opens populated instead of spinning.
+  useEffect(() => {
+    if (taskSheetOpen && currentTask && projectId && !showActivities) {
+      handleLoadActivities()
+    }
+  }, [taskSheetOpen, currentTask?.id, projectId]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Opening the sheet straight on ?tab=activities has no click to hang the
+  // fetch off, so the feed stayed empty until the tab was clicked again.
+  useEffect(() => {
+    if (detailTab === 'activities' && !showActivities && currentTask && projectId) {
+      handleLoadActivities()
+    }
+  }, [detailTab, showActivities, currentTask, projectId, handleLoadActivities])
 
   const handleDelete = useCallback(async () => {
     if (!currentTask || !projectId) return
@@ -502,37 +553,38 @@ export default function TaskDetailSheet() {
   return (
     <>
     <ConfirmDialog />
-    <Sheet open={taskSheetOpen} onOpenChange={handleClose}>
-      <SheetContent
-        side="right"
+    <Dialog open={taskSheetOpen} onOpenChange={handleClose}>
+      <DialogContent
+        data-pm-dialog
         className={cn(
-          'overflow-y-auto p-0 transition-all duration-300',
-          fullscreen ? 'w-full sm:max-w-full' : 'w-full sm:max-w-[560px]',
+          'flex flex-col gap-0 overflow-hidden p-0 border-pm-border transition-all duration-200',
+          fullscreen ? 'w-[98vw] max-w-[98vw] h-[96vh]' : 'w-[95vw] max-w-6xl h-[88vh]',
         )}
         onPointerDownOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
         onInteractOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
         onFocusOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
       >
+        <DialogTitle className="sr-only">{currentTask?.title || __('Task details', 'wedevs-project-manager')}</DialogTitle>
         {loading && !currentTask ? (
-          <div className="flex items-center justify-center py-20">
+          <div className="flex flex-1 items-center justify-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-pm-accent" />
           </div>
         ) : currentTask ? (
-          <div className={cn('flex flex-col h-full', fullscreen && 'max-w-4xl mx-auto')}>
-
-            <div className="flex items-center gap-1 px-4 pt-3 pb-1">
+          <>
+            {/* Toolbar (built-in close button sits top-right) */}
+            <div className="flex items-center gap-1 px-4 py-2.5 pr-14 shrink-0">
               <button
                 type="button"
                 onClick={() => setFullscreen(v => !v)}
                 className="p-1.5 rounded-md hover:bg-muted text-pm-text-muted hover:text-pm-text-primary transition-colors"
                 title={fullscreen ? __('Exit full screen', 'wedevs-project-manager') : __('Full screen', 'wedevs-project-manager')}
               >
-                {fullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
+                {fullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
               </button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="p-1.5 rounded-md hover:bg-muted text-pm-text-muted hover:text-pm-text-primary transition-colors">
-                    <MoreHorizontal className="h-5 w-5" />
+                  <button aria-label={__('Task actions', 'wedevs-project-manager')} className="p-1.5 rounded-md hover:bg-muted text-pm-text-muted hover:text-pm-text-primary transition-colors">
+                    <MoreHorizontal className="h-4 w-4" />
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
@@ -550,50 +602,30 @@ export default function TaskDetailSheet() {
 
             <Separator />
 
-            <div className="px-6 pt-6 pb-4 space-y-4">
-              <SheetHeader className="space-y-1.5">
-                <SheetDescription asChild>
-                  <div className="flex items-center gap-2 text-[13px] text-muted-foreground min-w-0">
-                    {(currentTask.project?.data?.title || currentTask.project?.title) && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const pid = currentTask.project?.data?.id || currentTask.project?.id || projectId
-                          dispatch(closeTaskSheet())
-                          navigate(`/projects/${pid}/task-lists`)
-                        }}
-                        className="inline-flex items-center gap-1 font-medium text-pm-accent hover:text-pm-accent/80 transition-colors truncate min-w-0"
-                        title={currentTask.project?.data?.title || currentTask.project?.title}
-                      >
-                        <Layers className="h-3 w-3 shrink-0" />
-                        {currentTask.project?.data?.title || currentTask.project?.title}
-                      </button>
-                    )}
-                    <span className="text-muted-foreground/40">|</span>
-                    <span className="font-mono text-[12px] text-muted-foreground/70">#{currentTask.id}</span>
-                    {currentTask.creator?.data && (
-                      <>
-                        <span className="text-muted-foreground/40">·</span>
-                        <div className="inline-flex items-center gap-1 shrink-0">
-                          <UserAvatar user={currentTask.creator.data} size="xs" />
-                          <button
-                            type="button"
-                            onClick={() => { dispatch(closeTaskSheet()); navigate('/my-tasks'); }}
-                            className="text-muted-foreground hover:text-pm-accent transition-colors cursor-pointer"
-                          >
-                            {currentTask.creator.data.display_name}
-                          </button>
-                        </div>
-                      </>
-                    )}
-                    {currentTask.created_at && (
-                      <>
-                        <span className="text-muted-foreground/40">·</span>
-                        <span className="inline-flex items-center gap-1 shrink-0"><Calendar className="h-3 w-3" />{formatPmDateTime(currentTask.created_at)}</span>
-                      </>
-                    )}
-                  </div>
-                </SheetDescription>
+            {/* Two-column body */}
+            <div className="flex flex-1 min-h-0 max-md:flex-col max-md:overflow-y-auto">
+
+            {/* LEFT — task header + properties */}
+            <aside className="w-[400px] shrink-0 overflow-y-auto border-r border-pm-border px-5 py-4 space-y-2.5 max-md:w-full max-md:overflow-visible max-md:border-r-0 max-md:border-b">
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2 text-[13px] text-muted-foreground min-w-0">
+                  {(currentTask.project?.data?.title || currentTask.project?.title) && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const pid = currentTask.project?.data?.id || currentTask.project?.id || projectId
+                        dispatch(closeTaskSheet())
+                        navigate(`/projects/${pid}/task-lists`)
+                      }}
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-pm-accent hover:text-pm-accent/80 transition-colors truncate min-w-0"
+                      title={currentTask.project?.data?.title || currentTask.project?.title}
+                    >
+                      <FolderKanban className="h-4 w-4 shrink-0" />
+                      {currentTask.project?.data?.title || currentTask.project?.title}
+                    </button>
+                  )}
+                  <span className="font-mono text-[12px] text-muted-foreground/60">#{currentTask.id}</span>
+                </div>
                 <div className="flex items-center gap-3">
                   <button type="button" onClick={handleToggleStatus} className="shrink-0 group/status">
                     <TaskStatusCircle complete={complete} size="lg" groupHover />
@@ -604,28 +636,34 @@ export default function TaskDetailSheet() {
                       className="text-lg font-semibold h-auto py-0.5 border-none shadow-none focus-visible:ring-1 flex-1"
                     />
                   ) : (
-                    <SheetTitle className={cn('text-lg leading-snug truncate', canEditTask(currentTask) && 'cursor-pointer hover:text-pm-accent transition-colors', complete && 'line-through text-pm-text-muted')}
+                    <h2 className={cn('text-lg font-bold leading-snug break-words', canEditTask(currentTask) && 'cursor-pointer hover:text-pm-accent transition-colors', complete && 'line-through text-pm-text-muted')}
                       title={currentTask.title}
+                      {...(canEditTask(currentTask) ? {
+                        role: 'button',
+                        tabIndex: 0,
+                        onKeyDown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setEditingTitle(true) } },
+                      } : {})}
                       onClick={() => canEditTask(currentTask) && setEditingTitle(true)}>
                       {currentTask.title}
-                    </SheetTitle>
+                    </h2>
                   )}
                 </div>
-              </SheetHeader>
+              </div>
 
-              <div className="bg-muted/20 pb-2">
-                <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors cursor-pointer" onClick={handleToggleStatus}>
+              <h3 className="px-2 text-[13px] font-semibold text-pm-text-primary">{__('Attributes', 'wedevs-project-manager')}</h3>
+              <div className="flex flex-col divide-y divide-pm-border/40 -mt-2">
+                <div className="flex items-center h-11 px-2 rounded-md hover:bg-muted/40 transition-colors cursor-pointer" onClick={handleToggleStatus}>
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                     <Check className="h-4 w-4" /><span className="text-sm">{__('Status', 'wedevs-project-manager')}</span>
                   </div>
-                  <span className={cn('inline-flex items-center gap-1.5 text-[15px] font-medium px-2.5 py-0.5 rounded-full',
-                    complete ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600')}>
+                  <span className={cn('inline-flex items-center gap-1.5 text-[15px] font-medium px-2.5 py-0.5 rounded-md',
+                    complete ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700')}>
                     <span className={cn('h-1.5 w-1.5 rounded-full', complete ? 'bg-emerald-500' : 'bg-amber-500')} />
                     {complete ? __('Done', 'wedevs-project-manager') : __('Active', 'wedevs-project-manager')}
                   </span>
                 </div>
 
-                <div className="flex items-center min-h-[32px] px-2 rounded-md hover:bg-muted/40 transition-colors">
+                <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                     <Calendar className="h-4 w-4" /><span className="text-sm">{__('Dates', 'wedevs-project-manager')}</span>
                   </div>
@@ -634,6 +672,7 @@ export default function TaskDetailSheet() {
                       <DatePicker
                         value={startDate}
                         onChange={(v) => setStartDate(v)}
+                        max={dueDate || undefined}
                         placeholder={__('Start', 'wedevs-project-manager')}
                         className="h-7 w-auto min-w-[140px]"
                       />
@@ -641,11 +680,12 @@ export default function TaskDetailSheet() {
                       <DatePicker
                         value={dueDate}
                         onChange={(v) => setDueDate(v)}
+                        min={startDate || undefined}
                         placeholder={__('Due', 'wedevs-project-manager')}
                         className="h-7 w-auto min-w-[140px]"
                       />
-                      <Button size="sm" className="h-6 text-[15px] px-2" onClick={handleDateSave}>{__('Save', 'wedevs-project-manager')}</Button>
-                      <Button variant="ghost" size="sm" className="h-6 text-[15px] px-2" onClick={() => setEditingDates(false)}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                      <Button size="sm" className="h-11 text-[15px] px-2" onClick={handleDateSave}>{__('Save', 'wedevs-project-manager')}</Button>
+                      <Button variant="ghost" size="sm" className="h-11 text-[15px] px-2" onClick={() => setEditingDates(false)}>{__('Cancel', 'wedevs-project-manager')}</Button>
                     </div>
                   ) : (
                     <button type="button" disabled={!canEditCurrentTask} onClick={() => canEditCurrentTask && setEditingDates(true)} className={cn('text-sm text-pm-text-primary transition-colors', canEditCurrentTask && 'hover:text-pm-accent')}>
@@ -658,19 +698,19 @@ export default function TaskDetailSheet() {
                   )}
                 </div>
 
-                <div className="flex items-start min-h-[32px] px-2 rounded-md hover:bg-muted/40 transition-colors py-1">
-                  <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0 pt-0.5">
+                <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
+                  <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                     <Users className="h-4 w-4" /><span className="text-sm">{__('Assignees', 'wedevs-project-manager')}</span>
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {assignees.map(user => (
-                        <span key={user.id || user.assigned_to} className="inline-flex items-center gap-1 text-sm bg-muted/50 rounded-full pl-0.5 pr-2 py-0.5">
+                        <span key={user.id || user.assigned_to} className="inline-flex items-center gap-1 text-sm bg-muted/50 rounded-md pl-0.5 pr-2 py-0.5">
                           <UserAvatar user={user} size="sm" />
                           {user.display_name}
                           {canEditTask(currentTask) && (
                             <button type="button" className="ml-0.5 text-pm-text-muted hover:text-destructive" onClick={() => handleRemoveAssignee(user.assigned_to ?? user.id)}>
-                              <X className="h-3.5 w-3.5" />
+                              <X className="h-4 w-4" />
                             </button>
                           )}
                         </span>
@@ -678,29 +718,40 @@ export default function TaskDetailSheet() {
                       {canEditTask(currentTask) && (
                         <button type="button" onClick={() => setShowAssigneeSearch(v => !v)}
                           className="inline-flex items-center gap-1 text-[15px] text-pm-accent hover:text-pm-accent/80 transition-colors">
-                          <Plus className="h-3.5 w-3.5" />{__('Add', 'wedevs-project-manager')}
+                          <Plus className="h-4 w-4" />{__('Add', 'wedevs-project-manager')}
                         </button>
                       )}
                     </div>
                     {canEditTask(currentTask) && showAssigneeSearch && (
                       <div className="relative mt-1.5">
                         <Input autoFocus value={assigneeQuery} onChange={e => setAssigneeQuery(e.target.value)}
-                          placeholder={__('Search members...', 'wedevs-project-manager')} className="h-7 text-sm"
+                          placeholder={__('Search members...', 'wedevs-project-manager')} className="h-7 text-sm pr-7"
                           onKeyDown={e => { if (e.key === 'Escape') { setShowAssigneeSearch(false); setAssigneeQuery('') } }}
                         />
-                        <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50 max-h-36 overflow-y-auto">
+                        <button
+                          type="button"
+                          onClick={() => { setShowAssigneeSearch(false); setAssigneeQuery('') }}
+                          className="absolute right-1 inset-y-0 flex items-center px-0.5 text-pm-text-muted hover:text-destructive transition-colors"
+                          title={__('Close', 'wedevs-project-manager')}
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                        <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50 max-h-72 overflow-y-auto p-1">
                           {filteredMembers.length === 0 && (
-                            <div className="px-3 py-2 text-xs text-pm-text-muted">{__('No project members', 'wedevs-project-manager')}</div>
+                            <div className="px-3 py-3 text-sm text-pm-text-muted">{__('No project members', 'wedevs-project-manager')}</div>
                           )}
                           {filteredMembers.map(u => {
                             const isAssigned = assignees.some(a => parseInt(a.id || a.assigned_to) === parseInt(u.id))
                             return (
                               <button key={u.id} type="button"
-                                className={cn("w-full flex items-center gap-2 px-3 py-1.5 text-sm text-left", isAssigned ? "bg-pm-accent/5 text-pm-accent" : "hover:bg-muted/50")}
+                                className={cn("w-full flex items-center gap-2.5 rounded-md px-2 py-1.5 text-left transition-colors", isAssigned ? "bg-pm-accent/5" : "hover:bg-muted/60")}
                                 onClick={() => isAssigned ? handleRemoveAssignee(u.id) : handleAddAssignee(u)}
                               >
-                                <UserAvatar user={u} size="sm" />
-                                <span className="flex-1">{u.display_name}</span>
+                                <UserAvatar user={u} size="md" className="shrink-0" />
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm font-medium text-pm-text-primary truncate">{u.display_name}</p>
+                                  {u.email && <p className="text-[12px] text-pm-text-muted truncate">{u.email}</p>}
+                                </div>
                                 {isAssigned && <Check className="h-4 w-4 text-pm-accent shrink-0" />}
                               </button>
                             )
@@ -711,9 +762,36 @@ export default function TaskDetailSheet() {
                   </div>
                 </div>
 
+                {currentTask.creator?.data && (
+                  <div className="flex items-center h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
+                    <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+                      <Users className="h-4 w-4" /><span className="text-sm">{__('Created by', 'wedevs-project-manager')}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => { dispatch(closeTaskSheet()); navigate('/my-tasks'); }}
+                      className="inline-flex items-center gap-1.5 text-sm text-pm-text-primary hover:text-pm-accent transition-colors"
+                    >
+                      <UserAvatar user={currentTask.creator.data} size="sm" />
+                      {currentTask.creator.data.display_name}
+                    </button>
+                  </div>
+                )}
+
+                {currentTask.created_at && (
+                  <div className="flex items-center h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
+                    <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+                      <Calendar className="h-4 w-4" /><span className="text-sm">{__('Created', 'wedevs-project-manager')}</span>
+                    </div>
+                    <span className="text-sm text-pm-text-primary">{formatPmDateTime(currentTask.created_at)}</span>
+                  </div>
+                )}
+
                 <TaskEstimationField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
 
                 <TaskTypeField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} canEdit={canEditTask(currentTask)} />
+
+                <TaskPriorityField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} canEdit={canEditTask(currentTask)} />
 
                 <MilestoneField task={currentTask} projectId={currentTask?.project_id} api={api} canEdit={canEditTask(currentTask)} />
 
@@ -729,23 +807,23 @@ export default function TaskDetailSheet() {
                   api={api}
                 />
               </div>
-            </div>
+            </aside>
 
-            <Separator />
-
-            <div className="px-5 py-2">
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70"><FileText className="h-4 w-4" />{__('Description', 'wedevs-project-manager')}</h4>
+            {/* RIGHT — description + tabs */}
+            <div className="flex-1 min-w-0 overflow-y-auto max-md:w-full">
+            <div className="px-6 py-5">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="flex items-center gap-1.5 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70"><FileText className="h-4 w-4" />{__('Description', 'wedevs-project-manager')}</h4>
                 {!editingDesc && canEditTask(currentTask) && (
                   <Button
                     size="sm"
-                    className="h-7 text-sm gap-1"
+                    className="h-11 px-4 text-sm gap-1.5"
                     onClick={() => { setDescription(currentTask.description?.html || currentTask.description?.content || ''); setEditingDesc(true) }}
                   >
                     {currentTask.description?.content ? (<>
-                      <Pencil className="h-3 w-3" />{__('Edit', 'wedevs-project-manager')}
+                      <Pencil className="h-4 w-4" />{__('Edit', 'wedevs-project-manager')}
                     </>) : (<>
-                      <Plus className="h-3 w-3" />{__('Add', 'wedevs-project-manager')}
+                      <Plus className="h-4 w-4" />{__('Add', 'wedevs-project-manager')}
                     </>)}
                   </Button>
                 )}
@@ -754,12 +832,20 @@ export default function TaskDetailSheet() {
                 <div className="space-y-3">
                   <RichTextEditor content={description} placeholder={__('Write a description...', 'wedevs-project-manager')} onChange={html => setDescription(html)} autofocus minHeight="100px" users={project?.assignees?.data ?? []} />
                   <div className="flex items-center gap-2">
-                    <Button size="sm" className="h-7 text-sm" onClick={handleDescSave} disabled={savingDesc}>{savingDesc ? __('Saving...', 'wedevs-project-manager') : __('Save', 'wedevs-project-manager')}</Button>
-                    <Button variant="ghost" size="sm" className="h-7 text-sm" onClick={handleDescCancel}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                    <Button size="sm" className="h-11 text-sm" onClick={handleDescSave} disabled={savingDesc}>{savingDesc ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</> : __('Save', 'wedevs-project-manager')}</Button>
+                    <Button variant="ghost" size="sm" className="h-11 text-sm" onClick={handleDescCancel}>{__('Cancel', 'wedevs-project-manager')}</Button>
                   </div>
                 </div>
               ) : (
-                <div className={cn('rounded-lg p-3 min-h-[48px] transition-colors', currentTask.description?.html ? 'bg-muted/20' : 'bg-muted/10 border border-dashed border-border/60')}>
+                <div
+                  className={cn('rounded-lg p-3 min-h-[48px] transition-colors', currentTask.description?.html ? 'bg-muted/20' : 'bg-muted/10 border border-dashed border-border/60', canEditTask(currentTask) && !currentTask.description?.html && 'cursor-text hover:bg-muted/40')}
+                  {...(canEditTask(currentTask) && !currentTask.description?.html ? {
+                    role: 'button',
+                    tabIndex: 0,
+                    onClick: () => { setDescription(currentTask.description?.content || ''); setEditingDesc(true) },
+                    onKeyDown: (e) => { if (e.key === 'Enter') { e.preventDefault(); setDescription(currentTask.description?.content || ''); setEditingDesc(true) } },
+                  } : {})}
+                >
                   {currentTask.description?.html ? (
                     <>
                       <div className="prose prose-sm max-w-none text-foreground text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripAllPreviewUrls(currentTask.description.html)) }} />
@@ -768,7 +854,7 @@ export default function TaskDetailSheet() {
                       <LoomPreviewContainer content={currentTask.description.html} />
                     </>
                   ) : (
-                    <p className="text-sm text-pm-text-muted italic">{__('No description yet. Click "Add" to write one.', 'wedevs-project-manager')}</p>
+                    <p className="text-sm text-pm-text-muted italic">{canEditTask(currentTask) ? __('Click here to add a description…', 'wedevs-project-manager') : __('No description yet.', 'wedevs-project-manager')}</p>
                   )}
                 </div>
               )}
@@ -776,20 +862,38 @@ export default function TaskDetailSheet() {
 
             <Separator />
 
-            <ProSubtasksSection
-              taskId={currentTask?.id}
-              projectId={currentTask?.project_id}
-              currentTask={currentTask}
-            />
+            <div className="px-6 pt-4">
+              <div className="inline-flex max-w-full items-center rounded-lg border border-pm-border bg-muted/60 p-1 gap-0.5 overflow-x-auto scrollbar-none max-md:flex-wrap max-md:overflow-visible">
+                {[
+                  { key: 'subtasks', label: __('Subtasks', 'wedevs-project-manager'), count: subtaskCount, pro: !isPro, icon: ListChecks },
+                  { key: 'comments', label: __('Comments', 'wedevs-project-manager'), count: comments.length, icon: MessageSquare },
+                  { key: 'activities', label: __('Activities', 'wedevs-project-manager'), count: activityTotal, icon: Activity },
+                ].map(t => (
+                  <button
+                    key={t.key}
+                    type="button"
+                    onClick={() => { setDetailTab(t.key); if (t.key === 'activities' && !showActivities) handleLoadActivities() }}
+                    className={cn('relative inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200', detailTab === t.key ? 'bg-background text-pm-accent shadow-sm' : 'text-pm-text-muted hover:text-pm-text-primary')}
+                  >
+                    {t.icon && <t.icon className="h-4 w-4" />}
+                    {t.label}
+                    {t.count > 0 && <span className={cn('inline-flex items-center justify-center rounded-md px-1.5 min-w-[18px] h-[18px] text-[12px] font-medium tabular-nums', detailTab === t.key ? 'bg-pm-accent/10 text-pm-accent' : 'text-pm-text-muted/70')}>{t.count}</span>}
+                    {t.pro && <ProBadge interactive={false} />}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-            <Separator />
+            {detailTab === 'subtasks' && (
+              <ProSubtasksSection
+                taskId={currentTask?.id}
+                projectId={currentTask?.project_id}
+                currentTask={currentTask}
+              />
+            )}
 
-            <div className="px-6 py-4">
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-3 flex items-center gap-1">
-                <MessageSquare className="h-4 w-4" />{__('Comments', 'wedevs-project-manager')}
-                {comments.length > 0 && <span className="text-[14px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums">{comments.length}</span>}
-              </h4>
-
+            {detailTab === 'comments' && (
+              <div className="px-6 py-4">
               {comments.length > 0 && (
                 <div className="space-y-3 mb-4">
                   {comments.map(comment => {
@@ -811,10 +915,10 @@ export default function TaskDetailSheet() {
                             {canEdit && !isEditing && (
                               <span className="opacity-0 group-hover/comment:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
                                 <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit', 'wedevs-project-manager')}>
-                                  <Pencil className="h-3.5 w-3.5" />
+                                  <Pencil className="h-4 w-4" />
                                 </button>
                                 <button type="button" onClick={() => handleDeleteComment(comment.id)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-destructive" title={__('Delete', 'wedevs-project-manager')}>
-                                  <Trash2 className="h-3.5 w-3.5" />
+                                  <Trash2 className="h-4 w-4" />
                                 </button>
                               </span>
                             )}
@@ -831,10 +935,10 @@ export default function TaskDetailSheet() {
                               )}
                               <FileUploadArea files={editCommentNewFiles} onFilesChange={setEditCommentNewFiles} compact />
                               <div className="flex items-center gap-2">
-                                <Button size="sm" className="h-6 text-[15px]" onClick={handleUpdateComment} disabled={savingEditComment || !editCommentText.trim()}>
-                                  {savingEditComment ? __('Saving...', 'wedevs-project-manager') : __('Save', 'wedevs-project-manager')}
+                                <Button size="sm" className="h-11 text-[15px]" onClick={handleUpdateComment} disabled={savingEditComment || !editCommentText.trim()}>
+                                  {savingEditComment ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</> : __('Save', 'wedevs-project-manager')}
                                 </Button>
-                                <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment} disabled={savingEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                                <Button size="sm" variant="ghost" className="h-11 text-[15px]" onClick={cancelEditComment} disabled={savingEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
                                 <CommentLinkActions projectId={projectId} onInsert={(html) => setEditCommentText(prev => (prev || '') + html)} />
                               </div>
                             </div>
@@ -869,112 +973,122 @@ export default function TaskDetailSheet() {
                   users={project?.assignees?.data ?? []}
                 />
                 <FileUploadArea files={commentFiles} onFilesChange={setCommentFiles} compact />
-                <NotifyUsers
-                  users={project?.assignees?.data ?? []}
-                  value={commentNotifyUsers}
-                  onChange={setCommentNotifyUsers}
-                />
-                <div className="flex items-center gap-2">
-                  <Button size="sm" className="h-7 text-sm gap-1" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
-                    <Plus className="h-3 w-3" />{submittingComment ? __('Sending...', 'wedevs-project-manager') : __('Add Comment', 'wedevs-project-manager')}
+                <div className="flex items-center gap-2 flex-wrap">
+                  <NotifyUsers
+                    users={project?.assignees?.data ?? []}
+                    value={commentNotifyUsers}
+                    onChange={setCommentNotifyUsers}
+                  />
+                  <Button size="sm" className="h-11 text-sm gap-1" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
+                    <Plus className="h-4 w-4" />{submittingComment ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Sending...', 'wedevs-project-manager')}</> : __('Add Comment', 'wedevs-project-manager')}
                   </Button>
                   <CommentLinkActions projectId={projectId} onInsert={(html) => setNewComment(prev => (prev || '') + html)} />
                 </div>
               </div>
-            </div>
-
-            <Separator />
-
-            <div className="px-6 py-4">
-              <div className="flex items-center justify-between">
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted flex items-center gap-1.5">
-                  <Activity className="h-4 w-4" />{__('Activity', 'wedevs-project-manager')}
-                </h4>
-                <button
-                  type="button"
-                  onClick={showActivities ? () => setShowActivities(false) : handleLoadActivities}
-                  className="p-1 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent transition-colors"
-                  title={showActivities ? __('Hide activity', 'wedevs-project-manager') : __('Show activity', 'wedevs-project-manager')}
-                >
-                  {showActivities
-                    ? <Eye className="h-4 w-4" />
-                    : <EyeOff className="h-4 w-4" />
-                  }
-                </button>
               </div>
-              {showActivities && (
-                <div className="mt-3 space-y-2">
+              )}
+
+              {detailTab === 'activities' && (
+                <div className="px-6 py-4">
                   {loadingActivities ? (
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-full" />
-                      <Skeleton className="h-4 w-3/4" />
-                      <Skeleton className="h-4 w-1/2" />
-                    </div>
-                  ) : activities.length > 0 ? (
-                    activities.map((act, i) => {
-                      const actActor = act.actor?.data;
-                      const actUrl = resolveActivityUrl(act);
-                      const handleActClick = () => {
-                        if (!actUrl) return;
-                        if (actUrl.openTaskSheet) {
-                          dispatch(openTaskSheet({ id: actUrl.taskId, project_id: actUrl.projectId, task_list_id: actUrl.listId }));
-                        } else {
-                          dispatch(closeTaskSheet());
-                          navigate(actUrl.path);
-                        }
-                      };
-                      return (
-                        <div key={act.id || i} className="flex gap-2 text-sm text-pm-text">
-                          <span className="h-1.5 w-1.5 rounded-full bg-pm-text-muted mt-1.5 shrink-0" />
-                          <div>
-                            {actActor?.id && (
-                              <button
-                                type="button"
-                                onClick={() => { dispatch(closeTaskSheet()); navigate('/my-tasks'); }}
-                                className="font-medium text-pm-text hover:text-pm-accent transition-colors cursor-pointer mr-1"
-                              >
-                                {actActor.display_name}
-                              </button>
-                            )}
-                            {actUrl ? (
-                              <button
-                                type="button"
-                                onClick={handleActClick}
-                                className="text-pm-text hover:text-pm-accent transition-colors cursor-pointer"
-                              >
-                                {parseActivityMessage(act) || act.action}
-                              </button>
-                            ) : (
-                              <span className="text-pm-text">{parseActivityMessage(act) || act.action}</span>
-                            )}
-                            {(act.action === 'attach_drive_file' || act.meta?.has_drive) && (
-                              act.action === 'attach_drive_file' && act.meta?.file_url ? (
-                                <a href={act.meta.file_url} target="_blank" rel="noopener noreferrer" title={act.meta.file_name || __('Google Drive file', 'wedevs-project-manager')} className="ml-1.5 inline-flex align-middle text-pm-text-muted/35 hover:text-pm-accent">
-                                  <DriveMonoGlyph className="h-3.5 w-3.5" />
-                                </a>
-                              ) : (
-                                <DriveMonoGlyph className="ml-1.5 inline-flex align-middle h-3.5 w-3.5 text-pm-text-muted/30" title={__('Google Drive', 'wedevs-project-manager')} />
-                              )
-                            )}
-                            {act.meta?.has_meet && (
-                              <Video className="ml-1.5 inline-flex align-middle h-3.5 w-3.5 text-pm-text-muted/30" title={__('Google Meet', 'wedevs-project-manager')} />
-                            )}
-                            {act.committed_at && <span className="ml-1.5 text-[14px]">· {formatPmDateTime(act.committed_at)}</span>}
+                    <div className="space-y-4">
+                      {[0, 1, 2].map((i) => (
+                        <div key={i} className="flex gap-3">
+                          <Skeleton className="h-7 w-7 rounded-md shrink-0" />
+                          <div className="flex-1 space-y-1.5 pt-0.5">
+                            <Skeleton className="h-3.5 w-3/4" />
+                            <Skeleton className="h-3 w-1/4" />
                           </div>
                         </div>
-                      );
-                    })
+                      ))}
+                    </div>
+                  ) : activities.length > 0 ? (
+                    <div>
+                      {activities.map((act, i) => {
+                        const actActor = act.actor?.data;
+                        const isLast = i === activities.length - 1;
+                        const actUrl = resolveActivityUrl(act);
+                        const handleActClick = () => {
+                          if (!actUrl) return;
+                          if (actUrl.openTaskSheet) {
+                            dispatch(openTaskSheet({ id: actUrl.taskId, project_id: actUrl.projectId, task_list_id: actUrl.listId }));
+                          } else {
+                            dispatch(closeTaskSheet());
+                            navigate(actUrl.path);
+                          }
+                        };
+                        return (
+                          <div key={act.id || i} className="flex gap-3">
+                            {/* Avatar rail with connector */}
+                            <div className="flex flex-col items-center shrink-0">
+                              {actActor ? (
+                                <UserAvatar user={actActor} size="sm" className="-mt-1" />
+                              ) : (
+                                <span className="-mt-1 flex h-7 w-7 items-center justify-center rounded-md bg-muted">
+                                  <Activity className="h-3.5 w-3.5 text-pm-text-muted" />
+                                </span>
+                              )}
+                              {!isLast && <div className="my-1 w-px flex-1 bg-pm-border" />}
+                            </div>
+
+                            {/* Content */}
+                            <div className={cn('min-w-0 flex-1', isLast ? 'pb-0' : 'pb-4')}>
+                              <div className="text-sm leading-snug text-pm-text">
+                                {actActor?.id && (
+                                  <button
+                                    type="button"
+                                    onClick={() => { dispatch(closeTaskSheet()); navigate('/my-tasks'); }}
+                                    className="border-0 bg-transparent p-0 align-baseline font-medium text-pm-text-primary hover:text-pm-accent transition-colors cursor-pointer mr-1"
+                                  >
+                                    {actActor.display_name}
+                                  </button>
+                                )}
+                                {actUrl ? (
+                                  <button
+                                    type="button"
+                                    onClick={handleActClick}
+                                    className="border-0 bg-transparent p-0 align-baseline text-left text-pm-text-muted hover:text-pm-accent transition-colors cursor-pointer"
+                                  >
+                                    {parseActivityMessage(act) || act.action}
+                                  </button>
+                                ) : (
+                                  <span className="text-pm-text-muted">{parseActivityMessage(act) || act.action}</span>
+                                )}
+                                {(act.action === 'attach_drive_file' || act.meta?.has_drive) && (
+                                  act.action === 'attach_drive_file' && act.meta?.file_url ? (
+                                    <a href={act.meta.file_url} target="_blank" rel="noopener noreferrer" title={act.meta.file_name || __('Google Drive file', 'wedevs-project-manager')} className="ml-1.5 inline-flex align-middle text-pm-text-muted/35 hover:text-pm-accent">
+                                      <DriveMonoGlyph className="h-4 w-4" />
+                                    </a>
+                                  ) : (
+                                    <DriveMonoGlyph className="ml-1.5 inline-flex align-middle h-4 w-4 text-pm-text-muted/30" title={__('Google Drive', 'wedevs-project-manager')} />
+                                  )
+                                )}
+                                {act.meta?.has_meet && (
+                                  <Video className="ml-1.5 inline-flex align-middle h-4 w-4 text-pm-text-muted/30" title={__('Google Meet', 'wedevs-project-manager')} />
+                                )}
+                              </div>
+                              {act.committed_at && (
+                                <div className="mt-0.5 text-[12px] text-pm-text-muted/70 tabular-nums">
+                                  {formatPmDateTime(act.committed_at)}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   ) : (
                     <p className="text-sm text-pm-text-muted italic">{__('No activity yet', 'wedevs-project-manager')}</p>
                   )}
                 </div>
               )}
-            </div>
 
-          </div>
+            </div>
+            </div>
+          </>
         ) : null}
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
     </>
   )
 }

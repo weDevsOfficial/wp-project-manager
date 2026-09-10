@@ -313,6 +313,20 @@ const projectsSlice = createSlice({
     })
 
     builder.addCase(deleteProject.fulfilled, (state, action) => {
+      // Keep the filter-tab counts in step with the list. toggleProjectStatus and
+      // toggleFavourite already maintain projectsMeta; delete did not, so the
+      // tabs kept counting a project that was gone from the grid.
+      const project = state.projects.find(p => p.id === action.payload)
+      if (project) {
+        if (project.status === 'complete') {
+          state.projectsMeta.total_complete = Math.max(0, state.projectsMeta.total_complete - 1)
+        } else {
+          state.projectsMeta.total_incomplete = Math.max(0, state.projectsMeta.total_incomplete - 1)
+        }
+        if (project.favourite) {
+          state.projectsMeta.total_favourite = Math.max(0, state.projectsMeta.total_favourite - 1)
+        }
+      }
       state.projects = state.projects.filter(p => p.id !== action.payload)
       state.total = Math.max(0, state.total - 1)
     })

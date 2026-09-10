@@ -6,6 +6,7 @@ import {
   DialogTitle,
 } from '@components/ui/dialog'
 import { Crown, X } from 'lucide-react'
+import { pmCanSeeUpgrade } from '@hooks/usePermissions'
 
 const UPGRADE_URL = 'https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=wpdashboard&utm_medium=popup'
 
@@ -18,8 +19,18 @@ const ProModalContext = createContext({
 
 export function ProModalProvider({ children }) {
   const [open, setOpen] = useState(false)
+
+  // Only someone who can actually install or license Pro may be shown the
+  // upsell. A co-worker or client cannot act on it, so every trigger is a
+  // no-op for them rather than a dead-end sales dialog.
+  const canUpgrade = pmCanSeeUpgrade()
+  const value = useMemo(
+    () => ({ open: canUpgrade && open, setOpen: canUpgrade ? setOpen : () => {} }),
+    [canUpgrade, open]
+  )
+
   return (
-    <ProModalContext.Provider value={{ open, setOpen }}>
+    <ProModalContext.Provider value={value}>
       {children}
       <ProUpgradeModal />
     </ProModalContext.Provider>

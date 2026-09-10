@@ -7,9 +7,7 @@ import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Label } from '@components/ui/label'
 import { Progress } from '@components/ui/progress'
-import {
-  ChevronDown, ChevronUp, Upload, Loader2, CheckCircle2, AlertCircle,
-} from 'lucide-react'
+import { ChevronDown, ChevronUp, Upload, Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
 
 /* ── Trello Import Card ── */
 function TrelloImportCard() {
@@ -77,7 +75,7 @@ function TrelloImportCard() {
         const boardLabel = board.name || `Board ${i + 1}`
 
         // Get lists for this board
-        setStatusMsg(sprintf(__('Importing lists from "%s"...', 'wedevs-project-manager'), boardLabel))
+        setStatusMsg(sprintf(/* translators: %s is the Trello board name. */ __('Importing lists from "%s"...', 'wedevs-project-manager'), boardLabel))
         setProgress(Math.min(boardProgress - 10, 90))
         const listsData = await callStep('trello/get_lists', {
           formData,
@@ -85,7 +83,7 @@ function TrelloImportCard() {
         })
 
         // Get cards for lists
-        setStatusMsg(sprintf(__('Importing cards from "%s"...', 'wedevs-project-manager'), boardLabel))
+        setStatusMsg(sprintf(/* translators: %s is the Trello board name. */ __('Importing cards from "%s"...', 'wedevs-project-manager'), boardLabel))
         setProgress(Math.min(boardProgress - 5, 92))
         const cardsData = await callStep('trello/get_cards', {
           formData,
@@ -93,7 +91,7 @@ function TrelloImportCard() {
         })
 
         // Get subcards (checklists)
-        setStatusMsg(sprintf(__('Importing checklists from "%s"...', 'wedevs-project-manager'), boardLabel))
+        setStatusMsg(sprintf(/* translators: %s is the Trello board name. */ __('Importing checklists from "%s"...', 'wedevs-project-manager'), boardLabel))
         setProgress(Math.min(boardProgress - 2, 94))
         await callStep('trello/get_subcards', {
           formData,
@@ -101,7 +99,7 @@ function TrelloImportCard() {
         })
 
         // Get users/assignees
-        setStatusMsg(sprintf(__('Importing assignees from "%s"...', 'wedevs-project-manager'), boardLabel))
+        setStatusMsg(sprintf(/* translators: %s is the Trello board name. */ __('Importing assignees from "%s"...', 'wedevs-project-manager'), boardLabel))
         setProgress(Math.min(boardProgress, 96))
         await callStep('trello/get_users', {
           formData,
@@ -135,7 +133,7 @@ function TrelloImportCard() {
               </svg>
             </div>
             <div>
-              <CardTitle className="text-base">{__('Trello', 'wedevs-project-manager')}</CardTitle>
+              <CardTitle className="text-pm-text-primary">{__('Trello', 'wedevs-project-manager')}</CardTitle>
               <CardDescription className="text-sm">
                 {__('Import boards, lists, and cards from Trello', 'wedevs-project-manager')}
               </CardDescription>
@@ -213,7 +211,7 @@ function TrelloImportCard() {
                 <Button
                   type="submit"
                   disabled={importing}
-                  className="bg-pm-accent hover:bg-pm-accent/90"
+                  className="bg-pm-accent hover:bg-pm-accent/90 h-11 px-5"
                 >
                   {importing ? (
                     <>
@@ -239,7 +237,7 @@ function TrelloImportCard() {
 export default function ToolsPage() {
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+    <div className="w-full p-4 sm:p-6 space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-pm-text">{__('Import Tools', 'wedevs-project-manager')}</h1>
         <p className="text-sm text-muted-foreground mt-1">

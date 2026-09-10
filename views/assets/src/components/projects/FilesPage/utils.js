@@ -34,6 +34,33 @@ export function getFileIconColor(type) {
   return "text-pm-text-muted";
 }
 
+// Literal group-hover classes (bg tint + icon color) revealed on card hover.
+// Full literals so Tailwind JIT generates the group-hover variants.
+export function getFileIconHover(type) {
+  const normalized = String(type || "").toLowerCase();
+  if (normalized === "image" || normalized.startsWith("image")) return { bg: "group-hover:bg-blue-500/10", text: "group-hover:text-blue-500" };
+  if (normalized === "video" || normalized.startsWith("video") || ["mp4", "m4v", "mov", "ogv", "webm"].includes(normalized)) return { bg: "group-hover:bg-violet-500/10", text: "group-hover:text-violet-500" };
+  if (normalized.includes("pdf") || normalized === "pdf") return { bg: "group-hover:bg-red-500/10", text: "group-hover:text-red-600" };
+  if (normalized.includes("zip") || normalized.includes("archive") || normalized.includes("rar") || normalized.includes("compressed")) return { bg: "group-hover:bg-amber-500/10", text: "group-hover:text-amber-600" };
+  if (normalized.includes("spreadsheet") || normalized.includes("excel") || ["xls", "xlsx", "csv"].includes(normalized)) return { bg: "group-hover:bg-emerald-500/10", text: "group-hover:text-emerald-600" };
+  if (normalized.includes("presentation") || normalized.includes("powerpoint") || ["ppt", "pptx"].includes(normalized)) return { bg: "group-hover:bg-amber-500/10", text: "group-hover:text-amber-500" };
+  if (normalized.includes("document") || normalized.includes("text") || ["doc", "docx", "txt", "rtf"].includes(normalized)) return { bg: "group-hover:bg-blue-500/10", text: "group-hover:text-blue-500" };
+  return { bg: "group-hover:bg-muted", text: "group-hover:text-pm-text-primary" };
+}
+
+// Soft tinted chip background matching the icon color (reference file-row look).
+export function getFileIconBg(type) {
+  const normalized = String(type || "").toLowerCase();
+  if (normalized === "image" || normalized.startsWith("image")) return "bg-blue-500/10";
+  if (normalized === "video" || normalized.startsWith("video") || ["mp4", "m4v", "mov", "ogv", "webm"].includes(normalized)) return "bg-violet-500/10";
+  if (normalized.includes("pdf") || normalized === "pdf") return "bg-red-500/10";
+  if (normalized.includes("zip") || normalized.includes("archive") || normalized.includes("rar") || normalized.includes("compressed")) return "bg-amber-500/10";
+  if (normalized.includes("spreadsheet") || normalized.includes("excel") || ["xls", "xlsx", "csv"].includes(normalized)) return "bg-emerald-500/10";
+  if (normalized.includes("presentation") || normalized.includes("powerpoint") || ["ppt", "pptx"].includes(normalized)) return "bg-amber-500/10";
+  if (normalized.includes("document") || normalized.includes("text") || ["doc", "docx", "txt", "rtf"].includes(normalized)) return "bg-blue-500/10";
+  return "bg-muted";
+}
+
 export function getAttachedLabel(file, __) {
   const type = file.fileable_type;
   if (type === "discussion_board") return __("Discussion", 'wedevs-project-manager');

@@ -2,9 +2,21 @@
 
 class WeDevs_PM_Create_Table {
 
+    /**
+     * Charset/collation WordPress itself uses (utf8mb4 on any modern install).
+     * Hardcoding `utf8` (= utf8mb3) silently dropped 4-byte characters such as
+     * emoji: the INSERT failed and the record was lost.
+     *
+     * @var string
+     */
+    private $charset_collate = '';
+
     public function __construct() {
+        global $wpdb;
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+        $this->charset_collate = $wpdb->get_charset_collate();
         $this->create_project_table();
         $this->create_tasks_table();
         $this->create_activity_table();
@@ -27,6 +39,54 @@ class WeDevs_PM_Create_Table {
         $this->update_version();
         $this->task_types();
         \WeDevs\PM\Google_Workspace\Loader::install();
+        $this->convert_tables_to_utf8mb4();
+    }
+
+    /**
+     * Bring tables created by older versions (hardcoded utf8mb3) up to utf8mb4.
+     *
+     * Uses WordPress' own helper, which checks server support and handles the
+     * index key-length limits, and is a no-op once a table is already utf8mb4.
+     */
+    private function convert_tables_to_utf8mb4() {
+        global $wpdb;
+
+        if ( ! $wpdb->has_cap( 'utf8mb4' ) ) {
+            return;
+        }
+
+        // Not maybe_convert_table_to_utf8mb4(): on MySQL 8 SHOW FULL COLUMNS reports
+        // `utf8mb3_*`, and that helper bails on anything that is not literally `utf8`,
+        // so it skips exactly the tables that hold text.
+        $collate = ! empty( $wpdb->collate ) ? $wpdb->collate : 'utf8mb4_unicode_ci';
+
+        if ( 0 !== strpos( $collate, 'utf8mb4' ) ) {
+            $collate = 'utf8mb4_unicode_ci';
+        }
+
+        $tables = $wpdb->get_col(
+            $wpdb->prepare(
+                'SELECT TABLE_NAME FROM information_schema.TABLES'
+                . ' WHERE TABLE_SCHEMA = DATABASE()'
+                . ' AND TABLE_NAME LIKE %s'
+                . " AND TABLE_COLLATION LIKE 'utf8mb3%%'",
+                $wpdb->esc_like( $wpdb->prefix . 'pm_' ) . '%'
+            )
+        );
+
+        if ( empty( $tables ) ) {
+            return;
+        }
+
+        foreach ( $tables as $table ) {
+            $wpdb->query(
+                sprintf(
+                    'ALTER TABLE `%s` CONVERT TO CHARACTER SET utf8mb4 COLLATE %s',
+                    esc_sql( $table ),
+                    esc_sql( $collate )
+                )
+            );
+        }
     }
 
     private function prefix() {
@@ -50,7 +110,7 @@ class WeDevs_PM_Create_Table {
           `created_by` int(11) UNSIGNED DEFAULT NULL,
           `updated_by` int(11) UNSIGNED DEFAULT NULL,
           PRIMARY KEY (`id`)
-        ) DEFAULT CHARSET=utf8";
+        ) {$this->charset_collate}";
         
         dbDelta($sql);
 
@@ -68,7 +128,7 @@ class WeDevs_PM_Create_Table {
           `list_id` int(11) UNSIGNED NOT NULL,
           UNIQUE KEY `task_id` (`task_id`),
           KEY `type_id` (`type_id`)
-        ) DEFAULT CHARSET=utf8";
+        ) {$this->charset_collate}";
         
         dbDelta($sql);
     }
@@ -82,7 +142,7 @@ class WeDevs_PM_Create_Table {
               `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT,
               `name` varchar(100) NOT NULL,
               PRIMARY KEY (`id`)
-            ) DEFAULT CHARSET=utf8";
+            ) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -96,7 +156,7 @@ class WeDevs_PM_Create_Table {
               `project_id` int(20) UNSIGNED NOT NULL,
               `role_id` int(20) UNSIGNED NOT NULL,
               PRIMARY KEY (`id`)
-            ) DEFAULT CHARSET=utf8";
+            ) {$this->charset_collate}";
 
 
         dbDelta($sql);
@@ -110,7 +170,7 @@ class WeDevs_PM_Create_Table {
               `role_project_id` int(20) UNSIGNED NOT NULL,
               `capability_id` int(20) UNSIGNED NOT NULL,
               KEY `role_project_id` (`role_project_id`)
-            ) DEFAULT CHARSET=utf8";
+            ) {$this->charset_collate}";
 
 
         dbDelta($sql);
@@ -124,7 +184,7 @@ class WeDevs_PM_Create_Table {
               `role_project_id` int(20) UNSIGNED NOT NULL,
               `user_id` int(20) UNSIGNED NOT NULL,
               KEY `role_project_id` (`role_project_id`)
-            ) DEFAULT CHARSET=utf8";
+            ) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -154,7 +214,7 @@ class WeDevs_PM_Create_Table {
 		  `created_at` timestamp NULL DEFAULT NULL,
 		  `updated_at` timestamp NULL DEFAULT NULL,
 		  PRIMARY KEY (`id`)
-		) DEFAULT CHARSET=utf8";
+		) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -192,7 +252,7 @@ class WeDevs_PM_Create_Table {
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`),
 			  KEY `project_id` (`project_id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -217,7 +277,7 @@ class WeDevs_PM_Create_Table {
 			  KEY `project_id` (`project_id`),
 			  KEY `actor_id` (`actor_id`),
 			  KEY `resource_id` (`resource_id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -246,7 +306,7 @@ class WeDevs_PM_Create_Table {
 			  KEY `task_id` (`task_id`),
 			  KEY `assigned_to` (`assigned_to`),
 			  KEY `project_id` (`project_id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -270,7 +330,7 @@ class WeDevs_PM_Create_Table {
 			  PRIMARY KEY (`id`),
 			  KEY `board_id` (`board_id`),
 			  KEY `boardable_id` (`boardable_id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
 
@@ -296,7 +356,7 @@ class WeDevs_PM_Create_Table {
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`),
 			  KEY `project_id` (`project_id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -316,7 +376,7 @@ class WeDevs_PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -331,7 +391,7 @@ class WeDevs_PM_Create_Table {
 			  `category_id` int(11) UNSIGNED NOT NULL,
 			  KEY `project_id` (`project_id`),
 			  KEY `category_id` (`category_id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -355,7 +415,7 @@ class WeDevs_PM_Create_Table {
 			  PRIMARY KEY (`id`),
 			  KEY `project_id` (`project_id`),
 			  KEY `commentable_id` (`commentable_id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -380,7 +440,7 @@ class WeDevs_PM_Create_Table {
 			  PRIMARY KEY (`id`),
 			  KEY `project_id` (`project_id`),
 			  KEY `fileable_id` (`fileable_id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -404,7 +464,7 @@ class WeDevs_PM_Create_Table {
 		  PRIMARY KEY (`id`),
 		  KEY `entity_id` (`entity_id`),
 		  KEY `project_id` (`project_id`)
-		) DEFAULT CHARSET=utf8";
+		) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -425,7 +485,7 @@ class WeDevs_PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -446,7 +506,7 @@ class WeDevs_PM_Create_Table {
 			  KEY `role_id` (`role_id`),
 			  KEY `user_id` (`user_id`),
 			  KEY `assigned_by` (`assigned_by`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -467,7 +527,7 @@ class WeDevs_PM_Create_Table {
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`),
 			  KEY `project_id` (`project_id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }
@@ -488,7 +548,7 @@ class WeDevs_PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) DEFAULT CHARSET=utf8";
+			) {$this->charset_collate}";
 
         dbDelta($sql);
     }

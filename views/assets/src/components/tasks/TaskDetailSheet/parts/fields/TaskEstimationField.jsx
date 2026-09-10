@@ -9,7 +9,7 @@ import { Clock } from 'lucide-react';
 function EstimationTeaser() {
   return (
     <ProGate feature={__('Estimate', 'wedevs-project-manager')}>
-      <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
+      <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
         <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
           <Clock className="h-4 w-4" /><span className="text-sm">{__('Estimate', 'wedevs-project-manager')}</span>
         </div>

@@ -714,9 +714,13 @@ return [
 	__( 'Pro Required', 'wedevs-project-manager' ),
 
 	// ── React component strings (ToolsPage — Trello import) ──
+	// translators: %s is the Trello board name.
 	__( 'Importing lists from "%s"...', 'wedevs-project-manager' ),
+	// translators: %s is the Trello board name.
 	__( 'Importing cards from "%s"...', 'wedevs-project-manager' ),
+	// translators: %s is the Trello board name.
 	__( 'Importing checklists from "%s"...', 'wedevs-project-manager' ),
+	// translators: %s is the Trello board name.
 	__( 'Importing assignees from "%s"...', 'wedevs-project-manager' ),
 	__( 'Import Tools', 'wedevs-project-manager' ),
 	__( 'Import projects, tasks, and data from third-party project management tools.', 'wedevs-project-manager' ),
@@ -745,6 +749,7 @@ return [
 	__( 'All changes and updates in this project', 'wedevs-project-manager' ),
 	__( 'No activities yet', 'wedevs-project-manager' ),
 	__( 'Project activity will appear here.', 'wedevs-project-manager' ),
+	// translators: %1$s is the number shown, %2$s is the total number of activities.
 	__( 'Showing %1$s of %2$s activities', 'wedevs-project-manager' ),
 
 	// ── React component strings (ProgressPage) ──
@@ -800,6 +805,7 @@ return [
 	__( 'Sprint 12', 'wedevs-project-manager' ),
 	__( 'Sprint 11', 'wedevs-project-manager' ),
 	__( 'Sprint 10', 'wedevs-project-manager' ),
+	// translators: %1$s is the number of completed tasks, %2$s is the total.
 	__( '%1$s/%2$s tasks completed', 'wedevs-project-manager' ),
 
 	// ── React component strings (ProCalendarPage — months & days) ──
@@ -823,6 +829,7 @@ return [
 	__( 'Sat', 'wedevs-project-manager' ),
 
 	// ── React component strings (SubtaskList) ──
+	// translators: %s is the subtask name.
 	__( 'This will convert "%s" into a standalone task.', 'wedevs-project-manager' ),
 	__( 'Copy Subtask to Task', 'wedevs-project-manager' ),
 
@@ -831,6 +838,7 @@ return [
 	__( 'Duration', 'wedevs-project-manager' ),
 
 	// ── React component strings (ProReportsPage) ──
+	// translators: Both placeholders are field names.
 	__( '%s is required when %s is set.', 'wedevs-project-manager' ),
 	__( 'Due Date From', 'wedevs-project-manager' ),
 	__( 'Due Date To', 'wedevs-project-manager' ),
