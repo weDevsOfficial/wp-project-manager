@@ -3,17 +3,10 @@ import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useApi } from '@hooks/useApi'
-import { usePermissions } from '@hooks/usePermissions'
+import { usePermissions, pmCanSeeUpgrade } from '@hooks/usePermissions'
 import { useActiveProModules, isProModuleActive, isProPluginInstalled } from '@hooks/useActiveProModules'
 import ProBadge from '@components/common/ProBadge'
-import {
-  FolderKanban, CheckSquare, Calendar, BarChart3,
-  Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen,
-  ChevronDown, Star, LayoutList, Layout, MessageSquare,
-  Milestone, FileText, Activity, Tag, Crown, Layers,
-  Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
-  LayoutTemplate,
-} from 'lucide-react'
+import { FolderKanban, CheckSquare, Calendar, BarChart3, Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen, ChevronDown, Star, LayoutList, Layout, MessageSquare, Milestone, FileText, Activity, Tag, Crown, Layers, Columns3, GitBranch, Receipt, Timer, Shield, Wrench, LayoutTemplate, Sparkles, LayoutDashboard } from 'lucide-react'
 import { cn } from '@lib/utils'
 import { DriveMonoGlyph as GoogleDriveNavIcon } from '@components/google-workspace/GoogleIcons'
 
@@ -22,7 +15,7 @@ function statusColor(p) {
   if (s === 'complete' || s === '1' || s === 1) return '#10b981'
   if (s === 'archived' || s === '2' || s === 2) return '#6b7280'
   if (s === 'pending' || s === '3' || s === 3) return '#f59e0b'
-  return '#6366f1'
+  return '#6F56A3'
 }
 
 // ── Project sub-nav items (moved inside component for i18n — see getProjectSubNav_FREE / getProSubNav below) ──
@@ -44,6 +37,7 @@ function TruncText({ children, className }) {
 
 export function AppSidebar() {
   const { isAdmin, isPro, canManage, canManageLicense, isManagerAnywhere } = usePermissions()
+  const canSeeUpgrade = pmCanSeeUpgrade()
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
 
   // Pro plan + version for the sidebar footer badge (Dokan-style). Present only
@@ -142,6 +136,19 @@ export function AppSidebar() {
     localStorage.setItem('pm-sidebar-collapsed', String(next))
   }
 
+  // Refetch sidebar projects after a project is created/edited (e.g. color change)
+  const editSheetOpen = useSelector((s) => s.projects.editSheetOpen)
+  const createSheetOpen = useSelector((s) => s.projects.createSheetOpen)
+  const [reloadKey, setReloadKey] = useState(0)
+  const prevSheets = useRef({ edit: false, create: false })
+  useEffect(() => {
+    const p = prevSheets.current
+    if ((p.edit && !editSheetOpen) || (p.create && !createSheetOpen)) {
+      setReloadKey((k) => k + 1)
+    }
+    prevSheets.current = { edit: editSheetOpen, create: createSheetOpen }
+  }, [editSheetOpen, createSheetOpen])
+
   // Fetch ALL projects for sidebar (never affected by page filters)
   useEffect(() => {
     let cancelled = false
@@ -150,10 +157,11 @@ export function AppSidebar() {
       let all = []
       try {
         while (true) {
-          const res = await api.get('projects', {
+          // Use advanced/projects (Project_Transformer) so color_code is returned;
+          // the plain `projects` helper endpoint omits it.
+          const res = await api.get('advanced/projects', {
             per_page: 100,
             page,
-            select: 'id, title, status, favourite, color_code',
             with: 'assignees',
           })
           const data = res.data ?? []
@@ -166,7 +174,7 @@ export function AppSidebar() {
     }
     fetchAll()
     return () => { cancelled = true }
-  }, [])
+  }, [reloadKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Detect active project from URL and auto-expand it
   const activeProjectId = useMemo(() => {
@@ -225,6 +233,7 @@ export function AppSidebar() {
   )
 
   const topNavItems = useMemo(() => [
+    { key: 'dashboard', label: __('Dashboard', 'wedevs-project-manager'), short: __('Home', 'wedevs-project-manager'), icon: LayoutDashboard, route: '/dashboard' },
     { key: 'projects', label: __('Projects', 'wedevs-project-manager'), short: __('Proj', 'wedevs-project-manager'), icon: FolderKanban, route: '/projects' },
     { key: 'my-tasks', label: __('My Tasks', 'wedevs-project-manager'), short: __('Tasks', 'wedevs-project-manager'), icon: CheckSquare,  route: '/my-tasks' },
   ], [__])
@@ -296,6 +305,7 @@ export function AppSidebar() {
 
   const activeKey = useMemo(() => {
     const path = location.pathname
+    if (path.startsWith('/dashboard')) return 'dashboard'
     if (path.startsWith('/modules')) return 'modules'
     if (path.startsWith('/premium')) return 'premium'
     if (path.startsWith('/categories')) return 'categories'
@@ -330,19 +340,16 @@ export function AppSidebar() {
         key={item.key}
         to={item.route}
         className={cn(
-          'w-full flex items-center min-w-0 rounded-md transition-colors text-left mb-0.5 group/nav',
-          collapsed ? 'flex-col justify-center px-0 py-1.5 gap-0.5' : 'gap-2.5 px-2.5 py-[7px]',
+          'w-full flex items-center min-w-0 rounded-lg transition-colors text-left mb-1 group/nav',
+          collapsed ? 'flex-col justify-center px-0 py-2 gap-0.5' : 'gap-3 px-3 py-2.5',
           isActive
-            ? 'bg-pm-accent/10 text-pm-accent font-medium'
+            ? 'bg-pm-accent-light text-pm-accent font-medium'
             : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text',
         )}
         title={item.label}
       >
-        <Icon className={cn('shrink-0', collapsed ? 'w-[18px] h-[18px]' : 'w-[18px] h-[18px]', !collapsed && item.key === 'google-workspace' && 'self-start mt-[3px]', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
-        {collapsed
-          ? <span className={cn('text-[10px] font-medium leading-none', isActive ? 'text-pm-accent' : 'text-pm-text-muted')}>{item.short ?? item.label}</span>
-          : <TruncText className="text-[15px]">{item.label}</TruncText>
-        }
+        <Icon className={cn('shrink-0', collapsed ? 'w-[18px] h-[18px]' : 'w-5 h-5', !collapsed && item.key === 'google-workspace' && 'self-start mt-[3px]', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
+        {!collapsed && <TruncText className="text-[15px]">{item.label}</TruncText>}
         {!collapsed && item.pro && <span className="shrink-0 opacity-0 group-hover/nav:opacity-100 transition-opacity"><ProBadge /></span>}
       </Link>
     )
@@ -351,17 +358,18 @@ export function AppSidebar() {
   function renderProjectItem(project) {
     const isExpanded = expandedProjects.has(project.id)
     const isActive = activeProjectId === project.id
-    const color = project.color_code || statusColor(project)
+    // Show the actual project color only — no status-color fallback (neutral dot when unset).
+    const color = project.color_code || '#111827'
 
     return (
       <div key={project.id} className="mb-0.5">
         {/* Project row */}
         <button
           className={cn(
-            'w-full flex items-center min-w-0 rounded-md transition-colors text-left',
-            collapsed ? 'flex-col justify-center px-0 py-1.5 gap-0.5' : 'gap-1.5 pl-2 pr-1.5 py-[6px]',
+            'w-full flex items-center min-w-0 rounded-lg transition-colors text-left mb-0.5',
+            collapsed ? 'flex-col justify-center px-0 py-2 gap-0.5' : 'gap-2 pl-2.5 pr-2 py-2',
             isActive
-              ? 'bg-pm-accent/5 text-pm-text-primary'
+              ? 'bg-pm-accent-light text-pm-accent font-medium'
               : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text',
           )}
           title={project.title}
@@ -384,24 +392,21 @@ export function AppSidebar() {
             className={cn('rounded-sm shrink-0', collapsed ? 'h-3 w-3' : 'h-2 w-2')}
             style={{ backgroundColor: color }}
           />
-          {collapsed
-            ? <span className="text-[10px] font-medium leading-none text-pm-text-muted w-full text-center truncate px-0.5">
-                {project.title.substring(0, 4)}
-              </span>
-            : <>
-                <TruncText className={cn('text-[15px]', isActive && 'font-medium')}>
-                  {project.title}
-                </TruncText>
-                {project.favourite && (
-                  <Star className="h-3.5 w-3.5 shrink-0 fill-yellow-400 text-yellow-400" />
-                )}
-              </>
-          }
+          {!collapsed && (
+            <>
+              <TruncText className={cn('text-[15px]', isActive && 'font-medium')}>
+                {project.title}
+              </TruncText>
+              {project.favourite && (
+                <Star className="h-3.5 w-3.5 shrink-0 fill-yellow-400 text-yellow-400" />
+              )}
+            </>
+          )}
         </button>
 
         {/* Sub-nav (expanded, not collapsed) */}
         {isExpanded && !collapsed && (
-          <div className="ml-5 pl-2.5 border-l border-border/50 mt-0.5 mb-1 space-y-0.5">
+          <div className="ml-5 mt-0.5 mb-1">
             {projectSubNav.map(sub => {
               const SubIcon = sub.icon
               const subActive = isActive && activeSubKey === sub.key
@@ -411,9 +416,13 @@ export function AppSidebar() {
                   key={sub.key}
                   to={sub.path(project.id)}
                   className={cn(
-                    'w-full flex items-center min-w-0 gap-2 rounded-md px-2 py-[5px] text-left transition-colors group/sub',
+                    'relative w-full flex items-center min-w-0 gap-2.5 rounded-lg pl-6 pr-2.5 py-2 text-left transition-colors group/sub',
+                    // Tree rail (vertical) + elbow (horizontal) connectors; last item ends in an L
+                    "before:content-[''] before:absolute before:left-1 before:top-0 before:h-full before:w-px before:bg-pm-border",
+                    "after:content-[''] after:absolute after:left-1 after:top-1/2 after:h-px after:w-3 after:bg-pm-border",
+                    'last:before:h-1/2',
                     subActive
-                      ? 'bg-pm-accent/10 text-pm-accent font-medium'
+                      ? 'bg-pm-accent-light text-pm-accent font-medium'
                       : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text',
                   )}
                 >
@@ -436,7 +445,7 @@ export function AppSidebar() {
   return (
     <aside
       className={cn(
-        'shrink-0 bg-pm-surface border-r border-pm-border flex flex-col transition-all duration-200',
+        'shrink-0 bg-transparent flex flex-col transition-all duration-200',
         sidebarMode === 'wordpress' && 'overflow-hidden',
       )}
       style={{ width: sidebarWidth, minWidth: sidebarWidth, maxWidth: sidebarWidth }}
@@ -481,7 +490,7 @@ export function AppSidebar() {
           {/* Main nav */}
           <div className="mb-3">
             {!collapsed && (
-              <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
+              <p className="text-[11px] font-semibold text-pm-text-muted/60 uppercase tracking-[0.08em] px-2 mb-1.5">
                 {__('Workspace', 'wedevs-project-manager')}
               </p>
             )}
@@ -496,7 +505,7 @@ export function AppSidebar() {
                   className="w-full flex items-center justify-between px-2 mb-1.5 group/sec"
                   onClick={() => setShowFavourites(v => !v)}
                 >
-                  <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider">
+                  <p className="text-[11px] font-semibold text-pm-text-muted/60 uppercase tracking-[0.08em]">
                     {__('Favourites', 'wedevs-project-manager')}
                   </p>
                   <ChevronDown className="h-3.5 w-3.5 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showFavourites ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
@@ -516,7 +525,7 @@ export function AppSidebar() {
                   className="w-full flex items-center justify-between px-2 mb-1.5 group/sec"
                   onClick={() => setShowRecent(v => !v)}
                 >
-                  <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider">
+                  <p className="text-[11px] font-semibold text-pm-text-muted/60 uppercase tracking-[0.08em]">
                     {__('Recent', 'wedevs-project-manager')}
                   </p>
                   <ChevronDown className="h-3.5 w-3.5 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showRecent ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
@@ -531,7 +540,7 @@ export function AppSidebar() {
           {/* Views */}
           <div className="mb-3">
             {!collapsed ? (
-              <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
+              <p className="text-[11px] font-semibold text-pm-text-muted/60 uppercase tracking-[0.08em] px-2 mb-1.5">
                 {__('Views', 'wedevs-project-manager')}
               </p>
             ) : (
@@ -544,31 +553,21 @@ export function AppSidebar() {
           {!isFrontend && isAdmin && (
           <div className="mb-3">
             {!collapsed ? (
-              <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
+              <p className="text-[11px] font-semibold text-pm-text-muted/60 uppercase tracking-[0.08em] px-2 mb-1.5">
                 {__('Modules', 'wedevs-project-manager')}
               </p>
             ) : (
               <div className="border-t border-pm-border my-2 mx-1" />
             )}
             {renderNavItem({ key: 'modules', label: __('Modules', 'wedevs-project-manager'), icon: Layers, route: '/modules', pro: !isPro })}
-            {!isPro && (
-              collapsed ? (
-                <button
-                  className="w-full flex justify-center py-2 text-pm-accent hover:bg-pm-accent/5 rounded-md transition-colors"
-                  title={__('Upgrade to Pro', 'wedevs-project-manager')}
-                  onClick={() => navigate('/premium')}
-                >
-                  <Crown className="w-5 h-5" />
-                </button>
-              ) : (
-                <button
-                  className="w-full flex items-center min-w-0 gap-2.5 rounded-md px-2.5 py-[7px] text-left mb-0.5 transition-colors text-pm-accent hover:bg-pm-accent/5"
-                  onClick={() => navigate('/premium')}
-                >
-                  <Crown className="w-5 h-5 shrink-0" />
-                  <TruncText className="text-[15px] font-medium">{__('Upgrade to Pro', 'wedevs-project-manager')}</TruncText>
-                </button>
-              )
+            {!isPro && collapsed && (
+              <button
+                className="w-full flex justify-center py-2 text-pm-accent hover:bg-pm-accent/5 rounded-md transition-colors"
+                title={__('Upgrade to Pro', 'wedevs-project-manager')}
+                onClick={() => navigate('/premium')}
+              >
+                <Crown className="w-5 h-5" />
+              </button>
             )}
           </div>
           )}
@@ -577,7 +576,7 @@ export function AppSidebar() {
           {isAdmin && (
             <div className="mb-3">
               {!collapsed ? (
-                <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
+                <p className="text-[11px] font-semibold text-pm-text-muted/60 uppercase tracking-[0.08em] px-2 mb-1.5">
                   {__('Administration', 'wedevs-project-manager')}
                 </p>
               ) : (
@@ -594,6 +593,30 @@ export function AppSidebar() {
           )}
         </nav>
       </div>
+
+      {/* Become Pro upsell card — only for someone who can act on it. */}
+      {!isFrontend && !isPro && !collapsed && canSeeUpgrade && (
+        <div className="px-3 pb-3">
+          <div className="rounded-lg border border-pm-border bg-pm-accent-light/50 p-4 text-center">
+            <div className="mx-auto mb-2.5 flex h-10 w-10 items-center justify-center rounded-lg bg-pm-accent text-white shadow-sm">
+              <Crown className="h-5 w-5" />
+            </div>
+            <p className="text-[13px] font-medium text-pm-text-primary">
+              {__('Become Pro Access', 'wedevs-project-manager')}
+            </p>
+            <p className="mt-1 text-[11px] leading-snug text-pm-text-muted">
+              {__('Unlock more features to supercharge your projects.', 'wedevs-project-manager')}
+            </p>
+            <button
+              onClick={() => navigate('/premium')}
+              className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-pm-text-primary px-3 py-2 text-[12px] font-medium text-white transition-colors hover:bg-pm-text"
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              {__('Upgrade Pro', 'wedevs-project-manager')}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       {!isFrontend && (
@@ -615,7 +638,7 @@ export function AppSidebar() {
               />
               {planLabel && (
                 <span className="flex items-center gap-1.5 whitespace-nowrap">
-                  <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary">
+                  <span className="inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">
                     {planLabel}
                   </span>
                   {proVersion && (

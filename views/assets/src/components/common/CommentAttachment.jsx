@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { __ } from '@wordpress/i18n'
-import { Download, ExternalLink, File, FileArchive, FileSpreadsheet, FileText, Image as ImageIcon, Presentation, Video, X } from 'lucide-react'
+import { Download, ExternalLink, File, FileArchive, FileSpreadsheet, FileText, Image as ImageIcon, Presentation, RotateCcw, Video, X, ZoomIn, ZoomOut } from 'lucide-react'
 import { cn } from '@lib/utils'
-import { Button } from '@components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
   DialogTitle,
 } from '@components/ui/dialog'
 
@@ -70,6 +68,8 @@ function getFileIconMeta(file) {
 export default function CommentAttachment({ file, onRemove, className, children, previewOnly = false }) {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [imageFailed, setImageFailed] = useState(false)
+  const [zoom, setZoom] = useState(1)
+  const [rotation, setRotation] = useState(0)
   const fileName = getFileName(file)
   const isPdf = isPdfFile(file) && file?.url
   const isVideo = isVideoFile(file) && file?.url
@@ -82,6 +82,13 @@ export default function CommentAttachment({ file, onRemove, className, children,
   useEffect(() => {
     setImageFailed(false)
   }, [file?.id, file?.thumb, file?.url])
+
+  // Reset image zoom/rotation each time the viewer opens or the file changes.
+  useEffect(() => {
+    if (!previewOpen) return
+    setZoom(1)
+    setRotation(0)
+  }, [previewOpen, file?.id, file?.url])
 
   const fileContent = (
     <span className="inline-flex max-w-[220px] items-center gap-2 rounded-md bg-muted/30 px-2.5 py-1.5">
@@ -108,14 +115,19 @@ export default function CommentAttachment({ file, onRemove, className, children,
     className,
   )
 
+  const pdfSrc = isPdf ? `${file.url}${file.url.includes('#') ? '&' : '#'}toolbar=0&navpanes=0&statusbar=0&zoom=page-width` : null
+
   const preview = canPreview ? (
     <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
       <DialogContent
         data-pm-dialog
-        className="!flex h-[90vh] w-[calc(100vw-2rem)] max-w-5xl flex-col !gap-0 overflow-hidden !p-0"
+        style={{ maxHeight: '96vh', width: 'calc(100vw - 2rem)' }}
+        className="!flex max-w-6xl flex-col !gap-0 overflow-hidden rounded-2xl sm:rounded-2xl !p-0"
       >
-        <DialogHeader className="shrink-0 !space-y-0 border-b px-6 py-3 pr-12">
-          <DialogTitle className="truncate text-center text-base leading-6">
+        {/* Header: file identity (built-in close sits top-right) */}
+        <div className="flex shrink-0 items-center gap-2.5 border-b border-border bg-background px-5 py-3 pr-14">
+          <Icon className={cn('h-5 w-5 shrink-0', iconClassName)} />
+          <DialogTitle className="min-w-0 flex-1 truncate text-left text-sm font-medium text-pm-text-primary">
             {fileName}
           </DialogTitle>
           <DialogDescription className="sr-only">
@@ -125,19 +137,28 @@ export default function CommentAttachment({ file, onRemove, className, children,
                 ? __('Video attachment preview', 'wedevs-project-manager')
                 : __('Image attachment preview', 'wedevs-project-manager')}
           </DialogDescription>
-        </DialogHeader>
-        <div className={cn(
-          'flex min-h-0 flex-1 items-center justify-center overflow-auto',
-          isImage || isVideo ? 'bg-black/90 p-4' : 'bg-background',
-        )}>
+        </div>
+
+        {/* Media */}
+        <div
+          style={isPdf ? { height: '70vh' } : undefined}
+          className={cn(
+            'relative flex min-h-0 overflow-auto',
+            isImage
+              ? 'items-center justify-center bg-neutral-100 p-4 dark:bg-neutral-900'
+              : isVideo
+                ? 'items-center justify-center bg-black p-4'
+                : 'bg-neutral-100 dark:bg-neutral-900',
+          )}
+        >
           {isPdf ? (
             <iframe
-              src={file.url}
+              src={pdfSrc}
               title={fileName}
-              className="h-full w-full bg-background"
+              className="absolute inset-0 h-full w-full border-0 bg-white"
             />
           ) : isVideo ? (
-            <video controls className="max-h-full max-w-full bg-black" preload="metadata">
+            <video controls className="max-h-[80vh] max-w-full bg-black" preload="metadata">
               <source src={file.url} type={videoType} />
               {__('Your browser does not support the video tag.', 'wedevs-project-manager')}
             </video>
@@ -145,23 +166,69 @@ export default function CommentAttachment({ file, onRemove, className, children,
             <img
               src={file.url || imageUrl}
               alt={fileName}
-              className="max-h-full max-w-full object-contain"
+              draggable={false}
+              className="max-h-[80vh] max-w-full object-contain transition-transform duration-150"
+              style={{ transform: `scale(${zoom}) rotate(${rotation}deg)` }}
             />
           )}
         </div>
-        <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 border-t bg-background px-6 py-3">
-          <Button asChild variant="outline" size="sm" className="no-underline hover:no-underline focus:no-underline">
-            <a href={file.url} download={fileName}>
-              <Download className="h-4 w-4" />
-              {__('Download', 'wedevs-project-manager')}
-            </a>
-          </Button>
-          <Button asChild size="sm" className="no-underline hover:no-underline focus:no-underline">
-            <a href={file.url} target="_blank" rel="noreferrer">
-              <ExternalLink className="h-4 w-4" />
-              {__('Open in new tab', 'wedevs-project-manager')}
-            </a>
-          </Button>
+
+        {/* Bottom action bar — icon above label */}
+        <div className="flex shrink-0 flex-wrap items-center justify-center gap-1 border-t border-border bg-background px-4 py-2">
+          {isImage && (
+            <>
+              <button
+                type="button"
+                title={__('Zoom out', 'wedevs-project-manager')}
+                disabled={zoom <= 0.5}
+                onClick={() => setZoom((z) => Math.max(0.5, Math.round((z - 0.25) * 100) / 100))}
+                className="flex min-w-[64px] flex-col items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium text-pm-text-primary transition-colors hover:bg-muted disabled:opacity-40"
+              >
+                <ZoomOut className="h-5 w-5" />
+                {__('Zoom out', 'wedevs-project-manager')}
+              </button>
+              <span className="w-12 select-none text-center text-xs tabular-nums text-pm-text-muted">
+                {Math.round(zoom * 100)}%
+              </span>
+              <button
+                type="button"
+                title={__('Zoom in', 'wedevs-project-manager')}
+                disabled={zoom >= 4}
+                onClick={() => setZoom((z) => Math.min(4, Math.round((z + 0.25) * 100) / 100))}
+                className="flex min-w-[64px] flex-col items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium text-pm-text-primary transition-colors hover:bg-muted disabled:opacity-40"
+              >
+                <ZoomIn className="h-5 w-5" />
+                {__('Zoom in', 'wedevs-project-manager')}
+              </button>
+              <button
+                type="button"
+                title={__('Rotate', 'wedevs-project-manager')}
+                onClick={() => setRotation((r) => (r + 90) % 360)}
+                className="flex min-w-[64px] flex-col items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium text-pm-text-primary transition-colors hover:bg-muted"
+              >
+                <RotateCcw className="h-5 w-5" />
+                {__('Rotate', 'wedevs-project-manager')}
+              </button>
+              <span className="mx-1 h-8 w-px bg-border" aria-hidden="true" />
+            </>
+          )}
+          <a
+            href={file.url}
+            download={fileName}
+            className="flex min-w-[64px] flex-col items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium text-pm-text-primary no-underline transition-colors hover:bg-muted hover:no-underline"
+          >
+            <Download className="h-5 w-5" />
+            {__('Download', 'wedevs-project-manager')}
+          </a>
+          <a
+            href={file.url}
+            target="_blank"
+            rel="noreferrer"
+            className="flex min-w-[64px] flex-col items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium text-pm-text-primary no-underline transition-colors hover:bg-muted hover:no-underline"
+          >
+            <ExternalLink className="h-5 w-5" />
+            {__('Open', 'wedevs-project-manager')}
+          </a>
         </div>
       </DialogContent>
     </Dialog>

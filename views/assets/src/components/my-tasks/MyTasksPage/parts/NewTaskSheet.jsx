@@ -263,7 +263,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
                   {selectedAssignees.map(user => (
                     <div
                       key={user.id}
-                      className="flex items-center gap-1 bg-muted rounded-full pl-0.5 pr-2 py-0.5"
+                      className="flex items-center gap-1 bg-muted rounded-md pl-0.5 pr-2 py-0.5"
                     >
                       <UserAvatar user={user} size="xs" />
                       <span className="text-sm">{user.display_name}</span>
@@ -285,7 +285,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
                   onFocus={() => setShowAssigneeSearch(true)}
                   onBlur={() => setTimeout(() => setShowAssigneeSearch(false), 150)}
                   placeholder={__("Search users...", 'wedevs-project-manager')}
-                  className="h-9"
+                  className="h-11"
                 />
                 {showAssigneeSearch && assigneeResults.length > 0 && (
                   <div className="absolute z-50 top-full mt-1 left-0 right-0 bg-background border rounded-md shadow-lg max-h-40 overflow-y-auto">
@@ -338,10 +338,11 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
         </div>
 
         <SheetFooter className="px-6 py-4 border-t">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" className="h-11 px-5" onClick={() => onOpenChange(false)}>
             {__("Cancel", 'wedevs-project-manager')}
           </Button>
           <Button
+            className="h-11 px-5"
             onClick={handleSubmit}
             disabled={saving || !title.trim() || !selectedProject || !selectedList}
           >

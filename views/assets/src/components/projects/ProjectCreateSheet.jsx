@@ -9,6 +9,8 @@ import {
   closeEditSheet,
 } from '@store/projectsSlice'
 import { cn } from '@lib/utils'
+import { ColorPicker } from '@components/ui/color-picker'
+import { DEFAULT_LABEL_COLOR } from '@lib/colorPresets'
 import { useToast } from '@hooks/useToast'
 import { applyFilters } from '@hooks/useSlot'
 import ProTemplateField from '@components/projects/ProTemplateField'
@@ -47,6 +49,7 @@ import {
   CommandList,
 } from '@components/ui/command'
 import CreateUserDialog from '@components/common/CreateUserDialog'
+import { defaultMemberRoleId } from '@lib/pm-utils'
 
 import { Plus, X, Loader2, UserPlus } from 'lucide-react'
 
@@ -76,6 +79,7 @@ export function ProjectCreateSheet() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [categoryId, setCategoryId] = useState('')
+  const [color, setColor] = useState(DEFAULT_LABEL_COLOR)
   const [notifyUsers, setNotifyUsers] = useState(false)
   const [titleError, setTitleError] = useState('')
 
@@ -122,10 +126,11 @@ export function ProjectCreateSheet() {
         setDescription(typeof desc === 'string' ? desc : '')
         const catId = editProject.categories?.data?.[0]?.id
         setCategoryId(catId ? String(catId) : '')
+        setColor(editProject.color_code || DEFAULT_LABEL_COLOR)
         setNotifyUsers(false)
 
         const assignees = editProject.assignees?.data || []
-        const defaultRoleId = roles.length > 0 ? roles[0].id : 1
+        const defaultRoleId = defaultMemberRoleId(roles)
         setSelectedUsers(
           assignees.map((a) => ({
             id: a.id || a.assigned_to,
@@ -139,6 +144,7 @@ export function ProjectCreateSheet() {
         setTitle('')
         setDescription('')
         setCategoryId('')
+        setColor(DEFAULT_LABEL_COLOR)
         setNotifyUsers(false)
         setSelectedUsers([])
       }
@@ -184,7 +190,7 @@ export function ProjectCreateSheet() {
 
   const handleAddUser = useCallback(
     (user) => {
-      const defaultRoleId = roles.length > 0 ? roles[0].id : 1
+      const defaultRoleId = defaultMemberRoleId(roles)
       setSelectedUsers((prev) => [...prev, { ...user, roleId: defaultRoleId }])
       setSearchResults((prev) => prev.filter((u) => u.id !== user.id))
       setSearchQuery('')
@@ -206,7 +212,7 @@ export function ProjectCreateSheet() {
 
   const handleUserCreated = useCallback(
     (created) => {
-      const defaultRoleId = roles.length > 0 ? roles[0].id : 1
+      const defaultRoleId = defaultMemberRoleId(roles)
       setSelectedUsers((prev) => [...prev, { ...created, roleId: defaultRoleId }])
       setSearchQuery('')
       setSearchResults([])
@@ -259,6 +265,8 @@ export function ProjectCreateSheet() {
 
     if (notifyUsers) payload.notify_users = true
 
+    if (color) payload.color_code = color
+
     try {
       if (isEditMode) {
         await dispatch(updateProject({ ...payload, projectId: editProject.id })).unwrap()
@@ -272,7 +280,7 @@ export function ProjectCreateSheet() {
     } catch {
       toast.error(isEditMode ? __('Failed to update project', 'wedevs-project-manager') : __('Failed to create project', 'wedevs-project-manager'))
     }
-  }, [dispatch, title, description, categoryId, selectedUsers, notifyUsers, toast, __, isEditMode, editProject])
+  }, [dispatch, title, description, categoryId, color, selectedUsers, notifyUsers, toast, __, isEditMode, editProject])
 
   // ── Render ──────────────────────────────────────────────
 
@@ -316,7 +324,7 @@ export function ProjectCreateSheet() {
                 if ((e.target.value || '').trim()) setTitleError('')
               }}
               className={cn(
-                'flex h-10 w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                'flex h-11 w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
                 titleError && 'border-destructive'
               )}
             />
@@ -341,6 +349,16 @@ export function ProjectCreateSheet() {
                 ))}
               </SelectContent>
             </Select>
+          </div>
+
+          {/* Color */}
+          <div className="space-y-2">
+            <Label>{__('Project Color', 'wedevs-project-manager')}</Label>
+            <ColorPicker
+              value={color}
+              onChange={(c) => setColor(c || DEFAULT_LABEL_COLOR)}
+              className="w-full justify-start"
+            />
           </div>
 
           {/* Description */}
@@ -372,7 +390,7 @@ export function ProjectCreateSheet() {
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
-                  className="w-full justify-start text-muted-foreground font-normal"
+                  className="w-full justify-start text-muted-foreground font-normal h-11 px-5"
                   onClick={() => setPopoverOpen(true)}
                 >
                   <UserPlus className="mr-2 h-5 w-5" />
@@ -400,7 +418,7 @@ export function ProjectCreateSheet() {
                           {__('No user found named', 'wedevs-project-manager')}{' '}
                           <span className="font-medium text-pm-text-primary">&quot;{searchQuery}&quot;</span>
                         </p>
-                        <Button type="button" size="sm" onClick={openCreateUserDialog}>
+                        <Button className="h-11 px-5" type="button" size="sm" onClick={openCreateUserDialog}>
                           <UserPlus className="h-4 w-4 mr-1" />{__('Create User', 'wedevs-project-manager')}
                         </Button>
                       </div>
@@ -435,11 +453,11 @@ export function ProjectCreateSheet() {
               <div className="rounded-md border overflow-hidden">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b bg-muted/50">
-                      <th className="text-left px-3 py-2 font-medium text-pm-text-muted">
+                    <tr className="h-10 border-b border-border bg-card">
+                      <th className="text-left px-3 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">
                         {__('User', 'wedevs-project-manager')}
                       </th>
-                      <th className="text-left px-3 py-2 font-medium text-pm-text-muted w-36">
+                      <th className="text-left px-3 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282] w-36">
                         {__('Role', 'wedevs-project-manager')}
                       </th>
                       <th className="px-3 py-2 w-10" />
@@ -447,7 +465,7 @@ export function ProjectCreateSheet() {
                   </thead>
                   <tbody>
                     {selectedUsers.map((user) => (
-                      <tr key={user.id} className="border-b last:border-b-0">
+                      <tr key={user.id} className="border-b border-border last:border-b-0 hover:bg-muted/40 transition-colors">
                         <td className="px-3 py-2">
                           <div className="flex items-center gap-2">
                             <UserAvatar user={{ ...user, display_name: getUserName(user) }} size="md" />
@@ -459,7 +477,7 @@ export function ProjectCreateSheet() {
                             value={String(user.roleId)}
                             onValueChange={(val) => handleRoleChange(user.id, Number(val))}
                           >
-                            <SelectTrigger className="h-8 text-sm">
+                            <SelectTrigger className="h-11 text-sm">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -508,12 +526,13 @@ export function ProjectCreateSheet() {
         <SheetFooter className="px-6 py-4 border-t">
           <Button
             variant="outline"
+            className="h-11 px-5"
             onClick={() => isEditMode ? dispatch(closeEditSheet()) : dispatch(setCreateSheetOpen(false))}
             disabled={isSaving}
           >
             {__('Cancel', 'wedevs-project-manager')}
           </Button>
-          <Button onClick={handleSubmit} disabled={isSaving}>
+          <Button className="h-11 px-5" onClick={handleSubmit} disabled={isSaving}>
             {isSaving && <Loader2 className="h-5 w-5 mr-2 animate-spin" />}
             {isSaving
               ? (isEditMode ? __('Updating...', 'wedevs-project-manager') : __('Creating...', 'wedevs-project-manager'))

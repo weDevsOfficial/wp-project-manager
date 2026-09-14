@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react'
 import { __ } from '@wordpress/i18n';
 /**
  * LoomSettingsTab — Loom integration settings (enable previews, oEmbed test).
@@ -65,7 +66,7 @@ const LoomSettingsTab = () => {
       <div>
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
               <LoomLogo className="w-5 h-5 text-pm-accent" />
               {__('Loom Integration', 'wedevs-project-manager')}
             </h2>
@@ -84,7 +85,7 @@ const LoomSettingsTab = () => {
     <form onSubmit={onSubmit}>
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
             <LoomLogo className="w-5 h-5 text-pm-accent" />
             {__('Loom Integration', 'wedevs-project-manager')}
           </h2>
@@ -101,14 +102,14 @@ const LoomSettingsTab = () => {
             <Label>{__('Enable Previews', 'wedevs-project-manager')}</Label>
             <p className="text-sm text-pm-text-muted mt-1">{__('Show Loom video preview cards automatically.', 'wedevs-project-manager')}</p>
           </div>
-          <Switch checked={enablePreviews} onCheckedChange={(v) => { setEnablePreviews(v); markDirty() }} />
+          <Switch aria-label={__('Show Loom video preview cards automatically.', 'wedevs-project-manager')} checked={enablePreviews} onCheckedChange={(v) => { setEnablePreviews(v); markDirty() }} />
         </div>
 
       </div>
 
       <div className="flex items-center gap-3 mt-5">
-        <Button type="submit" disabled={!isDirty || saving}>
-          {saving ? __('Saving...', 'wedevs-project-manager') : __('Save Changes', 'wedevs-project-manager')}
+        <Button className="h-11 px-5" type="submit" disabled={!isDirty || saving}>
+          {saving ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</> : __('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && !saving && (
           <span className="text-sm text-pm-text-muted">{__('You have unsaved changes', 'wedevs-project-manager')}</span>

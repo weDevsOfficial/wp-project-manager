@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react'
 import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -21,12 +22,10 @@ import { Input } from "@components/ui/input";
 import RichTextEditor from "@components/common/RichTextEditor";
 import { Checkbox } from "@components/ui/checkbox";
 import { Skeleton } from "@components/ui/skeleton";
-import {
-  Pagination, PaginationContent, PaginationItem,
-  PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis,
-} from "@components/ui/pagination";
-import { Plus, ChevronsUpDown, ListTodo } from "lucide-react";
+import { PaginationNav } from "@components/ui/pagination";
+import { Plus, ChevronsUpDown, ListTodo, Filter, X } from "lucide-react";
 import ProBadge from "@components/common/ProBadge";
+import { Badge } from "@components/ui/badge";
 import BackButton from '@components/common/BackButton';
 import { Slot } from "@hooks/useSlot";
 import TaskListSection from "./TaskListSection";
@@ -91,11 +90,15 @@ export default function TaskListsPage() {
     const [moved] = reordered.splice(fromIdx, 1);
     reordered.splice(toIdx, 0, moved);
     const orders = reordered.map((l, i) => ({ id: l.id, index: i }));
-    dispatch(reorderLists({ projectId, orders }));
+    dispatch(reorderLists({ projectId, orders }))
+      .then((action) => {
+        if (action.error) toast.error(__('Failed to reorder lists', 'wedevs-project-manager'))
+        else toast.success(__('Lists reordered', 'wedevs-project-manager'))
+      });
 
     dragListIdx.current = null;
     setDragOverIdx(null);
-  }, [dispatch, lists, projectId]);
+  }, [dispatch, lists, projectId, toast, __]);
 
   const handleListDragEnd = useCallback(() => {
     dragListIdx.current = null;
@@ -187,7 +190,7 @@ export default function TaskListsPage() {
   const renderSkeleton = () => (
     <div className="space-y-4">
       {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className="rounded-xl border bg-card overflow-hidden">
+        <div key={i} className="rounded-lg border bg-card overflow-hidden">
           <div className="px-4 py-3 bg-muted/30 border-b">
             <Skeleton className="h-5 w-1/3" />
           </div>
@@ -213,7 +216,7 @@ export default function TaskListsPage() {
         {__("Create your first task list to start organizing work.", 'wedevs-project-manager')}
       </p>
       {canCreateList && (
-        <Button onClick={() => setShowNewList(true)}>
+        <Button className="h-11 px-5" onClick={() => setShowNewList(true)}>
           <Plus className="h-5 w-5 mr-2" />
           {__("New Task List", 'wedevs-project-manager')}
         </Button>
@@ -221,10 +224,14 @@ export default function TaskListsPage() {
     </div>
   );
 
+  const [filterOpen, setFilterOpen] = useState(false)
+  const [filterCount, setFilterCount] = useState(0)
+  const clearFilterRef = useRef(null)
+
   // ── Main render ─────────────────────────────
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
+    <div className="w-full p-4 sm:p-6 space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-3">
@@ -233,7 +240,7 @@ export default function TaskListsPage() {
             {__("Task Lists", 'wedevs-project-manager')}
           </h1>
           {lists.length > 0 && (
-            <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
+            <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-md tabular-nums">
               {lists.length}
             </span>
           )}
@@ -245,13 +252,45 @@ export default function TaskListsPage() {
             <Button
               variant="outline"
               size="sm"
-              className="text-sm gap-1.5 h-8 px-3"
+              className="text-sm gap-1.5 h-11 px-5"
               onClick={() =>
                 allExpanded ? dispatch(collapseAll()) : dispatch(expandAll())
               }
             >
               <ChevronsUpDown className="h-4 w-4" />
               {allExpanded ? __("Collapse all", 'wedevs-project-manager') : __("Expand all", 'wedevs-project-manager')}
+            </Button>
+          )}
+
+          {/* Filter */}
+          {lists.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-sm gap-1.5 h-11 px-5"
+              onClick={() => setFilterOpen((v) => !v)}
+            >
+              <Filter className="h-4 w-4" />
+              {__("Filter", 'wedevs-project-manager')}
+              {filterCount > 0 && (
+                <Badge variant="secondary" className="h-4 px-1 text-[14px] rounded-md ml-0.5">
+                  {filterCount}
+                </Badge>
+              )}
+            </Button>
+          )}
+
+          {/* With the bar closed the Clear sits next to the trigger; with it
+              open the bar's own Clear is the nearer one, so only one shows. */}
+          {filterCount > 0 && !filterOpen && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-sm gap-1 h-11 px-5"
+              onClick={() => clearFilterRef.current?.()}
+            >
+              <X className="h-3.5 w-3.5" />
+              {__("Clear", 'wedevs-project-manager')}
             </Button>
           )}
 
@@ -262,7 +301,7 @@ export default function TaskListsPage() {
           {canCreateList && (
             <Button
               size="sm"
-              className="text-sm gap-1.5 h-8 px-3"
+              className="text-sm gap-1.5 h-11 px-5"
               onClick={() => setShowNewList((v) => !v)}
             >
               <Plus className="h-4 w-4" />
@@ -276,14 +315,14 @@ export default function TaskListsPage() {
       {showNewList && canCreateList && (
         <form
           onSubmit={handleCreateList}
-          className="rounded-xl border bg-card p-4 space-y-3"
+          className="rounded-lg border bg-card p-4 space-y-3"
         >
           <Input
             autoFocus
             value={newListTitle}
             onChange={(e) => setNewListTitle(e.target.value)}
             placeholder={__("Task list name", 'wedevs-project-manager')}
-            className="h-9 text-sm"
+            className="h-11 text-sm"
             onKeyDown={(e) => {
               if (e.key === "Escape") {
                 setShowNewList(false);
@@ -317,7 +356,7 @@ export default function TaskListsPage() {
             </div>
           )}
           <div className="flex items-center gap-2 pt-1">
-            <Button
+            <Button className="h-11 px-5"
               type="button"
               variant="outline"
               size="sm"
@@ -330,12 +369,12 @@ export default function TaskListsPage() {
             >
               {__("Cancel", 'wedevs-project-manager')}
             </Button>
-            <Button
+            <Button className="h-11 px-5"
               type="submit"
               size="sm"
               disabled={!newListTitle.trim() || creatingList}
             >
-              {creatingList ? __("Creating...", 'wedevs-project-manager') : __("Add List", 'wedevs-project-manager')}
+              {creatingList ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__("Creating...", 'wedevs-project-manager')}</> : __("Add List", 'wedevs-project-manager')}
             </Button>
           </div>
         </form>
@@ -346,6 +385,10 @@ export default function TaskListsPage() {
         <TaskFilterBar
           projectId={projectId}
           lists={lists}
+          open={filterOpen}
+          onOpenChange={setFilterOpen}
+          onActiveCountChange={setFilterCount}
+          onRegisterClear={(fn) => { clearFilterRef.current = fn }}
           onFilterResults={(tasks) => setFilteredTasks(tasks)}
           onClear={() => setFilteredTasks(null)}
         />
@@ -358,15 +401,16 @@ export default function TaskListsPage() {
         renderEmpty()
       ) : filteredTasks ? (
         /* Filtered results — flat task list */
-        <div className="rounded-xl border bg-card overflow-hidden">
+        <div className="rounded-lg border bg-card overflow-hidden">
           <div className="px-4 py-2.5 bg-muted/30 border-b">
             <span className="text-sm font-medium text-pm-text-muted">
               {filteredTasks.length} {filteredTasks.length === 1 ? __("result", 'wedevs-project-manager') : __("results", 'wedevs-project-manager')}
             </span>
           </div>
           {filteredTasks.length === 0 ? (
-            <div className="py-8 text-center text-sm text-pm-text-muted">
-              {__("No tasks match your filters.", 'wedevs-project-manager')}
+            <div className="py-16 text-center">
+              <Filter className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
+              <p className="text-sm text-pm-text-muted">{__("No tasks match your filters.", 'wedevs-project-manager')}</p>
             </div>
           ) : (
             <div>
@@ -392,7 +436,7 @@ export default function TaskListsPage() {
               onDragOver={(e) => handleListDragOver(e, idx)}
               onDrop={(e) => handleListDrop(e, idx)}
               onDragEnd={handleListDragEnd}
-              className={dragOverIdx === idx ? "ring-2 ring-pm-accent/40 rounded-xl transition-shadow" : ""}
+              className={dragOverIdx === idx ? "ring-2 ring-pm-accent/40 rounded-lg transition-shadow" : ""}
             >
               <TaskListSection list={list} projectId={projectId} showLabels={showLabels} isInbox={inboxListId && parseInt(list.id, 10) === inboxListId} />
             </div>
@@ -401,48 +445,13 @@ export default function TaskListsPage() {
       )}
 
       {/* Task list pagination */}
-      {!loading && listsMeta.total_pages > 1 && (
-        <Pagination className="mt-4">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => handlePageChange(listsMeta.current_page - 1)}
-                className={listsMeta.current_page <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-              />
-            </PaginationItem>
-            {Array.from({ length: listsMeta.total_pages }, (_, i) => i + 1).map((page) => {
-              const current = listsMeta.current_page
-              const total = listsMeta.total_pages
-              // Show first, last, current, and neighbors; ellipsis for gaps
-              if (page === 1 || page === total || (page >= current - 1 && page <= current + 1)) {
-                return (
-                  <PaginationItem key={page}>
-                    <PaginationLink
-                      isActive={page === current}
-                      onClick={() => handlePageChange(page)}
-                      className="cursor-pointer"
-                    >
-                      {page}
-                    </PaginationLink>
-                  </PaginationItem>
-                )
-              }
-              if (page === 2 && current > 3) {
-                return <PaginationItem key="start-ellipsis"><PaginationEllipsis /></PaginationItem>
-              }
-              if (page === total - 1 && current < total - 2) {
-                return <PaginationItem key="end-ellipsis"><PaginationEllipsis /></PaginationItem>
-              }
-              return null
-            })}
-            <PaginationItem>
-              <PaginationNext
-                onClick={() => handlePageChange(listsMeta.current_page + 1)}
-                className={listsMeta.current_page >= listsMeta.total_pages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+      {!loading && (
+        <PaginationNav
+          page={listsMeta.current_page}
+          totalPages={listsMeta.total_pages}
+          onPageChange={handlePageChange}
+          className="mt-4"
+        />
       )}
 
       {/* Task detail sheet */}

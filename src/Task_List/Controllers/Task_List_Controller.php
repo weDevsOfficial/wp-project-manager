@@ -611,18 +611,27 @@ class Task_List_Controller {
         $filter_values = [];
         $join         = '';
 
-        $status       = isset( $filter_params['status'] ) ? \intval( $filter_params['status'] ) : false;
+        // The caller always sets the key, so an unset filter arrives as ''. Casting
+        // that to int made every count query say 'status = 0', which both hid
+        // completed tasks from an unfiltered count and made a 'complete' filter
+        // count the incomplete ones instead.
+        $status       = ( ! isset( $filter_params['status'] ) || $filter_params['status'] === '' || $filter_params['status'] === null ) ? false : $filter_params['status'];
         $due_date     = empty( $filter_params['due_date'] ) ? false : gmdate( 'Y-m-d', strtotime( $filter_params['due_date'] ) );
         $assignees    = empty( $filter_params['users'] ) ? [] : $filter_params['users'];
         $title        = empty( $filter_params['title'] ) ? '' : $filter_params['title'];
+        // Priority 0 is Low, a real choice, so empty() would silently drop it.
+        $priority     = ( ! isset( $filter_params['priority'] ) || $filter_params['priority'] === null || $filter_params['priority'] === '' ) ? null : \intval( $filter_params['priority'] );
+        $labels       = empty( $filter_params['labels'] ) ? [] : array_map( 'intval', (array) $filter_params['labels'] );
+        $types        = empty( $filter_params['types'] ) ? [] : array_map( 'intval', (array) $filter_params['types'] );
+        $milestone    = empty( $filter_params['milestone'] ) ? 0 : \intval( $filter_params['milestone'] );
 
         if ( $status !== false ) {
-            if ( \gettype( $status ) == 'string'  ) {
+            if ( ! is_numeric( $status ) ) {
                 $status = $status == 'complete' ? 1 : 0;
             }
 
             $filter .= ' AND itasks.status = %d';
-            $filter_values[] = $status;
+            $filter_values[] = \intval( $status );
         }
 
         if ( ! empty( $due_date ) ) {
@@ -654,6 +663,34 @@ class Task_List_Controller {
         if ( ! empty( $title ) ) {
             $filter .= " AND itasks.title LIKE %s";
             $filter_values[] = '%' . $wpdb->esc_like( $title ) . '%';
+        }
+
+        if ( $priority !== null ) {
+            $filter .= ' AND itasks.priority = %d';
+            $filter_values[] = $priority;
+        }
+
+        if ( ! empty( $labels ) ) {
+            // The label pivot only exists where the Pro Label module shipped.
+            $tb_label_task = $wpdb->prefix . 'pm_task_label_task';
+            $label_table_exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $tb_label_task ) );
+
+            if ( $label_table_exists === $tb_label_task ) {
+                $label_placeholders = implode( ',', array_fill( 0, \count( $labels ), '%d' ) );
+                $filter .= " AND itasks.id IN ( SELECT task_id FROM {$tb_label_task} WHERE label_id IN ({$label_placeholders}) )";
+                $filter_values = [...$filter_values, ...$labels];
+            }
+        }
+
+        if ( ! empty( $types ) ) {
+            $type_placeholders = implode( ',', array_fill( 0, \count( $types ), '%d' ) );
+            $filter .= " AND itasks.id IN ( SELECT task_id FROM {$wpdb->prefix}pm_task_type_task WHERE type_id IN ({$type_placeholders}) )";
+            $filter_values = [...$filter_values, ...$types];
+        }
+
+        if ( ! empty( $milestone ) ) {
+            $filter .= " AND itasks.id IN ( SELECT boardable_id FROM {$wpdb->prefix}pm_boardables WHERE boardable_type = 'task' AND board_type = 'milestone' AND board_id = %d )";
+            $filter_values[] = $milestone;
         }
 
         if ( ! empty( $assignees ) ) {

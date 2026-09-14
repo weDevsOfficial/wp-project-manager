@@ -216,7 +216,16 @@ class Kanboard_Controller {
         $resource = new Collection( $task_collection, new Task_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $tasks ) );
 
-        return $this->get_response( $resource );
+        $response = $this->get_response( $resource );
+
+        // Inject Pro labels into each task (parity with the task-list endpoint,
+        // which applies the same filter). No-op when Pro/Label module is absent.
+        $task_ids = $task_collection->pluck( 'id' )->toArray();
+        if ( ! empty( $task_ids ) ) {
+            $response = apply_filters( 'wedevs_pm_after_transformer_list_tasks', $response, $task_ids );
+        }
+
+        return $response;
     }
 
 
@@ -296,6 +305,10 @@ class Kanboard_Controller {
 
     function delete_all_relation(Kanboard $board) {
         $board->boardables()->delete();
+
+        // The column's own meta (header_background, automation) outlived the
+        // column, leaving rows keyed to an id that no longer exists.
+        $board->meta()->delete();
     }
 
     function board_order( WP_REST_Request $request ) {
@@ -463,6 +476,67 @@ class Kanboard_Controller {
         wedevs_pm_update_meta( $user_id, $project_id, 'list_view', 'list_view_type', $view_type );
 
         return $this->get_response(null);
+    }
+
+    // Per-user Kanban board background (Trello-style). Stored in pm_meta keyed by
+    // the current user + project so each member keeps their own preference.
+    function get_board_background( WP_REST_Request $request ) {
+        $user_id    = get_current_user_id();
+        $project_id = $request->get_param('project_id');
+        $meta       = wedevs_pm_get_meta( $user_id, $project_id, 'kanban_bg', 'board_background' );
+        $meta_id    = wedevs_pm_get_meta( $user_id, $project_id, 'kanban_bg', 'board_background_id' );
+
+        wp_send_json_success( [
+            'background'    => $meta ? $meta->meta_value : '',
+            'attachment_id' => $meta_id ? intval( $meta_id->meta_value ) : 0,
+        ] );
+    }
+
+    function set_board_background( WP_REST_Request $request ) {
+        $user_id       = get_current_user_id();
+        $project_id    = $request->get_param('project_id');
+        $background     = esc_url_raw( (string) $request->get_param('background') );
+        $attachment_id = intval( $request->get_param('attachment_id') );
+
+        // Replacing or removing the background deletes the previous asset from
+        // the media library so uploads don't pile up unused.
+        $old    = wedevs_pm_get_meta( $user_id, $project_id, 'kanban_bg', 'board_background_id' );
+        $old_id = $old ? intval( $old->meta_value ) : 0;
+        if ( $old_id && $old_id !== $attachment_id ) {
+            wp_delete_attachment( $old_id, true );
+        }
+
+        wedevs_pm_update_meta( $user_id, $project_id, 'kanban_bg', 'board_background', $background );
+        wedevs_pm_update_meta( $user_id, $project_id, 'kanban_bg', 'board_background_id', $attachment_id ? $attachment_id : '' );
+
+        return $this->get_response( null );
+    }
+
+    // Uploads a background image to the media library and returns its public URL.
+    // Kept separate from project Files so board backgrounds don't clutter them.
+    function upload_board_background( WP_REST_Request $request ) {
+        $files = $request->get_file_params();
+        $file  = isset( $files['file'] ) ? $files['file'] : null;
+
+        if ( empty( $file ) || empty( $file['name'] ) ) {
+            wp_send_json_error( [ 'message' => __( 'No file provided', 'wedevs-project-manager' ) ], 400 );
+        }
+
+        $file_type = wp_check_filetype( $file['name'] );
+        if ( strpos( (string) $file_type['type'], 'image/' ) !== 0 ) {
+            wp_send_json_error( [ 'message' => __( 'Please choose an image file', 'wedevs-project-manager' ) ], 400 );
+        }
+
+        $attachment_id = \WeDevs\PM\Core\File_System\File_System::upload( $file );
+
+        if ( is_wp_error( $attachment_id ) || empty( $attachment_id ) ) {
+            wp_send_json_error( [ 'message' => __( 'Upload failed', 'wedevs-project-manager' ) ], 500 );
+        }
+
+        wp_send_json_success( [
+            'url'           => wp_get_attachment_url( $attachment_id ),
+            'attachment_id' => $attachment_id,
+        ] );
     }
 
     static function after_new_comment( $response, $params ) {
@@ -876,6 +950,7 @@ class Kanboard_Controller {
     function search_tasks( WP_REST_Request $request ) {
         $tb_lists     = wedevs_pm_tb_prefix() . 'pm_boards';
         $tb_tasks     = wedevs_pm_tb_prefix() . 'pm_tasks';
+        $project_id   = intval( $request->get_param( 'project_id' ) );
         $task_ids     = [];
 
         $list_tasks = ( new Task_Controller )->filter_query( $request );
@@ -887,8 +962,12 @@ class Kanboard_Controller {
             }
         }
 
+        // Scope to the project in the route. Without this the response carried
+        // every kanban column on the site, and the board ids of other projects
+        // with it.
         $boards = Kanboard::select( $tb_lists. '.id' )
             ->where( $tb_lists . '.type', 'kanboard' )
+            ->where( $tb_lists . '.project_id', $project_id )
             ->with(
                 [
                     'tasks' => function($q) use( $tb_tasks, $task_ids ) {

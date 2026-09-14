@@ -100,7 +100,60 @@ class Task_Controller {
             return new \WP_Error( 'pm_task', __( 'Task not found in this project.', 'wedevs-project-manager' ), [ 'status' => 404 ] );
         }
 
+        // The index query filters private tasks and private lists (pm-pro's
+        // wedevs_pm_pro_check_task_privacy on wedevs_pm_task_index_query), but a
+        // fetch by id applied neither, so ids could be enumerated to read both.
+        if ( ! self::can_view_task( $task_id, $project_id ) ) {
+            return new \WP_Error( 'pm_task', __( 'Task not found in this project.', 'wedevs-project-manager' ), [ 'status' => 404 ] );
+        }
+
         return $this->get_task( $task_id, $project_id, $request->get_params() );
+    }
+
+    /**
+     * Whether the current user may read this task: it must not be private, and
+     * the list holding it must not be private, unless the matching
+     * view_private_* capability is held. Mirrors the index-query filter.
+     *
+     * @param int $task_id
+     * @param int $project_id
+     * @return bool
+     */
+    private static function can_view_task( $task_id, $project_id ) {
+        $task = Task::find( $task_id );
+
+        if ( $task && intval( $task->is_private ) === 1
+            && ! wedevs_pm_user_can( 'view_private_task', $project_id ) ) {
+            return false;
+        }
+
+        return self::can_view_parent_list( $task_id, $project_id );
+    }
+
+    /**
+     * Whether the current user may see the task list this task belongs to.
+     *
+     * @param int $task_id
+     * @param int $project_id
+     * @return bool
+     */
+    private static function can_view_parent_list( $task_id, $project_id ) {
+        $boardable = Boardable::where( 'boardable_id', $task_id )
+            ->where( 'boardable_type', 'task' )
+            ->where( 'board_type', 'task_list' )
+            ->first();
+
+        if ( ! $boardable ) {
+            return true;
+        }
+
+        $meta = wedevs_pm_get_meta( $boardable->board_id, $project_id, 'task_list', 'privacy' );
+
+        if ( ! $meta || intval( $meta->meta_value ) !== 1 ) {
+            return true;
+        }
+
+        return wedevs_pm_user_can( 'view_private_list', $project_id );
     }
 
     public static function get_task( $task_id, $project_id = false, $request=[] ) {
@@ -642,10 +695,18 @@ class Task_Controller {
                 $data = [
                     'task_id'     => $task->id,
                     'assigned_to' => $user_id,
-                    'assigned_at' => Carbon::now(),
                     'project_id'  => $project->id,
                 ];
-                Assignee::create( $data );
+
+                // firstOrCreate, matching assign_users(): plain create() wrote a
+                // second row every time the same user was attached again, so the
+                // assignment count drifted above the number of real assignees.
+                $assignee = Assignee::firstOrCreate( $data );
+
+                if ( ! $assignee->assigned_at ) {
+                    $assignee->assigned_at = Carbon::now();
+                    $assignee->save();
+                }
             }
         }
 
@@ -811,13 +872,73 @@ class Task_Controller {
         $lists        = array_map('intval', (array) $request->get_param('lists'));
         $project_id   = intval($request->get_param('project_id'));
         $title        = sanitize_text_field($request->get_param('title'));
+        // Priority is 0..2 (low/medium/high), so 0 is a real value and cannot be
+        // tested with empty(). Keep it null when the param was not sent at all.
+        $priority     = $request->get_param('priority');
+        $priority     = ( $priority === null || $priority === '' ) ? null : intval( $priority );
+        $labels       = array_filter( array_map( 'intval', (array) $request->get_param('labels') ) );
+        $types        = array_filter( array_map( 'intval', (array) $request->get_param('types') ) );
+        $milestone    = intval( $request->get_param('milestone') );
 
         $tb_lists     = wedevs_pm_tb_prefix() . 'pm_boards';
+
+        // Priority, labels, task type and milestone narrow both the tasks inside a
+        // list and which lists come back at all, so the same conditions have to run
+        // in the `with` closure and in the `whereHas` guard below.
+        $narrow = function ( $q ) use ( $priority, $labels, $types, $milestone ) {
+            $tb_tasks = wedevs_pm_tb_prefix() . 'pm_tasks';
+
+            if ( $priority !== null ) {
+                $q->where( $tb_tasks . '.priority', $priority );
+            }
+
+            if ( ! empty( $labels ) ) {
+                // Labels are a Pro concept: the pivot table only exists when the
+                // Label module shipped, so check before joining rather than
+                // erroring on a free install that somehow sends the param.
+                global $wpdb;
+                $tb_label_task = wedevs_pm_tb_prefix() . 'pm_task_label_task';
+                $exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $tb_label_task ) );
+
+                if ( $exists === $tb_label_task ) {
+                    // Qualify the column: this query joins pm_boardables, so a bare
+                    // `id` is ambiguous and MySQL rejects the subquery.
+                    $q->whereIn( $tb_tasks . '.id', function ( $sub ) use ( $tb_label_task, $labels ) {
+                        $sub->select( 'task_id' )
+                            ->from( $tb_label_task )
+                            ->whereIn( 'label_id', $labels );
+                    } );
+                }
+            }
+
+            if ( ! empty( $types ) ) {
+                $tb_type_task = wedevs_pm_tb_prefix() . 'pm_task_type_task';
+
+                $q->whereIn( $tb_tasks . '.id', function ( $sub ) use ( $tb_type_task, $types ) {
+                    $sub->select( 'task_id' )
+                        ->from( $tb_type_task )
+                        ->whereIn( 'type_id', $types );
+                } );
+            }
+
+            if ( ! empty( $milestone ) ) {
+                $tb_boardables = wedevs_pm_tb_prefix() . 'pm_boardables';
+
+                $q->whereIn( $tb_tasks . '.id', function ( $sub ) use ( $tb_boardables, $milestone ) {
+                    $sub->select( 'boardable_id' )
+                        ->from( $tb_boardables )
+                        ->where( 'boardable_type', 'task' )
+                        ->where( 'board_type', 'milestone' )
+                        ->where( 'board_id', $milestone );
+                } );
+            }
+        };
+
 
 
         $task_lists = Task_List::select( $tb_lists.'.*' )->with(
             [
-                'tasks' => function($q) use( $status, $due_date, $assignees, $project_id, $title ) {
+                'tasks' => function($q) use( $status, $due_date, $assignees, $project_id, $title, $narrow ) {
                     if ( ! empty( $title ) ) {
                         $q->where('title', 'like', "%{$title}%");
                     }
@@ -845,6 +966,8 @@ class Task_Controller {
                         }
                     }
 
+                    $narrow( $q );
+
                     if ( ! empty(  $assignees ) && ! empty(  $assignees[0] ) ) {
                         $q->whereHas('assignees', function( $assign_query ) use( $assignees ) {
                             if( is_array( $assignees ) && $assignees[0] != 0 ) {
@@ -859,7 +982,7 @@ class Task_Controller {
                 }
             ]
         )
-        ->whereHas('tasks', function($q) use( $status, $due_date, $assignees, $project_id, $title ) {
+        ->whereHas('tasks', function($q) use( $status, $due_date, $assignees, $project_id, $title, $narrow ) {
                 if ( ! empty( $title ) ) {
                     $q->where('title', 'like', "%{$title}%");
                 }
@@ -885,6 +1008,8 @@ class Task_Controller {
                         $q->where( 'due_date', '<=', $today );
                     }
                 }
+
+                $narrow( $q );
 
                 if ( ! empty(  $assignees ) && ! empty(  $assignees[0] ) ) {
                     $q->whereHas('assignees', function( $assign_query ) use( $assignees ) {
@@ -950,11 +1075,19 @@ class Task_Controller {
             }
         }
 
+        // Priority 0 is Low, so the count query has to tell 'not sent' from '0'.
+        $count_priority = $request->get_param('priority');
+        $count_priority = ( $count_priority === null || $count_priority === '' ) ? null : intval( $count_priority );
+
         $filter = [
             'status' => sanitize_key( $request->get_param('status') ),
             'due_date' =>  sanitize_text_field( $request->get_param('dueDate') ),
             'users' => is_array( $request->get_param('users') ) ? array_map( 'intval', $request->get_param('users') )  : ( is_numeric( $request->get_param('users') ) ? intval( $request->get_param('users') ) : null ),
-            'title' => sanitize_text_field( $request->get_param('title') )
+            'title' => sanitize_text_field( $request->get_param('title') ),
+            'priority' => $count_priority,
+            'labels' => array_filter( array_map( 'intval', (array) $request->get_param('labels') ) ),
+            'types' => array_filter( array_map( 'intval', (array) $request->get_param('types') ) ),
+            'milestone' => intval( $request->get_param('milestone') ),
         ];
        
 

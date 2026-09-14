@@ -2,6 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Preflight is disabled, so Tailwind never initialises its per-element
+   transform variables. Without these defaults a single-axis utility like
+   -translate-y-1/2 compiles to `transform: translate(, -50%)` — invalid, so
+   the browser drops it and the element isn't centered. Seed the same
+   defaults Preflight would (low specificity, so transform utilities still
+   win). Only Tailwind's own transform utilities read these vars, so setting
+   them globally is inert for the rest of wp-admin. */
+*,
+::before,
+::after {
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  /* Same reason for backdrop filters: `backdrop-blur` sets only
+     --tw-backdrop-blur and then composes eight more vars. With Preflight off
+     none of them exist, the shorthand is invalid and the blur silently does
+     nothing (the scrim behind the Kanban board header). */
+  --tw-backdrop-blur: ;
+  --tw-backdrop-brightness: ;
+  --tw-backdrop-contrast: ;
+  --tw-backdrop-grayscale: ;
+  --tw-backdrop-hue-rotate: ;
+  --tw-backdrop-invert: ;
+  --tw-backdrop-opacity: ;
+  --tw-backdrop-saturate: ;
+  --tw-backdrop-sepia: ;
+}
+
+/* Inter — self-hosted variable font (OFL) */
+@font-face {
+  font-family: Inter;
+  src: url('./fonts/InterVF.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Inter;
+  src: url('./fonts/InterVF-Italic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Plus Jakarta Sans — self-hosted (OFL), primary UI font */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('./fonts/PlusJakartaSans-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('./fonts/PlusJakartaSans-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('./fonts/PlusJakartaSans-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('./fonts/PlusJakartaSans-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('./fonts/PlusJakartaSans-800.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 /* Headway badge — position absolutely so it doesn't break flex layout */
 #pm-headway-icon .HW_badge_cont {
   position: absolute;
@@ -43,7 +129,7 @@
   --popover:               0 0% 100%;
   --popover-foreground:    240 10% 3.9%;
 
-  --primary:               262 80% 57%;        /* #7C3AED — pm-accent */
+  --primary:               260 31% 49%;        /* #6F56A3 — pm-accent */
   --primary-foreground:    0 0% 100%;           /* white */
 
   --secondary:             240 4.8% 95.9%;
@@ -60,9 +146,9 @@
 
   --border:                240 5.9% 90%;
   --input:                 240 5.9% 90%;
-  --ring:                  262 80% 57%;         /* matches --primary */
+  --ring:                  260 31% 49%;         /* matches --primary */
 
-  --radius:                0.375rem;
+  --radius:                0.5rem;
 
   /* ── PM custom color tokens (light) ── */
   --pm-sidebar:            #1A1A2E;
@@ -71,15 +157,23 @@
   --pm-sidebar-text:       #A8B2D8;
   --pm-sidebar-txt-active: #FFFFFF;
   --pm-surface:            #FFFFFF;
-  --pm-surface-muted:      #F7F8FA;
-  --pm-border:             #E5E7EB;
-  --pm-hover:              #F3F4F6;
-  --pm-accent:             #7C3AED;
-  --pm-accent-hover:       #6D28D9;
-  --pm-accent-light:       #EDE9FE;
-  --pm-text:               #1F2937;
-  --pm-text-muted:         #6B7280;
-  --pm-text-primary:       #111827;
+  --pm-surface-muted:      #F4F4F5;
+  --pm-border:             #E4E4E7;
+  --pm-hover:              #F4F4F5;
+  --pm-accent:             #6F56A3;
+  --pm-accent-hover:       #5E4789;
+  --pm-accent-light:       #ECE7F3;
+  --pm-text:               #27272A;
+  --pm-text-muted:         #71717A;
+  /* RGB channels so Tailwind /opacity modifiers work (hex vars above kept for direct var() use) */
+  --pm-surface-rgb:        255 255 255;
+  --pm-surface-muted-rgb:  244 244 245;
+  --pm-border-rgb:         228 228 231;
+  --pm-hover-rgb:          244 244 245;
+  --pm-accent-rgb:         111 86 163;
+  --pm-accent-light-rgb:   236 231 243;
+  --pm-text-muted-rgb:     113 113 122;
+  --pm-text-primary:       #18181B;
 }
 
 /* ── Dark mode — toggled via data-pm-theme="dark" on <html>
@@ -95,7 +189,7 @@
   --popover:               220 40% 14%;
   --popover-foreground:    210 40% 96%;
 
-  --primary:               262 80% 65%;
+  --primary:               260 40% 66%;
   --primary-foreground:    0 0% 100%;
 
   --secondary:             220 30% 19%;
@@ -112,7 +206,7 @@
 
   --border:                220 28% 26%;
   --input:                 220 28% 26%;
-  --ring:                  262 80% 65%;
+  --ring:                  260 40% 66%;
 
   /* ── PM custom color tokens (dark) ── */
   --pm-sidebar:            #0B1020;
@@ -124,18 +218,26 @@
   --pm-surface-muted:      #101828;
   --pm-border:             #2a3a5c;
   --pm-hover:              #1e2d48;
-  --pm-accent:             #9D6FFF;
-  --pm-accent-hover:       #8B5CF6;
-  --pm-accent-light:       #2D1F5E;
+  --pm-accent:             #9B82C9;
+  --pm-accent-hover:       #8A6FBB;
+  --pm-accent-light:       #2A2140;
   --pm-text:               #CBD5E1;
   --pm-text-muted:         #7B8DB0;
+  /* RGB channels (dark) for Tailwind /opacity modifiers */
+  --pm-surface-rgb:        21 29 46;
+  --pm-surface-muted-rgb:  16 24 40;
+  --pm-border-rgb:         42 58 92;
+  --pm-hover-rgb:          30 45 72;
+  --pm-accent-rgb:         155 130 201;
+  --pm-accent-light-rgb:   42 33 64;
+  --pm-text-muted-rgb:     123 141 176;
   --pm-text-primary:       #F1F5F9;
 
   /* ── Tailwind Typography (prose) — override for dark mode ── */
   --tw-prose-body:         #CBD5E1;
   --tw-prose-headings:     #F1F5F9;
   --tw-prose-lead:         #94A3B8;
-  --tw-prose-links:        #9D6FFF;
+  --tw-prose-links:        #9B82C9;
   --tw-prose-bold:         #F1F5F9;
   --tw-prose-counters:     #7B8DB0;
   --tw-prose-bullets:      #7B8DB0;
@@ -143,7 +245,7 @@
   --tw-prose-quotes:       #CBD5E1;
   --tw-prose-quote-borders:#2a3a5c;
   --tw-prose-captions:     #7B8DB0;
-  --tw-prose-code:         #9D6FFF;
+  --tw-prose-code:         #9B82C9;
   --tw-prose-pre-code:     #CBD5E1;
   --tw-prose-pre-bg:       #101828;
   --tw-prose-th-borders:   #2a3a5c;
@@ -169,15 +271,19 @@ body:not(.wp-admin) #wedevs-project-manager {
   border-color: hsl(var(--border));
 }
 
+#wedevs-pm,
 #wedevs-project-manager {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Google Sans', 'Google Sans Text', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 14px;
   line-height: 1.5;
   color: hsl(var(--foreground));
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 
   /* Reset WP admin interference on common elements */
   h1, h2, h3, h4, h5, h6 {
+    color: inherit;
     font-size: inherit;
     font-weight: inherit;
     margin: 0;
@@ -219,6 +325,7 @@ body:not(.wp-admin) #wedevs-project-manager {
     font-size: inherit;
     line-height: inherit;
     color: inherit;
+    text-align: inherit;
     margin: 0;
     padding: 0;
     background-color: transparent;
@@ -250,9 +357,14 @@ body:not(.wp-admin) #wedevs-project-manager {
   /* Global focus outline — use pm-accent purple color.
      Exclude contenteditable (Tiptap) — it manages its own focus indicator
      via the container border; outline here would show on mouse click too. */
-  *:focus-visible:not([contenteditable]) {
-    outline: 2px solid hsl(var(--primary)) !important;
-    outline-offset: 2px;
+  *:focus-visible:not([contenteditable]):not(input):not(textarea):not(select) {
+    outline: 1px solid hsl(var(--primary)) !important;
+    outline-offset: 1px;
+  }
+  /* Form fields manage their own soft accent ring (see input/select/textarea) —
+     keep the heavy global outline off them. */
+  input:focus-visible, textarea:focus-visible, select:focus-visible {
+    outline: none !important;
   }
 
   [contenteditable]:focus,
@@ -380,7 +492,7 @@ body:not(.wp-admin) #wedevs-project-manager {
 }
 
 .pm-sidebar-scroll:hover {
-  scrollbar-color: hsl(262 80% 57% / 0.35) transparent;
+  scrollbar-color: hsl(260 31% 49% / 0.35) transparent;
 }
 
 .pm-sidebar-scroll::-webkit-scrollbar {
@@ -398,11 +510,47 @@ body:not(.wp-admin) #wedevs-project-manager {
 }
 
 .pm-sidebar-scroll:hover::-webkit-scrollbar-thumb {
-  background: hsl(262 80% 57% / 0.35);
+  background: hsl(260 31% 49% / 0.35);
 }
 
 .pm-sidebar-scroll:hover::-webkit-scrollbar-thumb:hover {
-  background: hsl(262 80% 57% / 0.6);
+  background: hsl(260 31% 49% / 0.6);
+}
+
+/* ── App scrollbars — pm-accent thumb across the plugin + dialogs ──
+   Sidebar and hidden strips keep their own behavior via :not() guards. */
+#wedevs-project-manager *:not(.pm-sidebar-scroll):not(.scrollbar-none),
+[data-pm-dialog],
+[data-pm-dialog] *:not(.scrollbar-none),
+[role="dialog"][data-state] *:not(.scrollbar-none) {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--pm-accent-rgb) / 0.45) transparent;
+}
+#wedevs-project-manager *:not(.pm-sidebar-scroll):not(.scrollbar-none)::-webkit-scrollbar,
+[data-pm-dialog]::-webkit-scrollbar,
+[data-pm-dialog] *:not(.scrollbar-none)::-webkit-scrollbar,
+[role="dialog"][data-state] *:not(.scrollbar-none)::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+#wedevs-project-manager *:not(.pm-sidebar-scroll):not(.scrollbar-none)::-webkit-scrollbar-track,
+[data-pm-dialog]::-webkit-scrollbar-track,
+[data-pm-dialog] *:not(.scrollbar-none)::-webkit-scrollbar-track,
+[role="dialog"][data-state] *:not(.scrollbar-none)::-webkit-scrollbar-track {
+  background: transparent;
+}
+#wedevs-project-manager *:not(.pm-sidebar-scroll):not(.scrollbar-none)::-webkit-scrollbar-thumb,
+[data-pm-dialog]::-webkit-scrollbar-thumb,
+[data-pm-dialog] *:not(.scrollbar-none)::-webkit-scrollbar-thumb,
+[role="dialog"][data-state] *:not(.scrollbar-none)::-webkit-scrollbar-thumb {
+  background: rgb(var(--pm-accent-rgb) / 0.45);
+  border-radius: 9999px;
+}
+#wedevs-project-manager *:not(.pm-sidebar-scroll):not(.scrollbar-none)::-webkit-scrollbar-thumb:hover,
+[data-pm-dialog]::-webkit-scrollbar-thumb:hover,
+[data-pm-dialog] *:not(.scrollbar-none)::-webkit-scrollbar-thumb:hover,
+[role="dialog"][data-state] *:not(.scrollbar-none)::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--pm-accent-rgb) / 0.7);
 }
 
 /* ── Full-screen settings mode — hides WP admin chrome ───── */
@@ -508,7 +656,7 @@ body.pm-fullscreen-settings.pm-mode-wordpress.folded #wedevs-pm {
      because a Select inside a Sheet still teleports here. ──── */
 [data-radix-popper-content-wrapper] {
   z-index: 3000 !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family: 'Plus Jakarta Sans', 'Google Sans', 'Google Sans Text', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 14px !important;
   line-height: 1.5 !important;
   color: hsl(var(--foreground)) !important;
@@ -544,7 +692,7 @@ body.pm-fullscreen-settings.pm-mode-wordpress.folded #wedevs-pm {
      Specificity (0,2,0) beats Tailwind z-50 at (0,1,0). ───── */
 [role="dialog"][data-state] {
   z-index: 2001 !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Google Sans', 'Google Sans Text', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   color: hsl(var(--foreground));
@@ -573,7 +721,7 @@ body.pm-fullscreen-settings.pm-mode-wordpress.folded #wedevs-pm {
 }
 [role="alertdialog"][data-state] {
   z-index: 2501 !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Google Sans', 'Google Sans Text', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   color: hsl(var(--foreground));
@@ -626,6 +774,137 @@ ol[data-sonner-toaster],
   z-index: 99999 !important;
 }
 
+/* ── Full-body countdown fill on custom toasts (see ToastCard.jsx) ──
+   The .pm-toast-fill layer drains left → right over the toast's duration.
+   Pause it on toaster hover to match Sonner pausing its dismiss timer. ── */
+[data-sonner-toaster]:hover .pm-toast-fill {
+  animation-play-state: paused !important;
+}
+
+/* Sonner's toaster is an <ol>; WP admin's list styling leaks a "1." marker
+   onto the toast <li> (portal is outside the app's list reset). Kill it. */
+[data-sonner-toaster],
+[data-sonner-toaster] li,
+[data-sonner-toast] {
+  list-style: none !important;
+}
+[data-sonner-toaster] li::marker,
+[data-sonner-toast]::marker {
+  content: '' !important;
+}
+
+/* Toasts render in a document.body portal — OUTSIDE #wedevs-project-manager —
+   so WP admin's global button styling (border + box-shadow + focus box) leaks
+   onto our toast buttons. Neutralize it here. */
+.pm-toast button {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  min-height: 0;
+  line-height: normal;
+  text-shadow: none;
+}
+.pm-toast button:hover,
+.pm-toast button:focus,
+.pm-toast button:active,
+.pm-toast button:focus-visible {
+  box-shadow: none;
+  outline: none;
+}
+.pm-toast button:focus-visible {
+  box-shadow: 0 0 0 2px hsl(var(--ring));
+}
+@keyframes pm-toast-progress {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+
+/* ── Page transitions — on navigation the page fades and its top-level
+   sections cascade in, so components arrive smoothly instead of snapping. ── */
+.pm-page-transition {
+  animation: pm-fade-in 200ms ease both;
+}
+/* Stagger the page root's direct sections (root = `<div class="p-6 space-y-6">`). */
+.pm-page-transition > * > * {
+  animation: pm-page-in 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.pm-page-transition > * > *:nth-child(1) { animation-delay: 30ms; }
+.pm-page-transition > * > *:nth-child(2) { animation-delay: 75ms; }
+.pm-page-transition > * > *:nth-child(3) { animation-delay: 120ms; }
+.pm-page-transition > * > *:nth-child(4) { animation-delay: 165ms; }
+.pm-page-transition > * > *:nth-child(5) { animation-delay: 210ms; }
+.pm-page-transition > * > *:nth-child(n+6) { animation-delay: 240ms; }
+@keyframes pm-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pm-page-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Process step pops in from below when it becomes active. No fill-forwards so
+   the row's own transitions still drive the shrink/blur when it completes. */
+.pm-step-pop { animation: pm-step-pop 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes pm-step-pop {
+  from { opacity: 0; transform: translateY(10px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pm-step-pop { animation: none; }
+}
+
+/* ── Download progress popup ── */
+.pm-download-in { animation: pm-download-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes pm-download-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* A sliver that sweeps the track while the download size is unknown.
+   Driven by transform, not margin-left: margin animates layout on every
+   frame, and this one loops forever. translateX is a percentage of the
+   sliver's own width, so -100% parks it just off the left edge and 250%
+   carries it fully past the right. */
+.pm-download-indeterminate {
+  width: 40%;
+  animation: pm-download-indeterminate 1.1s ease-in-out infinite;
+}
+@keyframes pm-download-indeterminate {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(250%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pm-download-in, .pm-download-indeterminate { animation: none; }
+}
+/* Overlays (task sheet, dialogs, popovers, toasts) portal out of the page and
+   must never inherit page motion — guard in case one ever renders inline. */
+.pm-page-transition [role="dialog"],
+.pm-page-transition [data-radix-popper-content-wrapper],
+.pm-page-transition [data-sonner-toaster] { animation: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .pm-page-transition,
+  .pm-page-transition > * > * { animation: none; }
+}
+
+/* Radix overlays (dialog, sheet, dropdown, select, popover, tooltip) animate
+   through tailwindcss-animate's enter/exit keyframes, which carry no motion
+   query of their own, so the OS setting was honoured everywhere except the
+   overlays. Matching the class substring catches every variant form
+   (`data-[state=open]:animate-in` and friends). Radix unmounts synchronously
+   when the computed animation-name is none, so exits stay correct.
+   `animate-spin`/`animate-pulse` deliberately keep running: a loading
+   indicator is essential feedback, not decorative motion. */
+@media (prefers-reduced-motion: reduce) {
+  /* The repeated [class] is a specificity bump, not a typo: the config sets
+     `important: true`, so Tailwind's own rule already carries !important and
+     its compiled variant selector (.data-\[state\=open\]\:animate-in[data-state="open"])
+     scores 0,2,0. A plain [class*=...] is 0,1,0 and loses, leaving the
+     override silently dead. */
+  [class*="animate-in"][class][class],
+  [class*="animate-out"][class][class] { animation: none !important; }
+}
+
 /* ── Logged-in/admin-bar mode — bump PM portals above
      WP admin bar (z-index 99999) and optional WP sidebar ── */
 body.pm-mode-wordpress [data-state].fixed,
@@ -667,6 +946,80 @@ body.admin-bar [data-sonner-toaster] {
   outline: none;
 }
 
+/* -- Portaled UI reset -- Sheet, Dialog, Dropdown, Popover and Toast render
+   outside #wedevs-project-manager, so the scoped reset above never reached
+   them and browser/WordPress element styles leaked in: buttons picked up the
+   UA `padding: 1px 6px` + `text-align: center` (a 16px hole between an actor
+   name and its sentence in the task sheet activity feed), links picked up WP
+   admin blue, headings and paragraphs picked up WP margins. Same declarations
+   as the app-scoped reset; Tailwind utilities carry !important, so they still
+   win. `.media-modal` is WP's own dialog and stays untouched. -- */
+[role="dialog"][data-state]:not(.media-modal),
+[role="alertdialog"][data-state],
+[data-radix-popper-content-wrapper],
+[data-sonner-toaster] {
+  /* WordPress paints wp-admin text #1d2327 on <body>; portals inherit from
+     there, not from the app root, so in dark mode a heading with no explicit
+     colour class (the task sheet title) rendered near-black on near-black.
+     The app font is set on #wedevs-project-manager for the same reason, so
+     every sheet, dialog, dropdown and toast rendered in WordPress's admin
+     font instead of ours. */
+  color: hsl(var(--foreground));
+  font-family: 'Plus Jakarta Sans', 'Google Sans', 'Google Sans Text', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+
+  h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+  p { margin: 0; }
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    text-align: inherit;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  button {
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  img, svg {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  table { border-collapse: collapse; border-spacing: 0; }
+  th { text-align: left; font-weight: 600; }
+  td, th { padding: 0; }
+
+  label {
+    display: inline-block;
+    font-weight: inherit;
+    margin: 0;
+  }
+}
+
 /* ── AlertDialog button reset — portals outside #wedevs-project-manager so
    WP admin global button styles bleed in. Strip them here so Tailwind's
    buttonVariants classes on AlertDialogAction/AlertDialogCancel take over. ── */
@@ -678,7 +1031,7 @@ body.admin-bar [data-sonner-toaster] {
   min-height: 0 !important;
   min-width: 0 !important;
   padding: 0.5rem 1rem !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family: 'Plus Jakarta Sans', 'Google Sans', 'Google Sans Text', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 0.875rem !important;
   font-weight: 500 !important;
   line-height: 1 !important;
@@ -751,6 +1104,29 @@ body.admin-bar [data-sonner-toaster] {
 [role="dialog"][data-state] .tiptap p.is-editor-empty:first-child::before,
 [role="dialog"][data-state] .ProseMirror p.is-editor-empty:first-child::before {
   color: hsl(var(--muted-foreground)) !important;
+}
+
+/* ── Long words and URLs in rich text ──────────────────────────────────
+     An auto-linked URL or a long unbroken token used to render wider than
+     the comment/description body, pushing a horizontal scrollbar into the
+     task sheet and clipping the text. Anchors need break-all because a URL
+     has no break opportunities at all. ──────────────────────────────── */
+#wedevs-project-manager .prose,
+#wedevs-project-manager .pm-rich-comment-content,
+#wedevs-project-manager .ProseMirror,
+[role="dialog"][data-state] .prose,
+[role="dialog"][data-state] .pm-rich-comment-content,
+[role="dialog"][data-state] .ProseMirror {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+#wedevs-project-manager .prose a,
+#wedevs-project-manager .pm-rich-comment-content a,
+#wedevs-project-manager .ProseMirror a,
+[role="dialog"][data-state] .prose a,
+[role="dialog"][data-state] .pm-rich-comment-content a,
+[role="dialog"][data-state] .ProseMirror a {
+  word-break: break-all;
 }
 
 /* ── Rendered tables (pasted from Excel/Word) and Tiptap editor tables ──

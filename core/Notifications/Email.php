@@ -96,6 +96,58 @@ class Email {
         $this->load_templae( $footer_file );
     }
 
+    /**
+     * A private task / message / list / file is only visible to roles holding the
+     * matching view_private_* capability. Notification recipients were taken
+     * straight from the notify list, so a user the REST API refuses could still be
+     * mailed the title and the comment body. Gate every recipient on the same
+     * capability the API enforces.
+     *
+     * @param int   $user_id
+     * @param array $request  Must carry commentable_type, commentable_id, project_id.
+     * @return bool
+     */
+    public function can_user_view_commentable( $user_id, $request ) {
+        $caps = [
+            'task'             => 'view_private_task',
+            'discussion_board' => 'view_private_message',
+            'task_list'        => 'view_private_list',
+            'file'             => 'view_private_file',
+            'milestone'        => 'view_private_milestone',
+        ];
+
+        $type = isset( $request['commentable_type'] ) ? $request['commentable_type'] : '';
+
+        if ( ! isset( $caps[ $type ] ) ) {
+            return true;
+        }
+
+        $project_id = isset( $request['project_id'] ) ? intval( $request['project_id'] ) : 0;
+        $entity_id  = isset( $request['commentable_id'] ) ? intval( $request['commentable_id'] ) : 0;
+
+        if ( ! $project_id || ! $entity_id ) {
+            return true;
+        }
+
+        $is_private = false;
+        $meta       = wedevs_pm_get_meta( $entity_id, $project_id, $type, 'privacy' );
+
+        if ( $meta && isset( $meta->meta_value ) ) {
+            $is_private = intval( $meta->meta_value ) === 1;
+        }
+
+        if ( ! $is_private && 'task' === $type ) {
+            $task       = \WeDevs\PM\Task\Models\Task::find( $entity_id );
+            $is_private = $task ? intval( $task->is_private ) === 1 : false;
+        }
+
+        if ( ! $is_private ) {
+            return true;
+        }
+
+        return wedevs_pm_user_can( $caps[ $type ], $project_id, $user_id );
+    }
+
     public function is_enable_user_notification( $user_id ) {
         if ( !is_numeric( $user_id ) ) {
             return false;

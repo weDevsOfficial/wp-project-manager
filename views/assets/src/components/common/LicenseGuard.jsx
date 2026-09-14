@@ -24,8 +24,8 @@ export function useLicenseGuard() {
   if (canManageLicense) return <Navigate to="/license" replace />
 
   return (
-    <div className="max-w-[1400px] mx-auto p-8 sm:p-12">
-      <div className="rounded-xl border bg-card p-10 text-center">
+    <div className="w-full p-8 sm:p-12">
+      <div className="rounded-lg border bg-card p-10 text-center">
         <div className="mx-auto h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-4">
           <Lock className="h-6 w-6 text-muted-foreground" />
         </div>

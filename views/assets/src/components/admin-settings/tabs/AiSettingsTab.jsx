@@ -115,7 +115,7 @@ const AiSettingsTab = () => {
       <div>
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
               <Bot className="w-5 h-5 text-pm-accent" />
               {__('AI Settings', 'wedevs-project-manager')}
             </h2>
@@ -134,7 +134,7 @@ const AiSettingsTab = () => {
     <div>
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
             <Bot className="w-5 h-5 text-pm-accent" />
             {__('AI Settings', 'wedevs-project-manager')}
           </h2>
@@ -221,7 +221,7 @@ const AiSettingsTab = () => {
                     </Button>
                   )}
                   {editingKey && (
-                    <Button
+                    <Button className="h-11 px-5"
                       type="button"
                       variant="outline"
                       size="sm"
@@ -283,11 +283,11 @@ const AiSettingsTab = () => {
         </div>
 
         <div className="flex items-center gap-3 mt-5 flex-wrap">
-          <Button type="button" variant="outline" disabled={aiTestingConn || aiSaving} onClick={handleTestConnection}>
-            {aiTestingConn ? __('Testing...', 'wedevs-project-manager') : __('Test Connection', 'wedevs-project-manager')}
+          <Button className="h-11 px-5" type="button" variant="outline" disabled={aiTestingConn || aiSaving} onClick={handleTestConnection}>
+            {aiTestingConn ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Testing...', 'wedevs-project-manager')}</> : __('Test Connection', 'wedevs-project-manager')}
           </Button>
-          <Button type="submit" disabled={aiSaving || aiTestingConn || !isDirty}>
-            {aiSaving ? __('Saving...', 'wedevs-project-manager') : __('Save Changes', 'wedevs-project-manager')}
+          <Button className="h-11 px-5" type="submit" disabled={aiSaving || aiTestingConn || !isDirty}>
+            {aiSaving ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</> : __('Save Changes', 'wedevs-project-manager')}
           </Button>
           {isDirty && (
             <span className="text-sm text-amber-600">{__('You have unsaved changes', 'wedevs-project-manager')}</span>

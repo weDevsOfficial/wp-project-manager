@@ -9,23 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@components/ui/dialog'
-import {
-  LayoutDashboard,
-  Activity,
-  MessageSquare,
-  ListChecks,
-  Milestone,
-  FolderOpen,
-  Play,
-  Rocket,
-  BookOpen,
-  Crown,
-  Sparkles,
-  Package,
-  ExternalLink,
-  ArrowRight,
-  CheckCircle2,
-} from 'lucide-react'
+import { LayoutDashboard, Activity, MessageSquare, ListChecks, Milestone, FolderOpen, Play, Rocket, BookOpen, Crown, Sparkles, Package, ExternalLink, ArrowRight, CheckCircle2 } from 'lucide-react'
 
 const assetsUrl = typeof PM_Vars !== 'undefined' ? PM_Vars.assets_url : ''
 
@@ -170,7 +154,7 @@ function FeatureCard({ feature, __, index = 0 }) {
         </div>
         <CardContent className="p-5 text-center">
           <div
-            className="inline-flex items-center justify-center h-10 w-10 rounded-xl mb-3 mx-auto transition-transform duration-300 group-hover:scale-110"
+            className="inline-flex items-center justify-center h-10 w-10 rounded-lg mb-3 mx-auto transition-transform duration-300 group-hover:scale-110"
             style={{ background: feature.bg }}
           >
             <feature.icon className={`h-5 w-5 ${feature.fg}`} />
@@ -191,7 +175,7 @@ function SectionHeading({ kicker, title, subtitle }) {
   return (
     <div className="text-center mb-8">
       {kicker && (
-        <span className="inline-block text-xs font-semibold uppercase tracking-wider text-primary mb-2">
+        <span className="inline-block text-xs font-medium uppercase tracking-wide text-primary mb-2">
           {kicker}
         </span>
       )}
@@ -221,7 +205,7 @@ export default function WelcomePage() {
       />
 
       <div className="relative rounded-2xl overflow-hidden px-8 py-10 md:px-12 md:py-14 text-white shadow-xl"
-        style={{ backgroundImage: 'linear-gradient(139deg, #C444FB 0%, #5B56D7 100%)' }}
+        style={{ backgroundImage: 'linear-gradient(139deg, #8A6FBB 0%, #6F56A3 100%)' }}
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.12),transparent_70%)]" />
         <div className="absolute -top-16 -right-10 h-56 w-56 rounded-full bg-white/10 blur-3xl animate-pulse motion-reduce:animate-none" />
@@ -230,7 +214,7 @@ export default function WelcomePage() {
         <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           {/* Left - text */}
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 motion-reduce:animate-none">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-yellow-200 mb-4 backdrop-blur-sm">
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-white/15 px-3 py-1 text-xs font-medium text-yellow-200 mb-4 backdrop-blur-sm">
               <Sparkles className="h-3.5 w-3.5" />
               {__('Welcome to', 'wedevs-project-manager')}
             </span>
@@ -243,7 +227,7 @@ export default function WelcomePage() {
             <div className="flex flex-wrap gap-3">
               <Button
                 onClick={() => navigate('/projects')}
-                className="group bg-white text-purple-600 hover:bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all font-semibold text-sm no-underline"
+                className="group bg-white text-purple-600 hover:bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all font-semibold text-sm no-underline h-11 px-5"
               >
                 <Rocket className="h-5 w-5 mr-1.5 transition-transform group-hover:-translate-y-0.5 group-hover:rotate-12" />
                 {__('Create Your First Project', 'wedevs-project-manager')}
@@ -251,7 +235,7 @@ export default function WelcomePage() {
               <Button
                 variant="ghost"
                 asChild
-                className="group border border-white/40 text-white hover:bg-white/10 hover:text-white hover:-translate-y-0.5 transition-all font-medium text-sm"
+                className="group border border-white/40 text-white hover:bg-white/10 hover:text-white hover:-translate-y-0.5 transition-all font-medium text-sm h-11 px-5"
               >
                 <a
                   href="https://wedevs.com/docs/wp-project-manager/"
@@ -281,13 +265,13 @@ export default function WelcomePage() {
           {/* Right - video thumbnail */}
           <div className="flex justify-center md:justify-end animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 motion-reduce:animate-none">
             <div
-              className="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/20 transition-transform hover:scale-[1.02]"
+              className="relative cursor-pointer group rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/20 transition-transform hover:scale-[1.02]"
               onClick={() => setBannerVideoOpen(true)}
             >
               <img
                 src={getAssetUrl('images/welcome/intro-video-bg-image.png')}
                 alt={__('Introduction Video', 'wedevs-project-manager')}
-                className="max-w-full h-auto block rounded-xl"
+                className="max-w-full h-auto block rounded-lg"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors">
                 <div className="h-16 w-16 rounded-full bg-white/95 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -312,7 +296,7 @@ export default function WelcomePage() {
           ))}
         </div>
         <div className="text-center mt-8">
-          <Button asChild variant="outline" className="group font-medium">
+          <Button asChild variant="outline" className="group font-medium h-11 px-5">
             <a
               href="https://wedevs.com/wp-project-manager-pro/features/"
               target="_blank"
@@ -353,7 +337,7 @@ export default function WelcomePage() {
                 <p className="text-sm text-pm-text-muted leading-relaxed mb-4">
                   {resource.description}
                 </p>
-                <Button asChild size="sm" variant="default" className="font-medium">
+                <Button asChild size="sm" variant="default" className="font-medium h-11 px-5">
                   <a
                     href={resource.buttonUrl}
                     target="_blank"

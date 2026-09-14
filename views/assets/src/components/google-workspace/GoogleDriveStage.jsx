@@ -52,16 +52,16 @@ export default function GoogleDriveStage({ projectId, value = [], onChange }) {
   return (
     <div className="flex flex-wrap items-center gap-1.5">
       {value.map(file => (
-        <span key={file.id} className="inline-flex items-center gap-1 rounded border border-gray-200 bg-gray-50 pl-1.5 pr-1 py-0.5 text-xs text-gray-700 max-w-[200px]">
-          {file.iconLink ? <img src={file.iconLink} alt="" className="h-3.5 w-3.5 shrink-0" /> : <FileText className="h-3.5 w-3.5 shrink-0 text-gray-400" />}
+        <span key={file.id} className="inline-flex items-center gap-1 rounded-md border border-pm-border bg-muted pl-1.5 pr-1 py-0.5 text-xs text-pm-text-muted max-w-[200px]">
+          {file.iconLink ? <img src={file.iconLink} alt="" className="h-3.5 w-3.5 shrink-0" /> : <FileText className="h-3.5 w-3.5 shrink-0 text-pm-text-muted" />}
           <span className="truncate" title={file.name}>{file.name}</span>
-          <button type="button" onClick={() => remove(file.id)} className="text-gray-400 hover:text-red-600"><X className="h-3 w-3" /></button>
+          <button type="button" onClick={() => remove(file.id)} className="text-pm-text-muted hover:text-destructive"><X className="h-3 w-3" /></button>
         </span>
       ))}
 
       {status.connected ? (
         <Button
-          type="button" variant="ghost" size="sm" className="h-6 px-1.5 gap-1 text-gray-500"
+          type="button" variant="ghost" size="sm" className="h-11 px-1.5 gap-1 text-pm-text-muted"
           disabled={!status.picker_ready}
           title={status.picker_ready ? __('Add from Drive', 'wedevs-project-manager') : __('Admin must add the API key and App ID first.', 'wedevs-project-manager')}
           onClick={openPicker}

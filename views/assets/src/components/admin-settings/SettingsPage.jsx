@@ -1,14 +1,12 @@
 import { __ } from '@wordpress/i18n';
-import React, { useState, useMemo, lazy, Suspense } from 'react'
+import React, { useMemo, lazy, Suspense } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { usePermissions } from '@hooks/usePermissions'
 import ProBadge from '@components/common/ProBadge'
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
 import { cn } from '@lib/utils'
 import { useFilter } from '@hooks/useSlot'
-import {
-  Settings, Mail, ListTodo, Bot, Radio,
-  FileText, ShoppingCart, PanelLeftClose, PanelLeftOpen,
-} from 'lucide-react'
+import { Settings, Mail, ListTodo, Bot, Radio, FileText, ShoppingCart } from 'lucide-react'
 import { DriveMonoGlyph as GoogleWorkspaceNavIcon } from '@components/google-workspace/GoogleIcons'
 
 // Brand SVG icons for settings nav (not available as non-deprecated lucide icons)
@@ -68,16 +66,8 @@ const getProTabConfig = () => ({
 // ── Component ────────────────────────────────────────────────
 const SettingsPage = () => {
   const { isPro } = usePermissions()
-  const [activeTab, setActiveTab] = useState('general')
-  const [collapsed, setCollapsed] = useState(
-    localStorage.getItem('pm-settings-sidebar-collapsed') === 'true'
-  )
-
-  function toggleCollapse() {
-    const next = !collapsed
-    setCollapsed(next)
-    localStorage.setItem('pm-settings-sidebar-collapsed', String(next))
-  }
+  const location = useLocation()
+  const navigate = useNavigate()
   const PRO_TAB_CONFIG = useMemo(() => getProTabConfig(), [])
 
   // Woo Project tab component — injected by pm-pro via filter (only when module is active)
@@ -136,100 +126,115 @@ const SettingsPage = () => {
     },
   ]
 
-  const activeTabConfig = tabGroups.flatMap(g => g.tabs).find(t => t.key === activeTab)
+  // The open tab lives in the URL (/settings/email), so a tab can be linked,
+  // reloaded and walked with the browser's back button. An unknown or missing
+  // segment falls back to General.
+  const urlTab = (location.pathname.split('/settings/')[1] || '').replace(/\/+$/, '')
+  const allTabs = tabGroups.flatMap(g => g.tabs)
+  const activeTab = allTabs.some(t => t.key === urlTab) ? urlTab : 'general'
+  const setActiveTab = (key) => navigate(key === 'general' ? '/settings' : `/settings/${key}`)
+
+  const activeTabConfig = allTabs.find(t => t.key === activeTab)
   const isProTab = activeTabConfig?.pro && !isPro
   // For woo-project tab: use the filter-injected component (set by pm-pro when module is active).
   // For all other tabs: use the static tabComponents map.
   const ActiveComponent = activeTab === 'woo-project' ? WooProjectComponent : tabComponents[activeTab]
 
   return (
-    <div className="pm-settings-page flex h-full overflow-hidden">
+    <div className="pm-settings-page flex flex-col h-full overflow-hidden bg-pm-surface-muted">
 
-      {/* ── Settings sub-nav (internal sidebar) ────────────── */}
-      <aside
-        className="shrink-0 bg-pm-surface border-r border-pm-border flex flex-col transition-all duration-200"
-        style={{ width: collapsed ? 56 : 200, minWidth: collapsed ? 56 : 200, maxWidth: collapsed ? 56 : 200 }}
-      >
-        <div className={cn('flex items-center pt-5 pb-3', collapsed ? 'justify-center px-2' : 'justify-between px-4')}>
-          {!collapsed && (
-            <h1 className="text-pm-text font-semibold text-base">
-              {__('Settings', 'wedevs-project-manager')}
-            </h1>
-          )}
-          <button
-            type="button"
-            className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors"
-            title={collapsed ? __('Expand sidebar', 'wedevs-project-manager') : __('Collapse sidebar', 'wedevs-project-manager')}
-            onClick={toggleCollapse}
-          >
-            {collapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
-          </button>
-        </div>
+      {/* ── Page header ────────────────────────────────────── */}
+      <div className="shrink-0 px-6 pt-6 pb-2">
+        <h1 className="text-xl font-bold text-pm-text-primary">
+          {__('Settings', 'wedevs-project-manager')}
+        </h1>
+      </div>
 
-        <nav className={cn('flex-1 overflow-y-auto pb-4 pt-1', collapsed ? 'px-1.5' : 'px-2')}>
+      {/* ── Left nav + content ─────────────────────────────
+           The tab list used to be a second horizontal bar. With 12 entries it
+           scrolled sideways and threw away the grouping that tabGroups already
+           describes. A column shows every entry at once, keeps the group
+           headings, and has room to grow. */}
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="px-6 pb-6 flex flex-col md:flex-row md:items-start gap-4 md:gap-6">
+
+          <nav className="hidden md:block w-60 shrink-0 self-start sticky top-0 rounded-xl border bg-card shadow-sm p-3">
           {tabGroups.map((group) => (
-            <div key={group.title} className="mb-4">
-              {!collapsed && (
-                <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
-                  {group.title}
-                </p>
-              )}
-
-              {group.tabs.map((tab) => {
-                const Icon = tab.icon
-                const isActive = activeTab === tab.key
-                const needsPro = tab.pro && !isPro
-
-                return (
-                  <button
-                    key={tab.key}
-                    type="button"
-                    title={collapsed ? tab.label : undefined}
-                    className={cn(
-                      'w-full flex items-center rounded-md transition-colors text-left mb-0.5 group/tab',
-                      collapsed ? 'justify-center px-0 py-2' : 'gap-2.5 px-2.5 py-[7px]',
-                      isActive
-                        ? 'bg-pm-accent/10 text-pm-accent font-medium'
-                        : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text'
-                    )}
-                    onClick={() => setActiveTab(tab.key)}
-                  >
-                    <Icon
+            <div key={group.title} className="mb-5 last:mb-0">
+              <div className="px-3 mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-pm-text-muted">
+                {group.title}
+              </div>
+              <div className="space-y-0.5">
+                {group.tabs.map((tab) => {
+                  const Icon = tab.icon
+                  const isActive = activeTab === tab.key
+                  const needsPro = tab.pro && !isPro
+                  return (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      aria-current={isActive ? "page" : undefined}
                       className={cn(
-                        'w-5 h-5 shrink-0',
-                        isActive ? 'text-pm-accent' : 'text-pm-text-muted'
+                        'group/tab w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-left transition-colors',
+                        isActive
+                          ? 'bg-pm-accent-light text-pm-accent'
+                          : 'text-pm-text-muted hover:text-pm-text-primary hover:bg-muted',
                       )}
-                    />
-                    {!collapsed && (
-                      <>
-                        <span className="flex-1 truncate text-[15px]">{tab.label}</span>
-                        {needsPro && <span className="shrink-0 opacity-0 group-hover/tab:opacity-100 transition-opacity"><ProBadge /></span>}
-                      </>
-                    )}
-                  </button>
-                )
-              })}
+                      onClick={() => setActiveTab(tab.key)}
+                    >
+                      <Icon className={cn(
+                        'w-5 h-5 shrink-0',
+                        isActive ? 'text-pm-accent' : 'text-pm-text-muted group-hover/tab:text-pm-text',
+                      )} />
+                      <span className="truncate">{tab.label}</span>
+                      {needsPro && <span className="ml-auto shrink-0"><ProBadge interactive={false} /></span>}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
           ))}
         </nav>
-      </aside>
+
+        {/* Narrow viewports keep a horizontal strip: a 240px column would eat
+           the content area. */}
+          <nav className="md:hidden w-full shrink-0 flex items-center gap-1 overflow-x-auto rounded-xl border bg-card shadow-sm p-1.5 scrollbar-none">
+          {tabGroups.flatMap(g => g.tabs).map((tab) => {
+            const Icon = tab.icon
+            const isActive = activeTab === tab.key
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                className={cn(
+                  'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium whitespace-nowrap shrink-0 transition-colors',
+                  isActive ? 'bg-pm-accent-light text-pm-accent' : 'text-pm-text-muted hover:text-pm-text-primary',
+                )}
+                onClick={() => setActiveTab(tab.key)}
+              >
+                <Icon className="w-[18px] h-[18px] shrink-0" />
+                {tab.label}
+              </button>
+            )
+          })}
+        </nav>
 
       {/* ── Content area ──────────────────────────────────── */}
-      <main className="flex-1 overflow-y-auto bg-pm-surface-muted">
+          <main className="flex-1 min-w-0 w-full">
         {isProTab ? (
           <ProFeaturePlaceholder {...(PRO_TAB_CONFIG[activeTab] ?? PRO_TAB_CONFIG['invoices'])} />
         ) : ActiveComponent ? (
           <Suspense
             fallback={
               activeTab === 'woo-project' ? (
-                <div className="max-w-[1400px] mx-auto p-6 space-y-5">
+                <div className="w-full p-6 space-y-5">
                   <div className="h-7 w-64 bg-pm-border/30 rounded-lg animate-pulse" />
                   <div className="h-4 w-96 bg-pm-border/30 rounded-lg animate-pulse" />
                   <div className="h-32 w-full bg-pm-border/30 rounded-lg animate-pulse" />
                   <div className="h-32 w-full bg-pm-border/30 rounded-lg animate-pulse" />
                 </div>
               ) : (
-                <div className="max-w-[840px] mx-auto p-8 space-y-4">
+                <div className="w-full p-4 sm:p-6 space-y-4">
                   {[1, 2, 3, 4].map((i) => (
                     <div key={i} className="h-14 w-full bg-pm-border/30 rounded-lg animate-pulse" />
                   ))}
@@ -237,12 +242,22 @@ const SettingsPage = () => {
               )
             }
           >
-            <div className={activeTab === 'woo-project' ? '' : 'max-w-[840px] mx-auto p-8'}>
-              <ActiveComponent />
+            {/* Every tab gets the same card. WooCommerce brings its own
+                padding, so the card supplies only the surface for it, which
+                is why it used to render bare. */}
+            <div className="w-full">
+              <div className={cn(
+                'rounded-xl border bg-card shadow-sm',
+                activeTab !== 'woo-project' && 'p-4 sm:p-6',
+              )}>
+                <ActiveComponent />
+              </div>
             </div>
           </Suspense>
         ) : null}
-      </main>
+          </main>
+        </div>
+      </div>
     </div>
   )
 }

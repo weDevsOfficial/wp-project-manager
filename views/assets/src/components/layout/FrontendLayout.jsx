@@ -1,16 +1,14 @@
 import { __ } from '@wordpress/i18n';
 import { useState } from 'react'
-import { Outlet, useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { PageTransition } from '@components/common/PageTransition'
 import { usePermissions } from '@hooks/usePermissions'
 import { cn } from '@lib/utils'
 import { UserAvatar } from '@components/common/UserAvatar'
 import { GlobalSearch } from '@components/common/GlobalSearch'
 import { AppSidebar } from '@components/layout/AppSidebar'
 import { useHideSidebar } from '@/router/routeRegistry'
-import {
-  FolderKanban, CheckSquare, Calendar, BarChart3,
-  Menu, X, LogOut, Crown, Tag,
-} from 'lucide-react'
+import { FolderKanban, CheckSquare, Calendar, BarChart3, Menu, X, LogOut, Crown, Tag } from 'lucide-react'
 
 const currentUser = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user : {}
 
@@ -94,7 +92,7 @@ export function FrontendLayout() {
             <div className="flex items-center gap-3">
               <GlobalSearch variant="frontend" />
               <div className="hidden sm:flex items-center gap-2">
-                <UserAvatar user={{ avatar_url: userAvatar, display_name: userName }} size="md" fallbackClassName="bg-pm-accent/10 text-pm-accent" />
+                <UserAvatar user={{ avatar_url: userAvatar, display_name: userName }} size="md" />
                 <span className="text-sm font-medium text-pm-text-primary">{userName}</span>
               </div>
               <a
@@ -142,11 +140,11 @@ export function FrontendLayout() {
         </div>
       </header>
 
-      {/* Sidebar + Main content */}
+      {/* Sidebar + Main content — main is a rounded white card like the admin panel */}
       <div className="flex min-h-[calc(100vh-56px)]">
         {!hideSidebar && <AppSidebar />}
-        <main className="flex-1 overflow-auto p-6">
-          <Outlet />
+        <main className="flex-1 min-w-0 overflow-auto m-2 rounded-xl border border-pm-border bg-pm-surface shadow-sm">
+          <PageTransition />
         </main>
       </div>
     </div>

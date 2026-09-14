@@ -115,7 +115,7 @@ export function PromoBanner({ placement = 'projects' }) {
 
   return (
     <div
-      className="pm-promo-banner relative rounded-xl border overflow-hidden"
+      className="pm-promo-banner relative rounded-lg border overflow-hidden"
       style={{
         background: '#FAFAFB',
         borderColor: '#E5E7EB',
@@ -124,7 +124,7 @@ export function PromoBanner({ placement = 'projects' }) {
       <span
         aria-hidden
         className="absolute left-0 top-0 bottom-0"
-        style={{ width: '3px', background: '#7C3AED' }}
+        style={{ width: '3px', background: '#6F56A3' }}
       />
 
       <button
@@ -161,7 +161,7 @@ export function PromoBanner({ placement = 'projects' }) {
               </span>
             </span>
           )}
-          <span className="text-sm font-semibold text-pm-text-primary truncate">
+          <span className="text-sm font-medium text-pm-text-primary truncate">
             {promo.title}
           </span>
           {daysLeft != null && (
@@ -180,18 +180,18 @@ export function PromoBanner({ placement = 'projects' }) {
             rel="noopener noreferrer"
             className="pm-promo-cta inline-flex items-center justify-center gap-2 self-start sm:self-auto shrink-0 px-5 py-2.5 rounded-md font-semibold text-[13px] tracking-[0.01em] whitespace-nowrap no-underline transition-all"
             style={{
-              background: '#7C3AED',
+              background: '#6F56A3',
               color: '#fff',
-              boxShadow: '0 1px 2px rgba(124,58,237,0.25), 0 4px 12px -2px rgba(124,58,237,0.35)',
-              border: '1px solid #6D28D9',
+              boxShadow: '0 1px 2px rgba(111,86,163,0.25), 0 4px 12px -2px rgba(111,86,163,0.35)',
+              border: '1px solid #5E4789',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.background = '#6D28D9'
-              e.currentTarget.style.boxShadow = '0 1px 2px rgba(124,58,237,0.3), 0 8px 18px -2px rgba(124,58,237,0.5)'
+              e.currentTarget.style.background = '#5E4789'
+              e.currentTarget.style.boxShadow = '0 1px 2px rgba(111,86,163,0.3), 0 8px 18px -2px rgba(111,86,163,0.5)'
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.background = '#7C3AED'
-              e.currentTarget.style.boxShadow = '0 1px 2px rgba(124,58,237,0.25), 0 4px 12px -2px rgba(124,58,237,0.35)'
+              e.currentTarget.style.background = '#6F56A3'
+              e.currentTarget.style.boxShadow = '0 1px 2px rgba(111,86,163,0.25), 0 4px 12px -2px rgba(111,86,163,0.35)'
             }}
           >
             <span>{promo.action_title || __('Upgrade to Pro', 'wedevs-project-manager')}</span>

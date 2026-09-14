@@ -1,3 +1,5 @@
+import { toLocalDateStr } from '@lib/pm-utils';
+
 export function fmtDate(val) {
   if (!val) return "";
   if (typeof val === "object") return (val.date || "").substring(0, 10);
@@ -7,7 +9,7 @@ export function fmtDate(val) {
 export function isOverdue(dateStr) {
   if (!dateStr) return false;
   const d = fmtDate(dateStr);
-  return d && d < new Date().toISOString().substring(0, 10);
+  return d && d < toLocalDateStr(new Date());
 }
 
 export function isDarkHexBg(headerBg) {

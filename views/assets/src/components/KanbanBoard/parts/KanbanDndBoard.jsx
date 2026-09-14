@@ -5,6 +5,7 @@ import {
   reorderBoardsLocal,
   reorderBoards,
   moveTaskBetweenBoards,
+  taskAddedToBoard,
 } from "@store/kanbanSlice";
 import { useApi } from "@hooks/useApi";
 import { Input } from "@components/ui/input";
@@ -31,6 +32,7 @@ export default function KanbanDndBoard({
   newColTitle,
   setNewColTitle,
   onCreateBoard,
+  boardBg = false,
 }) {
   const dispatch = useAppDispatch();
 
@@ -70,6 +72,8 @@ export default function KanbanDndBoard({
   }, []);
 
   const handleTaskCreated = useCallback((columnId, task) => {
+    // Keep the store in step so the column header count moves with the card.
+    dispatch(taskAddedToBoard({ boardId: columnId, task }));
     setKanbanData((prev) => [
       ...prev,
       {
@@ -80,7 +84,7 @@ export default function KanbanDndBoard({
         boardId: parseInt(columnId),
       },
     ]);
-  }, []);
+  }, [dispatch]);
 
   const handleColumnReorder = useCallback(
     (reorderedColumns) => {
@@ -135,15 +139,15 @@ export default function KanbanDndBoard({
   );
 
   return (
-    <div className="flex gap-4 overflow-x-auto pb-4 h-[calc(100vh-200px)]">
-      <div className="shrink-0" style={{ width: `${columns.length * 280 + (columns.length - 1) * 16}px` }}>
+    <div className="flex gap-4 overflow-x-auto px-1 pt-1 pb-6 h-[calc(100vh-200px)]">
+      <div className="shrink-0" style={{ width: `${Math.max(0, columns.length * 320 + (columns.length - 1) * 16)}px` }}>
         <KanbanProvider
           columns={columns}
           data={kanbanData}
           onDataChange={handleDataChange}
           onDragEnd={handleDragEnd}
           onColumnReorder={handleColumnReorder}
-          className="!grid-flow-col !auto-cols-[280px]"
+          className="!grid-flow-col !auto-cols-[320px]"
         >
           {(column) => (
             <KanbanBoardColumn
@@ -161,6 +165,7 @@ export default function KanbanDndBoard({
               onSaveAutomation={onSaveAutomation}
               onTaskCreated={handleTaskCreated}
               onAddExistingTask={onAddExistingTask}
+              boardBg={boardBg}
             />
           )}
         </KanbanProvider>
@@ -168,12 +173,12 @@ export default function KanbanDndBoard({
 
       {canManage && (
         <div className="min-w-[260px] max-w-[300px] shrink-0 self-start">
-          <div className="rounded-xl border border-dashed border-pm-border bg-pm-surface-muted/80 hover:bg-pm-surface hover:border-pm-border transition-colors p-2">
+          <div className="rounded-lg border border-dashed border-pm-border bg-pm-surface-muted/80 hover:bg-pm-surface hover:border-pm-border transition-colors p-2">
             <Input
               value={newColTitle}
               onChange={(e) => setNewColTitle(e.target.value)}
               placeholder={__("+ Add new section", 'wedevs-project-manager')}
-              className="h-8 text-sm bg-transparent border-none shadow-none focus-visible:ring-0 placeholder:text-pm-text-muted"
+              className="h-11 text-sm bg-transparent border-none shadow-none focus-visible:ring-0 placeholder:text-pm-text-muted"
               onKeyDown={(e) => {
                 if (e.key === "Enter") onCreateBoard();
                 if (e.key === "Escape") setNewColTitle("");

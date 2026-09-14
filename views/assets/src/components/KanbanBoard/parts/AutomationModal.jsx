@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react'
 import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState } from "react";
 import { useApi } from "@hooks/useApi";
@@ -113,11 +114,11 @@ export default function AutomationModal({
                   "Choose a preset to automate your kanbanboard and sync with Task Lists", 'wedevs-project-manager',
                 )}
               </p>
-              <Label className="text-sm font-semibold">
+              <Label className="text-sm font-medium">
                 {__("Move Tasks", 'wedevs-project-manager')}
               </Label>
               <Select value={moveType} onValueChange={setMoveType}>
-                <SelectTrigger className="h-8 text-sm">
+                <SelectTrigger className="h-11 text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -267,7 +268,7 @@ export default function AutomationModal({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-semibold">
+              <Label className="text-sm font-medium">
                 {__("Assign User", 'wedevs-project-manager')}
               </Label>
               <p className="text-[15px] text-pm-text-muted">
@@ -304,7 +305,7 @@ export default function AutomationModal({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-semibold">
+              <Label className="text-sm font-medium">
                 {__("Change task status", 'wedevs-project-manager')}
               </Label>
               <div className="flex flex-col gap-2">
@@ -362,15 +363,15 @@ export default function AutomationModal({
           </div>
         </ScrollArea>
         <DialogFooter>
-          <Button
+          <Button className="h-11 px-5"
             variant="outline"
             size="sm"
             onClick={() => onOpenChange(false)}
           >
             {__("Cancel", 'wedevs-project-manager')}
           </Button>
-          <Button size="sm" onClick={handleSave} disabled={saving}>
-            {saving ? __("Saving...", 'wedevs-project-manager') : __("Update Automation", 'wedevs-project-manager')}
+          <Button className="h-11 px-5" size="sm" onClick={handleSave} disabled={saving}>
+            {saving ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__("Saving...", 'wedevs-project-manager')}</> : __("Update Automation", 'wedevs-project-manager')}
           </Button>
         </DialogFooter>
       </DialogContent>

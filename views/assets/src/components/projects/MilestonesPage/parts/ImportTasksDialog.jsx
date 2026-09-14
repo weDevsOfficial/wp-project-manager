@@ -111,7 +111,7 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
             placeholder={__("Search tasks...", 'wedevs-project-manager')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="h-8 text-sm"
+            className="h-11 text-sm"
           />
 
           <div className="inline-flex max-w-full items-center rounded-lg bg-muted/60 p-0.5 gap-0.5 overflow-x-auto scrollbar-none">
@@ -127,7 +127,7 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
                 className={cn(
                   "shrink-0 whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-medium transition-all",
                   tab === t.key
-                    ? "bg-background text-pm-text-primary shadow-sm"
+                    ? "bg-background text-pm-accent shadow-sm"
                     : "text-pm-text-muted hover:text-pm-text-primary",
                 )}
               >
@@ -201,10 +201,10 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
           )}
         </div>
         <DialogFooter className="shrink-0">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" className="h-11 px-5" onClick={() => onOpenChange(false)}>
             {__("Cancel", 'wedevs-project-manager')}
           </Button>
-          <Button onClick={handleLink} disabled={selected.length === 0 || linking}>
+          <Button className="h-11 px-5" onClick={handleLink} disabled={selected.length === 0 || linking}>
             <ListChecks className="h-4 w-4 mr-1" />
             {__("Link", 'wedevs-project-manager')} {selected.length > 0 && `(${selected.length})`}
           </Button>

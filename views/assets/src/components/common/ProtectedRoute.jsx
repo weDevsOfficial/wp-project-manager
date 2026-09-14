@@ -3,12 +3,12 @@ import React from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { Lock } from 'lucide-react'
 import { usePermissions } from '@hooks/usePermissions'
-import { useCurrentProject } from '@hooks/useCurrentProject'
+import { useCurrentProject, useProjectLoadFailed } from '@hooks/useCurrentProject'
 
 function Forbidden({ message }) {
   return (
-    <div className="max-w-[1400px] mx-auto p-8 sm:p-12">
-      <div className="rounded-xl border bg-card p-10 text-center">
+    <div className="w-full p-8 sm:p-12">
+      <div className="rounded-lg border bg-card p-10 text-center">
         <div className="mx-auto h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-4">
           <Lock className="h-6 w-6 text-muted-foreground" />
         </div>
@@ -63,7 +63,21 @@ export function LicenseRoute({ children }) {
 export function ProjectRoute({ children, cap = null, managerOnly = false }) {
   const { projectId } = useParams()
   const project = useCurrentProject(projectId)
+  const loadFailed = useProjectLoadFailed(projectId)
   const { isManager, isUserInProject, userCan, canManage } = usePermissions(project)
+
+  // The project could not be loaded (403/404). Without this the spinner below
+  // never resolved, so a user without access just watched it spin forever.
+  if (!project && loadFailed) {
+    return (
+      <Forbidden
+        message={__(
+          'You do not have access to this project, or it no longer exists.',
+          'wedevs-project-manager'
+        )}
+      />
+    )
+  }
 
   if (canManage) return children
   // Wait for project to load before deciding

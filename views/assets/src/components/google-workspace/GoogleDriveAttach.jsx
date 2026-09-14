@@ -28,14 +28,14 @@ const AdderAvatar = ({ file }) => {
   if (!file.added_by_name) return null
   const title = file.added_by_name
   return file.added_by_avatar
-    ? <img src={file.added_by_avatar} alt="" title={title} className="h-4 w-4 rounded-full shrink-0 ring-1 ring-gray-200" />
-    : <span title={title} className="h-4 w-4 rounded-full bg-gray-200 text-[8px] text-gray-600 inline-flex items-center justify-center shrink-0">{title.charAt(0).toUpperCase()}</span>
+    ? <img src={file.added_by_avatar} alt="" title={title} className="h-4 w-4 rounded-md shrink-0 ring-1 ring-gray-200" />
+    : <span title={title} className="h-4 w-4 rounded-md bg-pm-surface-muted text-[8px] text-pm-text-muted inline-flex items-center justify-center shrink-0">{title.charAt(0).toUpperCase()}</span>
 }
 
 const FileIcon = ({ file, className = 'h-4 w-4 shrink-0' }) =>
   file.icon_link
     ? <img src={file.icon_link} alt="" className={className} />
-    : <FileText className={`${className} text-gray-400`} />
+    : <FileText className={`${className} text-pm-text-muted`} />
 
 const MAX_VISIBLE = 2
 
@@ -90,7 +90,7 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
   const action = status.connected && canEdit ? (
     variant === 'compact' ? (
       <Button
-        variant="ghost" size="sm" className={`h-6 px-1.5 gap-1 text-gray-500 transition-opacity ${addRevealClass}`}
+        variant="ghost" size="sm" className={`h-11 px-1.5 gap-1 text-pm-text-muted transition-opacity ${addRevealClass}`}
         disabled={!status.picker_ready}
         title={status.picker_ready ? __('Add from Drive', 'wedevs-project-manager') : __('Admin must add the API key and App ID first.', 'wedevs-project-manager')}
         onClick={openPicker}
@@ -99,7 +99,7 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
       </Button>
     ) : (
       <Button
-        variant="outline" size="sm" className="h-7"
+        variant="outline" size="sm" className="h-11"
         disabled={!status.picker_ready}
         title={status.picker_ready ? '' : __('Admin must add the API key and App ID first.', 'wedevs-project-manager')}
         onClick={openPicker}
@@ -108,7 +108,7 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
       </Button>
     )
   ) : canUse === false ? (
-    <span className="inline-flex items-center gap-1 text-[11px] text-gray-400" title={__('Your project role can view Drive files but not attach them.', 'wedevs-project-manager')}>
+    <span className="inline-flex items-center gap-1 text-[11px] text-pm-text-muted" title={__('Your project role can view Drive files but not attach them.', 'wedevs-project-manager')}>
       <Lock className="h-3 w-3" /> {__('View only', 'wedevs-project-manager')}
     </span>
   ) : canEdit && !status.connected ? (
@@ -132,12 +132,12 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
     return (
       <div className="flex flex-wrap items-center gap-1.5">
         {attachments.map(file => (
-          <span key={file.id} className="inline-flex items-center gap-1 rounded border border-gray-200 bg-gray-50 pl-1.5 pr-1 py-0.5 text-xs text-gray-700 max-w-[220px]">
+          <span key={file.id} className="inline-flex items-center gap-1 rounded-md border border-pm-border bg-muted pl-1.5 pr-1 py-0.5 text-xs text-pm-text-muted max-w-[220px]">
             <FileIcon file={file} className="h-3.5 w-3.5 shrink-0" />
-            <a href={safeHttpUrl(file.web_view_link)} target="_blank" rel="noreferrer" className="truncate hover:text-blue-600" title={file.name}>{file.name}</a>
+            <a href={safeHttpUrl(file.web_view_link)} target="_blank" rel="noreferrer" className="truncate hover:text-pm-accent" title={file.name}>{file.name}</a>
             <AdderAvatar file={file} />
             {canEdit && (
-              <button onClick={() => onDetach(file.id)} className="text-gray-400 hover:text-red-600" title={__('Remove', 'wedevs-project-manager')}>
+              <button onClick={() => onDetach(file.id)} className="text-pm-text-muted hover:text-destructive" title={__('Remove', 'wedevs-project-manager')}>
                 <X className="h-3 w-3" />
               </button>
             )}
@@ -151,33 +151,33 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
 
   // Section: bordered block with header (task detail / files).
   return (
-    <div className={variant === 'section' ? 'px-6 py-3 border-t border-gray-100' : ''}>
+    <div className={variant === 'section' ? 'px-6 py-3 border-t border-pm-border' : ''}>
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
+        <div className="flex items-center gap-2 text-sm font-medium text-pm-text-primary">
           <GoogleDriveColorGlyph className="h-4 w-4" aria-hidden="true" />
           {variant === 'section' && (title || __('Google Drive', 'wedevs-project-manager'))}
-          {attachments.length > 0 && <span className="text-xs text-gray-400">({attachments.length})</span>}
+          {attachments.length > 0 && <span className="text-xs text-pm-text-muted">({attachments.length})</span>}
         </div>
         {action}
       </div>
 
       {attachments.length === 0 ? (
-        <p className="text-xs text-gray-400 py-1">{__('No Drive files attached.', 'wedevs-project-manager')}</p>
+        <p className="text-xs text-pm-text-muted py-1">{__('No Drive files attached.', 'wedevs-project-manager')}</p>
       ) : (
         <>
           <ul className="space-y-1">
             {(expanded ? attachments : attachments.slice(0, MAX_VISIBLE)).map(file => (
-              <li key={file.id} className="group flex items-center gap-2 rounded px-2 py-1.5 hover:bg-gray-50">
+              <li key={file.id} className="group flex items-center gap-2 rounded px-2 py-1.5 hover:bg-pm-surface-muted">
                 <FileIcon file={file} />
-                <a href={safeHttpUrl(file.web_view_link)} target="_blank" rel="noreferrer" className="flex-1 truncate text-sm text-gray-700 hover:text-blue-600 hover:underline" title={file.name}>
+                <a href={safeHttpUrl(file.web_view_link)} target="_blank" rel="noreferrer" className="flex-1 truncate text-sm text-pm-text-primary hover:text-pm-accent hover:underline" title={file.name}>
                   {file.name}
                 </a>
                 <AdderAvatar file={file} />
-                <a href={safeHttpUrl(file.web_view_link)} target="_blank" rel="noreferrer" className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600">
+                <a href={safeHttpUrl(file.web_view_link)} target="_blank" rel="noreferrer" className="opacity-0 group-hover:opacity-100 text-pm-text-muted hover:text-pm-accent">
                   <ExternalLink className="h-3.5 w-3.5" />
                 </a>
                 {canEdit && (
-                  <button onClick={() => onDetach(file.id)} className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600" title={__('Remove', 'wedevs-project-manager')}>
+                  <button onClick={() => onDetach(file.id)} className="opacity-0 group-hover:opacity-100 text-pm-text-muted hover:text-destructive" title={__('Remove', 'wedevs-project-manager')}>
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 )}

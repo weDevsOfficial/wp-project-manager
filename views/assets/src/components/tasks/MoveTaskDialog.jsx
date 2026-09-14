@@ -102,10 +102,10 @@ export default function MoveTaskDialog({ open, onOpenChange, task, projectId, cu
         )}
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={moving}>
+          <Button variant="outline" className="h-11 px-5" onClick={() => onOpenChange(false)} disabled={moving}>
             {__('Cancel', 'wedevs-project-manager')}
           </Button>
-          <Button onClick={handleMove} disabled={!selectedListId || moving}>
+          <Button className="h-11 px-5" onClick={handleMove} disabled={!selectedListId || moving}>
             {moving && <Loader2 className="h-5 w-5 mr-2 animate-spin" />}
             {moving ? __('Moving...', 'wedevs-project-manager') : __('Move', 'wedevs-project-manager')}
           </Button>

@@ -1,7 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState } from "react";
 import { useApi } from "@hooks/useApi";
-import { Input } from "@components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -79,13 +78,14 @@ export default function SearchAddTask({
             <DialogTitle>{__("Add existing task", 'wedevs-project-manager')}</DialogTitle>
           </DialogHeader>
 
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-pm-text-muted pointer-events-none z-10" />
-            <Input
+          <div className="flex items-center gap-1.5 h-11 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
+            <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
+            <input
+              type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={__("Search by title (min 3 chars)...", 'wedevs-project-manager')}
-              className="h-9 pl-9 text-sm"
+              className="flex-1 min-w-0 h-full bg-transparent text-sm placeholder:text-muted-foreground/70 focus:outline-none !border-0 !p-0 !shadow-none"
               autoFocus
             />
           </div>

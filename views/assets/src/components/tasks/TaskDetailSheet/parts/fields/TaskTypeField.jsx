@@ -1,15 +1,17 @@
 import { __ } from '@wordpress/i18n';
 import React, { useCallback, useEffect, useState } from 'react';
 import { fetchTask } from '@store/tasksSlice';
+import { useToast } from '@hooks/useToast';
 import { cn } from '@lib/utils';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@components/ui/popover';
-import { Check, ListTodo, X } from 'lucide-react';
+import { Check, ChevronDown, ListTodo, X } from 'lucide-react';
 
 export default function TaskTypeField({ task, projectId, dispatch, api, canEdit = true }) {
+  const toast = useToast();
   const [open, setOpen] = useState(false);
   const [types, setTypes] = useState([]);
   const [loadingTypes, setLoadingTypes] = useState(false);
@@ -43,9 +45,10 @@ export default function TaskTypeField({ task, projectId, dispatch, api, canEdit 
     }).then(() => {
       dispatch(fetchTask({ projectId, taskId: task.id }));
       setOpen(false);
-    }).catch(() => {})
+      toast.success(typeId ? __('Task type updated', 'wedevs-project-manager') : __('Task type removed', 'wedevs-project-manager'));
+    }).catch(() => toast.error(__('Failed to update task type', 'wedevs-project-manager')))
     .finally(() => setSaving(false));
-  }, [saving, currentType, task, projectId, api, dispatch, canEdit]);
+  }, [saving, currentType, task, projectId, api, dispatch, canEdit, toast, __]);
 
   const handleClear = useCallback(() => {
     if (!canEdit || saving) return;
@@ -56,12 +59,13 @@ export default function TaskTypeField({ task, projectId, dispatch, api, canEdit 
     }).then(() => {
       dispatch(fetchTask({ projectId, taskId: task.id }));
       setOpen(false);
-    }).catch(() => {})
+      toast.success(__('Task type removed', 'wedevs-project-manager'));
+    }).catch(() => toast.error(__('Failed to update task type', 'wedevs-project-manager')))
     .finally(() => setSaving(false));
   }, [saving, task, projectId, api, dispatch, canEdit]);
 
   return (
-    <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
+    <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
         <ListTodo className="h-4 w-4" /><span className="text-sm">{__('Type', 'wedevs-project-manager')}</span>
       </div>
@@ -69,13 +73,12 @@ export default function TaskTypeField({ task, projectId, dispatch, api, canEdit 
       <Popover open={open} onOpenChange={(v) => { setOpen(v); if (v) loadTypes(); }}>
         <PopoverTrigger asChild>
           <button disabled={!canEdit} className={cn(
-            'text-sm transition-colors',
-            currentType
-              ? 'text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded'
-              : 'text-pm-text-muted',
-            canEdit && (currentType ? 'hover:bg-muted' : 'hover:text-pm-accent')
+            'inline-flex items-center gap-1 text-sm transition-colors',
+            currentType ? 'text-pm-text-primary' : 'text-pm-text-muted',
+            canEdit && 'hover:text-pm-accent'
           )}>
             {currentType ? currentType.title : (canEdit ? __('Add type', 'wedevs-project-manager') : __('—', 'wedevs-project-manager'))}
+            {canEdit && <ChevronDown className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" />}
           </button>
         </PopoverTrigger>
         <PopoverContent className="w-44 p-2" align="start">

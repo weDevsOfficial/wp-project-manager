@@ -124,7 +124,6 @@ trait Task_Model_Trait {
         $key   = array_search( $value, self::$payability );
 
         if ( array_key_exists( $value, self::$payability ) ) {
-            var_dump( $value );
             $this->attributes['payable'] = $value;
         } else {
             $this->attributes['payable'] = $key;

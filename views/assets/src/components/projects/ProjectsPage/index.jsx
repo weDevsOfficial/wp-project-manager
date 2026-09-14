@@ -56,20 +56,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@components/ui/tooltip";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@components/ui/pagination";
+import { PaginationNav } from "@components/ui/pagination";
 
 import {
   Plus,
   LayoutGrid,
   List,
+  ChevronDown,
+  ChevronRight,
   Star,
   MoreHorizontal,
   Trash2,
@@ -88,6 +82,11 @@ import {
   Pencil,
   Settings,
   Search,
+  ListChecks,
+  Calendar,
+  Users,
+  Activity,
+  X,
 } from "lucide-react";
 
 import AiCreateDialog from "../AiCreateDialog";
@@ -101,6 +100,8 @@ import {
   isComplete,
   statusColor,
   statusLabel,
+  statusPill,
+  groupByStatus,
   getDescriptionSnippet,
   getFilterTabs,
 } from "./utils";
@@ -113,6 +114,11 @@ export default function ProjectsPage() {
   const { canCreate, isPro } = usePermissions();
   const proApi = useProApi();
   const { setOpen: setProModalOpen } = useProModal();
+  const [collapsedGroups, setCollapsedGroups] = useState({});
+  const toggleGroup = useCallback(
+    (key) => setCollapsedGroups((prev) => ({ ...prev, [key]: !prev[key] })),
+    [],
+  );
 
   const {
     projects,
@@ -166,6 +172,13 @@ export default function ProjectsPage() {
     },
     [dispatch],
   );
+
+  const handleClearFilters = useCallback(() => {
+    clearTimeout(searchTimerRef.current);
+    setSearchQuery("");
+    dispatch(setCategory(undefined));
+    dispatch(fetchProjects({ page: 1, title: undefined }));
+  }, [dispatch]);
 
   const handleSortChange = useCallback(
     (value) => {
@@ -255,23 +268,38 @@ export default function ProjectsPage() {
     </div>
   );
 
-  const renderEmpty = () => (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      <FolderKanban className="h-16 w-16 text-muted-foreground/40 mb-4" />
-      <h3 className="text-lg font-medium text-pm-text-primary mb-1">
-        {__("No projects found", 'wedevs-project-manager')}
-      </h3>
-      <p className="text-sm text-pm-text-muted mb-4">
-        {__("Get started by creating a new project.", 'wedevs-project-manager')}
-      </p>
-      {canCreate && (
-        <Button onClick={() => dispatch(setCreateSheetOpen(true))}>
-          <Plus className="h-5 w-5 mr-2" />
-          {__("New Project", 'wedevs-project-manager')}
-        </Button>
-      )}
-    </div>
-  );
+  const renderEmpty = () => {
+    const filtered = Boolean(searchQuery || categoryId !== undefined);
+
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center rounded-lg border bg-card">
+        <FolderKanban className="h-14 w-14 text-muted-foreground/30 mb-3" />
+        <h3 className="text-sm font-medium text-pm-text-primary mb-1">
+          {filtered
+            ? __("No projects match your filters", 'wedevs-project-manager')
+            : __("No projects found", 'wedevs-project-manager')}
+        </h3>
+        <p className="text-sm text-pm-text-muted mb-4">
+          {filtered
+            ? __("Try a different search or category.", 'wedevs-project-manager')
+            : __("Get started by creating a new project.", 'wedevs-project-manager')}
+        </p>
+        {filtered ? (
+          <Button variant="outline" size="sm" className="h-11 text-sm gap-1" onClick={handleClearFilters}>
+            <X className="h-3.5 w-3.5" />
+            {__("Clear", 'wedevs-project-manager')}
+          </Button>
+        ) : (
+          canCreate && (
+            <Button className="h-11 px-5" onClick={() => dispatch(setCreateSheetOpen(true))}>
+              <Plus className="h-4 w-4 mr-2" />
+              {__("New Project", 'wedevs-project-manager')}
+            </Button>
+          )
+        )}
+      </div>
+    );
+  };
 
   const renderMetaCounters = (project) => {
     const meta = getMeta(project);
@@ -289,17 +317,17 @@ export default function ProjectsPage() {
 
     return (
       <TooltipProvider delayDuration={200}>
-        <div className="flex items-center gap-3 text-pm-text-muted">
+        <div className="flex items-center gap-1 flex-wrap text-pm-text-muted">
           {items.map((item) => (
             <Tooltip key={item.label}>
               <TooltipTrigger asChild>
                 <button
                   type="button"
-                  className="flex items-center gap-1 text-sm hover:text-pm-accent transition-colors"
+                  className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[12px] font-medium hover:bg-muted/60 hover:text-pm-accent transition-colors"
                   onClick={(e) => { e.stopPropagation(); navigate(item.route) }}
                 >
-                  <item.icon className="h-5 w-5" />
-                  <span>{item.value ?? 0}</span>
+                  <item.icon className="h-4 w-4 shrink-0" />
+                  <span className="tabular-nums">{item.value ?? 0}</span>
                 </button>
               </TooltipTrigger>
               <TooltipContent side="bottom">
@@ -342,43 +370,43 @@ export default function ProjectsPage() {
     return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8 text-pm-text-primary">
-          <MoreHorizontal className="h-5 w-5" />
+        <Button aria-label={__('Project actions', 'wedevs-project-manager')} variant="ghost" size="icon" className="h-8 w-8 text-pm-text-primary">
+          <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => dispatch(openEditSheet(project))}>
-          <Pencil className="h-5 w-5 mr-2" />
+          <Pencil className="h-4 w-4 mr-2" />
           {__("Edit", 'wedevs-project-manager')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleToggleStatus(project.id)}>
           {isComplete(project) ? (
             <>
-              <Undo2 className="h-5 w-5 mr-2" />
+              <Undo2 className="h-4 w-4 mr-2" />
               {__("Restore", 'wedevs-project-manager')}
             </>
           ) : (
             <>
-              <CheckCircle className="h-5 w-5 mr-2" />
+              <CheckCircle className="h-4 w-4 mr-2" />
               {__("Complete", 'wedevs-project-manager')}
             </>
           )}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => isPro ? navigate(`/projects/${project.id}/settings`) : setProModalOpen(true)}>
-          <Settings className="h-5 w-5 mr-2" />
+          <Settings className="h-4 w-4 mr-2" />
           {__("Settings", 'wedevs-project-manager')}
-          {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
+          {!isPro && <Crown className="h-4 w-4 ml-auto text-pm-accent" />}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleDuplicate(project)}>
-          <Copy className="h-5 w-5 mr-2" />
+          <Copy className="h-4 w-4 mr-2" />
           {__("Duplicate", 'wedevs-project-manager')}
-          {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
+          {!isPro && <Crown className="h-4 w-4 ml-auto text-pm-accent" />}
         </DropdownMenuItem>
         <DropdownMenuItem
           className="text-destructive focus:text-destructive"
           onClick={() => confirmDelete(project)}
         >
-          <Trash2 className="h-5 w-5 mr-2" />
+          <Trash2 className="h-4 w-4 mr-2" />
           {__("Delete", 'wedevs-project-manager')}
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -390,43 +418,31 @@ export default function ProjectsPage() {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {projects.map((project) => {
         const progress = projectProgress(project);
-        const projectColor = project.color_code || statusColor(project);
+        const meta = getMeta(project);
 
         return (
           <div
             key={project.id}
-            className="group relative rounded-xl border bg-card overflow-hidden hover:shadow-lg hover:border-border/80 transition-all duration-200"
+            className="group relative flex flex-col rounded-xl border bg-card overflow-hidden hover:border-pm-border/80 transition-all duration-200"
           >
-            <div
-              className="absolute left-0 top-0 bottom-0 w-1 rounded-l-xl"
-              style={{ backgroundColor: projectColor }}
-            />
-
-            <div className="pl-5 pr-4 py-4 space-y-3">
+            <div className="flex flex-1 flex-col gap-3 p-5">
+              {/* Header: title + actions */}
               <div className="flex items-start justify-between gap-2">
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <span
-                    className="h-2 w-2 rounded-full shrink-0 ring-2 ring-background"
-                    style={{ backgroundColor: projectColor }}
-                  />
-                  <h3
-                    className="font-semibold text-sm text-pm-text-primary line-clamp-1 cursor-pointer hover:text-pm-accent transition-colors"
-                    role="button"
-                    tabIndex={0}
-                    onClick={() =>
+                <h3
+                  className="flex-1 min-w-0 text-[15px] font-semibold text-pm-text-primary line-clamp-2 leading-snug cursor-pointer hover:text-pm-accent transition-colors"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => navigate(`/projects/${project.id}/task-lists`)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
                       navigate(`/projects/${project.id}/task-lists`)
                     }
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault()
-                        navigate(`/projects/${project.id}/task-lists`)
-                      }
-                    }}
-                  >
-                    {project.title}
-                  </h3>
-                </div>
-                <div className="flex items-center gap-0.5 shrink-0">
+                  }}
+                >
+                  {project.title}
+                </h3>
+                <div className="flex items-center gap-0.5 shrink-0 -mr-1.5 -mt-1">
                   <Button
                     variant="ghost"
                     size="icon"
@@ -435,6 +451,10 @@ export default function ProjectsPage() {
                       !project.favourite && "opacity-0 group-hover:opacity-100",
                     )}
                     onClick={() => handleToggleFavourite(project.id)}
+                    aria-pressed={!!project.favourite}
+                    aria-label={project.favourite
+                      ? __('Remove "%s" from favourites', 'wedevs-project-manager').replace('%s', project.title)
+                      : __('Add "%s" to favourites', 'wedevs-project-manager').replace('%s', project.title)}
                   >
                     <Star
                       className={cn(
@@ -452,46 +472,53 @@ export default function ProjectsPage() {
               </div>
 
               {getDescriptionSnippet(project) && (
-                <p className="text-sm text-pm-text-muted truncate leading-relaxed">
+                <p className="text-[13px] text-pm-text-muted line-clamp-2 leading-relaxed -mt-1">
                   {getDescriptionSnippet(project)}
                 </p>
               )}
 
               {renderMetaCounters(project)}
 
-              <div className="space-y-1">
-                <div className="flex items-center gap-2.5">
-                  <Progress value={progress} className="h-1 flex-1" />
-                  <span className="text-[14px] font-medium text-pm-text-muted tabular-nums w-7 text-right">
-                    {progress}%
+              {/* Footer pinned to bottom for equal-height cards */}
+              <div className="mt-auto space-y-3 pt-1">
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="inline-flex items-center gap-1.5 text-[12px] text-pm-text-muted">
+                      <ListChecks className="h-4 w-4 shrink-0" />
+                      {(meta?.total_complete_tasks ?? 0)}/{(meta?.total_tasks ?? 0)} {__("tasks", 'wedevs-project-manager')}
+                    </span>
+                    <span className="text-[12px] font-medium text-pm-text-primary tabular-nums">
+                      {progress}%
+                    </span>
+                  </div>
+                  <Progress
+                    value={progress}
+                    className="h-1.5"
+                    indicatorStyle={project.color_code ? { backgroundColor: project.color_code } : undefined}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between gap-2 pt-3 border-t border-pm-border/50">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    {renderAssignees(project)}
+                    {project.est_completion_date && (
+                      <span className="inline-flex items-center gap-1 text-[12px] text-pm-text-muted whitespace-nowrap">
+                        <Calendar className="h-4 w-4 shrink-0" />
+                        {formatPmDate(project.est_completion_date)}
+                      </span>
+                    )}
+                  </div>
+                  <span
+                    className="inline-flex items-center gap-1.5 text-[12px] font-medium px-2.5 py-0.5 rounded-md shrink-0"
+                    style={{ backgroundColor: statusPill(project).bg, color: statusPill(project).text }}
+                  >
+                    <span
+                      className="h-1.5 w-1.5 rounded-full"
+                      style={{ backgroundColor: statusColor(project) }}
+                    />
+                    {statusLabel(project)}
                   </span>
                 </div>
-                {getMeta(project) && (
-                  <p className="text-[13px] text-pm-text-muted">
-                    {getMeta(project).total_complete_tasks ?? 0} {__("done", 'wedevs-project-manager')} / {getMeta(project).total_tasks ?? 0} {__("total", 'wedevs-project-manager')}
-                  </p>
-                )}
-              </div>
-
-              <div className="flex items-center justify-between pt-1">
-                <div className="flex items-center gap-3">
-                  {renderAssignees(project)}
-                  {project.created_at && (
-                    <span className="text-[13px] text-pm-text-muted">
-                      {formatPmDate(project.created_at)}
-                    </span>
-                  )}
-                </div>
-                <span
-                  className="inline-flex items-center gap-1 text-[15px] font-medium px-2 py-0.5 rounded-full"
-                  style={{ backgroundColor: statusColor(project) + '12', color: statusColor(project) }}
-                >
-                  <span
-                    className="h-1.5 w-1.5 rounded-full"
-                    style={{ backgroundColor: statusColor(project) }}
-                  />
-                  {__(statusLabel(project), 'wedevs-project-manager')}
-                </span>
               </div>
             </div>
           </div>
@@ -500,135 +527,146 @@ export default function ProjectsPage() {
     </div>
   );
 
-  const renderListView = () => (
-    <div className="rounded-xl border bg-card overflow-x-auto">
-      <table className="w-full text-sm min-w-[800px]">
-        <thead>
-          <tr className="border-b bg-muted/30">
-            <th className="text-left px-5 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-              {__("Project", 'wedevs-project-manager')}
-            </th>
-            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-              {__("Status", 'wedevs-project-manager')}
-            </th>
-            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70 w-36">
-              {__("Progress", 'wedevs-project-manager')}
-            </th>
-            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-              {__("Details", 'wedevs-project-manager')}
-            </th>
-            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-              {__("Members", 'wedevs-project-manager')}
-            </th>
-            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-              {__("Created", 'wedevs-project-manager')}
-            </th>
-            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70 w-10">
-              {__("Action", 'wedevs-project-manager')}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {projects.map((project) => {
-            const progress = projectProgress(project);
-            const projectColor = project.color_code || statusColor(project);
-
+  const renderListView = () => {
+    const groups = groupByStatus(projects);
+    return (
+      <div className="rounded-xl border bg-card overflow-x-auto">
+        <table className="w-full text-sm min-w-[820px]">
+          <thead>
+            <tr className="h-10 border-b border-border bg-card">
+              <th className="text-left px-5 py-2.5 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">
+                <span className="inline-flex items-center gap-1.5"><FolderKanban className="h-3.5 w-3.5" />{__("Project Name", 'wedevs-project-manager')}</span>
+              </th>
+              <th className="text-left px-4 py-2.5 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">
+                <span className="inline-flex items-center gap-1.5"><FileText className="h-3.5 w-3.5" />{__("Description", 'wedevs-project-manager')}</span>
+              </th>
+              <th className="text-left px-4 py-2.5 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282] whitespace-nowrap">
+                <span className="inline-flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{__("Deadline", 'wedevs-project-manager')}</span>
+              </th>
+              <th className="text-left px-4 py-2.5 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282] w-40">
+                <span className="inline-flex items-center gap-1.5"><Activity className="h-3.5 w-3.5" />{__("Progress", 'wedevs-project-manager')}</span>
+              </th>
+              <th className="text-left px-4 py-2.5 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">
+                <span className="inline-flex items-center gap-1.5"><Users className="h-3.5 w-3.5" />{__("Members", 'wedevs-project-manager')}</span>
+              </th>
+              <th className="px-4 py-2.5 w-10"></th>
+            </tr>
+          </thead>
+          {groups.map((group) => {
+            const isCollapsed = collapsedGroups[group.key];
             return (
-              <tr
-                key={project.id}
-                className="group border-b last:border-b-0 hover:bg-muted/20 transition-colors"
-              >
-                <td className="px-5 py-3 max-w-[300px]">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <span
-                      className="h-2 w-2 rounded-full shrink-0 ring-2 ring-background"
-                      style={{ backgroundColor: projectColor }}
-                    />
-                    <span
-                      className="font-medium text-pm-text-primary truncate cursor-pointer hover:text-pm-accent transition-colors"
-                      role="button"
-                      tabIndex={0}
-                      onClick={() =>
-                        navigate(`/projects/${project.id}/task-lists`)
-                      }
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault()
-                          navigate(`/projects/${project.id}/task-lists`)
-                        }
-                      }}
+              <tbody key={group.key} className="border-b last:border-b-0">
+                <tr className="bg-muted/20">
+                  <td colSpan={6} className="px-3 py-2">
+                    <button
+                      onClick={() => toggleGroup(group.key)}
+                      className="inline-flex items-center gap-2"
+                      aria-expanded={!isCollapsed}
                     >
-                      {project.title}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className={cn(
-                        "h-6 w-6 shrink-0 transition-opacity",
-                        !project.favourite &&
-                          "opacity-0 group-hover:opacity-100",
-                      )}
-                      onClick={() => handleToggleFavourite(project.id)}
-                    >
-                      <Star
-                        className={cn(
-                          "h-4 w-4",
-                          project.favourite
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-muted-foreground",
-                        )}
-                      />
-                    </Button>
-                  </div>
-                </td>
-                <td className="px-4 py-3">
-                  <span
-                    className="inline-flex items-center gap-1.5 text-[15px] font-medium px-2 py-0.5 rounded-full"
-                    style={{ backgroundColor: statusColor(project) + '12', color: statusColor(project) }}
-                  >
-                    <span
-                      className="h-1.5 w-1.5 rounded-full"
-                      style={{ backgroundColor: statusColor(project) }}
-                    />
-                    {__(statusLabel(project), 'wedevs-project-manager')}
-                  </span>
-                </td>
-                <td className="px-4 py-3">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <Progress value={progress} className="h-1 flex-1" />
-                      <span className="text-[14px] font-medium text-pm-text-muted tabular-nums w-7 text-right">
-                        {progress}%
+                      <span
+                        className="inline-flex items-center rounded-md px-2.5 py-0.5 text-[12px] font-medium uppercase tracking-wide"
+                        style={{ backgroundColor: group.pill.bg, color: group.pill.text }}
+                      >
+                        {group.label} ({group.items.length})
                       </span>
-                    </div>
-                    {getMeta(project) && (
-                      <p className="text-[13px] text-pm-text-muted">
-                        {getMeta(project).total_complete_tasks ?? 0} {__("done", 'wedevs-project-manager')} / {getMeta(project).total_tasks ?? 0} {__("total", 'wedevs-project-manager')}
-                      </p>
-                    )}
-                  </div>
-                </td>
-                <td className="px-4 py-3">
-                  {renderMetaCounters(project)}
-                </td>
-                <td className="px-4 py-3">{renderAssignees(project)}</td>
-                <td className="px-4 py-3">
-                  {project.created_at && (
-                    <span className="text-[15px] text-pm-text-muted">
-                      {formatPmDate(project.created_at)}
-                    </span>
-                  )}
-                </td>
-                <td className="px-3 py-3 text-center">
-                  {renderProjectDropdown(project)}
-                </td>
-              </tr>
+                      {isCollapsed
+                        ? <ChevronRight className="h-4 w-4 text-pm-text-muted" />
+                        : <ChevronDown className="h-4 w-4 text-pm-text-muted" />}
+                    </button>
+                  </td>
+                </tr>
+                {!isCollapsed && group.items.map((project) => {
+                  const progress = projectProgress(project);
+                  const projectColor = project.color_code || statusColor(project);
+
+                  return (
+                    <tr
+                      key={project.id}
+                      className="group border-b border-border last:border-b-0 hover:bg-muted/40 transition-colors"
+                    >
+                      <td className="px-5 py-3 max-w-[260px]">
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <span
+                            className="h-2 w-2 rounded-full shrink-0 ring-2 ring-background"
+                            style={{ backgroundColor: projectColor }}
+                          />
+                          <span
+                            className="font-medium text-pm-text-primary truncate cursor-pointer hover:text-pm-accent transition-colors"
+                            role="button"
+                            tabIndex={0}
+                            onClick={() =>
+                              navigate(`/projects/${project.id}/task-lists`)
+                            }
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault()
+                                navigate(`/projects/${project.id}/task-lists`)
+                              }
+                            }}
+                          >
+                            {project.title}
+                          </span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className={cn(
+                              "h-6 w-6 shrink-0 transition-opacity",
+                              !project.favourite &&
+                                "opacity-0 group-hover:opacity-100",
+                            )}
+                            onClick={() => handleToggleFavourite(project.id)}
+                            aria-pressed={!!project.favourite}
+                            aria-label={project.favourite
+                              ? __('Remove "%s" from favourites', 'wedevs-project-manager').replace('%s', project.title)
+                              : __('Add "%s" to favourites', 'wedevs-project-manager').replace('%s', project.title)}
+                          >
+                            <Star
+                              className={cn(
+                                "h-4 w-4",
+                                project.favourite
+                                  ? "fill-yellow-400 text-yellow-400"
+                                  : "text-muted-foreground",
+                              )}
+                            />
+                          </Button>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 max-w-[240px]">
+                        <span className="block truncate text-pm-text-muted">
+                          {getDescriptionSnippet(project) || '—'}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        <span className="text-pm-text-muted">
+                          {formatPmDate(project.est_completion_date) || '—'}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <Progress
+                            value={progress}
+                            className="h-1 flex-1"
+                            indicatorStyle={project.color_code ? { backgroundColor: project.color_code } : undefined}
+                          />
+                          <span className="text-[12px] font-medium text-pm-text-muted tabular-nums w-8 text-right">
+                            {progress}%
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">{renderAssignees(project)}</td>
+                      <td className="px-3 py-3 text-right">
+                        {renderProjectDropdown(project)}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
             );
           })}
-        </tbody>
-      </table>
-    </div>
-  );
+        </table>
+      </div>
+    );
+  };
 
   const goToPage = useCallback(
     (page) => {
@@ -638,74 +676,21 @@ export default function ProjectsPage() {
     [dispatch],
   );
 
-  const renderPagination = () => {
-    if (totalPages <= 1) return null;
-
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-      if (
-        i === 1 ||
-        i === totalPages ||
-        (i >= currentPage - 1 && i <= currentPage + 1)
-      ) {
-        pages.push(i);
-      } else if (pages[pages.length - 1] !== "ellipsis") {
-        pages.push("ellipsis");
-      }
-    }
-
-    return (
-      <Pagination className="mt-6">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => currentPage > 1 && goToPage(currentPage - 1)}
-              disabled={currentPage <= 1}
-              className={cn(
-                currentPage <= 1 && "pointer-events-none opacity-50",
-              )}
-            />
-          </PaginationItem>
-
-          {pages.map((page, idx) =>
-            page === "ellipsis" ? (
-              <PaginationItem key={`ellipsis-${idx}`}>
-                <PaginationEllipsis />
-              </PaginationItem>
-            ) : (
-              <PaginationItem key={page}>
-                <PaginationLink
-                  isActive={page === currentPage}
-                  onClick={() => goToPage(page)}
-                >
-                  {page}
-                </PaginationLink>
-              </PaginationItem>
-            ),
-          )}
-
-          <PaginationItem>
-            <PaginationNext
-              onClick={() =>
-                currentPage < totalPages && goToPage(currentPage + 1)
-              }
-              disabled={currentPage >= totalPages}
-              className={cn(
-                currentPage >= totalPages && "pointer-events-none opacity-50",
-              )}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    );
-  };
+  const renderPagination = () => (
+    <PaginationNav
+      page={currentPage}
+      totalPages={totalPages}
+      onPageChange={goToPage}
+      className="mt-6"
+    />
+  );
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+    <div className="w-full p-4 sm:p-6 space-y-6">
       <PromoBanner placement="projects" />
 
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <h1 className="text-2xl font-bold text-pm-text-primary">
+        <h1 className="text-xl font-bold text-pm-text-primary">
           {__("Projects", 'wedevs-project-manager')}
         </h1>
         {canCreate && (
@@ -715,18 +700,18 @@ export default function ProjectsPage() {
             <Button
               size="sm"
               variant="outline"
-              className="gap-1.5"
+              className="gap-1.5 h-11 px-5"
               onClick={() => setAiDialogOpen(true)}
             >
-              <Sparkles className="h-5 w-5" />
+              <Sparkles className="h-4 w-4" />
               {__("AI Create", 'wedevs-project-manager')}
             </Button>
             <Button
               size="sm"
-              className="gap-1.5"
+              className="gap-1.5 h-11 px-5"
               onClick={() => dispatch(setCreateSheetOpen(true))}
             >
-              <Plus className="h-5 w-5" />
+              <Plus className="h-4 w-4" />
               {__("New Project", 'wedevs-project-manager')}
             </Button>
           </div>
@@ -734,12 +719,13 @@ export default function ProjectsPage() {
       </div>
 
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <div className="inline-flex max-w-full items-center rounded-lg bg-muted/60 p-1 gap-0.5 overflow-x-auto scrollbar-none">
+        <div className="inline-flex max-w-full items-center rounded-lg border border-pm-border bg-muted/60 p-1 gap-0.5 overflow-x-auto scrollbar-none">
           {FILTER_TABS.map((tab) => {
             const count = tab.countKey
               ? projectsMeta[tab.countKey]
               : totalCount;
             const isActive = activeFilter === tab.key;
+            const TabIcon = tab.icon;
 
             return (
               <button
@@ -749,13 +735,19 @@ export default function ProjectsPage() {
                 className={cn(
                   "relative inline-flex shrink-0 items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200",
                   isActive
-                    ? "bg-background text-pm-text-primary shadow-sm"
+                    ? "bg-background text-pm-accent shadow-sm"
                     : "text-pm-text-muted hover:text-pm-text-primary",
                 )}
               >
+                {TabIcon && (
+                  <TabIcon
+                    className="h-4 w-4 shrink-0"
+                    style={isActive ? { color: tab.color } : undefined}
+                  />
+                )}
                 {tab.label}
                 <span
-                  className="inline-flex items-center justify-center rounded-full px-1.5 min-w-[18px] h-[18px] text-[14px] font-semibold tabular-nums transition-colors"
+                  className="inline-flex items-center justify-center rounded-md px-1.5 min-w-[18px] h-[18px] text-[14px] font-medium tabular-nums transition-colors"
                   style={isActive ? { backgroundColor: tab.color + '15', color: tab.color } : { color: 'var(--pm-text-muted)' }}
                 >
                   {count}
@@ -766,21 +758,21 @@ export default function ProjectsPage() {
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center gap-1.5 h-9 w-[180px] max-w-full rounded-md border border-pm-border bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent">
+          <div className="flex items-center gap-1.5 h-11 flex-1 min-w-[160px] max-w-[240px] rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
             <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
               placeholder={__('Search projects...', 'wedevs-project-manager')}
-              className="flex-1 min-w-0 h-full bg-transparent text-sm placeholder:text-pm-text-muted/60 focus:outline-none !border-0 !p-0 !shadow-none"
+              className="flex-1 min-w-0 h-full bg-transparent text-sm placeholder:text-muted-foreground/70 focus:outline-none !border-0 !p-0 !shadow-none"
             />
           </div>
           <Select
             value={categoryId !== undefined ? String(categoryId) : "__all__"}
             onValueChange={handleCategoryChange}
           >
-            <SelectTrigger className="w-[160px] h-9 text-sm">
+            <SelectTrigger className="h-11 w-auto sm:w-[160px] text-sm">
               <SelectValue placeholder={__("All Categories", 'wedevs-project-manager')} />
             </SelectTrigger>
             <SelectContent>
@@ -794,7 +786,7 @@ export default function ProjectsPage() {
           </Select>
 
           <Select value={orderBy} onValueChange={handleSortChange}>
-            <SelectTrigger className="w-[160px] h-9 text-sm">
+            <SelectTrigger className="h-11 w-auto sm:w-[160px] text-sm">
               <SelectValue placeholder={__("Sort By", 'wedevs-project-manager')} />
             </SelectTrigger>
             <SelectContent>
@@ -805,23 +797,36 @@ export default function ProjectsPage() {
             </SelectContent>
           </Select>
 
-          <div className="flex items-center border rounded-md">
-            <Button
-              variant={viewMode === "grid" ? "default" : "ghost"}
-              size="icon"
-              className="h-9 w-9 rounded-r-none"
+          {(searchQuery || categoryId !== undefined) && (
+            <Button variant="outline" size="sm" className="h-11 text-sm gap-1" onClick={handleClearFilters}>
+              <X className="h-3.5 w-3.5" />
+              {__("Clear", 'wedevs-project-manager')}
+            </Button>
+          )}
+
+          <div className="inline-flex h-11 items-center gap-0.5 rounded-lg border border-pm-border bg-muted/60 p-1">
+            <button
+              type="button"
               onClick={() => handleViewModeChange("grid")}
+              aria-label={__("Grid view", 'wedevs-project-manager')}
+              className={cn(
+                'inline-flex h-9 w-9 items-center justify-center rounded-md transition-all duration-200',
+                viewMode === "grid" ? 'bg-background text-pm-accent shadow-sm' : 'text-pm-text-muted hover:text-pm-text-primary',
+              )}
             >
-              <LayoutGrid className="h-5 w-5" />
-            </Button>
-            <Button
-              variant={viewMode === "list" ? "default" : "ghost"}
-              size="icon"
-              className="h-9 w-9 rounded-l-none"
+              <LayoutGrid className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
               onClick={() => handleViewModeChange("list")}
+              aria-label={__("List view", 'wedevs-project-manager')}
+              className={cn(
+                'inline-flex h-9 w-9 items-center justify-center rounded-md transition-all duration-200',
+                viewMode === "list" ? 'bg-background text-pm-accent shadow-sm' : 'text-pm-text-muted hover:text-pm-text-primary',
+              )}
             >
-              <List className="h-5 w-5" />
-            </Button>
+              <List className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </div>
@@ -849,12 +854,13 @@ export default function ProjectsPage() {
           <DialogFooter>
             <Button
               variant="outline"
+              className="h-11 px-5"
               onClick={() => setDeleteDialogOpen(false)}
             >
               {__("Cancel", 'wedevs-project-manager')}
             </Button>
-            <Button variant="destructive" onClick={handleDelete}>
-              <Trash2 className="h-5 w-5 mr-2" />
+            <Button variant="destructive" className="h-11 px-5" onClick={handleDelete}>
+              <Trash2 className="h-4 w-4 mr-2" />
               {__("Delete", 'wedevs-project-manager')}
             </Button>
           </DialogFooter>

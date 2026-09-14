@@ -437,9 +437,11 @@ function wedevs_pm_has_admin_capability( $user_id = false ) {
 function wedevs_pm_has_manage_capability( $user_id = false ) {
 
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
-    $user    = get_user_by( 'id', $user_id );
 
-    if ( wedevs_pm_has_admin_capability() ) {
+    // Must be evaluated for $user_id, not the current user. Without the argument
+    // this answered "yes" for every user whenever an admin made the request, so
+    // any "can user X do Y" check ran on behalf of someone else came back true.
+    if ( wedevs_pm_has_admin_capability( $user_id ) ) {
         return true;
     }
     

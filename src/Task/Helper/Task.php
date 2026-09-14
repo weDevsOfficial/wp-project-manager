@@ -400,7 +400,7 @@ class Task {
 	        2 => 'pending',
 	    ];
 
-	    return $items[$status];
+	    return isset( $items[$status] ) ? $items[$status] : 'incomplete';
     }
 
     public static function recurrency( $recurrency ) {

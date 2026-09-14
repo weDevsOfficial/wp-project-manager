@@ -112,7 +112,7 @@ export default function ImportTaskModal({ open, onOpenChange, projectId, boardId
                 value={selectedList || "none"}
                 onValueChange={(v) => setSelectedList(v === "none" ? "" : v)}
               >
-                <SelectTrigger className="h-8 text-sm">
+                <SelectTrigger className="h-11 text-sm">
                   <SelectValue placeholder={__("Select Task List", 'wedevs-project-manager')} />
                 </SelectTrigger>
                 <SelectContent>
@@ -208,14 +208,14 @@ export default function ImportTaskModal({ open, onOpenChange, projectId, boardId
           )}
         </div>
         <DialogFooter className="shrink-0">
-          <Button
+          <Button className="h-11 px-5"
             variant="outline"
             size="sm"
             onClick={() => onOpenChange(false)}
           >
             {__("Cancel", 'wedevs-project-manager')}
           </Button>
-          <Button
+          <Button className="h-11 px-5"
             size="sm"
             onClick={handleImport}
             disabled={selectedTasks.length === 0}

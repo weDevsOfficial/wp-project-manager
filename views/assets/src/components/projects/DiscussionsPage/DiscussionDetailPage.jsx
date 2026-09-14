@@ -1,7 +1,7 @@
+import { Loader2 } from 'lucide-react'
 import { __ } from '@wordpress/i18n';
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import BackButton from "@components/common/BackButton";
 import { useApi } from "@hooks/useApi";
 import { useToast } from "@hooks/useToast";
 import { useConfirm } from "@hooks/useConfirm";
@@ -16,7 +16,6 @@ import { sanitizeHtml } from "@lib/sanitize";
 import { decorateGoogleLinks } from "@lib/google-links";
 import { Skeleton } from "@components/ui/skeleton";
 import { UserAvatar } from "@components/common/UserAvatar";
-import { Separator } from "@components/ui/separator";
 import {
   Select,
   SelectContent,
@@ -33,6 +32,8 @@ import {
   Pencil,
   Check,
   X,
+  Calendar,
+  ArrowLeft,
   MoreHorizontal,
 } from "lucide-react";
 import {
@@ -63,7 +64,7 @@ function extractMentionedUsers(html) {
   return ids.join(',')
 }
 
-export default function DiscussionDetailPage() {
+export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } = {}) {
   const { projectId, discussionId } = useParams();
   const navigate = useNavigate();
   const api = useApi();
@@ -123,6 +124,20 @@ export default function DiscussionDetailPage() {
   useEffect(() => {
     fetchDiscussion();
   }, [fetchDiscussion]);
+
+  // Reflect a privacy toggle done from the list card into this open pane.
+  // Skip the first run so the pane's own fetch stays authoritative on mount.
+  const firstPrivacySync = useRef(true);
+  useEffect(() => {
+    if (firstPrivacySync.current) {
+      firstPrivacySync.current = false;
+      return;
+    }
+    if (syncedPrivacy == null) return;
+    setDiscussion((prev) =>
+      prev ? { ...prev, meta: { ...prev.meta, privacy: syncedPrivacy } } : prev
+    );
+  }, [syncedPrivacy]);
 
   useEffect(() => {
     api
@@ -203,6 +218,7 @@ export default function DiscussionDetailPage() {
         is_private: newPrivacy,
       });
       setDiscussion((prev) => ({ ...prev, meta: { ...prev.meta, privacy: newPrivacy } }));
+      onPrivacyChange?.(discussionId, newPrivacy);
       toast.success(newPrivacy ? __("Set to private", 'wedevs-project-manager') : __("Set to public", 'wedevs-project-manager'));
     } catch {
       toast.error(__("Failed to update privacy", 'wedevs-project-manager'));
@@ -309,8 +325,7 @@ export default function DiscussionDetailPage() {
 
   if (loading) {
     return (
-      <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-4">
-        <Skeleton className="h-8 w-48" />
+      <div className="space-y-4">
         <Skeleton className="h-40 rounded-xl" />
         <Skeleton className="h-24 rounded-xl" />
       </div>
@@ -322,292 +337,285 @@ export default function DiscussionDetailPage() {
   const isPrivate = checkPrivate(discussion.meta?.privacy);
   const commentCount = comments.length;
 
+  const descHtml = typeof discussion.description === 'string'
+    ? discussion.description
+    : (discussion.description?.content || discussion.description?.html || "");
+
   return (
     <>
     <ConfirmDialog />
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
-      {/* Header */}
-      <div className="flex items-center gap-3">
-        <BackButton fallback={`/projects/${projectId}/discussions`} />
-        <h1 className="text-xl font-bold text-pm-text-primary flex items-center gap-2">
-          {__("Discussions", 'wedevs-project-manager')}
-          {isPrivate && <Lock className="h-4 w-4 text-pm-text-muted" />}
-        </h1>
-      </div>
-
-      {/* Discussion body */}
-      <div className="rounded-xl border bg-card overflow-hidden">
-        <div className="p-4 sm:p-5">
-          {editing ? (
-            <div className="space-y-3">
-              <Input
-                autoFocus
-                value={editTitle}
-                onChange={(e) => setEditTitle(e.target.value)}
-                className="text-base font-semibold h-9"
-              />
-              <RichTextEditor
-                content={editDesc}
-                onChange={setEditDesc}
-                minHeight="80px"
-                users={projectUsers}
-              />
-              <Select value={editMilestone} onValueChange={setEditMilestone}>
-                <SelectTrigger className="h-8 text-sm w-full sm:w-[200px]">
-                  <SelectValue placeholder={__("- Milestone -", 'wedevs-project-manager')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="-1">{__("- Milestone -", 'wedevs-project-manager')}</SelectItem>
-                  {milestones.map((m) => (
-                    <SelectItem key={m.id} value={String(m.id)}>
-                      {m.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {discussion.files?.data?.filter((f) => !editDeletedFileIds.includes(f.id)).length > 0 && (
-                <div className="flex gap-2 flex-wrap">
-                  {discussion.files.data.filter((f) => !editDeletedFileIds.includes(f.id)).map((f) => (
-                    <CommentAttachment key={f.id} file={f} onRemove={markDeleteDiscussionFile} />
-                  ))}
-                </div>
-              )}
-              <FileUploadArea files={editNewFiles} onFilesChange={setEditNewFiles} compact />
-              <div className="flex gap-2">
-                <Button size="sm" className="gap-1" onClick={handleUpdate} disabled={savingDiscussion || !editTitle.trim()}>
-                  <Check className="h-3.5 w-3.5" />
-                  {savingDiscussion ? __("Saving...", 'wedevs-project-manager') : __("Save", 'wedevs-project-manager')}
-                </Button>
-                <Button size="sm" variant="outline" className="gap-1" onClick={cancelEdit} disabled={savingDiscussion}>
-                  <X className="h-3.5 w-3.5" />
-                  {__("Cancel", 'wedevs-project-manager')}
-                </Button>
+    <div className="space-y-4">
+      {/* Forum header card */}
+      <div className="rounded-xl border border-pm-border bg-card p-4 sm:p-5">
+        {editing ? (
+          <div className="space-y-3">
+            <Input
+              autoFocus
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              className="text-base font-semibold h-11"
+            />
+            <RichTextEditor
+              content={editDesc}
+              onChange={setEditDesc}
+              minHeight="80px"
+              users={projectUsers}
+            />
+            <Select value={editMilestone} onValueChange={setEditMilestone}>
+              <SelectTrigger className="h-11 text-sm w-full sm:w-[200px]">
+                <SelectValue placeholder={__("- Milestone -", 'wedevs-project-manager')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="-1">{__("- Milestone -", 'wedevs-project-manager')}</SelectItem>
+                {milestones.map((m) => (
+                  <SelectItem key={m.id} value={String(m.id)}>
+                    {m.title}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {discussion.files?.data?.filter((f) => !editDeletedFileIds.includes(f.id)).length > 0 && (
+              <div className="flex gap-2 flex-wrap">
+                {discussion.files.data.filter((f) => !editDeletedFileIds.includes(f.id)).map((f) => (
+                  <CommentAttachment key={f.id} file={f} onRemove={markDeleteDiscussionFile} />
+                ))}
               </div>
-            </div>
-          ) : (
-            <>
-              <div className="flex items-start justify-between gap-3">
-                <h2 className="text-lg font-semibold text-pm-text-primary">{discussion.title}</h2>
-                {canEditDiscussion(discussion) && (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={startEdit}>
-                        <Pencil className="h-4 w-4 mr-2" />
-                        {__("Edit", 'wedevs-project-manager')}
-                      </DropdownMenuItem>
-                      {canViewPrivateDiscussion && (
-                        <DropdownMenuItem
-                          onClick={() => isPro && handleTogglePrivacy()}
-                          disabled={!isPro}
-                        >
-                          {isPrivate ? (
-                            <><Unlock className="h-4 w-4 mr-2" />{__("Make Public", 'wedevs-project-manager')}</>
-                          ) : (
-                            <><Lock className="h-4 w-4 mr-2" />{__("Make Private", 'wedevs-project-manager')}</>
-                          )}
-                          {!isPro && <ProBadge className="ml-auto" />}
-                        </DropdownMenuItem>
-                      )}
-                      <DropdownMenuItem
-                        className="text-destructive focus:text-destructive"
-                        onClick={handleDelete}
-                      >
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        {__("Delete", 'wedevs-project-manager')}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2 mt-1 text-[13px] text-pm-text-muted">
-                {discussion.creator?.data && (
-                  <span className="flex items-center gap-1">
-                    <UserAvatar user={discussion.creator.data} size="sm" />
-                    {discussion.creator.data.display_name}
-                  </span>
-                )}
-                <span>·</span>
-                <span>{formatPmDateTime(discussion.created_at)}</span>
-                {discussion.milestone?.data && (
-                  <>
-                    <span>·</span>
-                    <button
-                      type="button"
-                      className="text-pm-accent hover:underline"
-                      onClick={() => navigate(`/projects/${projectId}/milestones`)}
-                    >
-                      {discussion.milestone.data.title}
-                    </button>
-                  </>
-                )}
-              </div>
-
-              {(() => {
-                const descHtml = typeof discussion.description === 'string'
-                  ? discussion.description
-                  : (discussion.description?.html || discussion.description?.content || "");
-                if (!descHtml) return null;
-                return (
-                  <div className="mt-3">
-                    <div
-                      className="prose prose-sm max-w-none text-foreground text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
-                      dangerouslySetInnerHTML={{
-                        __html: decorateGoogleLinks(sanitizeHtml(stripAllPreviewUrls(descHtml))),
-                      }}
-                    />
-                    <GitHubPreviewContainer content={descHtml} />
-                    <NotionPreviewContainer content={descHtml} />
-                    <LoomPreviewContainer content={descHtml} />
-                  </div>
-                );
-              })()}
-
-              <DiscussionFiles files={discussion.files} />
-              <div className="mt-3">
-                <GoogleDriveAttach projectId={projectId} attachableType="discussion" attachableId={discussionId} variant="plain" allowEdit={canEditDiscussion(discussion)} />
-              </div>
-            </>
-          )}
-        </div>
-
-        <Separator />
-
-        {/* Comments */}
-        <div className="p-4 sm:p-5 bg-muted/10 space-y-4">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70 flex items-center gap-1.5">
-            <MessageSquare className="h-3.5 w-3.5" />
-            {commentCount > 0 ? `${commentCount} ${__("Comments", 'wedevs-project-manager')}` : __("Comments", 'wedevs-project-manager')}
-          </h3>
-
-          {comments.length > 0 && (
-            <div className="space-y-4">
-              {comments.map((c) => (
-                <div key={c.id} className="flex gap-3 group">
-                  <UserAvatar user={c.creator?.data} size="md" />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm font-medium text-pm-text-primary">
-                        {c.creator?.data?.display_name}
-                      </span>
-                      <span className="text-[13px] text-pm-text-muted">
-                        {formatPmDateTime(c.created_at)}
-                      </span>
-                      {canEditComment(c) && (
-                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
-                          <button
-                            type="button"
-                            className="text-pm-text-muted hover:text-pm-accent"
-                            onClick={() => startEditComment(c)}
-                          >
-                            <Pencil className="h-3.5 w-3.5" />
-                          </button>
-                          <button
-                            type="button"
-                            className="text-pm-text-muted hover:text-destructive"
-                            onClick={() => handleDeleteComment(c.id)}
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                    {editingCommentId === c.id ? (
-                      <div className="space-y-1.5">
-                        <RichTextEditor
-                          content={editCommentText}
-                          onChange={setEditCommentText}
-                          autofocus
-                          minHeight="36px"
-                          users={projectUsers}
-                        />
-                        {c.files?.data?.filter((f) => !editCommentDeletedFileIds.includes(f.id)).length > 0 && (
-                          <div className="flex gap-2 flex-wrap">
-                            {c.files.data.filter((f) => !editCommentDeletedFileIds.includes(f.id)).map((f) => (
-                              <CommentAttachment key={f.id} file={f} onRemove={markDeleteCommentFile} />
-                            ))}
-                          </div>
-                        )}
-                        <FileUploadArea files={editCommentNewFiles} onFilesChange={setEditCommentNewFiles} compact />
-                        <div className="flex gap-1">
-                          <Button
-                            size="sm"
-                            className="h-6 text-[13px] gap-1 px-2"
-                            onClick={handleUpdateComment}
-                            disabled={savingEditComment || !editCommentText.trim()}
-                          >
-                            <Check className="h-3 w-3" />
-                            {savingEditComment ? __("Saving...", 'wedevs-project-manager') : __("Save", 'wedevs-project-manager')}
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="h-6 text-[13px] px-2"
-                            onClick={cancelEditComment}
-                            disabled={savingEditComment}
-                          >
-                            {__("Cancel", 'wedevs-project-manager')}
-                          </Button>
-                          <CommentLinkActions projectId={projectId} onInsert={(html) => setEditCommentText(prev => (prev || '') + html)} />
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        <div
-                          className="text-sm leading-relaxed prose prose-sm max-w-none text-foreground"
-                          dangerouslySetInnerHTML={{
-                            __html: decorateGoogleLinks(sanitizeHtml(stripAllPreviewUrls(c.content || ""))),
-                          }}
-                        />
-                        <GitHubPreviewContainer content={c.content || ""} />
-                        <NotionPreviewContainer content={c.content || ""} />
-                        <LoomPreviewContainer content={c.content || ""} />
-                        <DiscussionFiles files={c.files} />
-                      </>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* New comment form */}
-          <div className="space-y-2">
+            )}
+            <FileUploadArea files={editNewFiles} onFilesChange={setEditNewFiles} compact />
             <div className="flex gap-2">
-              <RichTextEditor
-                content={newComment}
-                onChange={setNewComment}
-                placeholder={__("Write a comment...", 'wedevs-project-manager')}
-                minHeight="40px"
-                className="flex-1"
-                users={projectUsers}
-              />
-              <Button
-                size="icon"
-                className="h-10 w-10 shrink-0"
-                onClick={handleAddComment}
-                disabled={!newComment.trim() || submitting}
-              >
-                <Send className="h-5 w-5" />
+              <Button size="sm" className="gap-1 h-11 px-5" onClick={handleUpdate} disabled={savingDiscussion || !editTitle.trim()}>
+                <Check className="h-3.5 w-3.5" />
+                {savingDiscussion ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__("Saving...", 'wedevs-project-manager')}</> : __("Save", 'wedevs-project-manager')}
+              </Button>
+              <Button size="sm" variant="outline" className="gap-1 h-11 px-5" onClick={cancelEdit} disabled={savingDiscussion}>
+                <X className="h-3.5 w-3.5" />
+                {__("Cancel", 'wedevs-project-manager')}
               </Button>
             </div>
-            <FileUploadArea
-              files={commentFiles}
-              onFilesChange={setCommentFiles}
-              compact
-            />
-            <NotifyUsers
-              users={projectUsers}
-              value={commentNotifyUsers}
-              onChange={setCommentNotifyUsers}
-            />
-            <CommentLinkActions projectId={projectId} onInsert={(html) => setNewComment(prev => (prev || '') + html)} />
           </div>
+        ) : (
+          <>
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <h2 className="text-lg font-bold text-pm-text-primary flex items-center gap-2">
+                  <span className="truncate">{discussion.title}</span>
+                  {isPrivate && <Lock className="h-4 w-4 text-pm-text-muted shrink-0" />}
+                </h2>
+                {discussion.milestone?.data && (
+                  <button
+                    type="button"
+                    className="mt-0.5 block text-[13px] text-pm-text-muted hover:text-pm-accent hover:underline"
+                    onClick={() => navigate(`/projects/${projectId}/milestones`)}
+                  >
+                    {discussion.milestone.data.title}
+                  </button>
+                )}
+              </div>
+              {canEditDiscussion(discussion) && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0" aria-label={__('Discussion actions', 'wedevs-project-manager')}>
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={startEdit}>
+                      <Pencil className="h-4 w-4 mr-2" />
+                      {__("Edit", 'wedevs-project-manager')}
+                    </DropdownMenuItem>
+                    {canViewPrivateDiscussion && (
+                      <DropdownMenuItem
+                        onClick={() => isPro && handleTogglePrivacy()}
+                        disabled={!isPro}
+                      >
+                        {isPrivate ? (
+                          <><Unlock className="h-4 w-4 mr-2" />{__("Make Public", 'wedevs-project-manager')}</>
+                        ) : (
+                          <><Lock className="h-4 w-4 mr-2" />{__("Make Private", 'wedevs-project-manager')}</>
+                        )}
+                        {!isPro && <ProBadge className="ml-auto" />}
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem
+                      className="text-destructive focus:text-destructive"
+                      onClick={handleDelete}
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      {__("Delete", 'wedevs-project-manager')}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </div>
+
+            {/* Meta chips */}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-3 pt-3 border-t border-pm-border/60">
+              {discussion.creator?.data && (
+                <span className="flex items-center gap-1.5 text-[13px] text-pm-text-muted">
+                  <UserAvatar user={discussion.creator.data} size="sm" />
+                  <span className="font-medium text-pm-text-primary">{discussion.creator.data.display_name}</span>
+                </span>
+              )}
+              <span className="flex items-center gap-1.5 text-[13px] text-pm-text-muted">
+                <Calendar className="h-3.5 w-3.5" />
+                {formatPmDateTime(discussion.created_at)}
+              </span>
+            </div>
+
+            {descHtml && (
+              <div className="mt-3">
+                <div
+                  className="prose prose-sm max-w-none text-foreground text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                  dangerouslySetInnerHTML={{
+                    __html: decorateGoogleLinks(sanitizeHtml(stripAllPreviewUrls(descHtml))),
+                  }}
+                />
+                <GitHubPreviewContainer content={descHtml} />
+                <NotionPreviewContainer content={descHtml} />
+                <LoomPreviewContainer content={descHtml} />
+              </div>
+            )}
+
+            <DiscussionFiles files={discussion.files} />
+            <div className="mt-3">
+              <GoogleDriveAttach projectId={projectId} attachableType="discussion" attachableId={discussionId} variant="plain" allowEdit={canEditDiscussion(discussion)} />
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Conversation */}
+      <div className="space-y-4">
+        <h3 className="text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70 flex items-center gap-1.5">
+          <MessageSquare className="h-3.5 w-3.5" />
+          {commentCount > 0 ? `${commentCount} ${__("Comments", 'wedevs-project-manager')}` : __("Comments", 'wedevs-project-manager')}
+        </h3>
+
+        {comments.length > 0 && (
+          <div className="space-y-4">
+            {comments.map((c) => (
+              <div key={c.id} className="flex gap-3 group">
+                <UserAvatar user={c.creator?.data} size="md" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-sm font-semibold text-pm-text-primary">
+                      {c.creator?.data?.display_name}
+                    </span>
+                    <span className="text-[13px] text-pm-text-muted">
+                      {formatPmDateTime(c.created_at)}
+                    </span>
+                    {canEditComment(c) && editingCommentId !== c.id && (
+                      <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity ml-auto">
+                        <button
+                          type="button"
+                          className="p-1.5 rounded-md text-pm-text-muted hover:text-pm-accent hover:bg-pm-accent-light"
+                          onClick={() => startEditComment(c)}
+                          aria-label={__("Edit", 'wedevs-project-manager')}
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          className="p-1.5 rounded-md text-pm-text-muted hover:text-destructive hover:bg-destructive/10"
+                          onClick={() => handleDeleteComment(c.id)}
+                          aria-label={__("Delete", 'wedevs-project-manager')}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  {editingCommentId === c.id ? (
+                    <div className="space-y-1.5">
+                      <RichTextEditor
+                        content={editCommentText}
+                        onChange={setEditCommentText}
+                        autofocus
+                        minHeight="36px"
+                        users={projectUsers}
+                      />
+                      {c.files?.data?.filter((f) => !editCommentDeletedFileIds.includes(f.id)).length > 0 && (
+                        <div className="flex gap-2 flex-wrap">
+                          {c.files.data.filter((f) => !editCommentDeletedFileIds.includes(f.id)).map((f) => (
+                            <CommentAttachment key={f.id} file={f} onRemove={markDeleteCommentFile} />
+                          ))}
+                        </div>
+                      )}
+                      <FileUploadArea files={editCommentNewFiles} onFilesChange={setEditCommentNewFiles} compact />
+                      <div className="flex flex-wrap gap-1">
+                        <Button
+                          size="sm"
+                          className="h-11 text-[13px] gap-1 px-2"
+                          onClick={handleUpdateComment}
+                          disabled={savingEditComment || !editCommentText.trim()}
+                        >
+                          <Check className="h-3 w-3" />
+                          {savingEditComment ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__("Saving...", 'wedevs-project-manager')}</> : __("Save", 'wedevs-project-manager')}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-11 text-[13px] px-2"
+                          onClick={cancelEditComment}
+                          disabled={savingEditComment}
+                        >
+                          {__("Cancel", 'wedevs-project-manager')}
+                        </Button>
+                        <CommentLinkActions projectId={projectId} onInsert={(html) => setEditCommentText(prev => (prev || '') + html)} />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="rounded-lg bg-muted/40 px-4 py-3">
+                      <div
+                        className="text-sm leading-relaxed prose prose-sm max-w-none text-foreground [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                        dangerouslySetInnerHTML={{
+                          __html: decorateGoogleLinks(sanitizeHtml(stripAllPreviewUrls(c.content || ""))),
+                        }}
+                      />
+                      <GitHubPreviewContainer content={c.content || ""} />
+                      <NotionPreviewContainer content={c.content || ""} />
+                      <LoomPreviewContainer content={c.content || ""} />
+                      <DiscussionFiles files={c.files} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Composer */}
+        <div className="space-y-2 pt-1">
+          <div className="relative rounded-xl border border-pm-border bg-card overflow-hidden focus-within:border-pm-accent/60 transition-colors">
+            <RichTextEditor
+              content={newComment}
+              onChange={setNewComment}
+              placeholder={__("Write a comment...", 'wedevs-project-manager')}
+              minHeight="44px"
+              className="border-0 rounded-none"
+              users={projectUsers}
+            />
+            <Button
+              size="icon"
+              className="absolute bottom-2 right-2 h-9 w-9 shrink-0 rounded-lg"
+              onClick={handleAddComment}
+              disabled={!newComment.trim() || submitting}
+              aria-label={__("Add Comment", 'wedevs-project-manager')}
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+          <FileUploadArea
+            files={commentFiles}
+            onFilesChange={setCommentFiles}
+            compact
+          />
+          <NotifyUsers
+            users={projectUsers}
+            value={commentNotifyUsers}
+            onChange={setCommentNotifyUsers}
+          />
+          <CommentLinkActions projectId={projectId} onInsert={(html) => setNewComment(prev => (prev || '') + html)} />
         </div>
       </div>
     </div>

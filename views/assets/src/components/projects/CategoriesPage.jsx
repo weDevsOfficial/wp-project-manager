@@ -7,6 +7,7 @@ import { useToast } from "@hooks/useToast";
 import { useConfirm } from "@hooks/useConfirm";
 import { usePermissions } from "@hooks/usePermissions";
 import { Button } from "@components/ui/button";
+import { PaginationNav } from "@components/ui/pagination";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Checkbox } from "@components/ui/checkbox";
@@ -190,14 +191,14 @@ export default function CategoriesPage() {
   return (
     <>
     <ConfirmDialog />
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+    <div className="w-full p-4 sm:p-6 space-y-6">
       {/* Header — same pattern as ProjectsPage */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-pm-text-primary">
+        <h1 className="text-xl font-bold text-pm-text-primary">
           {__("Categories", 'wedevs-project-manager')}
         </h1>
         {canManage && (
-          <Button size="sm" className="gap-1.5" onClick={openCreate}>
+          <Button size="sm" className="gap-1.5 h-11 px-5" onClick={openCreate}>
             <Plus className="h-5 w-5" />
             {__("New Category", 'wedevs-project-manager')}
           </Button>
@@ -213,7 +214,7 @@ export default function CategoriesPage() {
           <Button
             variant="destructive"
             size="sm"
-            className="h-7 text-sm gap-1"
+            className="h-11 text-sm gap-1"
             onClick={handleBulkDelete}
           >
             <Trash2 className="h-3.5 w-3.5" />
@@ -222,7 +223,7 @@ export default function CategoriesPage() {
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 text-sm ml-auto"
+            className="h-11 text-sm ml-auto"
             onClick={() => setSelected(new Set())}
           >
             {__("Clear", 'wedevs-project-manager')}
@@ -250,7 +251,7 @@ export default function CategoriesPage() {
             <Button
               size="sm"
               variant="outline"
-              className="gap-1.5"
+              className="gap-1.5 h-11 px-5"
               onClick={openCreate}
             >
               <Plus className="h-5 w-5" />
@@ -261,13 +262,14 @@ export default function CategoriesPage() {
       ) : (
         <div className="rounded-xl border bg-card overflow-hidden">
           {/* Table header */}
-          <div className="grid grid-cols-12 gap-4 items-center px-4 py-2.5 bg-muted/30 border-b text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
+          <div className="grid grid-cols-12 gap-4 items-center px-4 py-2.5 bg-muted/30 border-b text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">
             <div className="col-span-1">
               <Checkbox
                 checked={
                   selected.size === categories.length && categories.length > 0
                 }
                 onCheckedChange={toggleAll}
+                aria-label={__("Select all categories", 'wedevs-project-manager')}
                 className="h-4 w-4"
               />
             </div>
@@ -288,6 +290,7 @@ export default function CategoriesPage() {
                 <Checkbox
                   checked={selected.has(cat.id)}
                   onCheckedChange={() => toggleSelect(cat.id)}
+                  aria-label={cat.title}
                   className="h-4 w-4"
                 />
               </div>
@@ -304,7 +307,7 @@ export default function CategoriesPage() {
               <div className="col-span-2 flex items-center justify-end">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button
+                    <Button aria-label={__('Category actions', 'wedevs-project-manager')}
                       variant="ghost"
                       size="icon"
                       className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -336,20 +339,13 @@ export default function CategoriesPage() {
       )}
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 pt-2">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((pg) => (
-            <Button
-              key={pg}
-              variant={pg === page ? "default" : "outline"}
-              size="sm"
-              className="h-8 w-8 p-0 text-sm"
-              onClick={() => fetchCategories(pg)}
-            >
-              {pg}
-            </Button>
-          ))}
-        </div>
+      {!loading && (
+        <PaginationNav
+          page={page}
+          totalPages={totalPages}
+          onPageChange={fetchCategories}
+          className="pt-2"
+        />
       )}
 
       {/* Create / Edit Sheet */}
@@ -394,10 +390,10 @@ export default function CategoriesPage() {
           </div>
 
           <SheetFooter className="px-6 py-4 border-t">
-            <Button variant="outline" onClick={() => setSheetOpen(false)}>
+            <Button variant="outline" className="h-11 px-5" onClick={() => setSheetOpen(false)}>
               {__("Cancel", 'wedevs-project-manager')}
             </Button>
-            <Button onClick={handleSave} disabled={saving || !formTitle.trim()}>
+            <Button className="h-11 px-5" onClick={handleSave} disabled={saving || !formTitle.trim()}>
               {saving && <Loader2 className="h-5 w-5 mr-2 animate-spin" />}
               {saving
                 ? __("Saving...", 'wedevs-project-manager')

@@ -1,10 +1,12 @@
 import { __, sprintf } from '@wordpress/i18n';
 import React from 'react'
-import { usePermissions } from '@hooks/usePermissions'
+import { usePermissions, pmCanSeeUpgrade } from '@hooks/usePermissions'
+import ProUnavailable from './ProUnavailable'
 import { useProModal } from './ProUpgradeModal'
 import { useLicenseGuard } from './LicenseGuard'
 import ProBadge from './ProBadge'
-import { Crown, LayoutTemplate, ListChecks, CheckSquare } from 'lucide-react'
+import { isProPluginInstalled } from '@hooks/useActiveProModules'
+import { Crown, LayoutTemplate, ListChecks, CheckSquare, Puzzle } from 'lucide-react'
 
 /* ── Mock UI backgrounds for each feature ── */
 
@@ -19,8 +21,8 @@ function KanbanMock() {
     <div className="flex flex-col sm:flex-row gap-3 p-5" style={{ minHeight: '420px', alignItems: 'flex-start' }}>
       {cols.map(col => (
         <div key={col.title} className="flex-1 rounded-lg bg-pm-surface-muted overflow-hidden">
-          <div className="px-3 py-2 text-white text-sm font-semibold flex justify-between" style={{ background: col.color }}>
-            {col.title} <span className="bg-white/30 rounded-full px-1.5 text-[14px]">{col.tasks.length}</span>
+          <div className="px-3 py-2 text-white text-sm font-medium flex justify-between" style={{ background: col.color }}>
+            {col.title} <span className="bg-white/30 rounded-md px-1.5 text-[14px]">{col.tasks.length}</span>
           </div>
           <div className="p-2">
             {col.tasks.map((t, i) => (
@@ -35,10 +37,10 @@ function KanbanMock() {
 
 function GanttMock() {
   const tasks = [
-    { name: __('Research', 'wedevs-project-manager'), start: 5, width: 30, color: '#7C3AED' },
-    { name: __('Design', 'wedevs-project-manager'), start: 20, width: 25, color: '#a78bfa' },
-    { name: __('Development', 'wedevs-project-manager'), start: 35, width: 40, color: '#7C3AED' },
-    { name: __('Testing', 'wedevs-project-manager'), start: 60, width: 20, color: '#a78bfa' },
+    { name: __('Research', 'wedevs-project-manager'), start: 5, width: 30, color: '#6F56A3' },
+    { name: __('Design', 'wedevs-project-manager'), start: 20, width: 25, color: '#9B82C9' },
+    { name: __('Development', 'wedevs-project-manager'), start: 35, width: 40, color: '#6F56A3' },
+    { name: __('Testing', 'wedevs-project-manager'), start: 60, width: 20, color: '#9B82C9' },
     { name: __('Deployment', 'wedevs-project-manager'), start: 75, width: 15, color: '#22c55e' },
     { name: __('Review', 'wedevs-project-manager'), start: 10, width: 35, color: '#f59e0b' },
   ]
@@ -78,7 +80,7 @@ function InvoiceMock() {
         </div>
         <div className="text-right">
           <div className="text-[15px] text-pm-text-muted">{__('Due: Apr 15, 2026', 'wedevs-project-manager')}</div>
-          <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-500 text-[15px] font-semibold">{__('Unpaid', 'wedevs-project-manager')}</span>
+          <span className="inline-block mt-1 px-2.5 py-0.5 rounded-md bg-amber-500/15 text-amber-500 text-[15px] font-semibold">{__('Unpaid', 'wedevs-project-manager')}</span>
         </div>
       </div>
       <table className="w-full text-sm">
@@ -133,7 +135,7 @@ function SettingsMock() {
 
 function SprintsMock() {
   const sprints = [
-    { name: __('Sprint 12', 'wedevs-project-manager'), status: __('Active', 'wedevs-project-manager'), dates: 'Mar 18 – Mar 31', tasks: 8, completed: 3, color: '#7C3AED' },
+    { name: __('Sprint 12', 'wedevs-project-manager'), status: __('Active', 'wedevs-project-manager'), dates: 'Mar 18 – Mar 31', tasks: 8, completed: 3, color: '#6F56A3' },
     { name: __('Sprint 11', 'wedevs-project-manager'), status: __('Completed', 'wedevs-project-manager'), dates: 'Mar 4 – Mar 17', tasks: 12, completed: 12, color: '#22c55e' },
     { name: __('Sprint 10', 'wedevs-project-manager'), status: __('Completed', 'wedevs-project-manager'), dates: 'Feb 18 – Mar 3', tasks: 10, completed: 10, color: '#22c55e' },
   ]
@@ -145,15 +147,15 @@ function SprintsMock() {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full" style={{ background: s.color }} />
-                <span className="text-sm font-semibold text-pm-text-primary">{s.name}</span>
-                <span className={`px-2 py-0.5 rounded-full text-[14px] font-medium ${s.status === 'Active' ? 'bg-pm-accent/15 text-pm-accent' : 'bg-green-500/15 text-green-500'}`}>{s.status}</span>
+                <span className="text-sm font-medium text-pm-text-primary">{s.name}</span>
+                <span className={`px-2 py-0.5 rounded-md text-[14px] font-medium ${s.status === 'Active' ? 'bg-pm-accent/15 text-pm-accent' : 'bg-green-500/15 text-green-500'}`}>{s.status}</span>
               </div>
               <span className="text-[15px] text-pm-text-muted">{s.dates}</span>
             </div>
             <div className="w-full h-2 rounded-full bg-pm-surface-muted">
               <div className="h-full rounded-full" style={{ width: `${(s.completed / s.tasks) * 100}%`, background: s.color, opacity: 0.7 }} />
             </div>
-            <div className="mt-2 text-[15px] text-pm-text-muted">{sprintf(__('%1$s/%2$s tasks completed', 'wedevs-project-manager'), s.completed, s.tasks)}</div>
+            <div className="mt-2 text-[15px] text-pm-text-muted">{sprintf(/* translators: %1$s is the number of completed tasks, %2$s is the total. */ __('%1$s/%2$s tasks completed', 'wedevs-project-manager'), s.completed, s.tasks)}</div>
           </div>
         ))}
       </div>
@@ -174,7 +176,7 @@ function WooProjectMock() {
           <div className="h-8 w-8 rounded-lg bg-pm-accent/15 flex items-center justify-center shrink-0">
             <svg className="h-4 w-4 text-pm-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           </div>
-          <span className="text-sm font-semibold text-pm-text-primary truncate">{__('WooCommerce Project Mapping', 'wedevs-project-manager')}</span>
+          <span className="text-sm font-medium text-pm-text-primary truncate">{__('WooCommerce Project Mapping', 'wedevs-project-manager')}</span>
         </div>
         <div className="px-3 py-1.5 rounded-md bg-pm-accent text-white text-sm font-medium">{__('+ Add Product', 'wedevs-project-manager')}</div>
       </div>
@@ -183,7 +185,7 @@ function WooProjectMock() {
           <div key={i} className="rounded-lg border border-pm-border bg-pm-surface p-4">
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm font-medium text-pm-text-primary">{p.name}</span>
-              <span className={`px-2.5 py-0.5 rounded-full text-[14px] font-medium ${p.action.includes('Duplicate') ? 'bg-blue-500/15 text-blue-500' : 'bg-green-500/15 text-green-500'}`}>{p.action}</span>
+              <span className={`px-2.5 py-0.5 rounded-md text-[14px] font-medium ${p.action.includes('Duplicate') ? 'bg-blue-500/15 text-blue-500' : 'bg-green-500/15 text-green-500'}`}>{p.action}</span>
             </div>
             <div className="flex items-center gap-4 text-[15px] text-pm-text-muted">
               <div className="flex items-center gap-1">
@@ -218,7 +220,7 @@ function TemplatesMock() {
           <div className="h-8 w-8 rounded-lg bg-pm-accent/15 flex items-center justify-center shrink-0">
             <LayoutTemplate className="h-4 w-4 text-pm-accent" />
           </div>
-          <span className="text-sm font-semibold text-pm-text-primary truncate">{__('Project Templates', 'wedevs-project-manager')}</span>
+          <span className="text-sm font-medium text-pm-text-primary truncate">{__('Project Templates', 'wedevs-project-manager')}</span>
         </div>
         <div className="px-3 py-1.5 rounded-md bg-pm-accent text-white text-sm font-medium">{__('+ New Template', 'wedevs-project-manager')}</div>
       </div>
@@ -230,19 +232,19 @@ function TemplatesMock() {
                 <LayoutTemplate className="h-4 w-4 text-pm-accent" />
               </div>
               {t.system && (
-                <span className="px-2 py-0.5 rounded-full text-[12px] font-medium bg-pm-accent/10 text-pm-accent">{__('System', 'wedevs-project-manager')}</span>
+                <span className="px-2 py-0.5 rounded-md text-[12px] font-medium bg-pm-accent/10 text-pm-accent">{__('System', 'wedevs-project-manager')}</span>
               )}
             </div>
-            <div className="text-sm font-semibold text-pm-text-primary mb-1">{t.name}</div>
+            <div className="text-sm font-medium text-pm-text-primary mb-1">{t.name}</div>
             <p className="text-[13px] text-pm-text-muted leading-snug mb-3 grow">{t.desc}</p>
             <div className="flex items-center gap-4 text-[13px] text-pm-text-muted pt-2 border-t border-pm-border">
               <div className="flex items-center gap-1">
                 <ListChecks className="h-3.5 w-3.5" />
-                <span>{sprintf(__('%d lists', 'wedevs-project-manager'), t.lists)}</span>
+                <span>{sprintf(/* translators: %d is the number of task lists in the template. */ __('%d lists', 'wedevs-project-manager'), t.lists)}</span>
               </div>
               <div className="flex items-center gap-1">
                 <CheckSquare className="h-3.5 w-3.5" />
-                <span>{sprintf(__('%d tasks', 'wedevs-project-manager'), t.tasks)}</span>
+                <span>{sprintf(/* translators: %d is the number of tasks in the template. */ __('%d tasks', 'wedevs-project-manager'), t.tasks)}</span>
               </div>
             </div>
           </div>
@@ -264,14 +266,54 @@ const MOCK_MAP = {
 
 export default function ProFeaturePlaceholder({ title, description, icon: Icon, mockKey }) {
   const { isPro } = usePermissions()
+  const canSeeUpgrade = pmCanSeeUpgrade()
   const { setOpen } = useProModal()
   const MockComponent = mockKey && MOCK_MAP[mockKey]
 
   const licenseGuard = useLicenseGuard()
   if (licenseGuard) return licenseGuard
 
+  // Co-workers and clients cannot install or license Pro, so the marketing
+  // mock (invented invoices, sprints, teammates) and its upgrade CTA are
+  // replaced by a plain unavailable card for them.
+  if (!canSeeUpgrade) {
+    return <ProUnavailable title={title} description={description} />
+  }
+
+  // Pro is installed and licensed, so this route is only reachable because the
+  // module is switched off. The mocks below are marketing samples (invented
+  // invoice totals, sprint progress); showing them to someone who already owns
+  // the feature reads as real project data. Point at Modules instead.
+  if (isPro && isProPluginInstalled()) {
+    return (
+      <div className="w-full p-4 sm:p-6 space-y-6">
+        <div>
+          <h1 className="text-xl font-bold text-pm-text-primary">{title}</h1>
+          <p className="text-sm text-pm-text-muted mt-0.5">{description}</p>
+        </div>
+        <div className="rounded-lg border bg-card p-10 text-center">
+          <div className="mx-auto h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-4">
+            <Puzzle className="h-6 w-6 text-pm-text-muted" />
+          </div>
+          <h2 className="text-lg font-semibold text-pm-text-primary mb-1">
+            {__('This module is turned off', 'wedevs-project-manager')}
+          </h2>
+          <p className="text-sm text-pm-text-muted">
+            {__('Enable it under Modules to use this feature.', 'wedevs-project-manager')}
+          </p>
+          <a
+            href="#/modules"
+            className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg bg-pm-accent text-white text-sm font-medium"
+          >
+            {__('Go to Modules', 'wedevs-project-manager')}
+          </a>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+    <div className="w-full p-4 sm:p-6 space-y-6">
       {/* Header — same pattern as CalendarPage */}
       <div className="flex items-center justify-between">
         <div>
@@ -282,7 +324,7 @@ export default function ProFeaturePlaceholder({ title, description, icon: Icon, 
       </div>
 
       {/* Preview card — same pattern as CalendarPage */}
-      <div className="group relative rounded-xl border bg-card overflow-hidden">
+      <div className="group relative rounded-lg border bg-card overflow-hidden">
         <div className="p-6">
           {MockComponent ? <MockComponent /> : (
             <div style={{ minHeight: '500px' }} className="flex items-center justify-center">
@@ -294,7 +336,7 @@ export default function ProFeaturePlaceholder({ title, description, icon: Icon, 
         {/* Pro overlay — same as CalendarPage: hidden, shows on hover */}
         {!isPro && (
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={() => setOpen(true)}
           >
             <div className="bg-pm-surface rounded-2xl px-8 py-6 shadow-xl text-center">

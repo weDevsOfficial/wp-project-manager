@@ -13,17 +13,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@components/ui/sheet'
-import {
-  ChevronRight,
-  Bell,
-  Loader2,
-  LayoutDashboard,
-  Monitor,
-  Lightbulb,
-  Megaphone,
-  Sun,
-  Moon,
-} from 'lucide-react'
+import { ChevronRight, Bell, Loader2, LayoutDashboard, Monitor, Lightbulb, Megaphone, Sun, Moon } from 'lucide-react'
 import { cn } from '@lib/utils'
 import { formatPmDateTime } from '@lib/pm-utils'
 
@@ -169,7 +159,7 @@ export function TopBar() {
     }
 
     return crumbs
-  }, [location.pathname, __, BREADCRUMB_LABELS])
+  }, [location.pathname, activeProject?.title, __, BREADCRUMB_LABELS])
 
   const currentUser = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user : null
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
@@ -232,10 +222,10 @@ export function TopBar() {
         </span>
 
         {/* Notifications */}
-        <Button variant="ghost" size="icon" className="h-8 w-8 relative shrink-0" onClick={() => setNotifOpen(true)}>
+        <Button variant="ghost" size="icon" className="h-8 w-8 relative shrink-0" onClick={() => setNotifOpen(true)} aria-label={__('Notifications', 'wedevs-project-manager')}>
           <Bell className="h-5 w-5 text-pm-text-muted" />
           {unreadCount > 0 && (
-            <span className="absolute -top-0.5 -right-0.5 h-4 min-w-[16px] flex items-center justify-center rounded-full bg-destructive text-[11px] text-white font-bold px-1">
+            <span className="absolute -top-0.5 -right-0.5 h-4 min-w-[16px] flex items-center justify-center rounded-md bg-destructive text-[11px] text-white font-bold px-1">
               {unreadCount}
             </span>
           )}

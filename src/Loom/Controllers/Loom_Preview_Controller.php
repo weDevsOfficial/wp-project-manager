@@ -69,7 +69,7 @@ class Loom_Preview_Controller {
             return [
                 'success' => false,
                 'error'   => sprintf(
-                    __( 'Loom API returned status %d.', 'wedevs-project-manager' ),
+                    /* translators: %d is the HTTP status code returned by the Loom API. */ __( 'Loom API returned status %d.', 'wedevs-project-manager' ),
                     $status_code
                 ),
             ];

@@ -4,6 +4,7 @@ import { useApi } from '@hooks/useApi'
 // Per-projectId in-memory cache so repeated callers share one fetch.
 const cache = new Map()        // projectId → project object
 const inflight = new Map()     // projectId → Promise
+const failed = new Map()       // projectId → true when the fetch was rejected
 const listeners = new Set()    // () => void subscribers for cache updates
 
 function notify() {
@@ -17,6 +18,8 @@ function fetchProject(api, projectId) {
   if (cache.has(projectId)) return Promise.resolve(cache.get(projectId))
   if (inflight.has(projectId)) return inflight.get(projectId)
 
+  failed.delete(projectId)
+
   const p = api
     .get(`projects/${projectId}`, { with: 'assignees,assignees.roles' })
     .then((res) => {
@@ -28,6 +31,10 @@ function fetchProject(api, projectId) {
     })
     .catch(() => {
       inflight.delete(projectId)
+      // Remember the failure so callers can tell 'denied/missing' from 'still loading'
+      // instead of rendering a spinner forever.
+      failed.set(projectId, true)
+      notify()
       return null
     })
 
@@ -38,8 +45,10 @@ function fetchProject(api, projectId) {
 export function invalidateProjectCache(projectId) {
   if (projectId == null) {
     cache.clear()
+    failed.clear()
   } else {
     cache.delete(projectId)
+    failed.delete(projectId)
   }
   notify()
 }
@@ -77,4 +86,31 @@ export function useCurrentProject(projectId) {
   }, [key, api])
 
   return project
+}
+
+/**
+ * True when loading the project was rejected (no access, or it no longer exists).
+ * Lets a route render a real error state instead of an endless spinner.
+ */
+export function useProjectLoadFailed(projectId) {
+  const key = projectId ? String(projectId) : null
+  const [isFailed, setIsFailed] = useState(() => (key ? failed.has(key) : false))
+
+  useEffect(() => {
+    if (!key) { setIsFailed(false); return }
+
+    let cancelled = false
+    const sub = () => {
+      if (!cancelled) setIsFailed(failed.has(key))
+    }
+    listeners.add(sub)
+    sub()
+
+    return () => {
+      cancelled = true
+      listeners.delete(sub)
+    }
+  }, [key])
+
+  return isFailed
 }
