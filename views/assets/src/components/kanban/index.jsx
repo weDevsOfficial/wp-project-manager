@@ -28,6 +28,31 @@ import {
   useContext,
   useState,
 } from "react";
+
+// Sortable columns and cards wrap inputs (the composer, column rename), and
+// dnd-kit's activators fire on any keydown or pointerdown that bubbles up
+// from inside them: Space lifted the column instead of typing a space, and
+// dragging to select text could lift it too. Editable targets are theirs.
+function isEditableTarget(target) {
+  if (!target || typeof target.closest !== "function") return false;
+  return !!target.closest(
+    'input, textarea, select, [contenteditable=""], [contenteditable="true"]',
+  );
+}
+
+function ignoreEditable(Sensor) {
+  return class extends Sensor {
+    static activators = Sensor.activators.map(({ eventName, handler }) => ({
+      eventName,
+      handler: (event, ...rest) =>
+        isEditableTarget(event.target) ? false : handler(event, ...rest),
+    }));
+  };
+}
+
+const EditableSafeMouseSensor = ignoreEditable(MouseSensor);
+const EditableSafeTouchSensor = ignoreEditable(TouchSensor);
+const EditableSafeKeyboardSensor = ignoreEditable(KeyboardSensor);
 import { createPortal } from "react-dom";
 import tunnel from "tunnel-rat";
 
@@ -186,13 +211,13 @@ export const KanbanProvider = ({
   const [activeColumnId, setActiveColumnId] = useState(null);
 
   const sensors = useSensors(
-    useSensor(MouseSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+    useSensor(EditableSafeMouseSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(EditableSafeTouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
     // Without a keyboard sensor the board is pointer-only, while every card
     // still exposes role=button, tabindex=0 and dnd-kit's "press space bar to
     // lift" hint, so a keyboard or screen-reader user is told to do something
     // that does nothing.
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(EditableSafeKeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
   const columnIds = columns.map((c) => c.id);

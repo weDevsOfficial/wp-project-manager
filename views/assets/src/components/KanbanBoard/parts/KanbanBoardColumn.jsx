@@ -44,6 +44,10 @@ import {
   KanbanHeader as KanbanHeaderDnd,
 } from "../../kanban/index";
 import KanbanCard from "./KanbanCard";
+import ImportTaskModal from "./ImportTaskModal";
+import AutomationModal from "./AutomationModal";
+import ColorPickerDialog from "./ColorPickerDialog";
+import SearchAddTask from "./SearchAddTask";
 
 // Same three colours the cards use, so the composer previews what it will make.
 const PRIORITY_ICON_CLASS = {
@@ -57,10 +61,6 @@ const PRIORITY_LABELS = () => ({
   medium: __("Medium", 'wedevs-project-manager'),
   high: __("High", 'wedevs-project-manager'),
 });
-import ImportTaskModal from "./ImportTaskModal";
-import AutomationModal from "./AutomationModal";
-import ColorPickerDialog from "./ColorPickerDialog";
-import SearchAddTask from "./SearchAddTask";
 
 const api = useApi();
 
@@ -158,9 +158,28 @@ export default function KanbanBoardColumn({
     return () => obs.disconnect();
   }, [hasMore, loadingMore, pagination, dispatch, projectId, board.id]);
 
+  // Escape unmounts the input; if the browser fires blur for that removal
+  // the save must not run. Reset on every edit start, since the blur is
+  // not guaranteed and a stale flag would swallow the next save.
+  const titleCancelledRef = useRef(false);
+
+  const handleTitleEdit = () => {
+    if (!canManage) return;
+    titleCancelledRef.current = false;
+    setTitle(board.title);
+    setEditing(true);
+  };
+
   const handleTitleSave = () => {
+    if (titleCancelledRef.current) return;
     if (title.trim() && title !== board.title)
       onUpdate(board.id, { title: title.trim() });
+    setEditing(false);
+  };
+
+  const handleTitleCancel = () => {
+    titleCancelledRef.current = true;
+    setTitle(board.title);
     setEditing(false);
   };
 
@@ -256,6 +275,7 @@ export default function KanbanBoardColumn({
                   onBlur={handleTitleSave}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") handleTitleSave();
+                    if (e.key === "Escape") handleTitleCancel();
                   }}
                   autoFocus
                   className="h-6 text-sm"
@@ -263,7 +283,7 @@ export default function KanbanBoardColumn({
               ) : (
                 <span
                   className="font-semibold text-sm truncate cursor-pointer select-none text-pm-text-primary"
-                  onDoubleClick={() => canManage && setEditing(true)}
+                  onDoubleClick={handleTitleEdit}
                   title={canManage ? __("Double-click to rename", 'wedevs-project-manager') : ""}
                 >
                   {board.title}
