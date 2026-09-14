@@ -563,6 +563,13 @@ export default function TaskDetailSheet() {
         onPointerDownOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
         onInteractOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
         onFocusOutside={(e) => { if (isGooglePickerInteraction(e)) e.preventDefault() }}
+        onEscapeKeyDown={(e) => {
+          // Escape inside a text field belongs to that field (cancel the title
+          // rename, clear the assignee search); it used to also close the whole
+          // sheet, which threw away whatever was being typed.
+          const el = e.target
+          if (el && typeof el.closest === 'function' && el.closest('input, textarea, [contenteditable="true"]')) e.preventDefault()
+        }}
       >
         <DialogTitle className="sr-only">{currentTask?.title || __('Task details', 'wedevs-project-manager')}</DialogTitle>
         {loading && !currentTask ? (

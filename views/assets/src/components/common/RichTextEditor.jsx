@@ -72,11 +72,16 @@ function ColorBtn({ icon: Icon, label, value, onChange }) {
             >
               <Icon className="h-4 w-4" />
             </Button>
+            {/* The button is the control; this only opens the native picker.
+                Keep it out of the tab order and the accessibility tree so it
+                does not surface as a second "#000000" textbox. */}
             <input
               ref={inputRef}
               type="color"
               value={value || '#000000'}
               onChange={(e) => onChange(e.target.value)}
+              tabIndex={-1}
+              aria-hidden="true"
               className="absolute inset-0 opacity-0 w-0 h-0 pointer-events-none"
             />
           </label>
