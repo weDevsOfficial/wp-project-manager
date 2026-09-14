@@ -159,7 +159,7 @@ export function TopBar() {
     }
 
     return crumbs
-  }, [location.pathname, __, BREADCRUMB_LABELS])
+  }, [location.pathname, activeProject?.title, __, BREADCRUMB_LABELS])
 
   const currentUser = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user : null
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
