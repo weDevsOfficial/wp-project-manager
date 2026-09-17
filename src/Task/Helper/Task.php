@@ -385,9 +385,10 @@ class Task {
         	0 => 'low',
 	        1 => 'medium',
 	        2 => 'high',
+	        3 => 'urgent',
 	    ];
 
-	    return $items[$priorities];
+	    return isset( $items[$priorities] ) ? $items[$priorities] : 'low';
     }
 
     public static function status( $status ) {

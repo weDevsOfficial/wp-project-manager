@@ -268,6 +268,15 @@ export const KanbanProvider = ({
     onDataChange?.(newData);
   };
 
+  // `over.id` is a card id when the card is dropped on another card, so the
+  // column has to be resolved through that card, the way handleDragOver does.
+  const resolveColumnName = (overId) => {
+    if (overId === undefined || overId === null) return undefined;
+    const overItem = data.find((item) => item.id === overId);
+    const columnId = overItem?.column ?? overId;
+    return columns.find((column) => column.id === columnId)?.name;
+  };
+
   const announcements = {
     onDragStart({ active }) {
       if (active.data?.current?.type === "column") {
@@ -280,7 +289,7 @@ export const KanbanProvider = ({
     onDragOver({ active, over }) {
       if (active.data?.current?.type === "column") return "";
       const { name } = data.find((item) => item.id === active.id) ?? {};
-      const newColumn = columns.find((column) => column.id === over?.id)?.name;
+      const newColumn = resolveColumnName(over?.id);
       return `Dragged the card "${name}" over the "${newColumn}" column`;
     },
     onDragEnd({ active, over }) {
@@ -289,7 +298,7 @@ export const KanbanProvider = ({
         return `Dropped the column "${col?.name}"`;
       }
       const { name } = data.find((item) => item.id === active.id) ?? {};
-      const newColumn = columns.find((column) => column.id === over?.id)?.name;
+      const newColumn = resolveColumnName(over?.id);
       return `Dropped the card "${name}" into the "${newColumn}" column`;
     },
     onDragCancel({ active }) {

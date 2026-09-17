@@ -74,7 +74,7 @@ export function formatPmDate(field, options) {
   if (!dateStr) return ''
   const d = new Date(dateStr)
   if (isNaN(d.getTime())) return ''
-  return d.toLocaleDateString('en-US', options ?? { month: 'short', day: 'numeric' })
+  return d.toLocaleDateString('en-US', options ?? { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
 /**
@@ -88,7 +88,7 @@ export function formatPmDateTime(field) {
   if (!dateStr) return ''
   const d = new Date(dateStr)
   if (isNaN(d.getTime())) return ''
-  const datePart = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  const datePart = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
   const timePart = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase()
   return `${datePart}, ${timePart}`
 }

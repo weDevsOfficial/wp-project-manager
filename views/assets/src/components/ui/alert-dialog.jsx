@@ -30,7 +30,7 @@ const AlertDialogContent = React.forwardRef(({ className, ...props }, ref) => (
       ref={ref}
       data-pm-alert-content=""
       className={cn(
-        "fixed z-50 grid w-full max-w-sm gap-4 border bg-background p-6 shadow-xl rounded-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+        "fixed z-50 grid grid-cols-[minmax(0,1fr)] [&>*]:min-w-0 w-full max-w-sm gap-4 border bg-background p-6 shadow-xl rounded-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
         className
       )}
       {...props}

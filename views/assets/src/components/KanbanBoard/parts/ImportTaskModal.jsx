@@ -58,7 +58,10 @@ export default function ImportTaskModal({ open, onOpenChange, projectId, boardId
     api
       .get("tasks", {
         project_id: projectId,
-        task_list_id: [selectedList],
+        // The tasks endpoint filters on `lists`; `task_list_id` is not a
+        // parameter it reads, so sending that returned every task in the
+        // project regardless of the list picked.
+        lists: [selectedList],
         per_page: -1,
       })
       .then((res) => {

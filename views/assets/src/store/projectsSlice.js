@@ -276,6 +276,9 @@ const projectsSlice = createSlice({
         delete state.projectAssignees[String(id)]
       }
     },
+    invalidateCategories(state) {
+      state.categoriesLoaded = false
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProjects.pending, (state) => { state.loading = true })
@@ -391,7 +394,7 @@ const projectsSlice = createSlice({
 
 export const {
   setStatus, setPage, setCategory, setOrderBy, setViewMode, setCreateSheetOpen,
-  openEditSheet, closeEditSheet, invalidateProjectAssignees,
+  openEditSheet, closeEditSheet, invalidateProjectAssignees, invalidateCategories,
 } = projectsSlice.actions
 
 export default projectsSlice.reducer

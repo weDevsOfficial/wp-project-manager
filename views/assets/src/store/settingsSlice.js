@@ -66,6 +66,7 @@ export const loadAiSettings = createAsyncThunk(
       const res = await fetch(base, {
         method: 'GET',
         credentials: 'same-origin',
+        cache: 'no-store',
         headers: { 'X-WP-Nonce': PM_Vars.permission },
         signal,
       })
