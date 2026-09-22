@@ -6,7 +6,7 @@ import ProBadge from '@components/common/ProBadge'
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
 import { cn } from '@lib/utils'
 import { useFilter } from '@hooks/useSlot'
-import { Settings, Mail, ListTodo, Bot, Radio, FileText, ShoppingCart } from 'lucide-react'
+import { Settings, Mail, ListTodo, Bot, Radio, FileText, ShoppingCart, Users } from 'lucide-react'
 import { DriveMonoGlyph as GoogleWorkspaceNavIcon } from '@components/google-workspace/GoogleIcons'
 
 // Brand SVG icons for settings nav (not available as non-deprecated lucide icons)
@@ -53,6 +53,7 @@ const tabComponents = {
   'invoices':     InvoiceSettingsTab,
   'pages':        PagesSettingsTab,
   'woo-project':  null, // injected by pm-pro via filter
+  'workload':     null, // injected by pm-pro via filter
 }
 
 
@@ -61,6 +62,7 @@ const getProTabConfig = () => ({
   'invoices':    { title: __('Invoices',    'wedevs-project-manager'), description: __('Create and manage invoices for your projects.',          'wedevs-project-manager'), icon: FileText,     mockKey: 'invoices'     },
   'pages':       { title: __('Pages',       'wedevs-project-manager'), description: __('Configure front-end pages for Project Manager.',         'wedevs-project-manager'), icon: FileText,     mockKey: 'settings'     },
   'woo-project': { title: __('WooCommerce', 'wedevs-project-manager'), description: __('Automatically create projects from WooCommerce orders.', 'wedevs-project-manager'), icon: ShoppingCart, mockKey: 'woo-project'  },
+  'workload':    { title: __('Workload',    'wedevs-project-manager'), description: __('Set how much work each person can carry and see who is over capacity on the dashboard.', 'wedevs-project-manager'), icon: Users, mockKey: 'settings' },
 })
 
 // ── Component ────────────────────────────────────────────────
@@ -72,6 +74,7 @@ const SettingsPage = () => {
 
   // Woo Project tab component — injected by pm-pro via filter (only when module is active)
   const WooProjectComponent = useFilter('settings.tab.woo-project.component', null)
+  const WorkloadComponent = useFilter('settings.tab.workload.component', null)
 
   // Mirror the exact sidebar logic:
   //   !isPro           → show with pro:true (ProSettingsPreview)
@@ -112,6 +115,7 @@ const SettingsPage = () => {
         { key: 'task-types', label: __('Task Types', 'wedevs-project-manager'), icon: ListTodo },
         { key: 'invoices',   label: __('Invoices',   'wedevs-project-manager'), icon: FileText, pro: true },
         { key: 'pages',      label: __('Pages',      'wedevs-project-manager'), icon: FileText, pro: true },
+        { key: 'workload',   label: __('Workload',   'wedevs-project-manager'), icon: Users,    pro: true },
       ],
     },
     {
@@ -138,7 +142,9 @@ const SettingsPage = () => {
   const isProTab = activeTabConfig?.pro && !isPro
   // For woo-project tab: use the filter-injected component (set by pm-pro when module is active).
   // For all other tabs: use the static tabComponents map.
-  const ActiveComponent = activeTab === 'woo-project' ? WooProjectComponent : tabComponents[activeTab]
+  const ActiveComponent = activeTab === 'woo-project' ? WooProjectComponent
+    : activeTab === 'workload' ? WorkloadComponent
+    : tabComponents[activeTab]
 
   return (
     <div className="pm-settings-page flex flex-col h-full overflow-hidden bg-pm-surface-muted">

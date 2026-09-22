@@ -896,16 +896,13 @@ class Dashboard_Controller {
     protected function team_status( $days = 7 ) {
         // Admin -> every project. A manager only sees workload for projects
         // they manage, not every project they happen to belong to.
-        $project_ids = $this->is_admin
-            ? (clone $this->project_query())->pluck( 'id' )->all()
-            : ( wedevs_pm_has_manage_capability() ? $this->scope_ids() : $this->managed_scope_ids() );
+        $workload = Team_Workload::for_viewer( $this->user_id, $days );
 
-        if ( empty( $project_ids ) ) {
+        if ( ! $workload ) {
             return [];
         }
 
-        $workload = new Team_Workload( $project_ids, $days );
-        $team     = $workload->rows();
+        $team = $workload->rows();
 
         // An admin is looking at the whole organisation and needs the full
         // roster; a manager gets a slice of their own projects.

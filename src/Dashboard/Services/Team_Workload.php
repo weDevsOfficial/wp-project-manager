@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Carbon\Carbon;
+use WeDevs\PM\Project\Models\Project;
 use WeDevs\PM\Task\Models\Task;
 use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\User\Helper\Avatar;
@@ -34,6 +35,31 @@ class Team_Workload {
     public function __construct( array $project_ids, $days = 7 ) {
         $this->project_ids = array_values( array_filter( array_map( 'intval', $project_ids ) ) );
         $this->days        = max( 1, (int) $days );
+    }
+
+    /**
+     * The workload a viewer may see, or null when they see no team: admins
+     * every project, PM managers the projects they belong to, project
+     * managers the projects they manage.
+     *
+     * @return self|null
+     */
+    public static function for_viewer( $user_id, $days = 7 ) {
+        $user_id = (int) $user_id;
+
+        if ( wedevs_pm_has_admin_capability( $user_id ) ) {
+            $project_ids = Project::pluck( 'id' )->all();
+        } else {
+            $roles = User_Role::where( 'user_id', $user_id );
+
+            if ( ! wedevs_pm_has_manage_capability( $user_id ) ) {
+                $roles->where( 'role_id', 1 );
+            }
+
+            $project_ids = $roles->distinct()->pluck( 'project_id' )->all();
+        }
+
+        return empty( $project_ids ) ? null : new self( $project_ids, $days );
     }
 
     public function project_ids() {
