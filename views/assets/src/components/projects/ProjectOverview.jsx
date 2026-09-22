@@ -365,7 +365,14 @@ export default function ProjectOverview() {
           ? { label: __("Completed", 'wedevs-project-manager'), cls: "bg-emerald-100 text-emerald-700" }
           : st === "archived"
             ? { label: __("Archived", 'wedevs-project-manager'), cls: "bg-muted text-pm-text-muted" }
-            : { label: __("Active", 'wedevs-project-manager'), cls: "bg-blue-100 text-blue-700" };
+            : st === "pending"
+              ? { label: __("Pending", 'wedevs-project-manager'), cls: "bg-amber-100 text-amber-700" }
+              : { label: __("Active", 'wedevs-project-manager'), cls: "bg-blue-100 text-blue-700" };
+        // Dates arrive as { date: null, ... } when unset, so test the inner value.
+        const hasDate = (d) => !!(d && (typeof d === "string" ? d : d.date));
+        const headerEndDate = st === "complete"
+          ? (hasDate(project.completed_at) ? project.completed_at : null)
+          : (hasDate(project.est_completion_date) ? project.est_completion_date : null);
         return (
           <div className="rounded-xl border bg-card p-4 flex flex-wrap items-center gap-4">
             <div
@@ -388,7 +395,7 @@ export default function ProjectOverview() {
                 <span className="inline-flex items-center gap-1.5">
                   <CalendarIcon className="h-4 w-4" />
                   {formatPmDate(project.created_at, { month: "short", day: "numeric", year: "numeric" }) || "—"}
-                  {project.est_completion_date ? ` – ${formatPmDate(project.est_completion_date, { month: "short", day: "numeric", year: "numeric" })}` : ""}
+                  {headerEndDate ? ` – ${formatPmDate(headerEndDate, { month: "short", day: "numeric", year: "numeric" })}` : ""}
                 </span>
                 {assignees.length > 0 && (
                   <span className="inline-flex items-center gap-2">

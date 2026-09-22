@@ -20,8 +20,9 @@ export function isComplete(p) {
 
 export function statusKey(p) {
   if (isComplete(p)) return 'complete';
-  if (p.status === 'archived' || p.status === '2' || p.status === 2) return 'archived';
-  if (p.status === 'pending' || p.status === '3' || p.status === 3) return 'pending';
+  // Stored values: 0 incomplete, 1 complete, 2 pending, 3 archived (Project_Status).
+  if (p.status === 'pending' || p.status === '2' || p.status === 2) return 'pending';
+  if (p.status === 'archived' || p.status === '3' || p.status === 3) return 'archived';
   return 'active';
 }
 

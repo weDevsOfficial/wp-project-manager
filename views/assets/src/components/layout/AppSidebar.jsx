@@ -13,8 +13,8 @@ import { DriveMonoGlyph as GoogleDriveNavIcon } from '@components/google-workspa
 function statusColor(p) {
   const s = p.status
   if (s === 'complete' || s === '1' || s === 1) return '#10b981'
-  if (s === 'archived' || s === '2' || s === 2) return '#6b7280'
-  if (s === 'pending' || s === '3' || s === 3) return '#f59e0b'
+  if (s === 'pending' || s === '2' || s === 2) return '#f59e0b'
+  if (s === 'archived' || s === '3' || s === 3) return '#6b7280'
   return '#6F56A3'
 }
 

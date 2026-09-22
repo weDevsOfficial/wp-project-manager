@@ -157,7 +157,9 @@ class Project_Controller {
 		})
 		->selectRaw( wedevs_pm_tb_prefix().'pm_projects.*' )
 		->groupBy( wedevs_pm_tb_prefix().'pm_projects.id' )
-		->orderBy( wedevs_pm_tb_prefix().'pm_meta.meta_value', 'DESC');
+		// Starred projects first; the order the user picked (added in index()) then
+		// applies inside the starred group too, not the order they were starred in.
+		->orderByRaw( '(' . esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' ) . '.meta_value IS NULL) ASC' );
 
 		return $projects;
     }
@@ -286,7 +288,16 @@ class Project_Controller {
 		$data    = $request->get_params();//$this->extract_non_empty_values( $request );
 		$project = Project::find( $data['id'] );
 
+		$was_complete = Project::COMPLETE === (int) $project->getAttributes()['status'];
+
 		$project->update_model( $data );
+
+		// Stamp the completion date on the way into "complete" and clear it on the way out.
+		$is_complete = Project::COMPLETE === (int) $project->getAttributes()['status'];
+		if ( $is_complete !== $was_complete ) {
+			$project->completed_at = $is_complete ? current_time( 'mysql' ) : null;
+			$project->save();
+		}
 
 		// Establishing relationships
 		$category_ids = map_deep( $request->get_param( 'categories' ), 'intval' );
