@@ -3,18 +3,39 @@ import { useNavigate } from 'react-router-dom'
 import { Activity } from 'lucide-react'
 import { Card } from '@components/ui/card'
 import { UserAvatar } from '@components/common/UserAvatar'
+import { resolveActivityUrl } from '@lib/activity-links'
 import { CardHead, EmptyState } from './CardShell'
 
 export default function RecentActivityCard({ activity, range = 7 }) {
   const navigate = useNavigate()
   const list = activity || []
 
-  // Deep-link to the task the activity is about, else the project's task list,
-  // the same destination as the Active Projects ("progress") card.
+  // Open the item the line is about. Deleted items have nowhere to go.
   const goActivity = (a) => {
-    if (!a.project_id) return
-    if (a.task_id) navigate(`/projects/${a.project_id}/task-lists/tasks/${a.task_id}`)
-    else navigate(`/projects/${a.project_id}/task-lists`)
+    if (!a.clickable || !a.project_id) return
+    const url = resolveActivityUrl({
+      action: a.action_key,
+      resource_type: a.resource_type,
+      resource_id: a.resource_id,
+      project: { id: a.project_id },
+    }, a.project_id)
+    if (!url) return
+    if (url.openTaskSheet) navigate(`/projects/${url.projectId}/task-lists/tasks/${url.taskId}`)
+    else navigate(url.path)
+  }
+
+  // The phrase is translated server side with one %s for the item title,
+  // which becomes the link.
+  const phrase = (a) => {
+    const template = a.action_template || ''
+    const at = template.indexOf('%s')
+    if (at < 0 || !a.resource_title) return <span className="text-pm-text-muted">{a.action}</span>
+    const title = a.clickable ? (
+      <button type="button" onClick={() => goActivity(a)} className="inline text-left break-words font-medium text-pm-text-primary hover:text-pm-accent hover:underline">{a.resource_title}</button>
+    ) : (
+      <span className="break-words font-medium text-pm-text-primary">{a.resource_title}</span>
+    )
+    return <span className="text-pm-text-muted">{template.slice(0, at)}{title}{template.slice(at + 2)}</span>
   }
 
   return (
@@ -40,9 +61,9 @@ export default function RecentActivityCard({ activity, range = 7 }) {
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] text-pm-text-primary leading-snug">
                   <span className="font-medium">{a.actor}</span>{' '}
-                  <span className="text-pm-text-muted">{a.action}</span>
-                  {a.project && <> <span className="text-pm-text-muted">{_x('in', 'recent activity: "updated task title in <project>"', 'wedevs-project-manager')}</span>{' '}
-                    {a.project_id ? (
+                  {phrase(a)}
+                  {a.project && a.resource_type !== 'project' && <> <span className="text-pm-text-muted">{_x('in', 'recent activity: "updated task title in <project>"', 'wedevs-project-manager')}</span>{' '}
+                    {a.clickable && a.project_id ? (
                       <button type="button" onClick={() => goActivity(a)} className="inline-block max-w-full truncate align-bottom text-left font-medium text-pm-text-primary hover:text-pm-accent hover:underline">{a.project}</button>
                     ) : (
                       <span className="inline-block max-w-full truncate align-bottom text-pm-text-primary">{a.project}</span>

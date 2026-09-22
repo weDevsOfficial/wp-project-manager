@@ -10,6 +10,7 @@ use WeDevs\PM\Project\Models\Project;
 use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\Common\Models\Assignee;
 use WeDevs\PM\User\Helper\Avatar;
+use WeDevs\PM\Dashboard\Services\Activity_Feed;
 
 /**
  * Aggregated data for the specialized PM Dashboard (home page).
@@ -807,34 +808,9 @@ class Dashboard_Controller {
      * Latest activity across scoped projects (timeline feed).
      */
     protected function recent_activity( $days = 7 ) {
-        $query = \WeDevs\PM\Activity\Models\Activity::with( [ 'actor', 'project' ] )
-            ->whereDate( 'created_at', '>=', Carbon::today()->subDays( $days ) )
-            ->orderBy( 'created_at', 'DESC' );
+        $feed = new Activity_Feed( $this->user_id, $this->is_admin, $this->is_admin ? null : $this->scope_ids() );
 
-        if ( ! $this->is_admin ) {
-            $query->whereIn( 'project_id', $this->scope_ids() );
-        }
-
-        $items = $query->limit( 10 )->get();
-
-        return $items->map( function ( $a ) {
-            $actor   = $a->actor ? $a->actor->display_name : __( 'Someone', 'wedevs-project-manager' );
-            // A deleted task has nothing left to open, so its entry links to the list.
-            $is_task = 'task' === (string) $a->resource_type
-                && 0 !== strpos( (string) $a->action, 'delete' );
-
-            return [
-                'id'         => absint( $a->id ),
-                'actor'      => $actor,
-                'actor_id'   => absint( $a->actor_id ),
-                'avatar_url' => $a->actor_id ? Avatar::get_url( $a->actor_id ) : '',
-                'action'     => $this->humanize_action( (string) $a->action, (string) $a->action_type ),
-                'project'    => $a->project ? $a->project->title : '',
-                'project_id' => absint( $a->project_id ),
-                'task_id'    => ( $is_task && $a->resource_id ) ? absint( $a->resource_id ) : 0,
-                'time'       => $this->human_time( $a->created_at ),
-            ];
-        } )->all();
+        return $feed->items( $days, 10 );
     }
 
     /**
@@ -910,46 +886,6 @@ class Dashboard_Controller {
         unset( $r );
 
         return $rows;
-    }
-
-    /**
-     * Turn raw activity action keys (e.g. "create_task" / "create") into a
-     * readable phrase like "created a task".
-     */
-    protected function humanize_action( $action, $action_type ) {
-        $source = $action ?: $action_type;
-        $parts  = explode( '_', $source );
-        $verb   = array_shift( $parts );
-        $noun   = trim( str_replace( '_', ' ', implode( ' ', $parts ) ) );
-
-        $past = [
-            'create'   => __( 'created', 'wedevs-project-manager' ),
-            'update'   => __( 'updated', 'wedevs-project-manager' ),
-            'delete'   => __( 'deleted', 'wedevs-project-manager' ),
-            'complete' => __( 'completed', 'wedevs-project-manager' ),
-            'new'      => __( 'added', 'wedevs-project-manager' ),
-            'add'      => __( 'added', 'wedevs-project-manager' ),
-            'assign'    => __( 'assigned', 'wedevs-project-manager' ),
-            'comment'   => __( 'commented', 'wedevs-project-manager' ),
-            'reply'     => __( 'replied to', 'wedevs-project-manager' ),
-            'duplicate' => __( 'duplicated', 'wedevs-project-manager' ),
-        ];
-
-        $verb = isset( $past[ $verb ] ) ? $past[ $verb ] : $verb;
-
-        return trim( $verb . ( $noun ? ' ' . $noun : '' ) );
-    }
-
-    protected function human_time( $datetime ) {
-        if ( empty( $datetime ) ) {
-            return '';
-        }
-        $ts = is_numeric( $datetime ) ? $datetime : strtotime( $datetime );
-        return sprintf(
-            /* translators: %s: human-readable time difference */
-            __( '%s ago', 'wedevs-project-manager' ),
-            human_time_diff( $ts, current_time( 'timestamp' ) )
-        );
     }
 
     /**
