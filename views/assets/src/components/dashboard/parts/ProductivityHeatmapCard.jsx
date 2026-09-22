@@ -15,15 +15,15 @@ import { CardHead } from './CardShell'
 const WEEKDAYS = ['', 'Mon', '', 'Wed', '', 'Fri', '']
 const ROLLING = 'rolling'
 
-// Accent ramp — opacity steps of the theme accent, so the heatmap follows the
-// palette (and dark mode) instead of a fixed violet scale. Thresholds spread
-// to the real distribution (counts often run 10–60+).
-function levelClass(count) {
+// Accent ramp: opacity steps of the theme accent, so the heatmap follows the
+// palette (and dark mode). Steps come from the viewer's own busy days
+// (quartiles), so a light contributor's map is not left pale.
+function levelClass(count, steps) {
   if (count <= 0) return 'bg-pm-surface-muted border border-pm-border/70'
-  if (count >= 25) return 'bg-pm-accent'
-  if (count >= 10) return 'bg-pm-accent/75'
-  if (count >= 4) return 'bg-pm-accent/50'
-  return 'bg-pm-accent/25' // 1–3
+  if (count > steps[2]) return 'bg-pm-accent'
+  if (count > steps[1]) return 'bg-pm-accent/75'
+  if (count > steps[0]) return 'bg-pm-accent/50'
+  return 'bg-pm-accent/25'
 }
 
 export default function ProductivityHeatmapCard() {
@@ -50,6 +50,13 @@ export default function ProductivityHeatmapCard() {
   const activeDays = data?.active_days ?? 0
   const years = data?.years || []
 
+  const steps = useMemo(() => {
+    const counts = days.map(d => d.count).filter(c => c > 0).sort((a, b) => a - b)
+    if (!counts.length) return [1, 2, 3]
+    const at = (p) => counts[Math.min(counts.length - 1, Math.floor(p * (counts.length - 1)))]
+    return [at(0.25), at(0.5), at(0.75)]
+  }, [days])
+
   const weeks = useMemo(() => {
     if (!days.length) return []
     const lead = getDay(parseISO(days[0].date)) // 0=Sun → leading pad
@@ -71,12 +78,17 @@ export default function ProductivityHeatmapCard() {
     })
   }, [weeks])
 
+  // Clients get no map (#521); the server says so explicitly.
+  if (data && data.visible === false) return null
+
   return (
     <Card className="rounded-xl p-5 border-pm-border flex flex-col">
       <CardHead
         icon={Flame}
         title={__('Activity', 'wedevs-project-manager')}
-        subtitle={__('Each square is one day of recorded activity', 'wedevs-project-manager')}
+        subtitle={data?.scope === 'self'
+          ? __('Your contributions: tasks you created or completed, and your comments', 'wedevs-project-manager')
+          : __('Tasks created, tasks completed and comments per day', 'wedevs-project-manager')}
         action={
         <div className="flex items-center gap-3 shrink-0">
           <span className="text-[12px] text-pm-text-muted hidden sm:inline">
@@ -125,12 +137,14 @@ export default function ProductivityHeatmapCard() {
                     return (
                       <Tooltip key={di}>
                         <TooltipTrigger asChild>
-                          <div className={cn('aspect-square w-full rounded-[3px]', levelClass(d.count))} />
+                          <div className={cn('aspect-square w-full rounded-[3px]', levelClass(d.count, steps))} />
                         </TooltipTrigger>
                         <TooltipContent side="top" className="text-[12px]">
                           <span className="font-medium">{format(parseISO(d.date), 'EEE, MMM d')}</span>
                           {' · '}
-                          {sprintf( /* translators: %d is the number of activities recorded on that day. */ __( '%d activities', 'wedevs-project-manager' ), d.count )}
+                          {d.created === undefined
+                            ? sprintf( /* translators: %d is the number of activities recorded on that day. */ __( '%d activities', 'wedevs-project-manager' ), d.count )
+                            : sprintf( /* translators: 1: tasks created, 2: tasks completed, 3: comments, all on that day. */ __( '%1$d created, %2$d completed, %3$d comments', 'wedevs-project-manager' ), d.created, d.completed, d.comments )}
                         </TooltipContent>
                       </Tooltip>
                     )

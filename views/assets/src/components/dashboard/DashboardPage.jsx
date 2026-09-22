@@ -105,6 +105,10 @@ export default function DashboardPage() {
   }
 
   const showTeam = canManage || isManagerAnywhere
+  const tier = data?.user?.tier || (showTeam ? 'manager' : 'member')
+  const performanceMode = data?.performance_mode || 'created'
+  // Clients do not get the performance chart or the contribution map (#508, #521).
+  const isClient = tier === 'client'
   const thirdCard = showTeam
     ? <Lazy><TeamStatusCard team={data?.team} range={range} scope={data?.team?.scope} /></Lazy>
     : <Lazy><MyWorkloadCard workload={data?.my_workload} range={range} /></Lazy>
@@ -119,20 +123,24 @@ export default function DashboardPage() {
         loading={refetching}
       />
 
-      <Lazy h="h-24"><KpiCards kpis={data?.kpis} range={range} /></Lazy>
+      <Lazy h="h-24"><KpiCards kpis={data?.kpis} range={range} tier={tier} /></Lazy>
 
       {/* Pro insights (module-gated, managers) */}
       {showTeam && isPro && <Lazy h="h-24"><ProInsightsRow /></Lazy>}
 
       {/* Performance (wide, range filter) + project status */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <div className="lg:col-span-2">
-          <Lazy h="h-72">
-            <TaskPerformanceCard performance={data?.performance} range={range} />
-          </Lazy>
-        </div>
+      {performanceMode === 'hidden' ? (
         <Lazy h="h-72"><ProjectStatusCard status={data?.projects_status} /></Lazy>
-      </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div className="lg:col-span-2">
+            <Lazy h="h-72">
+              <TaskPerformanceCard performance={data?.performance} range={range} mode={performanceMode} />
+            </Lazy>
+          </div>
+          <Lazy h="h-72"><ProjectStatusCard status={data?.projects_status} /></Lazy>
+        </div>
+      )}
 
       {/* What needs doing, and when. Highest-intent row, so it sits directly
           under the charts rather than at the bottom of the page. */}
@@ -163,7 +171,7 @@ export default function DashboardPage() {
           alongside it rather than displacing a member's workload card. */}
       {/* The upsell tile is only useful to someone who can act on it, so a
           co-worker or client keeps the full-width heatmap instead. */}
-      {isPro || !pmCanSeeUpgrade() ? (
+      {isClient ? null : isPro || !pmCanSeeUpgrade() ? (
         <Lazy h="h-44"><ProductivityHeatmapCard /></Lazy>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">

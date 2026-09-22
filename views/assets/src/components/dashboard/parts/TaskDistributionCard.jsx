@@ -5,18 +5,19 @@ import { Card } from '@components/ui/card'
 import { CardHead } from './CardShell'
 
 const COLORS = {
-  completed:   'hsl(var(--primary))',
-  in_progress: 'hsl(152 60% 45%)',
-  pending:     'hsl(38 92% 55%)',
+  completed: 'hsl(var(--primary))',
+  open:      'hsl(152 60% 45%)',
+  overdue:   'hsl(350 80% 58%)',
 }
 
 export default function TaskDistributionCard({ distribution }) {
   const d = distribution || {}
 
+  // Same split as the summary cards: done, open (not past due), overdue.
   const segments = useMemo(() => ([
-    { key: 'completed',   label: __('Completed', 'wedevs-project-manager'),   value: d.completed ?? 0 },
-    { key: 'in_progress', label: __('In Progress', 'wedevs-project-manager'), value: d.in_progress ?? 0 },
-    { key: 'pending',     label: __('Pending', 'wedevs-project-manager'),     value: d.pending ?? 0 },
+    { key: 'completed', label: __('Completed', 'wedevs-project-manager'), value: d.completed ?? 0 },
+    { key: 'open',      label: __('Open', 'wedevs-project-manager'),      value: d.open ?? d.in_progress ?? 0 },
+    { key: 'overdue',   label: __('Overdue', 'wedevs-project-manager'),   value: d.overdue ?? 0 },
   ]), [d])
 
   const total = segments.reduce((sum, s) => sum + s.value, 0)

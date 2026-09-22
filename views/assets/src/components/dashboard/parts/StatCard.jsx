@@ -1,21 +1,30 @@
 import { __ } from '@wordpress/i18n'
 import { ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react'
 import { cn } from '@lib/utils'
+import { InfoTip } from '@components/common/InfoTip'
 
 /**
  * A single KPI stat tile — number, label, optional trend delta and sub-line.
  * `accent` renders the filled (primary) variant used for the lead metric.
  */
-export default function StatCard({ icon: Icon, label, value, sub, trend, accent = false, onClick }) {
+export default function StatCard({ icon: Icon, label, value, sub, trend, accent = false, onClick, tip }) {
   const TrendIcon = trend?.direction === 'up' ? ArrowUpRight
     : trend?.direction === 'down' ? ArrowDownRight : Minus
 
-  const Tag = onClick ? 'button' : 'div'
+  // A div with button semantics, so the info tooltip (itself a button) can sit inside.
+  const onKeyDown = onClick ? (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      onClick()
+    }
+  } : undefined
 
   return (
-    <Tag
-      type={onClick ? 'button' : undefined}
+    <div
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
+      onKeyDown={onKeyDown}
       className={cn(
         'rounded-xl border p-4 flex flex-col gap-2 transition-shadow text-left w-full',
         onClick && 'cursor-pointer hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pm-accent/40',
@@ -25,8 +34,13 @@ export default function StatCard({ icon: Icon, label, value, sub, trend, accent 
       )}
     >
       <div className="flex items-center justify-between">
-        <span className={cn('text-[12px] font-medium', accent ? 'text-white/90' : 'text-pm-text-muted')}>
+        <span className={cn('inline-flex items-center gap-1 text-[12px] font-medium', accent ? 'text-white/90' : 'text-pm-text-muted')}>
           {label}
+          {tip && (
+            <span onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+              <InfoTip text={tip} className={accent ? 'text-white/80 hover:text-white' : undefined} />
+            </span>
+          )}
         </span>
         <span className={cn(
           'flex items-center justify-center w-6 h-6 rounded-full shrink-0',
@@ -61,6 +75,6 @@ export default function StatCard({ icon: Icon, label, value, sub, trend, accent 
         )}
         {sub && <span className={cn(accent ? 'text-white/80' : 'text-pm-text-muted')}>{sub}</span>}
       </div>
-    </Tag>
+    </div>
   )
 }

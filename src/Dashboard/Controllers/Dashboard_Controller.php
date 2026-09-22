@@ -41,6 +41,9 @@ class Dashboard_Controller {
     /** @var array|null projects the caller manages (null = all, admin only) */
     protected $managed_ids = null;
 
+    /** @var string admin | manager | member | client */
+    protected $tier = 'member';
+
     /**
      * Resolve the caller's scope once per request. Three tiers:
      *   - admin   → full organisation (all projects, all tasks)
@@ -63,6 +66,40 @@ class Dashboard_Controller {
         // to get the manager view — scoped to those projects.
         $this->is_manager = wedevs_pm_has_manage_capability()
             || ! empty( $this->managed_ids );
+
+        if ( $this->is_admin ) {
+            $this->tier = 'admin';
+        } elseif ( $this->is_manager ) {
+            $this->tier = 'manager';
+        } elseif ( $this->is_client_only() ) {
+            $this->tier = 'client';
+        } else {
+            $this->tier = 'member';
+        }
+    }
+
+    /** Client (role 3) in every project the caller belongs to. */
+    protected function is_client_only() {
+        $roles = User_Role::where( 'user_id', $this->user_id )
+            ->distinct()
+            ->pluck( 'role_id' )
+            ->map( 'absint' )
+            ->all();
+
+        return ! empty( $roles ) && ! array_diff( $roles, [ 3 ] );
+    }
+
+    /**
+     * Projects whose team figures the caller sees: all (null) for admins,
+     * every project they belong to for a global PM manager, the projects they
+     * manage for a project manager.
+     */
+    protected function team_project_ids() {
+        if ( $this->is_admin ) {
+            return null;
+        }
+
+        return wedevs_pm_has_manage_capability() ? $this->scope_ids() : $this->managed_scope_ids();
     }
 
     public function index( WP_REST_Request $request ) {
@@ -79,6 +116,7 @@ class Dashboard_Controller {
             'kpis'              => $this->kpis( $days ),
             'projects_status'   => $this->projects_status(),
             'performance'       => $this->performance( $days ),
+            'performance_mode'  => $this->performance_mode(),
             'task_distribution' => $this->task_distribution(),
             'upcoming'          => $this->upcoming_tasks(),
             'upcoming_total'    => $this->upcoming_total(),
@@ -186,12 +224,15 @@ class Dashboard_Controller {
             $role_label = __( 'Administrator', 'wedevs-project-manager' );
         } elseif ( $this->is_manager || wedevs_pm_current_user_is_manager_anywhere() ) {
             $role_label = __( 'Project Manager', 'wedevs-project-manager' );
+        } elseif ( 'client' === $this->tier ) {
+            $role_label = __( 'Client', 'wedevs-project-manager' );
         } else {
             $role_label = __( 'Team Member', 'wedevs-project-manager' );
         }
 
         return [
             'id'         => $this->user_id,
+            'tier'       => $this->tier,
             'name'       => $user->display_name,
             'role_label' => $role_label,
             'avatar_url' => Avatar::get_url( $this->user_id ),
@@ -208,7 +249,15 @@ class Dashboard_Controller {
         $overdue     = (clone $this->task_query())
             ->where( 'status', '!=', Task::COMPLETE )
             ->whereNotNull( 'due_date' )
-            ->whereDate( 'due_date', '<', $today )
+            ->where( 'due_date', '<', $today->toDateString() )
+            ->count();
+        // Open = not done and not past due, so Completed + Open + Overdue = Total
+        // (the same split as My Tasks' Current and Outstanding tabs).
+        $open        = (clone $this->task_query())
+            ->where( 'status', '!=', Task::COMPLETE )
+            ->where( function ( $q ) use ( $today ) {
+                $q->whereNull( 'due_date' )->orWhere( 'due_date', '>=', $today->toDateString() );
+            } )
             ->count();
 
         // Trend: this window vs the window immediately before it.
@@ -225,6 +274,8 @@ class Dashboard_Controller {
         return [
             'total_tasks'     => $total,
             'completed'       => $completed,
+            'open'            => $open,
+            // Deprecated: every open task (overdue included) and status 2, which nothing writes.
             'in_progress'     => $in_progress,
             'pending'         => $pending,
             'overdue'         => $overdue,
@@ -275,41 +326,124 @@ class Dashboard_Controller {
         ];
     }
 
+    /** Which pair of series the Task Performance chart shows (#508). */
+    protected function performance_mode() {
+        $modes = [
+            'admin'   => 'created',
+            'manager' => 'team',
+            'member'  => 'self',
+            'client'  => 'hidden',
+        ];
+
+        return $modes[ $this->tier ];
+    }
+
     /**
-     * Created vs completed parent tasks per day over the requested window
-     * (7 or 30 days) for the bar chart.
+     * Two series per bucket over the window, by who is looking (#508):
+     *   admin   created vs completed, whole workspace
+     *   manager assigned to the team vs completed, projects they manage
+     *   member  completed vs assigned to them
+     *   client  nothing (the card is hidden)
+     * Grouped queries replace the two COUNTs per bucket (up to 60 before).
      */
     protected function performance( $days = 7 ) {
-        $rows = [];
+        $mode = $this->performance_mode();
+
+        if ( 'hidden' === $mode ) {
+            return [];
+        }
 
         // Past 30 days a daily bar per day is unreadable, so bucket by week.
         $bucket  = $days > 30 ? 7 : 1;
         $buckets = (int) ceil( $days / $bucket );
-        $label   = $days > 30 ? 'M j' : ( $days > 7 ? 'M j' : 'D' );
+        $label   = $days > 7 ? 'M j' : 'D';
+        $first   = Carbon::today()->subDays( $buckets * $bucket - 1 )->startOfDay();
+        $last    = Carbon::today()->endOfDay();
+
+        $completed = $this->count_by_day( (clone $this->task_query())->where( 'status', Task::COMPLETE ), 'completed_at', $first, $last );
+        $created   = 'created' === $mode ? $this->count_by_day( clone $this->task_query(), 'created_at', $first, $last ) : [];
+        $assigned  = 'created' === $mode ? [] : $this->assigned_by_day( $mode, $first, $last );
+
+        $sum = function ( $series, $from, $to ) {
+            $n      = 0;
+            $cursor = $from->copy();
+
+            while ( $cursor->lte( $to ) ) {
+                $key     = $cursor->format( 'Y-m-d' );
+                $n      += isset( $series[ $key ] ) ? (int) $series[ $key ] : 0;
+                $cursor->addDay();
+            }
+
+            return $n;
+        };
+
+        $rows = [];
 
         for ( $i = $buckets - 1; $i >= 0; $i-- ) {
             $day   = Carbon::today()->subDays( $i * $bucket );
-            $start = $day->copy()->subDays( $bucket - 1 )->startOfDay();
-            $end   = $day->copy()->endOfDay();
-
-            $created = (clone $this->task_query())
-                ->whereBetween( 'created_at', [ $start, $end ] )
-                ->count();
-
-            $completed = (clone $this->task_query())
-                ->where( 'status', Task::COMPLETE )
-                ->whereBetween( 'completed_at', [ $start, $end ] )
-                ->count();
+            $start = $day->copy()->subDays( $bucket - 1 );
 
             $rows[] = [
                 'label'     => $day->format( $label ),
                 'date'      => $day->format( 'Y-m-d' ),
-                'created'   => $created,
-                'completed' => $completed,
+                'created'   => $sum( $created, $start, $day ),
+                'completed' => $sum( $completed, $start, $day ),
+                'assigned'  => $sum( $assigned, $start, $day ),
             ];
         }
 
         return $rows;
+    }
+
+    /** [ 'Y-m-d' => count ] for a scoped task query, grouped by the given date column. */
+    protected function count_by_day( $query, $column, $first, $last ) {
+        return $query->whereBetween( $column, [ $first->toDateTimeString(), $last->toDateTimeString() ] )
+            ->selectRaw( "DATE({$column}) as d, COUNT(*) as n" )
+            ->groupBy( 'd' )
+            ->pluck( 'n', 'd' )
+            ->all();
+    }
+
+    /**
+     * Parent tasks newly assigned per day: to the caller ('self') or to anyone
+     * in the projects whose team they see ('team'). Older rows without
+     * assigned_at fall back to the task's creation date.
+     */
+    protected function assigned_by_day( $mode, $first, $last ) {
+        global $wpdb;
+
+        $tasks = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+        $asg   = esc_sql( wedevs_pm_tb_prefix() . 'pm_assignees' );
+        $sql   = "SELECT DATE(COALESCE(a.assigned_at, t.created_at)) AS d, COUNT(DISTINCT t.id) AS n
+            FROM {$asg} a
+            JOIN {$tasks} t ON t.id = a.task_id
+            WHERE t.parent_id = 0
+            AND COALESCE(a.assigned_at, t.created_at) BETWEEN %s AND %s";
+        $args  = [ $first->toDateTimeString(), $last->toDateTimeString() ];
+
+        if ( 'self' === $mode ) {
+            $sql   .= ' AND a.assigned_to = %d';
+            $args[] = $this->user_id;
+        } else {
+            $ids = $this->team_project_ids();
+
+            if ( null !== $ids ) {
+                $ids   = $this->ids_or_zero( $ids );
+                $sql  .= ' AND a.project_id IN (' . implode( ',', array_fill( 0, count( $ids ), '%d' ) ) . ')';
+                $args  = array_merge( $args, $ids );
+            }
+        }
+
+        $sql .= ' GROUP BY d';
+
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table names are prefixed constants, values are placeholders.
+        return wp_list_pluck( $wpdb->get_results( $wpdb->prepare( $sql, $args ) ), 'n', 'd' );
+    }
+
+    protected function ids_or_zero( $ids ) {
+        $ids = array_values( array_filter( array_map( 'absint', (array) $ids ) ) );
+
+        return empty( $ids ) ? [ 0 ] : $ids;
     }
 
     /**
@@ -375,7 +509,10 @@ class Dashboard_Controller {
     }
 
     /**
-     * Activity counts per day (productivity heatmap).
+     * Contributions per day for the heatmap (#521): tasks created, tasks
+     * completed and comments. Field edits and other activity rows do not count.
+     * Admins see everything, managers their team's projects, members their own
+     * work; clients get nothing (the card is hidden for them).
      *
      * @param int|null $year  Calendar year, or null for the rolling 53 weeks.
      */
@@ -389,29 +526,41 @@ class Dashboard_Controller {
             $start = $end->copy()->subDays( 7 * 53 - 1 )->startOfDay();
         }
 
-        $query = \WeDevs\PM\Activity\Models\Activity::query()
-            ->where( 'created_at', '>=', $start->copy()->startOfDay() )
-            ->where( 'created_at', '<=', $end->copy()->endOfDay() );
-
-        if ( ! $this->is_admin ) {
-            $query->whereIn( 'project_id', $this->scope_ids() );
+        if ( 'client' === $this->tier ) {
+            return [
+                'visible'       => false,
+                'definition'    => 'contributions',
+                'days'          => [],
+                'active_days'   => 0,
+                'selected_year' => $year,
+                'years'         => [],
+            ];
         }
 
-        $rows = $query->get( [ 'created_at' ] );
-
-        $counts = [];
-        foreach ( $rows as $r ) {
-            $d = Carbon::parse( $r->created_at )->format( 'Y-m-d' );
-            $counts[ $d ] = isset( $counts[ $d ] ) ? $counts[ $d ] + 1 : 1;
-        }
+        $from      = $start->copy()->startOfDay()->toDateTimeString();
+        $to        = $end->copy()->endOfDay()->toDateTimeString();
+        $created   = $this->contributions( 'created', $from, $to );
+        $completed = $this->contributions( 'completed', $from, $to );
+        $comments  = $this->contributions( 'comments', $from, $to );
 
         $days   = [];
         $total  = 0;
         $cursor = $start->copy();
         while ( $cursor->lte( $end ) ) {
-            $d = $cursor->format( 'Y-m-d' );
-            $c = isset( $counts[ $d ] ) ? $counts[ $d ] : 0;
-            $days[] = [ 'date' => $d, 'count' => $c ];
+            $d  = $cursor->format( 'Y-m-d' );
+            $cr = isset( $created[ $d ] ) ? (int) $created[ $d ] : 0;
+            $co = isset( $completed[ $d ] ) ? (int) $completed[ $d ] : 0;
+            $cm = isset( $comments[ $d ] ) ? (int) $comments[ $d ] : 0;
+            $c  = $cr + $co + $cm;
+
+            $days[] = [
+                'date'      => $d,
+                'count'     => $c,
+                'created'   => $cr,
+                'completed' => $co,
+                'comments'  => $cm,
+            ];
+
             if ( $c > 0 ) {
                 $total++;
             }
@@ -419,6 +568,9 @@ class Dashboard_Controller {
         }
 
         return [
+            'visible'       => true,
+            'definition'    => 'contributions',
+            'scope'         => 'member' === $this->tier ? 'self' : 'team',
             'days'          => $days,
             'active_days'   => $total,
             'selected_year' => $year,
@@ -426,12 +578,74 @@ class Dashboard_Controller {
         ];
     }
 
-    /** Distinct years that have activity in scope (desc), incl. current year. */
-    protected function heatmap_years() {
-        $query = \WeDevs\PM\Activity\Models\Activity::query();
+    /**
+     * [ 'Y-m-d' => count ] of one contribution kind in the caller's scope.
+     *
+     * @param string $kind created | completed | comments
+     */
+    protected function contributions( $kind, $from, $to ) {
+        global $wpdb;
 
-        if ( ! $this->is_admin ) {
-            $query->whereIn( 'project_id', $this->scope_ids() );
+        $prefix   = wedevs_pm_tb_prefix();
+        $tasks    = esc_sql( $prefix . 'pm_tasks' );
+        $asg      = esc_sql( $prefix . 'pm_assignees' );
+        $comments = esc_sql( $prefix . 'pm_comments' );
+        $self     = 'member' === $this->tier;
+        $args     = [ $from, $to ];
+
+        if ( 'created' === $kind ) {
+            $sql    = "SELECT DATE(t.created_at) AS d, COUNT(*) AS n FROM {$tasks} t WHERE t.created_at BETWEEN %s AND %s";
+            $column = 't.project_id';
+
+            if ( $self ) {
+                $sql   .= ' AND t.created_by = %d';
+                $args[] = $this->user_id;
+            }
+        } elseif ( 'completed' === $kind ) {
+            $sql    = "SELECT DATE(t.completed_at) AS d, COUNT(*) AS n FROM {$tasks} t WHERE t.status = 1 AND t.completed_at BETWEEN %s AND %s";
+            $column = 't.project_id';
+
+            if ( $self ) {
+                $sql   .= " AND EXISTS (SELECT 1 FROM {$asg} a WHERE a.task_id = t.id AND a.assigned_to = %d)";
+                $args[] = $this->user_id;
+            }
+        } else {
+            // task_activity rows are the automatic "marked as done" notes, not comments.
+            $sql    = "SELECT DATE(c.created_at) AS d, COUNT(*) AS n FROM {$comments} c WHERE c.created_at BETWEEN %s AND %s AND c.commentable_type <> 'task_activity'";
+            $column = 'c.project_id';
+
+            if ( $self ) {
+                $sql   .= ' AND c.created_by = %d';
+                $args[] = $this->user_id;
+            }
+        }
+
+        $ids = $self ? null : $this->team_project_ids();
+
+        if ( null !== $ids ) {
+            $ids  = $this->ids_or_zero( $ids );
+            $sql .= " AND {$column} IN (" . implode( ',', array_fill( 0, count( $ids ), '%d' ) ) . ')';
+            $args = array_merge( $args, $ids );
+        }
+
+        $sql .= ' GROUP BY d';
+
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table names are prefixed constants, values are placeholders.
+        return wp_list_pluck( $wpdb->get_results( $wpdb->prepare( $sql, $args ) ), 'n', 'd' );
+    }
+
+    /** Years that have tasks in scope (desc), always including the current year. */
+    protected function heatmap_years() {
+        $query = Task::query();
+
+        if ( 'member' === $this->tier ) {
+            $query->where( 'created_by', $this->user_id );
+        } else {
+            $ids = $this->team_project_ids();
+
+            if ( null !== $ids ) {
+                $query->whereIn( 'project_id', $this->ids_or_zero( $ids ) );
+            }
         }
 
         $earliest = $query->min( 'created_at' );
@@ -447,8 +661,19 @@ class Dashboard_Controller {
     }
 
     protected function task_distribution() {
+        $today   = Carbon::today()->toDateString();
+        $overdue = (clone $this->task_query())
+            ->where( 'status', '!=', Task::COMPLETE )
+            ->whereNotNull( 'due_date' )
+            ->where( 'due_date', '<', $today )
+            ->count();
+        $open    = (clone $this->task_query())->where( 'status', '!=', Task::COMPLETE )->count() - $overdue;
+
         return [
             'completed'   => (clone $this->task_query())->where( 'status', Task::COMPLETE )->count(),
+            'open'        => $open,
+            'overdue'     => $overdue,
+            // Deprecated keys, kept for older clients.
             'in_progress' => (clone $this->task_query())->where( 'status', Task::INCOMPLETE )->count(),
             'pending'     => (clone $this->task_query())->where( 'status', Task::PENDING )->count(),
         ];
