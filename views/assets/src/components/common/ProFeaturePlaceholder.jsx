@@ -65,6 +65,82 @@ function GanttMock() {
   )
 }
 
+function CalendarMock() {
+  // Sample data only: a month of bars (multi-day tasks) and chips (one-day tasks).
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = now.getMonth()
+  const offset = new Date(year, month, 1).getDay()
+  const days = new Date(year, month + 1, 0).getDate()
+  const bars = [
+    { title: __('Website redesign', 'wedevs-project-manager'), start: 3, end: 7, color: '#6F56A3' },
+    { title: __('Sprint planning', 'wedevs-project-manager'), start: 9, end: 12, color: '#9B82C9' },
+    { title: __('QA and testing', 'wedevs-project-manager'), start: 15, end: 19, color: '#f59e0b' },
+    { title: __('Launch prep', 'wedevs-project-manager'), start: 22, end: 26, color: '#22c55e' },
+  ]
+  const chips = [
+    { title: __('Client call', 'wedevs-project-manager'), day: 5, color: '#ef4444' },
+    { title: __('Write docs', 'wedevs-project-manager'), day: 10, color: '#6F56A3' },
+    { title: __('Bug triage', 'wedevs-project-manager'), day: 17, color: '#9B82C9' },
+    { title: __('Beta milestone', 'wedevs-project-manager'), day: 20, color: '#22c55e' },
+    { title: __('Release', 'wedevs-project-manager'), day: 24, color: '#ef4444' },
+    { title: __('Retro', 'wedevs-project-manager'), day: 28, color: '#f59e0b' },
+  ]
+  const weekdays = [__('Sun', 'wedevs-project-manager'), __('Mon', 'wedevs-project-manager'), __('Tue', 'wedevs-project-manager'), __('Wed', 'wedevs-project-manager'), __('Thu', 'wedevs-project-manager'), __('Fri', 'wedevs-project-manager'), __('Sat', 'wedevs-project-manager')]
+  const weeks = Math.ceil((offset + days) / 7)
+  const cellOf = (day) => ({ week: Math.floor((offset + day - 1) / 7), col: (offset + day - 1) % 7 })
+  const piece = (start, end, week) => {
+    const first = Math.max(start, week * 7 - offset + 1)
+    const last = Math.min(end, week * 7 - offset + 7)
+    return first > last ? null : { col: cellOf(first).col, span: last - first + 1, isStart: first === start }
+  }
+  return (
+    <div className="p-5" style={{ minHeight: '420px' }}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="text-[15px] font-semibold text-pm-text">{now.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</div>
+        <div className="flex gap-1 rounded-md bg-pm-surface-muted p-0.5 text-[12px]">
+          <span className="rounded px-2 py-0.5 bg-pm-surface text-pm-text shadow-sm">{__('Month', 'wedevs-project-manager')}</span>
+          <span className="rounded px-2 py-0.5 text-pm-text-muted">{__('Week', 'wedevs-project-manager')}</span>
+          <span className="rounded px-2 py-0.5 text-pm-text-muted">{__('Day', 'wedevs-project-manager')}</span>
+        </div>
+      </div>
+      <div className="rounded-lg border border-pm-border overflow-hidden">
+        <div className="grid grid-cols-7 border-b border-pm-border">
+          {weekdays.map(d => <div key={d} className="py-1.5 text-center text-[12px] font-medium uppercase text-pm-text-muted">{d}</div>)}
+        </div>
+        {Array.from({ length: weeks }, (_, week) => (
+          <div key={week} className="relative grid grid-cols-7 border-b border-pm-border last:border-b-0" style={{ minHeight: '78px' }}>
+            {Array.from({ length: 7 }, (_, col) => {
+              const day = week * 7 + col - offset + 1
+              const inMonth = day >= 1 && day <= days
+              return (
+                <div key={col} className="border-r border-pm-border last:border-r-0 p-1.5">
+                  {inMonth && <span className={`text-[12px] ${day === now.getDate() ? 'font-bold text-pm-accent' : 'text-pm-text-muted'}`}>{day}</span>}
+                </div>
+              )
+            })}
+            {bars.map(b => {
+              const p = piece(b.start, Math.min(b.end, days), week)
+              return p && (
+                <div key={b.title} className="absolute h-5 rounded px-1.5 text-[11px] leading-5 text-white truncate"
+                  style={{ top: '24px', left: `calc(${(p.col / 7) * 100}% + 3px)`, width: `calc(${(p.span / 7) * 100}% - 6px)`, background: b.color }}>
+                  {p.isStart ? b.title : ''}
+                </div>
+              )
+            })}
+            {chips.filter(c => c.day <= days && cellOf(c.day).week === week).map(c => (
+              <div key={c.title} className="absolute h-5 rounded px-1.5 text-[11px] leading-5 truncate border bg-pm-surface"
+                style={{ top: '50px', left: `calc(${(cellOf(c.day).col / 7) * 100}% + 3px)`, width: `calc(${100 / 7}% - 6px)`, color: c.color, borderColor: c.color }}>
+                {c.title}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function InvoiceMock() {
   const rows = [
     { item: __('Web Design', 'wedevs-project-manager'), qty: 1, rate: '$2,500', total: '$2,500' },
@@ -257,6 +333,7 @@ function TemplatesMock() {
 const MOCK_MAP = {
   kanban: KanbanMock,
   gantt: GanttMock,
+  calendar: CalendarMock,
   invoices: InvoiceMock,
   settings: SettingsMock,
   sprints: SprintsMock,

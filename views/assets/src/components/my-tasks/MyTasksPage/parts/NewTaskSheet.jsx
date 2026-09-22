@@ -36,7 +36,7 @@ const getCurrentUser = () => {
   }
 }
 
-export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, defaultDueDate = '' }) {
+export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, defaultDueDate = '', defaultProjectId = '' }) {
   const api = useApi();
   const toast = useToast();
 
@@ -75,11 +75,14 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
       .then((res) => {
         const p = res.data ?? [];
         setProjects(p);
-        if (p.length > 0) setSelectedProject(String(p[0].id));
+        // A project calendar opens the sheet on its own project.
+        const preferred = defaultProjectId && p.find(x => String(x.id) === String(defaultProjectId));
+        if (preferred) setSelectedProject(String(preferred.id));
+        else if (p.length > 0) setSelectedProject(String(p[0].id));
       })
       .catch(() => {})
       .finally(() => setLoadingProjects(false));
-  }, [open, userId]);
+  }, [open, userId, defaultProjectId]);
 
   useEffect(() => {
     if (!selectedProject) {

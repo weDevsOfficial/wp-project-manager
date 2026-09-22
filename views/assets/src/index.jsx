@@ -72,7 +72,7 @@ const ProgressPlaceholder = React.lazy(() => import('@components/projects/Progre
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
 import { AdminRoute, ProjectRoute, LicenseRoute, ManagerRoute } from '@components/common/ProtectedRoute'
 import { ErrorBoundary } from '@components/common/ErrorBoundary'
-import { Columns3, GitBranch, Receipt, Settings as SettingsIcon, Zap, ShoppingCart, LayoutTemplate } from 'lucide-react'
+import { Columns3, GitBranch, Receipt, Settings as SettingsIcon, Zap, ShoppingCart, LayoutTemplate, Calendar as CalendarIcon } from 'lucide-react'
 
 // ── Replaceable page wrapper — pro can override via filters ──
 function FilteredPage({ filterName, fallback: Fallback }) {
@@ -153,6 +153,9 @@ function AppRoutes() {
         ))}
 
         {/* ── Pro feature placeholders — only shown when Pro hasn't registered the route ── */}
+        {!dynamicRoutes.some(r => r.path === 'projects/:projectId/calendar') && (
+          <Route path="projects/:projectId/calendar" element={<ProjectRoute><ProFeaturePlaceholder title={__("Calendar", 'wedevs-project-manager')} description={__("See this project's tasks and milestones on a month, week or day calendar.", 'wedevs-project-manager')} icon={CalendarIcon} mockKey="calendar" /></ProjectRoute>} />
+        )}
         {!dynamicRoutes.some(r => r.path === 'projects/:projectId/gantt') && (
           <Route path="projects/:projectId/gantt" element={<ProjectRoute><ProFeaturePlaceholder title={__("Gantt Chart", 'wedevs-project-manager')} description={__("Plan and track project timelines with interactive Gantt charts.", 'wedevs-project-manager')} icon={GitBranch} mockKey="gantt" /></ProjectRoute>} />
         )}

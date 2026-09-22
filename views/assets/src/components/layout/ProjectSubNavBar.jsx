@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { usePermissions } from '@hooks/usePermissions'
 import { useActiveProModules, isProModuleActive } from '@hooks/useActiveProModules'
-import { LayoutList, Layout, MessageSquare, Milestone, FileText, Activity, Columns3, GitBranch, Receipt, Settings } from 'lucide-react'
+import { LayoutList, Layout, MessageSquare, Milestone, FileText, Activity, Columns3, GitBranch, Receipt, Settings, Calendar } from 'lucide-react'
 import { cn } from '@lib/utils'
 import ProBadge from '@components/common/ProBadge'
 
@@ -23,6 +23,8 @@ function buildProSubNav(modulePaths, canSeeManagerItems) {
   const items = []
   // Activities is not a module — always show when pro is active (mirrors AppSidebar).
   items.push({ key: 'activities', label: __('Activities', 'wedevs-project-manager'), icon: Activity, path: (pid) => `/projects/${pid}/activities` })
+  // Calendar is part of Pro core, not a module.
+  items.push({ key: 'calendar', label: __('Calendar', 'wedevs-project-manager'), icon: Calendar, path: (pid) => `/projects/${pid}/calendar` })
   if (isActive('Gantt'))    items.push({ key: 'gantt',    label: __('Gantt Chart',  'wedevs-project-manager'), icon: GitBranch, path: (pid) => `/projects/${pid}/gantt` })
   // Same rule as AppSidebar: co-workers and clients only got "Access denied" behind these.
   if (isActive('Invoice') && canSeeManagerItems) items.push({ key: 'invoices', label: __('Invoices', 'wedevs-project-manager'), icon: Receipt, path: (pid) => `/projects/${pid}/invoices` })
@@ -51,6 +53,7 @@ export function ProjectSubNavBar() {
     return [
       ...SUB_NAV_FREE,
       { key: 'activities', label: __('Activities',  'wedevs-project-manager'), icon: Activity,  path: (pid) => `/projects/${pid}/activities`, proPreview: true },
+      { key: 'calendar', label: __('Calendar',     'wedevs-project-manager'),  icon: Calendar,  path: (pid) => `/projects/${pid}/calendar`, proPreview: true },
       { key: 'gantt',    label: __('Gantt Chart',  'wedevs-project-manager'),  icon: GitBranch, path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
       ...(canSeeManagerItems ? [
         { key: 'invoices', label: __('Invoices',     'wedevs-project-manager'),  icon: Receipt,   path: (pid) => `/projects/${pid}/invoices`, proPreview: true },

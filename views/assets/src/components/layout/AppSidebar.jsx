@@ -62,6 +62,7 @@ export function AppSidebar() {
     const items = []
     // Activities is not a module, always show when pro is active
     items.push({ key: 'activities', label: __('Activities', 'wedevs-project-manager'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
+    items.push({ key: 'calendar',   label: __('Calendar', 'wedevs-project-manager'),      icon: Calendar,   path: (pid) => `/projects/${pid}/calendar` })
     if (isActive('Gantt'))     items.push({ key: 'gantt',    label: __('Gantt Chart', 'wedevs-project-manager'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
     const canSeeManagerItems = canManage || isManagerAnywhere
     if (isActive('Invoice') && canSeeManagerItems) items.push({ key: 'invoices', label: __('Invoices', 'wedevs-project-manager'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
@@ -80,6 +81,7 @@ export function AppSidebar() {
     if (isPro) return [...projectSubNav_FREE, ...getProSubNav(activeModulePaths)]
     const proItems = [
       { key: 'activities', label: __('Activities', 'wedevs-project-manager'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities`, proPreview: true },
+      { key: 'calendar',   label: __('Calendar', 'wedevs-project-manager'),      icon: Calendar,   path: (pid) => `/projects/${pid}/calendar`,   proPreview: true },
       { key: 'gantt',    label: __('Gantt Chart', 'wedevs-project-manager'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
     ]
     if (canManage || isManagerAnywhere) {
