@@ -21,8 +21,9 @@ import { formatPmDateTime, isPrivate } from '@lib/pm-utils'
 import { cn } from '@lib/utils'
 import TaskRow, { TASK_GRID } from './TaskRow'
 import TaskDetailSheet from './TaskDetailSheet'
-import { sanitizeHtml } from '@lib/sanitize'
 import { decorateGoogleLinks } from '@lib/google-links'
+import { renderRichText } from '@lib/markdown'
+import { decorateIntegrationLinks } from '@/lib/url-strippers'
 
 function extractMentionedUsers(html) {
   const parser = new DOMParser()
@@ -292,7 +293,7 @@ export default function SingleTaskListPage() {
 
       {/* Description */}
       {currentList.description && (
-        <div className="text-sm text-foreground" dangerouslySetInnerHTML={{ __html: sanitizeHtml(currentList.description) }} />
+        <div className="text-sm text-foreground" dangerouslySetInnerHTML={{ __html: decorateIntegrationLinks(renderRichText(currentList.description)) }} />
       )}
 
       {/* Tasks */}
@@ -442,7 +443,7 @@ export default function SingleTaskListPage() {
                         </div>
                       </div>
                     ) : (
-                      <div className="pm-rich-comment-content text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: decorateGoogleLinks(sanitizeHtml(comment.content)) }} />
+                      <div className="pm-rich-comment-content text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: decorateGoogleLinks(decorateIntegrationLinks(renderRichText(comment.content))) }} />
                     )}
                     {/* Comment files */}
                     {!isEditing && comment.files?.data?.length > 0 && (

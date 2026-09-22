@@ -59,9 +59,9 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
     )
   }
 
-  if (!previewData) return null
-
-  const isError = previewData.state === 'access_denied' || previewData.state === 'error' || previewData.state === 'rate_limited'
+  // A card that could not load adds nothing: the link stays in the text as
+  // the fallback (decorateIntegrationLinks in lib/url-strippers).
+  if (!previewData || ['access_denied', 'error', 'rate_limited'].includes(previewData.state)) return null
   const typeLabel = previewData.type === 'pull_request' ? __('PR', 'wedevs-project-manager') : __('Issue', 'wedevs-project-manager')
 
   const stateColors = {
@@ -84,8 +84,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
   return (
     <div
       className={cn(
-        'rounded-lg border border-pm-border p-3 bg-pm-surface max-w-md cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all',
-        isError && 'opacity-70'
+        'rounded-lg border border-pm-border p-3 bg-pm-surface max-w-md cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all'
       )}
       onClick={openInGitHubLogo}
       role="button"
@@ -115,12 +114,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
         </div>
       </div>
 
-      {isError ? (
-        <div>
-          <span className="text-sm text-pm-text-muted">{typeLabel} #{previewData.number}</span>
-          {previewData.error && <p className="text-[14px] text-amber-600 mt-0.5">{previewData.error}</p>}
-        </div>
-      ) : (
+      {(
         <div className="flex items-start gap-2.5">
           {/* Author avatar */}
           <div className="shrink-0 mt-0.5">

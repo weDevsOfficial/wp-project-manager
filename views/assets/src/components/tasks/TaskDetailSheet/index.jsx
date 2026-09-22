@@ -21,9 +21,9 @@ import RichTextEditor from '@components/common/RichTextEditor'
 import GitHubPreviewContainer from '@components/common/GitHubPreviewContainer'
 import NotionPreviewContainer from '@components/common/NotionPreviewContainer'
 import LoomPreviewContainer from '@components/common/LoomPreviewContainer'
-import { stripAllPreviewUrls } from '@/lib/url-strippers'
-import { sanitizeHtml } from '@lib/sanitize'
+import { decorateIntegrationLinks } from '@/lib/url-strippers'
 import { decorateGoogleLinks } from '@lib/google-links'
+import { renderRichText } from '@lib/markdown'
 import FileUploadArea from '@components/common/FileUploadArea'
 import CommentAttachment from '@components/common/CommentAttachment'
 import CommentLinkActions from '@components/google-workspace/CommentLinkActions'
@@ -855,7 +855,7 @@ export default function TaskDetailSheet() {
                 >
                   {currentTask.description?.html ? (
                     <>
-                      <div className="prose prose-sm max-w-none text-foreground text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripAllPreviewUrls(currentTask.description.html)) }} />
+                      <div className="prose prose-sm max-w-none text-foreground text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: decorateIntegrationLinks(renderRichText(currentTask.description.html)) }} />
                       <GitHubPreviewContainer content={currentTask.description.html} />
                       <NotionPreviewContainer content={currentTask.description.html} />
                       <LoomPreviewContainer content={currentTask.description.html} />
@@ -951,7 +951,7 @@ export default function TaskDetailSheet() {
                             </div>
                           ) : (
                             <>
-                              <div className="pm-rich-comment-content text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: decorateGoogleLinks(sanitizeHtml(stripAllPreviewUrls(comment.content))) }} />
+                              <div className="pm-rich-comment-content text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: decorateGoogleLinks(decorateIntegrationLinks(renderRichText(comment.content))) }} />
                               <GitHubPreviewContainer content={comment.content || ''} />
                               <NotionPreviewContainer content={comment.content || ''} />
                               <LoomPreviewContainer content={comment.content || ''} />

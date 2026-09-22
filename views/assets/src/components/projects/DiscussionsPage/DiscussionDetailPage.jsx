@@ -11,9 +11,9 @@ import RichTextEditor from "@components/common/RichTextEditor";
 import GitHubPreviewContainer from "@components/common/GitHubPreviewContainer";
 import NotionPreviewContainer from "@components/common/NotionPreviewContainer";
 import LoomPreviewContainer from "@components/common/LoomPreviewContainer";
-import { stripAllPreviewUrls } from "@/lib/url-strippers";
-import { sanitizeHtml } from "@lib/sanitize";
+import { decorateIntegrationLinks } from "@/lib/url-strippers";
 import { decorateGoogleLinks } from "@lib/google-links";
+import { renderRichText } from "@lib/markdown";
 import { Skeleton } from "@components/ui/skeleton";
 import { UserAvatar } from "@components/common/UserAvatar";
 import {
@@ -467,7 +467,7 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
                 <div
                   className="prose prose-sm max-w-none text-foreground text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
                   dangerouslySetInnerHTML={{
-                    __html: decorateGoogleLinks(sanitizeHtml(stripAllPreviewUrls(descHtml))),
+                    __html: decorateGoogleLinks(decorateIntegrationLinks(renderRichText(descHtml))),
                   }}
                 />
                 <GitHubPreviewContainer content={descHtml} />
@@ -569,7 +569,7 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
                       <div
                         className="text-sm leading-relaxed prose prose-sm max-w-none text-foreground [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
                         dangerouslySetInnerHTML={{
-                          __html: decorateGoogleLinks(sanitizeHtml(stripAllPreviewUrls(c.content || ""))),
+                          __html: decorateGoogleLinks(decorateIntegrationLinks(renderRichText(c.content || ""))),
                         }}
                       />
                       <GitHubPreviewContainer content={c.content || ""} />

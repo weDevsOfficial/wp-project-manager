@@ -16,6 +16,8 @@ import Color from '@tiptap/extension-color'
 import Highlight from '@tiptap/extension-highlight'
 import TextAlign from '@tiptap/extension-text-align'
 import { cn } from '@lib/utils'
+import { looksLikeMarkdown, markdownToHtml, normalizeTaskLists } from '@lib/markdown'
+import { TaskList, TaskItem } from '@lib/tiptap-task-list'
 import { Button } from '@components/ui/button'
 import { UserAvatar } from '@components/common/UserAvatar'
 import {
@@ -24,7 +26,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@components/ui/tooltip'
-import { Bold, Italic, Underline as UnderlineIcon, Strikethrough, List, ListOrdered, Quote, Code, Link as LinkIcon, Undo, Redo, Minus, RemoveFormatting, Heading1, Heading2, Heading3, AlignLeft, AlignCenter, AlignRight, AlignJustify, Table as TableIcon, Image as ImageIcon, Palette, Highlighter } from 'lucide-react'
+import { Bold, Italic, Underline as UnderlineIcon, Strikethrough, List, ListOrdered, ListChecks, Quote, Code, Link as LinkIcon, Undo, Redo, Minus, RemoveFormatting, Heading1, Heading2, Heading3, AlignLeft, AlignCenter, AlignRight, AlignJustify, Table as TableIcon, Image as ImageIcon, Palette, Highlighter } from 'lucide-react'
 import { createPortal } from 'react-dom'
 
 function ToolbarBtn({ icon: Icon, label, active, disabled, onClick }) {
@@ -92,6 +94,36 @@ function ColorBtn({ icon: Icon, label, value, onChange }) {
       </Tooltip>
     </TooltipProvider>
   )
+}
+
+// Code editors (VS Code, JetBrains) put monospace-styled HTML with no real
+// formatting next to the source on the clipboard; that copy is the Markdown.
+function isFormattingFreeHtml(html) {
+  try {
+    const body = new window.DOMParser().parseFromString(html, 'text/html').body
+    return !body.querySelector('h1, h2, h3, h4, h5, h6, ul, ol, table, blockquote, strong, b, em, i, a[href], img')
+  } catch {
+    return false
+  }
+}
+
+// Markdown copied as plain text (a GitHub issue body, a README) pastes as
+// formatted content. Shift+paste, and paste inside a code block, stay raw.
+function handleMarkdownPaste(view, event, editor) {
+  const data = event.clipboardData
+  if (!editor || !data || view.input?.shiftKey) return false
+  if (view.state.selection.$from.parent.type.spec.code) return false
+
+  const text = data.getData('text/plain')
+  if (!looksLikeMarkdown(text)) return false
+  const html = data.getData('text/html')
+  if (html && !isFormattingFreeHtml(html)) return false
+
+  // One paragraph of inline Markdown ("**bold** text") joins the current line.
+  const rendered = markdownToHtml(text)
+  const inline = rendered.match(/^<p>([\s\S]*)<\/p>$/)
+  const content = inline && !inline[1].includes('<p>') ? inline[1] : rendered
+  return editor.chain().insertContent(content).scrollIntoView().run()
 }
 
 function getMentionPortalTarget(editorEl) {
@@ -268,11 +300,14 @@ export default function RichTextEditor({
 }) {
   const placeholder = placeholderProp || __('Write something...', 'wedevs-project-manager')
 
+  const editorRef = useRef(null)
   const usersRef = useRef(users || [])
   useEffect(() => { usersRef.current = users || [] }, [users])
 
   const extensions = useRef([
     StarterKit.configure({}),
+    TaskList,
+    TaskItem,
     Underline,
     Link.configure({
       openOnClick: false,
@@ -309,6 +344,8 @@ export default function RichTextEditor({
         ),
         style: `min-height: ${minHeight}`,
       },
+      transformPastedHTML: normalizeTaskLists,
+      handlePaste: (view, event) => handleMarkdownPaste(view, event, editorRef.current),
     },
     onUpdate: ({ editor: e }) => {
       onChange?.(e.getHTML())
@@ -317,6 +354,7 @@ export default function RichTextEditor({
       onBlur?.(e.getHTML())
     },
   })
+  editorRef.current = editor
 
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
@@ -473,6 +511,12 @@ export default function RichTextEditor({
             label={__('Numbered List', 'wedevs-project-manager')}
             active={editor.isActive('orderedList')}
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          />
+          <ToolbarBtn
+            icon={ListChecks}
+            label={__('Checklist', 'wedevs-project-manager')}
+            active={editor.isActive('taskList')}
+            onClick={() => editor.chain().focus().toggleTaskList().run()}
           />
 
           <span className="w-px h-4 bg-border mx-0.5" />

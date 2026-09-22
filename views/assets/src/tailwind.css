@@ -1225,3 +1225,241 @@ body.admin-bar [data-sonner-toaster] {
   max-width: 100%;
   height: auto;
 }
+
+/* ── Rich text: headings, checklists, integration links ────────────────
+     Descriptions and comments (editor and read view). Sizes, spacing,
+     radii and colours come from the design tokens: headings sit on the
+     type scale under the 20px page title (h1 = card title, lg; h2 = base;
+     h3–h6 = body sm, semibold). ────────────────────────────────────────── */
+
+/* The app-wide reset flattens h1–h6 to body text to beat WP admin's heading
+   styles, which also flattened the editor's H1–H3 and Markdown headings. */
+#wedevs-project-manager .prose h1,
+#wedevs-project-manager .pm-rich-comment-content h1,
+#wedevs-project-manager .ProseMirror h1,
+[role="dialog"][data-state] .prose h1,
+[role="dialog"][data-state] .pm-rich-comment-content h1,
+[role="dialog"][data-state] .ProseMirror h1,
+#wedevs-project-manager .prose h2,
+#wedevs-project-manager .pm-rich-comment-content h2,
+#wedevs-project-manager .ProseMirror h2,
+[role="dialog"][data-state] .prose h2,
+[role="dialog"][data-state] .pm-rich-comment-content h2,
+[role="dialog"][data-state] .ProseMirror h2,
+#wedevs-project-manager .prose h3,
+#wedevs-project-manager .pm-rich-comment-content h3,
+#wedevs-project-manager .ProseMirror h3,
+[role="dialog"][data-state] .prose h3,
+[role="dialog"][data-state] .pm-rich-comment-content h3,
+[role="dialog"][data-state] .ProseMirror h3,
+#wedevs-project-manager .prose h4,
+#wedevs-project-manager .pm-rich-comment-content h4,
+#wedevs-project-manager .ProseMirror h4,
+[role="dialog"][data-state] .prose h4,
+[role="dialog"][data-state] .pm-rich-comment-content h4,
+[role="dialog"][data-state] .ProseMirror h4,
+#wedevs-project-manager .prose h5,
+#wedevs-project-manager .pm-rich-comment-content h5,
+#wedevs-project-manager .ProseMirror h5,
+[role="dialog"][data-state] .prose h5,
+[role="dialog"][data-state] .pm-rich-comment-content h5,
+[role="dialog"][data-state] .ProseMirror h5,
+#wedevs-project-manager .prose h6,
+#wedevs-project-manager .pm-rich-comment-content h6,
+#wedevs-project-manager .ProseMirror h6,
+[role="dialog"][data-state] .prose h6,
+[role="dialog"][data-state] .pm-rich-comment-content h6,
+[role="dialog"][data-state] .ProseMirror h6 {
+  font-weight: theme('fontWeight.semibold');
+  margin: theme('spacing.4') 0 theme('spacing.2');
+}
+#wedevs-project-manager .prose h1,
+#wedevs-project-manager .pm-rich-comment-content h1,
+#wedevs-project-manager .ProseMirror h1,
+[role="dialog"][data-state] .prose h1,
+[role="dialog"][data-state] .pm-rich-comment-content h1,
+[role="dialog"][data-state] .ProseMirror h1 {
+  font-size: theme('fontSize.lg');
+  line-height: theme('lineHeight.7');
+}
+#wedevs-project-manager .prose h2,
+#wedevs-project-manager .pm-rich-comment-content h2,
+#wedevs-project-manager .ProseMirror h2,
+[role="dialog"][data-state] .prose h2,
+[role="dialog"][data-state] .pm-rich-comment-content h2,
+[role="dialog"][data-state] .ProseMirror h2 {
+  font-size: theme('fontSize.base');
+  line-height: theme('lineHeight.6');
+}
+#wedevs-project-manager .prose h3,
+#wedevs-project-manager .pm-rich-comment-content h3,
+#wedevs-project-manager .ProseMirror h3,
+[role="dialog"][data-state] .prose h3,
+[role="dialog"][data-state] .pm-rich-comment-content h3,
+[role="dialog"][data-state] .ProseMirror h3,
+#wedevs-project-manager .prose h4,
+#wedevs-project-manager .pm-rich-comment-content h4,
+#wedevs-project-manager .ProseMirror h4,
+[role="dialog"][data-state] .prose h4,
+[role="dialog"][data-state] .pm-rich-comment-content h4,
+[role="dialog"][data-state] .ProseMirror h4,
+#wedevs-project-manager .prose h5,
+#wedevs-project-manager .pm-rich-comment-content h5,
+#wedevs-project-manager .ProseMirror h5,
+[role="dialog"][data-state] .prose h5,
+[role="dialog"][data-state] .pm-rich-comment-content h5,
+[role="dialog"][data-state] .ProseMirror h5,
+#wedevs-project-manager .prose h6,
+#wedevs-project-manager .pm-rich-comment-content h6,
+#wedevs-project-manager .ProseMirror h6,
+[role="dialog"][data-state] .prose h6,
+[role="dialog"][data-state] .pm-rich-comment-content h6,
+[role="dialog"][data-state] .ProseMirror h6 {
+  font-size: theme('fontSize.sm');
+  line-height: theme('lineHeight.5');
+}
+#wedevs-project-manager .prose > h1:first-child,
+#wedevs-project-manager .pm-rich-comment-content > h1:first-child,
+#wedevs-project-manager .ProseMirror > h1:first-child,
+[role="dialog"][data-state] .prose > h1:first-child,
+[role="dialog"][data-state] .pm-rich-comment-content > h1:first-child,
+[role="dialog"][data-state] .ProseMirror > h1:first-child,
+#wedevs-project-manager .prose > h2:first-child,
+#wedevs-project-manager .pm-rich-comment-content > h2:first-child,
+#wedevs-project-manager .ProseMirror > h2:first-child,
+[role="dialog"][data-state] .prose > h2:first-child,
+[role="dialog"][data-state] .pm-rich-comment-content > h2:first-child,
+[role="dialog"][data-state] .ProseMirror > h2:first-child,
+#wedevs-project-manager .prose > h3:first-child,
+#wedevs-project-manager .pm-rich-comment-content > h3:first-child,
+#wedevs-project-manager .ProseMirror > h3:first-child,
+[role="dialog"][data-state] .prose > h3:first-child,
+[role="dialog"][data-state] .pm-rich-comment-content > h3:first-child,
+[role="dialog"][data-state] .ProseMirror > h3:first-child,
+#wedevs-project-manager .prose > h4:first-child,
+#wedevs-project-manager .pm-rich-comment-content > h4:first-child,
+#wedevs-project-manager .ProseMirror > h4:first-child,
+[role="dialog"][data-state] .prose > h4:first-child,
+[role="dialog"][data-state] .pm-rich-comment-content > h4:first-child,
+[role="dialog"][data-state] .ProseMirror > h4:first-child,
+#wedevs-project-manager .prose > h5:first-child,
+#wedevs-project-manager .pm-rich-comment-content > h5:first-child,
+#wedevs-project-manager .ProseMirror > h5:first-child,
+[role="dialog"][data-state] .prose > h5:first-child,
+[role="dialog"][data-state] .pm-rich-comment-content > h5:first-child,
+[role="dialog"][data-state] .ProseMirror > h5:first-child,
+#wedevs-project-manager .prose > h6:first-child,
+#wedevs-project-manager .pm-rich-comment-content > h6:first-child,
+#wedevs-project-manager .ProseMirror > h6:first-child,
+[role="dialog"][data-state] .prose > h6:first-child,
+[role="dialog"][data-state] .pm-rich-comment-content > h6:first-child,
+[role="dialog"][data-state] .ProseMirror > h6:first-child {
+  margin-top: 0;
+}
+
+/* Checklists (GitHub-style task lists). Stored without an <input>
+   (wp_kses_post strips it), so the read view draws the box from
+   data-checked; the editor's TaskItem node view shows a real checkbox
+   styled to match. */
+#wedevs-project-manager ul[data-type="taskList"],
+[role="dialog"][data-state] ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+  margin: theme('spacing.2') 0;
+}
+#wedevs-project-manager ul[data-type="taskList"] ul[data-type="taskList"],
+[role="dialog"][data-state] ul[data-type="taskList"] ul[data-type="taskList"] {
+  margin: theme('spacing.1') 0 0;
+}
+#wedevs-project-manager li[data-type="taskItem"],
+[role="dialog"][data-state] li[data-type="taskItem"] {
+  display: flex;
+  align-items: flex-start;
+  gap: theme('spacing.2');
+  margin: theme('spacing.1') 0;
+  padding-left: 0;
+}
+#wedevs-project-manager li[data-type="taskItem"] > div,
+[role="dialog"][data-state] li[data-type="taskItem"] > div {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+#wedevs-project-manager li[data-type="taskItem"] > div > p,
+[role="dialog"][data-state] li[data-type="taskItem"] > div > p {
+  margin: 0;
+}
+#wedevs-project-manager li[data-type="taskItem"]::before,
+[role="dialog"][data-state] li[data-type="taskItem"]::before,
+#wedevs-project-manager li[data-type="taskItem"] > label > input[type="checkbox"],
+[role="dialog"][data-state] li[data-type="taskItem"] > label > input[type="checkbox"] {
+  content: '';
+  flex: none;
+  box-sizing: border-box;
+  width: theme('spacing.[3.5]');
+  height: theme('spacing.[3.5]');
+  /* centre the box on the first line of body text */
+  margin: calc((theme('lineHeight.5') - theme('spacing.[3.5]')) / 2) 0 0;
+  border: 1.5px solid rgb(var(--pm-text-muted-rgb) / 0.6);
+  border-radius: calc(var(--radius) - 4px);
+  background: hsl(var(--background));
+  box-shadow: none;
+}
+#wedevs-project-manager li[data-type="taskItem"][data-checked="true"]::before,
+[role="dialog"][data-state] li[data-type="taskItem"][data-checked="true"]::before,
+#wedevs-project-manager li[data-type="taskItem"] > label > input[type="checkbox"]:checked,
+[role="dialog"][data-state] li[data-type="taskItem"] > label > input[type="checkbox"]:checked {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary)) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-7'/%3E%3C/svg%3E") center / 80% no-repeat;
+}
+#wedevs-project-manager .ProseMirror li[data-type="taskItem"]::before,
+[role="dialog"][data-state] .ProseMirror li[data-type="taskItem"]::before,
+#wedevs-project-manager li[data-type="taskItem"] > label > input[type="checkbox"]::before,
+[role="dialog"][data-state] li[data-type="taskItem"] > label > input[type="checkbox"]::before {
+  content: none;
+}
+#wedevs-project-manager li[data-type="taskItem"] > label,
+[role="dialog"][data-state] li[data-type="taskItem"] > label {
+  display: inline-flex;
+  flex: none;
+  margin: 0;
+}
+#wedevs-project-manager li[data-type="taskItem"] > label > input[type="checkbox"],
+[role="dialog"][data-state] li[data-type="taskItem"] > label > input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+/* Integration links (GitHub / Notion / Loom): render-only labels from
+   decorateIntegrationLinks. The icon is a CSS mask so the sanitizer never
+   has to allow inline SVG. */
+#wedevs-project-manager a.pm-integration-link,
+[role="dialog"][data-state] a.pm-integration-link {
+  font-weight: theme('fontWeight.medium');
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+#wedevs-project-manager a.pm-integration-link::before,
+[role="dialog"][data-state] a.pm-integration-link::before {
+  content: '';
+  display: inline-block;
+  width: theme('spacing.[3.5]');
+  height: theme('spacing.[3.5]');
+  margin-right: theme('spacing.1');
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  -webkit-mask: var(--pm-integration-icon) center / contain no-repeat;
+  mask: var(--pm-integration-icon) center / contain no-repeat;
+}
+#wedevs-project-manager a.pm-integration-link--github,
+[role="dialog"][data-state] a.pm-integration-link--github {
+  --pm-integration-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'/%3E%3C/svg%3E");
+}
+#wedevs-project-manager a.pm-integration-link--notion,
+[role="dialog"][data-state] a.pm-integration-link--notion {
+  --pm-integration-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.98-.7-2.055-.607L2.451 2.577c-.466.046-.56.28-.374.466l2.382 1.165zM5.251 7.26v13.932c0 .747.373 1.027 1.214.98l14.523-.84c.84-.046.933-.56.933-1.167V7.307c0-.606-.233-.933-.746-.886l-15.177.886c-.56.047-.747.327-.747.933zm14.336.42c.094.42 0 .84-.42.886l-.7.14v10.264c-.607.327-1.167.514-1.634.514-.747 0-.933-.234-1.494-.933l-4.577-7.186v6.953l1.447.327s0 .84-1.167.84l-3.22.187c-.093-.187 0-.653.327-.747l.84-.22V9.854L7.822 9.76c-.094-.42.14-1.027.747-1.073l3.454-.234 4.764 7.28V9.527l-1.214-.14c-.093-.513.28-.886.747-.933l3.267-.187z'/%3E%3C/svg%3E");
+}
+#wedevs-project-manager a.pm-integration-link--loom,
+[role="dialog"][data-state] a.pm-integration-link--loom {
+  --pm-integration-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 62 62'%3E%3Cpath d='M62,27.6H43.9l15.7-9.1l-3.4-6l-15.7,9.1l9.1-15.7l-6-3.5l-9.1,15.7V0h-6.9v18.1L18.5,2.4l-6,3.4l9.1,15.7L5.9,12.5l-3.4,6l15.7,9.1H0v6.9h18.1L2.4,43.5l3.4,6l15.7-9.1l-9.1,15.7l6,3.4l9.1-15.7V62h6.9V43.9l9.1,15.7l6-3.4l-9.1-15.7l15.7,9.1l3.4-6l-15.7-9.1H62L62,27.6L62,27.6z M31,40.4c-5.2,0-9.4-4.2-9.4-9.4c0-5.2,4.2-9.4,9.4-9.4c5.2,0,9.4,4.2,9.4,9.4C40.4,36.2,36.2,40.4,31,40.4z'/%3E%3C/svg%3E");
+}

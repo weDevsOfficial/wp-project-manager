@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import React, { useCallback } from "react";
-import { sanitizeHtml } from "@lib/sanitize";
+import { renderRichText } from "@lib/markdown";
+import { decorateIntegrationLinks } from "@/lib/url-strippers";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@store/index";
 import {
@@ -207,7 +208,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
 
             {(typeof milestone.description === 'string' ? milestone.description : milestone.description?.content) && (
               <p className="text-sm text-foreground mt-1 line-clamp-2"
-                dangerouslySetInnerHTML={{ __html: sanitizeHtml(typeof milestone.description === 'string' ? milestone.description : milestone.description.content) }}
+                dangerouslySetInnerHTML={{ __html: decorateIntegrationLinks(renderRichText(typeof milestone.description === 'string' ? milestone.description : milestone.description.content)) }}
               />
             )}
 

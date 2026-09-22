@@ -45,9 +45,9 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
     )
   }
 
-  if (!previewData) return null
-
-  const isError = previewData.state === 'access_denied' || previewData.state === 'error' || previewData.state === 'rate_limited'
+  // A card that could not load adds nothing: the link stays in the text as
+  // the fallback (decorateIntegrationLinks in lib/url-strippers).
+  if (!previewData || ['access_denied', 'error', 'rate_limited'].includes(previewData.state)) return null
   const isDatabase = previewData.type === 'database'
   const TypeIcon = isDatabase ? Database : FileText
 
@@ -67,8 +67,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
   return (
     <div
       className={cn(
-        'flex rounded-lg border border-pm-border bg-pm-surface max-w-md overflow-hidden cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all',
-        isError && 'opacity-70'
+        'flex rounded-lg border border-pm-border bg-pm-surface max-w-md overflow-hidden cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all'
       )}
       onClick={openInNotion}
       role="button"
@@ -99,12 +98,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
           </div>
         </div>
 
-        {isError ? (
-          <div>
-            <span className="text-sm text-pm-text-muted">{isDatabase ? __('Database', 'wedevs-project-manager') : __('Page', 'wedevs-project-manager')}</span>
-            {previewData.error && <p className="text-[14px] text-amber-600 mt-0.5">{previewData.error}</p>}
-          </div>
-        ) : (
+        {(
           <div className="flex items-start gap-3">
             {/* Page icon */}
             <div className="shrink-0">
@@ -149,7 +143,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
       </div>
 
       {/* Cover image on the right if available */}
-      {previewData.cover_url && !isError && (
+      {previewData.cover_url && (
         <div className="w-24 shrink-0 bg-muted">
           <img src={previewData.cover_url} alt="" className="w-full h-full object-cover" />
         </div>
