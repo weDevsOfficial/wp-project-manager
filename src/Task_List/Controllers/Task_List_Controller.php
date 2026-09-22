@@ -644,8 +644,10 @@ class Task_List_Controller {
 
                 case 'today':
                     $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
-                    $filter .= ' AND itasks.due_date = %s';
+                    // Whole day: stored due dates can carry a time, so '= today' missed them.
+                    $filter .= ' AND itasks.due_date >= %s AND itasks.due_date < %s';
                     $filter_values[] = $today;
+                    $filter_values[] = gmdate( 'Y-m-d', strtotime( $today . ' +1 day' ) );
                     break;
 
                 case 'week':
@@ -653,9 +655,9 @@ class Task_List_Controller {
                     $last = gmdate('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
 
                     $filter .= ' AND itasks.due_date >= %s';
-                    $filter .= ' AND itasks.due_date <= %s';
+                    $filter .= ' AND itasks.due_date < %s';
                     $filter_values[] = $last;
-                    $filter_values[] = $today;
+                    $filter_values[] = gmdate( 'Y-m-d', strtotime( $today . ' +1 day' ) );
                     break;
             }
         }
