@@ -1,21 +1,22 @@
 import { __ } from '@wordpress/i18n';
-import React, { useEffect, useState, useRef } from 'react';
-import { cn } from '@lib/utils';
+import React, { useEffect, useState } from 'react';
 import { useToast } from '@hooks/useToast';
 import { useAppDispatch } from '@store/index';
 import { markTaskModified } from '@store/tasksSlice';
 import { removeTaskFromMilestone, addTaskToMilestone } from '@store/milestonesSlice';
-import { Milestone as MilestoneIcon, ChevronDown, X, Check, Loader2 } from 'lucide-react';
+import { DatePicker } from '@components/ui/date-picker';
+import AttributePicker from '@components/common/AttributePicker';
+import { Milestone as MilestoneIcon } from 'lucide-react';
 
-export default function MilestoneField({ task, projectId, api, canEdit = true }) {
+// canCreate: the caller passes the project's create_milestone permission.
+export default function MilestoneField({ task, projectId, api, canEdit = true, canCreate = false }) {
   const toast = useToast();
   const dispatch = useAppDispatch();
   const [milestones, setMilestones] = useState([]);
   const [currentMilestone, setCurrentMilestone] = useState(null);
   const [loaded, setLoaded] = useState(false);
-  const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
-  const dropdownRef = useRef(null);
+  const [newDate, setNewDate] = useState('');
 
   const taskId = task?.id;
   const taskListId = task?.task_list_id || task?.task_lists?.data?.[0]?.id;
@@ -48,33 +49,8 @@ export default function MilestoneField({ task, projectId, api, canEdit = true })
     setMilestones([]);
   }, [taskId]);
 
-  useEffect(() => {
-    if (!canEdit) setOpen(false);
-  }, [canEdit, taskId]);
-
-  // Close on outside click
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-    // Escape closes just this menu; the sheet skips its own Escape while the menu is open.
-    const onKey = (e) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
-    document.addEventListener('mousedown', handler);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('mousedown', handler);
-      document.removeEventListener('keydown', onKey);
-    };
-  }, [open]);
-
-  const handleSelect = async (milestone) => {
+  const handleSelect = async (milestone, successMessage) => {
     if (!canEdit || saving || !taskId || !projectId) return;
-    setOpen(false);
 
     if (milestone?.id === currentMilestone?.id) return;
 
@@ -99,7 +75,7 @@ export default function MilestoneField({ task, projectId, api, canEdit = true })
         });
       }
       dispatch(markTaskModified());
-      toast.success(milestone ? __('Milestone assigned', 'wedevs-project-manager') : __('Milestone removed', 'wedevs-project-manager'));
+      toast.success(successMessage || (milestone ? __('Milestone assigned', 'wedevs-project-manager') : __('Milestone removed', 'wedevs-project-manager')));
     } catch {
       // Rollback on failure
       setCurrentMilestone(previous);
@@ -114,6 +90,21 @@ export default function MilestoneField({ task, projectId, api, canEdit = true })
     setSaving(false);
   };
 
+  // Creates the milestone in this project, then puts the task in it.
+  const handleCreate = async (title) => {
+    const res = await api.post(`projects/${projectId}/milestones`, {
+      title,
+      achieve_date: newDate || undefined,
+      status: 'incomplete',
+      project_id: projectId,
+    });
+    const created = res?.data;
+    if (!created?.id) throw new Error(__('Failed to create milestone', 'wedevs-project-manager'));
+    setMilestones(prev => [...prev.filter(m => m.id !== created.id), created]);
+    setNewDate('');
+    await handleSelect(created, __('Milestone created', 'wedevs-project-manager'));
+  };
+
   return (
     <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
@@ -121,65 +112,36 @@ export default function MilestoneField({ task, projectId, api, canEdit = true })
         <span className="text-sm">{__('Milestone', 'wedevs-project-manager')}</span>
       </div>
 
-      <div className="relative flex items-center gap-1 h-full" ref={dropdownRef} data-pm-inline-menu={canEdit && open ? 'open' : undefined}>
-        <button
-          type="button"
-          disabled={saving || !canEdit}
-          onClick={() => setOpen(v => !v)}
-          className={cn(
-            'flex items-center gap-1 text-sm transition-colors',
-            currentMilestone ? 'text-pm-text-primary' : 'text-pm-text-muted',
-            canEdit && 'hover:text-pm-accent disabled:opacity-50'
-          )}
-        >
-          <span>{saving ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</> : (currentMilestone?.title || __('None', 'wedevs-project-manager'))}</span>
-          {canEdit && <ChevronDown className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" />}
-        </button>
-
-        {canEdit && currentMilestone && !saving && (
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); handleSelect(null); }}
-            className="inline-flex items-center text-pm-text-muted hover:text-destructive transition-colors"
-            title={__('Remove milestone', 'wedevs-project-manager')}
-          >
-            <X className="h-3.5 w-3.5" />
-          </button>
-        )}
-
-        {canEdit && open && (
-          <div className="absolute left-0 top-full mt-1 z-50 bg-background border rounded-lg shadow-lg min-w-[200px] max-h-48 overflow-y-auto">
-            <button
-              type="button"
-              onClick={() => handleSelect(null)}
-              className={cn(
-                'w-full flex items-center justify-between px-3 py-2 text-sm text-left hover:bg-muted/50 transition-colors text-foreground',
-                !currentMilestone && 'bg-pm-accent/5 text-pm-accent'
-              )}
-            >
-              <span className="italic">{__('None', 'wedevs-project-manager')}</span>
-              {!currentMilestone && <Check className="h-3.5 w-3.5 shrink-0" />}
-            </button>
-            {milestones.map(m => (
-              <button
-                key={m.id}
-                type="button"
-                onClick={() => handleSelect(m)}
-                className={cn(
-                  'w-full flex items-center justify-between px-3 py-2 text-sm text-left hover:bg-muted/50 transition-colors text-foreground',
-                  currentMilestone?.id === m.id && 'bg-pm-accent/5 text-pm-accent'
-                )}
-              >
-                <span className="flex-1 truncate">{m.title}</span>
-                {currentMilestone?.id === m.id && <Check className="h-3.5 w-3.5 shrink-0" />}
-              </button>
-            ))}
-            {milestones.length === 0 && (
-              <div className="px-3 py-2 text-sm text-pm-text-muted italic">{__('No milestones', 'wedevs-project-manager')}</div>
-            )}
-          </div>
-        )}
-      </div>
+      <AttributePicker
+        icon={MilestoneIcon}
+        value={currentMilestone?.id ?? null}
+        options={milestones.map(m => ({ id: m.id, label: m.title }))}
+        onSelect={(option) => handleSelect(option ? milestones.find(m => m.id === option.id) : null)}
+        onClear={() => handleSelect(null)}
+        clearLabel={__('Remove milestone', 'wedevs-project-manager')}
+        canEdit={canEdit}
+        saving={saving}
+        placeholder={__('None', 'wedevs-project-manager')}
+        readOnlyText={currentMilestone?.title || __('None', 'wedevs-project-manager')}
+        noneLabel={__('None', 'wedevs-project-manager')}
+        emptyText={__('No milestones', 'wedevs-project-manager')}
+        create={canCreate ? {
+          label: __('Create milestone', 'wedevs-project-manager'),
+          placeholder: __('Milestone title', 'wedevs-project-manager'),
+          requiredMessage: __('Milestone title is required.', 'wedevs-project-manager'),
+          failedMessage: __('Failed to create milestone', 'wedevs-project-manager'),
+          onSubmit: handleCreate,
+          onReset: () => setNewDate(''),
+          extra: (
+            <DatePicker
+              value={newDate}
+              onChange={(v) => setNewDate(v || '')}
+              placeholder={__('Target Date', 'wedevs-project-manager')}
+              className="w-full h-9"
+            />
+          ),
+        } : undefined}
+      />
     </div>
   );
 }

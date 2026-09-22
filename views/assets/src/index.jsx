@@ -301,6 +301,7 @@ window.PM = {
     ProUpgradeModal: require('@components/common/ProUpgradeModal'),
     LicenseGuard:    require('@components/common/LicenseGuard'),
     NewTaskSheet:    require('@components/my-tasks/MyTasksPage/parts/NewTaskSheet'),
+    AttributePicker: require('@components/common/AttributePicker'),
     TaskDetailSheet: (() => {
       // Wrap component to ensure proper error handling across plugin boundaries
       const WrappedTaskDetailSheet = (props) => {

@@ -28,6 +28,7 @@ window.PM = {
     AdminRoute, ProjectRoute, LicenseRoute, ManagerRoute,
     BackButton, FileUploadArea, ProBadge, ProUpgradeModal, LicenseGuard,
     NewTaskSheet, TaskDetailSheet,
+    AttributePicker,   // task-sheet single-value picker (Type, Priority, Milestone, Pro Sprint)
   },
 
   // Re-exported libs — Pro externalizes via webpack to use THESE instances

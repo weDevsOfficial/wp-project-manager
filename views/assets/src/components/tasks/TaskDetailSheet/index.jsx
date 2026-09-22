@@ -97,7 +97,7 @@ export default function TaskDetailSheet() {
   const projectId = storeProjectId || currentTask?.project_id || currentTask?.project?.id
   const isProContext = !storeProjectId && (currentTask?.project_id || currentTask?.project?.id)
   const project = useCurrentProject(projectId)
-  const { canEditTask, canEditComment, userCan, isPro } = usePermissions(project)
+  const { canEditTask, canEditComment, userCan, isPro, isAdmin, canManage } = usePermissions(project)
   const canEditCurrentTask = currentTask ? canEditTask(currentTask) : false
 
   const [editingTitle, setEditingTitle] = useState(false)
@@ -866,11 +866,11 @@ export default function TaskDetailSheet() {
 
                 <TaskEstimationField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
 
-                <TaskTypeField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} canEdit={canEditTask(currentTask)} />
+                <TaskTypeField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} canEdit={canEditTask(currentTask)} canCreate={canEditTask(currentTask) && (isAdmin || canManage)} />
 
                 <TaskPriorityField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} canEdit={canEditTask(currentTask)} />
 
-                <MilestoneField task={currentTask} projectId={currentTask?.project_id} api={api} canEdit={canEditTask(currentTask)} />
+                <MilestoneField task={currentTask} projectId={currentTask?.project_id} api={api} canEdit={canEditTask(currentTask)} canCreate={canEditTask(currentTask) && userCan('create_milestone')} />
 
                 {canEditTask(currentTask) && userCan('view_private_task') && (
                   <TaskPrivacyField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />

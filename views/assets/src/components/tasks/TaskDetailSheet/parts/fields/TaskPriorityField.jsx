@@ -5,13 +5,7 @@ import { cn } from '@lib/utils';
 import { useToast } from '@hooks/useToast';
 import { taskPriority } from '@lib/pm-utils';
 import { updateTask } from '@store/tasksSlice';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@components/ui/select';
+import AttributePicker from '@components/common/AttributePicker';
 
 const OPTIONS = () => [
   { value: 'low', label: __('Low', 'wedevs-project-manager'), pill: 'bg-sky-50 text-sky-700' },
@@ -52,16 +46,14 @@ export default function TaskPriorityField({ task, projectId, dispatch, canEdit =
         <Flag className="h-4 w-4" /><span className="text-sm">{__('Priority', 'wedevs-project-manager')}</span>
       </div>
       {canEdit ? (
-        <Select value={current} onValueChange={handleChange} disabled={saving}>
-          <SelectTrigger className="h-8 w-32 border-none bg-transparent px-2 text-sm shadow-none focus:ring-0">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {options.map((o) => (
-              <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <AttributePicker
+          icon={Flag}
+          value={current}
+          options={options.map((o) => ({ id: o.value, label: o.label }))}
+          onSelect={(o) => o && handleChange(o.id)}
+          saving={saving}
+          widthClass="w-44"
+        />
       ) : (
         <span className={cn('inline-flex items-center rounded-md px-2.5 py-0.5 text-[12px] font-medium', active.pill)}>
           {active.label}
