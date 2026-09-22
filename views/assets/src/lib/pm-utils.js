@@ -77,6 +77,12 @@ export function isPrivate(val) {
  * Extract a plain date string from PM's date field.
  * API returns: { date: '2025-01-15', time: '...', datetime: '...', ... } OR plain string OR null
  */
+// A bare 'YYYY-MM-DD' parses as UTC midnight, which is the previous day west of UTC.
+function parsePmDate(value) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value).trim())
+  return m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : new Date(value)
+}
+
 export function extractDateStr(field) {
   if (!field) return null
   if (typeof field === 'string') return field
@@ -90,7 +96,7 @@ export function extractDateStr(field) {
 export function formatPmDate(field, options) {
   const dateStr = extractDateStr(field)
   if (!dateStr) return ''
-  const d = new Date(dateStr)
+  const d = parsePmDate(dateStr)
   if (isNaN(d.getTime())) return ''
   return d.toLocaleDateString('en-US', options ?? { month: 'short', day: 'numeric', year: 'numeric' })
 }
@@ -119,7 +125,7 @@ export function dueDateColorClass(field) {
   if (!dateStr) return ''
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  const due = new Date(dateStr)
+  const due = parsePmDate(dateStr)
   if (isNaN(due.getTime())) return 'text-pm-text-muted'
   due.setHours(0, 0, 0, 0)
   if (due < today) return 'text-red-500'
@@ -136,7 +142,7 @@ export function isOverdue(dueField, status) {
   if (!dateStr) return false
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  const due = new Date(dateStr)
+  const due = parsePmDate(dateStr)
   if (isNaN(due.getTime())) return false
   due.setHours(0, 0, 0, 0)
   return due < today
