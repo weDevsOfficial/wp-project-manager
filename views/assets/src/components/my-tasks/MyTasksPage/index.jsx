@@ -16,6 +16,7 @@ import {
   PaginationNav,
 } from "@components/ui/pagination";
 import { UserAvatar } from '@components/common/UserAvatar';
+import { InfoTip } from '@components/common/InfoTip';
 import {
   Select,
   SelectContent,
@@ -61,7 +62,7 @@ import {
   Bar,
   Legend,
 } from "recharts";
-import { extractDateStr, formatPmDate, isTaskComplete, toLocalDateStr } from "@lib/pm-utils";
+import { extractDateStr, formatPmDate, isTaskComplete, toLocalDateStr, monthToDate, compactNumber } from "@lib/pm-utils";
 import TaskDetailSheet from "@components/tasks/TaskDetailSheet";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import { cn } from "@lib/utils";
@@ -99,6 +100,8 @@ export default function MyTasksPage() {
   const setActiveTab = (key) => navigate(key === "current" ? "/my-tasks" : `/my-tasks/${key}`);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  // The Overview tab's date-filtered numbers; kept apart so the tab badges keep the unfiltered counts.
+  const [overviewUser, setOverviewUser] = useState(null);
   const [userId, setUserId] = useState(null);
 
   const [tasks, setTasks] = useState([]);
@@ -132,8 +135,9 @@ export default function MyTasksPage() {
 
   const [reportData, setReportData] = useState(null);
   const [reportLoading, setReportLoading] = useState(false);
-  const [reportStart, setReportStart] = useState("");
-  const [reportEnd, setReportEnd] = useState("");
+  // Reports open on this month so far (the 1st to today) and run straight away.
+  const [reportStart, setReportStart] = useState(() => monthToDate().start);
+  const [reportEnd, setReportEnd] = useState(() => monthToDate().end);
   const [showReportDateError, setShowReportDateError] = useState(false);
 
   const [activities, setActivities] = useState([]);
@@ -263,7 +267,7 @@ export default function MyTasksPage() {
     api
       .get(`users/${userId}`, params)
       .then((res) => {
-        setUser(res.data);
+        setOverviewUser(res.data);
         setGraph(res.data?.graph?.data ?? res.data?.graph ?? []);
       })
       .catch(() => {})
@@ -344,20 +348,21 @@ export default function MyTasksPage() {
 
   const fetchReport = useCallback(() => {
     if (!userId || !proApi) return;
+    const pickBoth = __("Pick a start and an end date to run the report.", 'wedevs-project-manager');
     if (!reportStart || !reportEnd) {
       setShowReportDateError(true);
       if (!reportStart && !reportEnd) {
-        toast.error(__("Start Date and End Date are required.", 'wedevs-project-manager'));
+        toast.error(__("Start Date and End Date are required.", 'wedevs-project-manager'), pickBoth);
       } else if (!reportStart) {
-        toast.error(__("Start Date is required.", 'wedevs-project-manager'));
+        toast.error(__("Start Date is required.", 'wedevs-project-manager'), pickBoth);
       } else {
-        toast.error(__("End Date is required.", 'wedevs-project-manager'));
+        toast.error(__("End Date is required.", 'wedevs-project-manager'), pickBoth);
       }
       return;
     }
     if (reportStart > reportEnd) {
       setShowReportDateError(true);
-      toast.error(__("Start Date cannot be greater than End Date.", 'wedevs-project-manager'));
+      toast.error(__("Start Date cannot be greater than End Date.", 'wedevs-project-manager'), __("Move the start date before the end date.", 'wedevs-project-manager'));
       return;
     }
     setShowReportDateError(false);
@@ -380,6 +385,16 @@ export default function MyTasksPage() {
       .catch(() => setReportData(null))
       .finally(() => setReportLoading(false));
   }, [userId, proApi, reportStart, reportEnd, toast, __]);
+
+  // Run once on opening Reports, and again when the viewed user changes; a ref
+  // keyed by user stops a failed request from retrying in a loop.
+  const autoRunFor = useRef(null);
+  useEffect(() => {
+    if (activeTab !== "reports" || !userId || !reportStart || !reportEnd) return;
+    if (autoRunFor.current === userId) return;
+    autoRunFor.current = userId;
+    fetchReport();
+  }, [activeTab, userId, reportStart, reportEnd, fetchReport]);
 
   const handleOpenTask = useCallback(
     (task) => {
@@ -414,6 +429,12 @@ export default function MyTasksPage() {
     outstanding: meta.total_outstanding_tasks ?? 0,
     complete: meta.total_complete_tasks ?? 0,
   };
+  const overviewMeta = overviewUser?.meta?.data || overviewUser?.meta || meta;
+  const overviewCounts = {
+    current: overviewMeta.total_current_tasks ?? 0,
+    outstanding: overviewMeta.total_outstanding_tasks ?? 0,
+    complete: overviewMeta.total_complete_tasks ?? 0,
+  };
 
   return (
     <div className="w-full p-4 sm:p-6 space-y-6">
@@ -440,8 +461,7 @@ export default function MyTasksPage() {
             value={String(userId || "")}
             onValueChange={(val) => {
               setUserId(Number(val));
-              setReportStart("");
-              setReportEnd("");
+              setOverviewUser(null);
               setReportData(null);
               setShowReportDateError(false);
             }}
@@ -523,11 +543,11 @@ export default function MyTasksPage() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {(() => {
-                const totalTasks = counts.current + counts.outstanding + counts.complete;
+                const totalTasks = overviewCounts.current + overviewCounts.outstanding + overviewCounts.complete;
                 return [
-                  { label: __("Current", 'wedevs-project-manager'),     count: counts.current,     icon: CheckSquare,    color: "text-emerald-500 bg-emerald-50" },
-                  { label: __("Outstanding", 'wedevs-project-manager'), count: counts.outstanding, icon: AlertTriangle,  color: "text-red-500 bg-red-50" },
-                  { label: __("Completed", 'wedevs-project-manager'),   count: counts.complete,    icon: CheckCircle,    color: "text-blue-500 bg-blue-50" },
+                  { label: __("Current", 'wedevs-project-manager'),     count: overviewCounts.current,     icon: CheckSquare,    color: "text-emerald-500 bg-emerald-50" },
+                  { label: __("Outstanding", 'wedevs-project-manager'), count: overviewCounts.outstanding, icon: AlertTriangle,  color: "text-red-500 bg-red-50" },
+                  { label: __("Completed", 'wedevs-project-manager'),   count: overviewCounts.complete,    icon: CheckCircle,    color: "text-blue-500 bg-blue-50" },
                 ].map((s) => (
                   <div key={s.label} className="rounded-xl border bg-card p-5 flex items-center gap-4">
                     <div className={`p-3 rounded-xl ${s.color.split(" ")[1]}`}>
@@ -596,9 +616,9 @@ export default function MyTasksPage() {
                     <PieChart>
                       <Pie
                         data={[
-                          { name: __("Current", 'wedevs-project-manager'), value: counts.current },
-                          { name: __("Outstanding", 'wedevs-project-manager'), value: counts.outstanding },
-                          { name: __("Completed", 'wedevs-project-manager'), value: counts.complete },
+                          { name: __("Current", 'wedevs-project-manager'), value: overviewCounts.current },
+                          { name: __("Outstanding", 'wedevs-project-manager'), value: overviewCounts.outstanding },
+                          { name: __("Completed", 'wedevs-project-manager'), value: overviewCounts.complete },
                         ]}
                         cx="50%"
                         cy="50%"
@@ -617,9 +637,9 @@ export default function MyTasksPage() {
                 </div>
                 <div className="space-y-3">
                   {[
-                    { label: __("Current", 'wedevs-project-manager'),     count: counts.current,     color: "#61BD4F" },
-                    { label: __("Outstanding", 'wedevs-project-manager'), count: counts.outstanding, color: "#EB5A46" },
-                    { label: __("Completed", 'wedevs-project-manager'),   count: counts.complete,    color: "#0090D9" },
+                    { label: __("Current", 'wedevs-project-manager'),     count: overviewCounts.current,     color: "#61BD4F" },
+                    { label: __("Outstanding", 'wedevs-project-manager'), count: overviewCounts.outstanding, color: "#EB5A46" },
+                    { label: __("Completed", 'wedevs-project-manager'),   count: overviewCounts.complete,    color: "#0090D9" },
                   ].map((item) => (
                     <div key={item.label} className="flex items-center gap-3 min-w-[240px]">
                       <span
@@ -633,7 +653,7 @@ export default function MyTasksPage() {
                         {item.count} {__("Tasks", 'wedevs-project-manager')}
                       </span>
                       <span className="ml-auto text-sm font-medium text-pm-text-muted tabular-nums">
-                        {(() => { const t = counts.current + counts.outstanding + counts.complete; return t ? Math.round((item.count / t) * 100) : 0 })()}%
+                        {(() => { const t = overviewCounts.current + overviewCounts.outstanding + overviewCounts.complete; return t ? Math.round((item.count / t) * 100) : 0 })()}%
                       </span>
                     </div>
                   ))}
@@ -808,7 +828,8 @@ export default function MyTasksPage() {
               const totalEst = allProj.reduce((t, p) => { const tf = p.estimated_hours_tf || "0:00"; const pts = tf.split(":"); return t + (parseInt(pts[0]) || 0) * 3600 + (parseInt(pts[1]) || 0) * 60; }, 0);
               const totalWork = allProj.reduce((t, p) => { const tf = p.working_hours_tf || "0:00"; const pts = tf.split(":"); return t + (parseInt(pts[0]) || 0) * 3600 + (parseInt(pts[1]) || 0) * 60; }, 0);
               const completedTasks = allProj.reduce((t, p) => t + (p.completed_tasks || 0), 0);
-              const totalTasks = allProj.reduce((t, p) => t + (p.assigned_tasks || 0) + (p.assigned_subtasks || 0), 0);
+              // Per-task and per-day averages count assigned tasks only, matching the card labels.
+              const totalTasks = allProj.reduce((t, p) => t + (p.assigned_tasks || 0), 0);
               const fmtTime = (s) => { const h = Math.floor(s / 3600); const m = Math.floor((s % 3600) / 60); return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`; };
               const days = (() => { const s = new Date(reportDates.start); const e = new Date(reportDates.end); return Math.max(1, Math.ceil((e - s) / (1000 * 60 * 60 * 24)) + 1); })();
               const avgPerTask = totalTasks > 0 ? fmtTime(totalEst / totalTasks) : "00:00";
@@ -817,18 +838,19 @@ export default function MyTasksPage() {
               return (
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                   {[
-                    { Icon: Clock, tone: 'bg-teal-500/10 text-teal-600', label: __("Total Estimation Hours", 'wedevs-project-manager'), value: fmtTime(totalEst) },
-                    { Icon: CheckCircle2, tone: 'bg-blue-500/10 text-blue-600', label: __("Completed Task Count", 'wedevs-project-manager'), value: completedTasks },
-                    { Icon: Timer, tone: 'bg-amber-500/10 text-amber-600', label: __("Avg. Hour Per-task", 'wedevs-project-manager'), value: avgPerTask },
-                    { Icon: Activity, tone: 'bg-cyan-500/10 text-cyan-600', label: __("Avg. Work Hour Per-day", 'wedevs-project-manager'), value: avgPerDay },
-                    { Icon: TrendingUp, tone: 'bg-violet-500/10 text-violet-600', label: __("Avg. Task Per-day", 'wedevs-project-manager'), value: avgTaskPerDay },
-                  ].map(({ Icon, tone, label, value }) => (
+                    { Icon: Clock, tone: 'bg-teal-500/10 text-teal-600', label: __("Total Estimation Hours", 'wedevs-project-manager'), value: fmtTime(totalEst), tip: __("Sum of the estimates on tasks assigned in these dates.", 'wedevs-project-manager') },
+                    { Icon: CheckCircle2, tone: 'bg-blue-500/10 text-blue-600', label: __("Completed Task Count", 'wedevs-project-manager'), value: completedTasks, tip: __("How many of those tasks were marked done in these dates.", 'wedevs-project-manager') },
+                    { Icon: Timer, tone: 'bg-amber-500/10 text-amber-600', label: __("Avg. Hour Per Assigned Task", 'wedevs-project-manager'), value: avgPerTask, tip: __("Total estimate ÷ number of tasks assigned.", 'wedevs-project-manager') },
+                    { Icon: Activity, tone: 'bg-cyan-500/10 text-cyan-600', label: __("Avg. Work Hour Per-day", 'wedevs-project-manager'), value: avgPerDay, tip: __("Time tracked in these dates ÷ number of days.", 'wedevs-project-manager') },
+                    { Icon: TrendingUp, tone: 'bg-violet-500/10 text-violet-600', label: __("Avg. Task Per-day", 'wedevs-project-manager'), value: avgTaskPerDay, tip: __("Tasks assigned ÷ number of days.", 'wedevs-project-manager') },
+                  ].map(({ Icon, tone, label, value, tip }) => (
                     <div key={label} className="rounded-xl border border-pm-border bg-card p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <span className={cn("flex h-7 w-7 items-center justify-center rounded-lg shrink-0", tone)}>
                           <Icon className="h-4 w-4" />
                         </span>
                         <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground/70 leading-tight">{label}</span>
+                        <InfoTip text={tip} />
                       </div>
                       <div className="text-2xl font-bold text-pm-text-primary">{value}</div>
                     </div>
@@ -868,7 +890,7 @@ export default function MyTasksPage() {
                         <BarChart data={data} margin={{ top: 5, right: 10, bottom: 5, left: 0 }}>
                           <CartesianGrid strokeDasharray="3 3" vertical={false} />
                           <XAxis dataKey="name" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} />
-                          <YAxis tick={{ fontSize: 9 }} tickLine={false} axisLine={false} allowDecimals={false} width={25} />
+                          <YAxis tick={{ fontSize: 9 }} tickLine={false} axisLine={false} allowDecimals={false} width={36} tickFormatter={compactNumber} />
                           <Tooltip />
                           <Legend wrapperStyle={{ fontSize: 10 }} />
                           <Bar dataKey="estHours" name={__("Est. Hours", 'wedevs-project-manager')} fill="#f77726" radius={[3, 3, 0, 0]} maxBarSize={20} />

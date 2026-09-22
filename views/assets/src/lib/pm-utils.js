@@ -210,6 +210,21 @@ export function toLocalDateStr(value) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
 
+/** Compact number for chart axes, e.g. 1400 -> "1.4K", so labels fit a narrow axis. */
+export function compactNumber(value) {
+  const n = Number(value)
+  if (!Number.isFinite(n)) return String(value ?? '')
+  return new Intl.NumberFormat(undefined, { notation: 'compact', maximumFractionDigits: 1 }).format(n)
+}
+
+/** This month so far: the 1st and today, as local 'YYYY-MM-DD' strings. */
+export function monthToDate(now = new Date()) {
+  return {
+    start: toLocalDateStr(new Date(now.getFullYear(), now.getMonth(), 1)),
+    end: toLocalDateStr(now),
+  }
+}
+
 /**
  * YYYY-MM-DD for today in the SITE's timezone (PM_Vars.wp_time_zone).
  * Server-stamped rows (activities, comments) carry site time, so grouping
