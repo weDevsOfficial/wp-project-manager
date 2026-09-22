@@ -18,21 +18,23 @@ const getSubNavFree = () => [
   { key: 'files',       label: __('Files',       'wedevs-project-manager'), icon: FileText,      path: (pid) => `/projects/${pid}/files` },
 ]
 
-function buildProSubNav(modulePaths) {
+function buildProSubNav(modulePaths, canSeeManagerItems) {
   const isActive = (dir) => isProModuleActive(modulePaths, dir)
   const items = []
   // Activities is not a module — always show when pro is active (mirrors AppSidebar).
   items.push({ key: 'activities', label: __('Activities', 'wedevs-project-manager'), icon: Activity, path: (pid) => `/projects/${pid}/activities` })
   if (isActive('Gantt'))    items.push({ key: 'gantt',    label: __('Gantt Chart',  'wedevs-project-manager'), icon: GitBranch, path: (pid) => `/projects/${pid}/gantt` })
-  if (isActive('Invoice'))  items.push({ key: 'invoices', label: __('Invoices',     'wedevs-project-manager'), icon: Receipt,   path: (pid) => `/projects/${pid}/invoices` })
-  items.push({ key: 'settings', label: __('Settings', 'wedevs-project-manager'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
+  // Same rule as AppSidebar: co-workers and clients only got "Access denied" behind these.
+  if (isActive('Invoice') && canSeeManagerItems) items.push({ key: 'invoices', label: __('Invoices', 'wedevs-project-manager'), icon: Receipt, path: (pid) => `/projects/${pid}/invoices` })
+  if (canSeeManagerItems) items.push({ key: 'settings', label: __('Settings', 'wedevs-project-manager'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
   return items
 }
 
 // ── Component ────────────────────────────────────────
 
 export function ProjectSubNavBar() {
-  const { isPro } = usePermissions()
+  const { isPro, canManage, isManagerAnywhere } = usePermissions()
+  const canSeeManagerItems = canManage || isManagerAnywhere
 
   const activeModulePaths = useActiveProModules()
   const location = useLocation()
@@ -45,23 +47,23 @@ export function ProjectSubNavBar() {
 
   const subNav = useMemo(() => {
     const SUB_NAV_FREE = getSubNavFree()
-    if (isPro) return [...SUB_NAV_FREE, ...buildProSubNav(activeModulePaths)]
+    if (isPro) return [...SUB_NAV_FREE, ...buildProSubNav(activeModulePaths, canSeeManagerItems)]
     return [
       ...SUB_NAV_FREE,
       { key: 'activities', label: __('Activities',  'wedevs-project-manager'), icon: Activity,  path: (pid) => `/projects/${pid}/activities`, proPreview: true },
       { key: 'gantt',    label: __('Gantt Chart',  'wedevs-project-manager'),  icon: GitBranch, path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
-      { key: 'invoices', label: __('Invoices',     'wedevs-project-manager'),  icon: Receipt,   path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
-      { key: 'settings', label: __('Settings',     'wedevs-project-manager'),  icon: Settings,  path: (pid) => `/projects/${pid}/settings`, proPreview: true },
+      ...(canSeeManagerItems ? [
+        { key: 'invoices', label: __('Invoices',     'wedevs-project-manager'),  icon: Receipt,   path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
+        { key: 'settings', label: __('Settings',     'wedevs-project-manager'),  icon: Settings,  path: (pid) => `/projects/${pid}/settings`, proPreview: true },
+      ] : []),
     ]
-  }, [isPro, activeModulePaths])
+  }, [isPro, activeModulePaths, canSeeManagerItems])
 
   const activeSubKey = useMemo(() => {
     if (!activeProjectId) return null
-    const path = location.pathname
-    for (const item of subNav) {
-      if (path.includes(item.key)) return item.key
-    }
-    return 'task-lists'
+    // Exact segment after the project id; a substring match could pick the wrong tab.
+    const segment = location.pathname.split('/')[3] || ''
+    return subNav.some(item => item.key === segment) ? segment : 'task-lists'
   }, [location.pathname, activeProjectId, subNav])
 
   // Render whenever inside a project (both plugin + WP sidebar modes)
