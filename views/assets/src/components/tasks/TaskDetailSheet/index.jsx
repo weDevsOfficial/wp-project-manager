@@ -1,4 +1,4 @@
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import React, { useEffect, useCallback, useState, useRef } from 'react'
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@store/index'
@@ -111,6 +111,7 @@ export default function TaskDetailSheet() {
   const [dueDate, setDueDate] = useState('')
 
   const [showAssigneeSearch, setShowAssigneeSearch] = useState(false)
+  const assigneeBoxRef = useRef(null)
   const [assigneeQuery, setAssigneeQuery] = useState('')
 
   const [newComment, setNewComment] = useState('')
@@ -329,6 +330,25 @@ export default function TaskDetailSheet() {
   useEffect(() => {
     if (!canEditCurrentTask) setEditingDates(false)
   }, [canEditCurrentTask, currentTask?.id])
+
+  useEffect(() => {
+    setShowAssigneeSearch(false)
+    setAssigneeQuery('')
+  }, [currentTask?.id])
+
+  useEffect(() => {
+    if (!showAssigneeSearch) return
+    const close = () => { setShowAssigneeSearch(false); setAssigneeQuery('') }
+    const onDown = (e) => { if (assigneeBoxRef.current && !assigneeBoxRef.current.contains(e.target)) close() }
+    // Removing a chip unmounts its button and drops focus to <body>, so Escape is caught here, not on the input.
+    const onKey = (e) => { if (e.key === 'Escape') close() }
+    document.addEventListener('mousedown', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [showAssigneeSearch])
 
   const projectMembers = project?.assignees?.data ?? []
   const filteredMembers = assigneeQuery.trim().length === 0
@@ -571,8 +591,11 @@ export default function TaskDetailSheet() {
           // Escape inside a text field belongs to that field (cancel the title
           // rename, clear the assignee search); it used to also close the whole
           // sheet, which threw away whatever was being typed.
+          // Same for a hand-made dropdown that is open: Escape closes the menu, not the sheet.
           const el = e.target
           if (el && typeof el.closest === 'function' && el.closest('input, textarea, [contenteditable="true"]')) e.preventDefault()
+          // Checked on the document too: Safari leaves focus on <body> after clicking a button.
+          else if (document.querySelector('[data-pm-inline-menu="open"]')) e.preventDefault()
         }}
       >
         <DialogTitle className="sr-only">{currentTask?.title || __('Task details', 'wedevs-project-manager')}</DialogTitle>
@@ -674,29 +697,37 @@ export default function TaskDetailSheet() {
                   </span>
                 </div>
 
-                <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
-                  <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+                <div className={cn('flex min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors', editingDates ? 'items-start py-2' : 'items-center')}>
+                  {/* While editing, the label lines up with the Start row instead of the middle of the block. */}
+                  <div className={cn('flex items-center gap-2 text-pm-text-muted w-28 shrink-0', editingDates && 'h-7')}>
                     <Calendar className="h-4 w-4" /><span className="text-sm">{__('Dates', 'wedevs-project-manager')}</span>
                   </div>
                   {editingDates ? (
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <DatePicker
-                        value={startDate}
-                        onChange={(v) => setStartDate(v)}
-                        max={dueDate || undefined}
-                        placeholder={__('Start', 'wedevs-project-manager')}
-                        className="h-7 w-auto min-w-[140px]"
-                      />
-                      <span className="text-sm text-pm-text-muted">→</span>
-                      <DatePicker
-                        value={dueDate}
-                        onChange={(v) => setDueDate(v)}
-                        min={startDate || undefined}
-                        placeholder={__('Due', 'wedevs-project-manager')}
-                        className="h-7 w-auto min-w-[140px]"
-                      />
-                      <Button size="sm" className="h-11 text-[15px] px-2" onClick={handleDateSave}>{__('Save', 'wedevs-project-manager')}</Button>
-                      <Button variant="ghost" size="sm" className="h-11 text-[15px] px-2" onClick={() => setEditingDates(false)}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                    <div className="flex flex-col gap-2 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="w-9 shrink-0 text-[12px] text-pm-text-muted">{__('Start', 'wedevs-project-manager')}</span>
+                        <DatePicker
+                          value={startDate}
+                          onChange={(v) => setStartDate(v)}
+                          max={dueDate || undefined}
+                          placeholder={__('Start', 'wedevs-project-manager')}
+                          className="h-7 w-auto min-w-[140px]"
+                        />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="w-9 shrink-0 text-[12px] text-pm-text-muted">{__('Due', 'wedevs-project-manager')}</span>
+                        <DatePicker
+                          value={dueDate}
+                          onChange={(v) => setDueDate(v)}
+                          min={startDate || undefined}
+                          placeholder={__('Due', 'wedevs-project-manager')}
+                          className="h-7 w-auto min-w-[140px]"
+                        />
+                      </div>
+                      <div className="flex items-center gap-2 pl-11">
+                        <Button size="sm" className="h-8 text-[14px] px-3" onClick={handleDateSave}>{__('Save', 'wedevs-project-manager')}</Button>
+                        <Button variant="ghost" size="sm" className="h-8 text-[14px] px-3" onClick={() => setEditingDates(false)}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                      </div>
                     </div>
                   ) : (
                     <button type="button" disabled={!canEditCurrentTask} onClick={() => canEditCurrentTask && setEditingDates(true)} className={cn('text-sm text-pm-text-primary transition-colors', canEditCurrentTask && 'hover:text-pm-accent')}>
@@ -713,31 +744,63 @@ export default function TaskDetailSheet() {
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                     <Users className="h-4 w-4" /><span className="text-sm">{__('Assignees', 'wedevs-project-manager')}</span>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      {assignees.map(user => (
-                        <span key={user.id || user.assigned_to} className="inline-flex items-center gap-1 text-sm bg-muted/50 rounded-md pl-0.5 pr-2 py-0.5">
-                          <UserAvatar user={user} size="sm" />
-                          {user.display_name}
-                          {canEditTask(currentTask) && (
+                  <div className="flex-1" ref={assigneeBoxRef} data-pm-inline-menu={showAssigneeSearch ? 'open' : undefined}>
+                    {canEditTask(currentTask) && showAssigneeSearch ? (
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        {assignees.map(user => (
+                          <span key={user.id || user.assigned_to} className="inline-flex items-center gap-1 text-sm bg-muted/50 rounded-md pl-0.5 pr-2 py-0.5">
+                            <UserAvatar user={user} size="sm" />
+                            {user.display_name}
                             <button type="button" className="ml-0.5 text-pm-text-muted hover:text-destructive" onClick={() => handleRemoveAssignee(user.assigned_to ?? user.id)}>
                               <X className="h-4 w-4" />
                             </button>
-                          )}
-                        </span>
-                      ))}
-                      {canEditTask(currentTask) && (
-                        <button type="button" onClick={() => setShowAssigneeSearch(v => !v)}
-                          className="inline-flex items-center gap-1 text-[15px] text-pm-accent hover:text-pm-accent/80 transition-colors">
-                          <Plus className="h-4 w-4" />{__('Add', 'wedevs-project-manager')}
-                        </button>
-                      )}
-                    </div>
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-3 flex-wrap">
+                        {assignees.length > 0 && (() => {
+                          const stack = (
+                            <>
+                              <span className="flex items-center -space-x-1">
+                                {assignees.slice(0, 5).map(user => (
+                                  <UserAvatar key={user.id || user.assigned_to} user={user} size="sm" className="border-2 border-background" title={user.display_name} />
+                                ))}
+                                {assignees.length > 5 && (
+                                  <span className="inline-flex items-center justify-center h-7 w-7 rounded-md border-2 border-background bg-muted text-[11px] font-medium text-pm-text-muted">
+                                    +{assignees.length - 5}
+                                  </span>
+                                )}
+                              </span>
+                              {assignees.length === 1 && <span className="text-pm-text-primary">{assignees[0].display_name}</span>}
+                            </>
+                          )
+                          return canEditTask(currentTask) ? (
+                            <button
+                              type="button"
+                              onClick={() => setShowAssigneeSearch(true)}
+                              title={__('Edit assignees', 'wedevs-project-manager')}
+                              aria-label={sprintf(/* translators: %d is the number of users assigned to the task. */ _n('%d assignee, edit', '%d assignees, edit', assignees.length, 'wedevs-project-manager'), assignees.length)}
+                              className="inline-flex items-center gap-2 text-sm rounded-md hover:text-pm-accent transition-colors"
+                            >
+                              {stack}
+                            </button>
+                          ) : (
+                            <span className="inline-flex items-center gap-2 text-sm">{stack}</span>
+                          )
+                        })()}
+                        {canEditTask(currentTask) && (
+                          <button type="button" onClick={() => setShowAssigneeSearch(true)}
+                            className="inline-flex items-center gap-1 text-[15px] text-pm-accent hover:text-pm-accent/80 transition-colors">
+                            <Plus className="h-4 w-4" />{__('Add', 'wedevs-project-manager')}
+                          </button>
+                        )}
+                      </div>
+                    )}
                     {canEditTask(currentTask) && showAssigneeSearch && (
                       <div className="relative mt-1.5">
                         <Input autoFocus value={assigneeQuery} onChange={e => setAssigneeQuery(e.target.value)}
                           placeholder={__('Search members...', 'wedevs-project-manager')} className="h-7 text-sm pr-7"
-                          onKeyDown={e => { if (e.key === 'Escape') { setShowAssigneeSearch(false); setAssigneeQuery('') } }}
                         />
                         <button
                           type="button"

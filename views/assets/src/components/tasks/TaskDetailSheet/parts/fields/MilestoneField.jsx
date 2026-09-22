@@ -60,8 +60,16 @@ export default function MilestoneField({ task, projectId, api, canEdit = true })
         setOpen(false);
       }
     };
+    // Escape closes just this menu; the sheet skips its own Escape while the menu is open.
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
     document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+      document.removeEventListener('keydown', onKey);
+    };
   }, [open]);
 
   const handleSelect = async (milestone) => {
@@ -113,7 +121,7 @@ export default function MilestoneField({ task, projectId, api, canEdit = true })
         <span className="text-sm">{__('Milestone', 'wedevs-project-manager')}</span>
       </div>
 
-      <div className="relative flex items-center gap-1 h-full" ref={dropdownRef}>
+      <div className="relative flex items-center gap-1 h-full" ref={dropdownRef} data-pm-inline-menu={canEdit && open ? 'open' : undefined}>
         <button
           type="button"
           disabled={saving || !canEdit}
