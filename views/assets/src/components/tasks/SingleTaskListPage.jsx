@@ -293,7 +293,7 @@ export default function SingleTaskListPage() {
 
       {/* Description */}
       {currentList.description && (
-        <div className="text-sm text-foreground" dangerouslySetInnerHTML={{ __html: decorateIntegrationLinks(renderRichText(currentList.description)) }} />
+        <div className="pm-rich-comment-content text-sm text-foreground" dangerouslySetInnerHTML={{ __html: decorateIntegrationLinks(renderRichText(currentList.description)) }} />
       )}
 
       {/* Tasks */}

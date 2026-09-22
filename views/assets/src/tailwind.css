@@ -1232,6 +1232,61 @@ body.admin-bar [data-sonner-toaster] {
      type scale under the 20px page title (h1 = card title, lg; h2 = base;
      h3–h6 = body sm, semibold). ────────────────────────────────────────── */
 
+/* WP admin sets p, ul, ol and li to 13px/1.5, which left paragraphs a size
+   under the list items beside them, and prose-sm shrinks tables to 12px. Body text follows the container, which
+   is text-sm (14px) on every render site. */
+#wedevs-project-manager .prose p,
+#wedevs-project-manager .pm-rich-comment-content p,
+#wedevs-project-manager .ProseMirror p,
+[role="dialog"][data-state] .prose p,
+[role="dialog"][data-state] .pm-rich-comment-content p,
+[role="dialog"][data-state] .ProseMirror p,
+#wedevs-project-manager .prose ul,
+#wedevs-project-manager .pm-rich-comment-content ul,
+#wedevs-project-manager .ProseMirror ul,
+[role="dialog"][data-state] .prose ul,
+[role="dialog"][data-state] .pm-rich-comment-content ul,
+[role="dialog"][data-state] .ProseMirror ul,
+#wedevs-project-manager .prose ol,
+#wedevs-project-manager .pm-rich-comment-content ol,
+#wedevs-project-manager .ProseMirror ol,
+[role="dialog"][data-state] .prose ol,
+[role="dialog"][data-state] .pm-rich-comment-content ol,
+[role="dialog"][data-state] .ProseMirror ol,
+#wedevs-project-manager .prose li,
+#wedevs-project-manager .pm-rich-comment-content li,
+#wedevs-project-manager .ProseMirror li,
+[role="dialog"][data-state] .prose li,
+[role="dialog"][data-state] .pm-rich-comment-content li,
+[role="dialog"][data-state] .ProseMirror li,
+#wedevs-project-manager .prose td,
+#wedevs-project-manager .pm-rich-comment-content td,
+#wedevs-project-manager .ProseMirror td,
+[role="dialog"][data-state] .prose td,
+[role="dialog"][data-state] .pm-rich-comment-content td,
+[role="dialog"][data-state] .ProseMirror td,
+#wedevs-project-manager .prose th,
+#wedevs-project-manager .pm-rich-comment-content th,
+#wedevs-project-manager .ProseMirror th,
+[role="dialog"][data-state] .prose th,
+[role="dialog"][data-state] .pm-rich-comment-content th,
+[role="dialog"][data-state] .ProseMirror th,
+#wedevs-project-manager .prose blockquote,
+#wedevs-project-manager .pm-rich-comment-content blockquote,
+#wedevs-project-manager .ProseMirror blockquote,
+[role="dialog"][data-state] .prose blockquote,
+[role="dialog"][data-state] .pm-rich-comment-content blockquote,
+[role="dialog"][data-state] .ProseMirror blockquote,
+#wedevs-project-manager .prose table,
+#wedevs-project-manager .pm-rich-comment-content table,
+#wedevs-project-manager .ProseMirror table,
+[role="dialog"][data-state] .prose table,
+[role="dialog"][data-state] .pm-rich-comment-content table,
+[role="dialog"][data-state] .ProseMirror table {
+  font-size: inherit;
+  line-height: inherit;
+}
+
 /* The app-wide reset flattens h1–h6 to body text to beat WP admin's heading
    styles, which also flattened the editor's H1–H3 and Markdown headings. */
 #wedevs-project-manager .prose h1,
@@ -1355,6 +1410,86 @@ body.admin-bar [data-sonner-toaster] {
 [role="dialog"][data-state] .pm-rich-comment-content > h6:first-child,
 [role="dialog"][data-state] .ProseMirror > h6:first-child {
   margin-top: 0;
+}
+
+/* Code sits one step under body text (xs); prose-sm shrank a code block
+   twice, to about 10px. */
+#wedevs-project-manager .prose code,
+#wedevs-project-manager .pm-rich-comment-content code,
+#wedevs-project-manager .ProseMirror code,
+[role="dialog"][data-state] .prose code,
+[role="dialog"][data-state] .pm-rich-comment-content code,
+[role="dialog"][data-state] .ProseMirror code,
+#wedevs-project-manager .prose pre,
+#wedevs-project-manager .pm-rich-comment-content pre,
+#wedevs-project-manager .ProseMirror pre,
+[role="dialog"][data-state] .prose pre,
+[role="dialog"][data-state] .pm-rich-comment-content pre,
+[role="dialog"][data-state] .ProseMirror pre {
+  font-size: theme('fontSize.xs');
+}
+#wedevs-project-manager .prose pre,
+#wedevs-project-manager .pm-rich-comment-content pre,
+#wedevs-project-manager .ProseMirror pre,
+[role="dialog"][data-state] .prose pre,
+[role="dialog"][data-state] .pm-rich-comment-content pre,
+[role="dialog"][data-state] .ProseMirror pre {
+  line-height: theme('lineHeight.5');
+}
+#wedevs-project-manager .prose pre code,
+#wedevs-project-manager .pm-rich-comment-content pre code,
+#wedevs-project-manager .ProseMirror pre code,
+[role="dialog"][data-state] .prose pre code,
+[role="dialog"][data-state] .pm-rich-comment-content pre code,
+[role="dialog"][data-state] .ProseMirror pre code {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+#wedevs-project-manager .prose code::before,
+#wedevs-project-manager .pm-rich-comment-content code::before,
+#wedevs-project-manager .ProseMirror code::before,
+[role="dialog"][data-state] .prose code::before,
+[role="dialog"][data-state] .pm-rich-comment-content code::before,
+[role="dialog"][data-state] .ProseMirror code::before,
+#wedevs-project-manager .prose code::after,
+#wedevs-project-manager .pm-rich-comment-content code::after,
+#wedevs-project-manager .ProseMirror code::after,
+[role="dialog"][data-state] .prose code::after,
+[role="dialog"][data-state] .pm-rich-comment-content code::after,
+[role="dialog"][data-state] .ProseMirror code::after {
+  content: none;
+}
+
+/* Quotes read like GitHub's: a bar and muted text, no italics or quote marks.
+   The bar is an inset shadow because the portal reset zeroes borders at a
+   higher specificity than rich text can reach. */
+#wedevs-project-manager .prose blockquote,
+#wedevs-project-manager .pm-rich-comment-content blockquote,
+#wedevs-project-manager .ProseMirror blockquote,
+[role="dialog"][data-state] .prose blockquote,
+[role="dialog"][data-state] .pm-rich-comment-content blockquote,
+[role="dialog"][data-state] .ProseMirror blockquote {
+  margin: theme('spacing.2') 0;
+  padding-left: theme('spacing.3');
+  box-shadow: inset theme('borderWidth.4') 0 0 hsl(var(--border));
+  color: rgb(var(--pm-text-muted-rgb));
+  font-style: normal;
+  quotes: none;
+}
+#wedevs-project-manager .prose blockquote p::before,
+#wedevs-project-manager .pm-rich-comment-content blockquote p::before,
+#wedevs-project-manager .ProseMirror blockquote p::before,
+[role="dialog"][data-state] .prose blockquote p::before,
+[role="dialog"][data-state] .pm-rich-comment-content blockquote p::before,
+[role="dialog"][data-state] .ProseMirror blockquote p::before,
+#wedevs-project-manager .prose blockquote p::after,
+#wedevs-project-manager .pm-rich-comment-content blockquote p::after,
+#wedevs-project-manager .ProseMirror blockquote p::after,
+[role="dialog"][data-state] .prose blockquote p::after,
+[role="dialog"][data-state] .pm-rich-comment-content blockquote p::after,
+[role="dialog"][data-state] .ProseMirror blockquote p::after {
+  content: none;
 }
 
 /* Checklists (GitHub-style task lists). Stored without an <input>

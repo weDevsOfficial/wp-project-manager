@@ -16,6 +16,7 @@ function canonicalizeGithubUrl(url) {
 }
 
 const ERROR_SENTINEL = { error: true }
+const FAILED_STATES = ['access_denied', 'error', 'rate_limited']
 
 export default function GitHubPreviewContainer({ content }) {
   const api = useApi()
@@ -83,16 +84,23 @@ export default function GitHubPreviewContainer({ content }) {
     })
   }, [api])
 
-  if (!urls.length) return null
+  // Only cards whose data loaded. While a batch is in flight, or when it
+  // fails (no access, previews off, past the 10-URL batch cap), the link in
+  // the text is the fallback, so there is nothing to hold space for.
+  const loaded = urls.filter(url => {
+    const data = previews[url]?.data
+    return data && !FAILED_STATES.includes(data.state)
+  })
+
+  if (!loaded.length) return null
 
   return (
     <div className="flex flex-wrap gap-2 mt-2">
-      {urls.map(url => (
+      {loaded.map(url => (
         <GitHubPreviewCard
           key={url}
           url={url}
-          previewData={previews[url]?.data ?? null}
-          loading={previews[url] === null || previews[url] === undefined}
+          previewData={previews[url].data}
           onRefresh={() => handleRefresh(url)}
         />
       ))}
