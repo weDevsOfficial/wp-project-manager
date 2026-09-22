@@ -13,6 +13,7 @@ import { Skeleton } from '@components/ui/skeleton'
 import { UserAvatar } from '@components/common/UserAvatar'
 import RichTextEditor from '@components/common/RichTextEditor'
 import NotifyUsers from '@components/common/NotifyUsers'
+import { CopyMarkdownButton } from '@components/common/CopyMarkdownButton'
 import FileUploadArea from '@components/common/FileUploadArea'
 import CommentAttachment from '@components/common/CommentAttachment'
 import { Lock, MessageSquare, Pencil, Trash2, Loader2, ChevronDown, CheckCircle2, Clock, ListChecks, Tag, AlignLeft, Users, Calendar, Flag, BarChart3 } from 'lucide-react'
@@ -293,7 +294,10 @@ export default function SingleTaskListPage() {
 
       {/* Description */}
       {currentList.description && (
-        <div className="pm-rich-comment-content text-sm text-foreground" dangerouslySetInnerHTML={{ __html: decorateIntegrationLinks(renderRichText(currentList.description)) }} />
+        <div className="group/desc flex items-start gap-2">
+          <div className="pm-rich-comment-content text-sm text-foreground flex-1 min-w-0" dangerouslySetInnerHTML={{ __html: decorateIntegrationLinks(renderRichText(currentList.description)) }} />
+          <CopyMarkdownButton html={currentList.description} className="shrink-0 opacity-0 group-hover/desc:opacity-100 focus-visible:opacity-100" />
+        </div>
       )}
 
       {/* Tasks */}
@@ -413,14 +417,17 @@ export default function SingleTaskListPage() {
                     <div className="flex items-center gap-2 mb-0.5">
                       <span className="text-sm font-medium text-pm-text-primary">{comment.creator?.data?.display_name}</span>
                       <span className="text-[13px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
-                      {isOwn && !isEditing && (
-                        <span className="opacity-0 group-hover/comment:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
+                      {!isEditing && (
+                        <span className="opacity-0 group-hover/comment:opacity-100 focus-within:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
+                          <CopyMarkdownButton html={comment.content} className="p-0.5" />
+                          {isOwn && (<>
                           <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit', 'wedevs-project-manager')}>
                             <Pencil className="h-3.5 w-3.5" />
                           </button>
                           <button type="button" onClick={() => handleDeleteComment(comment.id)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-destructive" title={__('Delete', 'wedevs-project-manager')}>
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
+                          </>)}
                         </span>
                       )}
                     </div>

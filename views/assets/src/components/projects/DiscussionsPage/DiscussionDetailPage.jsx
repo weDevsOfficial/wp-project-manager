@@ -16,6 +16,7 @@ import { decorateGoogleLinks } from "@lib/google-links";
 import { renderRichText } from "@lib/markdown";
 import { Skeleton } from "@components/ui/skeleton";
 import { UserAvatar } from "@components/common/UserAvatar";
+import { CopyMarkdownButton } from "@components/common/CopyMarkdownButton";
 import {
   Select,
   SelectContent,
@@ -411,6 +412,7 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
                   </button>
                 )}
               </div>
+              <CopyMarkdownButton html={descHtml} className="h-7 w-7 justify-center shrink-0" />
               {canEditDiscussion(discussion) && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -504,8 +506,10 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
                     <span className="text-[13px] text-pm-text-muted">
                       {formatPmDateTime(c.created_at)}
                     </span>
-                    {canEditComment(c) && editingCommentId !== c.id && (
+                    {editingCommentId !== c.id && (
                       <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity ml-auto">
+                        <CopyMarkdownButton html={c.content || ""} className="p-1.5" />
+                        {canEditComment(c) && (<>
                         <button
                           type="button"
                           className="p-1.5 rounded-md text-pm-text-muted hover:text-pm-accent hover:bg-pm-accent-light"
@@ -522,6 +526,7 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                         </button>
+                        </>)}
                       </div>
                     )}
                   </div>

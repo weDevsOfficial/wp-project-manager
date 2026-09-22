@@ -29,6 +29,7 @@ import CommentAttachment from '@components/common/CommentAttachment'
 import CommentLinkActions from '@components/google-workspace/CommentLinkActions'
 import TaskStatusCircle from '@components/common/TaskStatusCircle'
 import NotifyUsers from '@components/common/NotifyUsers'
+import { CopyMarkdownButton } from '@components/common/CopyMarkdownButton'
 import { UserAvatar } from '@components/common/UserAvatar'
 import { Separator } from '@components/ui/separator'
 import { Skeleton } from '@components/ui/skeleton'
@@ -888,6 +889,10 @@ export default function TaskDetailSheet() {
             <div className="px-6 py-5">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="flex items-center gap-1.5 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70"><FileText className="h-4 w-4" />{__('Description', 'wedevs-project-manager')}</h4>
+                <div className="flex items-center gap-2">
+                {!editingDesc && (
+                  <CopyMarkdownButton html={currentTask.description?.content || currentTask.description?.html || ''} className="h-9 w-9 justify-center" />
+                )}
                 {!editingDesc && canEditTask(currentTask) && (
                   <Button
                     size="sm"
@@ -901,6 +906,7 @@ export default function TaskDetailSheet() {
                     </>)}
                   </Button>
                 )}
+                </div>
               </div>
               {editingDesc ? (
                 <div className="space-y-3">
@@ -986,14 +992,17 @@ export default function TaskDetailSheet() {
                               {comment.creator?.data?.display_name}
                             </button>
                             <span className="text-[13px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
-                            {canEdit && !isEditing && (
-                              <span className="opacity-0 group-hover/comment:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
+                            {!isEditing && (
+                              <span className="opacity-0 group-hover/comment:opacity-100 focus-within:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
+                                <CopyMarkdownButton html={comment.content} className="p-0.5" />
+                                {canEdit && (<>
                                 <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit', 'wedevs-project-manager')}>
                                   <Pencil className="h-4 w-4" />
                                 </button>
                                 <button type="button" onClick={() => handleDeleteComment(comment.id)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-destructive" title={__('Delete', 'wedevs-project-manager')}>
                                   <Trash2 className="h-4 w-4" />
                                 </button>
+                                </>)}
                               </span>
                             )}
                           </div>
