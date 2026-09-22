@@ -512,15 +512,19 @@ export default function TaskDetailSheet() {
     if (!currentTask || !projectId) return
     const ok = await confirm(__('Are you sure you want to delete this task?', 'wedevs-project-manager'), __('Delete Task', 'wedevs-project-manager'))
     if (!ok) return
+    // Delete before closing: every page behind the sheet refetches the moment
+    // it closes with a change, and that request used to reach the server
+    // before the delete did, so the task came straight back into the list.
+    try {
+      await dispatch(deleteTask({ projectId, taskId: currentTask.id })).unwrap()
+    } catch {
+      toast.error(__('Failed to delete task', 'wedevs-project-manager'))
+      return
+    }
     dispatch(removeTaskFromList({ listId: currentTask.task_list_id, taskId: currentTask.id }))
     dispatch(markTaskModified())
     dispatch(closeTaskSheet())
-    try {
-      await dispatch(deleteTask({ projectId, taskId: currentTask.id })).unwrap()
-      toast.success(__('Task deleted', 'wedevs-project-manager'))
-    } catch {
-      toast.error(__('Failed to delete task', 'wedevs-project-manager'))
-    }
+    toast.success(__('Task deleted', 'wedevs-project-manager'))
   }, [dispatch, projectId, currentTask, toast, __, confirm])
 
   const handleCopyLink = useCallback(async () => {

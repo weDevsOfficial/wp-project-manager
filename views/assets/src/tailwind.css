@@ -737,15 +737,6 @@ body.pm-fullscreen-settings.pm-mode-wordpress.folded #wedevs-pm {
   border-color: hsl(var(--border));
 }
 
-body.pm-mode-wordpress [data-pm-alert-overlay],
-body.admin-bar [data-pm-alert-overlay] {
-  z-index: 100250 !important;
-}
-body.pm-mode-wordpress [role="alertdialog"][data-state],
-body.admin-bar [role="alertdialog"][data-state] {
-  z-index: 100251 !important;
-}
-
 /* Center modal dialogs — uses data-pm-dialog attribute to avoid targeting sheets.
    Dialogs portal to <body>, so we use inset + margin for true centering
    regardless of sidebar width. */
@@ -915,6 +906,21 @@ body.admin-bar [data-state].fixed {
 body.pm-mode-wordpress [role="dialog"][data-state],
 body.admin-bar [role="dialog"][data-state] {
   z-index: 100101 !important;
+}
+
+/* Confirms open on top of whatever asked for them, usually the task sheet.
+   These have to follow the two rules above: the overlay and the alert
+   content are both [data-state].fixed, which scores the same or higher and,
+   when it came later in the file, dropped a confirm to 100100, under the
+   sheet's 100101, where it could not be seen or reached. The overlay
+   selector carries [data-state] so it scores level with that rule. */
+body.pm-mode-wordpress [data-pm-alert-overlay][data-state],
+body.admin-bar [data-pm-alert-overlay][data-state] {
+  z-index: 100250 !important;
+}
+body.pm-mode-wordpress [role="alertdialog"][data-state],
+body.admin-bar [role="alertdialog"][data-state] {
+  z-index: 100251 !important;
 }
 
 body.pm-mode-wordpress [data-radix-popper-content-wrapper],
