@@ -361,13 +361,14 @@ export default function KanbanBoard() {
   return (
     <div
       className={cn(
-        "max-w-[1900px] mx-auto px-6 pt-4 pb-6 h-full bg-cover bg-center bg-no-repeat",
+        // A column flex box so the board below fills exactly the space the background covers.
+        "max-w-[1900px] mx-auto px-6 pt-4 pb-6 h-full flex flex-col bg-cover bg-center bg-no-repeat",
         boardBg && "rounded-xl",
       )}
       style={boardBg ? { backgroundImage: `url("${boardBg}")` } : undefined}
     >
       <ConfirmDialog />
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 shrink-0">
         <h2
           className={cn(
             "text-xl font-bold text-pm-text-primary",
