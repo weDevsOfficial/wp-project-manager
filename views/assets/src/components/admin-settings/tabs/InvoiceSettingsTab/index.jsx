@@ -11,6 +11,9 @@ import { Switch } from '@components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
 import { CURRENCIES, COUNTRIES, getInv } from './constants';
 import ColorPicker from './parts/ColorPicker';
+import KeyInput from './parts/KeyInput';
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function InvoiceSettingsTab() {
   const toast = useToast();
@@ -54,15 +57,23 @@ export default function InvoiceSettingsTab() {
     const v = getInv('stripe_test_secret', false);
     return v === true || v === 'true';
   });
-  const [secretKey, setSecretKey] = useState(() => getInv('secret_key', ''));
+  // Secret keys never come back from the server; only whether one is saved.
+  const [secretKey, setSecretKey] = useState('');
+  const [secretKeySaved, setSecretKeySaved] = useState(() => !!getInv('secret_key_set', false));
   const [secretPublishableKey, setSecretPublishableKey] = useState(() => getInv('secret_publishable_key', ''));
-  const [liveSecretKey, setLiveSecretKey] = useState(() => getInv('live_secret_key', ''));
+  const [liveSecretKey, setLiveSecretKey] = useState('');
+  const [liveSecretKeySaved, setLiveSecretKeySaved] = useState(() => !!getInv('live_secret_key_set', false));
   const [livePublishableKey, setLivePublishableKey] = useState(() => getInv('live_publishable_key', ''));
+  const paypalMailInvalid = paypalEnabled && paypalMail.trim() !== '' && !EMAIL_RE.test(paypalMail.trim());
 
   const set = useCallback((setter) => (val) => { setter(val); setIsDirty(true); }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (paypalMailInvalid) {
+      toast.error(__('Enter a valid PayPal email address.', 'wedevs-project-manager'), __('For example name@example.com.', 'wedevs-project-manager'));
+      return;
+    }
     try {
       const invoiceData = {
         theme_color: themeColor,
@@ -72,10 +83,10 @@ export default function InvoiceSettingsTab() {
           { name: 'stripe', label: 'Stripe', active: stripeEnabled },
         ],
         paypal_status: paypalEnabled ? 'on' : 'off',
-        paypal_email: paypalMail,
+        paypal_email: paypalMail.trim(),
         paypal_test: sandboxMode,
         paypal: paypalEnabled,
-        paypal_mail: paypalMail,
+        paypal_mail: paypalMail.trim(),
         sand_box_mode: sandboxMode,
         paypal_instruction: paypalInstruction,
         stripe_status: stripeEnabled ? 'on' : 'off',
@@ -98,7 +109,14 @@ export default function InvoiceSettingsTab() {
         country_code: countryCode,
       };
       await dispatch(saveGeneral({ invoice: invoiceData })).unwrap();
-      if (PM_Vars.settings) PM_Vars.settings.invoice = invoiceData;
+      const secretSaved = secretKeySaved || !!secretKey;
+      const liveSecretSaved = liveSecretKeySaved || !!liveSecretKey;
+      // Keep the page copy free of secrets, like the server's own PM_Vars.
+      if (PM_Vars.settings) PM_Vars.settings.invoice = { ...invoiceData, secret_key: '', live_secret_key: '', secret_key_set: secretSaved, live_secret_key_set: liveSecretSaved };
+      setSecretKeySaved(secretSaved);
+      setLiveSecretKeySaved(liveSecretSaved);
+      setSecretKey('');
+      setLiveSecretKey('');
       setIsDirty(false);
       toast.success(__('Invoice settings saved', 'wedevs-project-manager'));
     } catch (err) {
@@ -159,7 +177,19 @@ export default function InvoiceSettingsTab() {
             <div className="px-5 pb-4 pt-0 space-y-3 ml-[52px]">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <Label className="text-sm">{__('PayPal Email', 'wedevs-project-manager')}</Label>
-                <Input value={paypalMail} onChange={e => set(setPaypalMail)(e.target.value)} className="max-w-full w-64 h-7 text-sm" placeholder="paypal@example.com" />
+                <div className="max-w-full w-64">
+                  <Input
+                    type="email"
+                    value={paypalMail}
+                    onChange={e => set(setPaypalMail)(e.target.value)}
+                    className={`w-full h-7 text-sm${paypalMailInvalid ? ' border-red-500 ring-1 ring-red-500' : ''}`}
+                    placeholder="paypal@example.com"
+                    aria-invalid={paypalMailInvalid || undefined}
+                  />
+                  {paypalMailInvalid && (
+                    <p className="mt-1 text-[12px] text-red-600">{__('Enter a valid email address.', 'wedevs-project-manager')}</p>
+                  )}
+                </div>
               </div>
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
@@ -206,22 +236,22 @@ export default function InvoiceSettingsTab() {
                 <>
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <Label className="text-sm">{__('Test Secret Key', 'wedevs-project-manager')}</Label>
-                    <Input value={secretKey} onChange={e => set(setSecretKey)(e.target.value)} className="max-w-full w-64 h-7 text-sm font-mono" placeholder="sk_test_..." />
+                    <KeyInput value={secretKey} onChange={set(setSecretKey)} placeholder="sk_test_..." saved={secretKeySaved} label={__('Test Secret Key', 'wedevs-project-manager')} />
                   </div>
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <Label className="text-sm">{__('Test Publishable Key', 'wedevs-project-manager')}</Label>
-                    <Input value={secretPublishableKey} onChange={e => set(setSecretPublishableKey)(e.target.value)} className="max-w-full w-64 h-7 text-sm font-mono" placeholder="pk_test_..." />
+                    <KeyInput value={secretPublishableKey} onChange={set(setSecretPublishableKey)} placeholder="pk_test_..." label={__('Test Publishable Key', 'wedevs-project-manager')} />
                   </div>
                 </>
               ) : (
                 <>
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <Label className="text-sm">{__('Live Secret Key', 'wedevs-project-manager')}</Label>
-                    <Input value={liveSecretKey} onChange={e => set(setLiveSecretKey)(e.target.value)} className="max-w-full w-64 h-7 text-sm font-mono" placeholder="sk_live_..." />
+                    <KeyInput value={liveSecretKey} onChange={set(setLiveSecretKey)} placeholder="sk_live_..." saved={liveSecretKeySaved} label={__('Live Secret Key', 'wedevs-project-manager')} />
                   </div>
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <Label className="text-sm">{__('Live Publishable Key', 'wedevs-project-manager')}</Label>
-                    <Input value={livePublishableKey} onChange={e => set(setLivePublishableKey)(e.target.value)} className="max-w-full w-64 h-7 text-sm font-mono" placeholder="pk_live_..." />
+                    <KeyInput value={livePublishableKey} onChange={set(setLivePublishableKey)} placeholder="pk_live_..." label={__('Live Publishable Key', 'wedevs-project-manager')} />
                   </div>
                 </>
               )}

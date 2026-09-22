@@ -159,6 +159,28 @@ function wedevs_pm_get_setting( $key = null, $project_id = false ) {
     return null;
 }
 
+/**
+ * All global settings for the browser (PM_Vars.settings), with secret
+ * sub-keys such as the Stripe secret keys removed.
+ *
+ * @return array|null
+ */
+function wedevs_pm_localized_settings() {
+    $settings = wedevs_pm_get_setting();
+
+    if ( ! is_array( $settings ) ) {
+        return $settings;
+    }
+
+    foreach ( array_keys( \WeDevs\PM\Settings\Models\Settings::$secretSubkeys ) as $key ) {
+        if ( isset( $settings[ $key ] ) ) {
+            $settings[ $key ] = \WeDevs\PM\Settings\Models\Settings::redact_secret_subkeys( $key, $settings[ $key ] );
+        }
+    }
+
+    return $settings;
+}
+
 function wedevs_pm_get_settings( $key = null, $project_id = false ) {
     $settings = null;
 

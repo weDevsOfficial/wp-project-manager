@@ -25,6 +25,8 @@ class Settings_Transformer extends TransformerAbstract {
             $value = ! empty( $value );
         }
 
+        $value = \WeDevs\PM\Settings\Models\Settings::redact_secret_subkeys( $item->key, $value );
+
         return [
             'id'         => (int) $item->id,
             'key'        => $item->key,

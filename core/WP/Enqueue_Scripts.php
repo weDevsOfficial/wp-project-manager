@@ -84,7 +84,7 @@ class Enqueue_Scripts {
 				)
 			),
 			'roles'                            => wedevs_pm_get_wp_roles(),
-			'settings'                         => wedevs_pm_get_setting(),
+			'settings'                         => wedevs_pm_localized_settings(),
 			'text'                             => array(), // Deprecated: texts are now translated directly in the code
 			'dir_url'                          => wedevs_pm_config('frontend.url'),
 			'is_pro'                           => $wedevs_pm_pro,
