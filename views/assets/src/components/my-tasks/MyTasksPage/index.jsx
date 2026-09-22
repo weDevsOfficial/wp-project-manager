@@ -1,7 +1,7 @@
 import { Loader2 } from 'lucide-react'
 import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@store/index";
 import { openTaskSheet } from "@store/tasksSlice";
 import { setProjectId } from "@store/taskListsSlice";
@@ -147,9 +147,14 @@ export default function MyTasksPage() {
 
   const [allUsers, setAllUsers] = useState([]);
 
+  const [searchParams] = useSearchParams();
+
+  // ?user=ID (the dashboard's Team workload rows) opens that person for managers.
   useEffect(() => {
     const uid = PM_Vars.current_user?.data?.ID || PM_Vars.current_user?.ID;
-    if (uid) setUserId(uid);
+    const requested = parseInt(searchParams.get("user"), 10);
+    if (canManage && requested > 0) setUserId(requested);
+    else if (uid) setUserId(uid);
   }, []);
 
   useEffect(() => {

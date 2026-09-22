@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n'
 import React, { useEffect, useState, useCallback, useRef, Suspense } from 'react'
 import { useApi } from '@hooks/useApi'
 import { usePermissions, pmCanSeeUpgrade } from '@hooks/usePermissions'
+import { useFilter } from '@hooks/useSlot'
 import { Skeleton } from '@components/ui/skeleton'
 import { cn } from '@lib/utils'
 
@@ -50,6 +51,8 @@ export default function DashboardPage() {
   const api = useApi()
   const requestSeqRef = useRef(0)
   const { isPro, canManage, isManagerAnywhere } = usePermissions()
+  // Pro swaps in its capacity-aware workload card.
+  const ProTeamCard = useFilter('dashboard.team.card', null)
 
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -109,8 +112,9 @@ export default function DashboardPage() {
   const performanceMode = data?.performance_mode || 'created'
   // Clients do not get the performance chart or the contribution map (#508, #521).
   const isClient = tier === 'client'
+  const TeamCard = ProTeamCard || TeamStatusCard
   const thirdCard = showTeam
-    ? <Lazy><TeamStatusCard team={data?.team} range={range} scope={data?.team?.scope} /></Lazy>
+    ? <Lazy><TeamCard team={data?.team} range={range} scope={data?.team?.scope} /></Lazy>
     : <Lazy><MyWorkloadCard workload={data?.my_workload} range={range} /></Lazy>
 
   return (

@@ -8,9 +8,9 @@ use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Task\Models\Task;
 use WeDevs\PM\Project\Models\Project;
 use WeDevs\PM\User\Models\User_Role;
-use WeDevs\PM\Common\Models\Assignee;
 use WeDevs\PM\User\Helper\Avatar;
 use WeDevs\PM\Dashboard\Services\Activity_Feed;
+use WeDevs\PM\Dashboard\Services\Team_Workload;
 
 /**
  * Aggregated data for the specialized PM Dashboard (home page).
@@ -889,17 +889,9 @@ class Dashboard_Controller {
     }
 
     /**
-     * Per-member active/completed task counts (managers only).
-     */
-    /**
-     * Per-member workload for the selected window.
-     *
-     * One grouped query over the assignee table rather than a pair of counts
-     * per member — the old shape ran 2 queries per person.
-     *
-     * "Burden" is forward-looking (what is on someone's plate), so due_soon
-     * spans the next $days; completed looks back over the same span so the
-     * two read as load vs throughput.
+     * Per-member workload for the selected window: open tasks and subtasks
+     * split into overdue, due inside the window and later, plus what each
+     * person completed in the same span (see Team_Workload).
      */
     protected function team_status( $days = 7 ) {
         // Admin -> every project. A manager only sees workload for projects
@@ -912,92 +904,8 @@ class Dashboard_Controller {
             return [];
         }
 
-        $prefix    = wedevs_pm_tb_prefix();
-        $tasks_tb  = $prefix . 'pm_tasks';
-        $asg_tb    = $prefix . 'pm_assignees';
-
-        $today = Carbon::today()->toDateString();
-        $until = Carbon::today()->addDays( $days )->toDateString();
-        $since = Carbon::today()->subDays( $days )->toDateString();
-        $done  = (int) Task::COMPLETE;
-
-        $rows = Assignee::query()
-            ->join( "{$tasks_tb} as t", 't.id', '=', "{$asg_tb}.task_id" )
-            ->whereIn( "{$asg_tb}.project_id", $project_ids )
-            ->where( 't.parent_id', 0 )
-            ->groupBy( "{$asg_tb}.assigned_to" )
-            ->selectRaw( "{$asg_tb}.assigned_to as user_id" )
-            ->selectRaw( "SUM(CASE WHEN t.status <> ? THEN 1 ELSE 0 END) as open_tasks", [ $done ] )
-            ->selectRaw(
-                "SUM(CASE WHEN t.status <> ? AND t.due_date IS NOT NULL AND DATE(t.due_date) < ? THEN 1 ELSE 0 END) as overdue",
-                [ $done, $today ]
-            )
-            ->selectRaw(
-                "SUM(CASE WHEN t.status <> ? AND t.due_date IS NOT NULL AND DATE(t.due_date) BETWEEN ? AND ? THEN 1 ELSE 0 END) as due_soon",
-                [ $done, $today, $until ]
-            )
-            ->selectRaw(
-                "SUM(CASE WHEN t.status = ? AND t.completed_at IS NOT NULL AND DATE(t.completed_at) >= ? THEN 1 ELSE 0 END) as completed",
-                [ $done, $since ]
-            )
-            ->get();
-
-        $stats = [];
-
-        foreach ( $rows as $row ) {
-            $stats[ absint( $row->user_id ) ] = $row;
-        }
-
-        // Everyone who belongs to a project in scope, so members holding no
-        // work still appear — free capacity is the other half of workload.
-        $member_ids = User_Role::whereIn( 'project_id', $project_ids )
-            ->distinct()
-            ->pluck( 'user_id' )
-            ->map( 'absint' )
-            ->all();
-
-        $member_ids = array_values( array_unique( array_merge( $member_ids, array_keys( $stats ) ) ) );
-
-        $team = [];
-
-        foreach ( $member_ids as $uid ) {
-            if ( ! $uid ) {
-                continue;
-            }
-
-            $wp_user = get_userdata( $uid );
-
-            if ( ! $wp_user ) {
-                continue;
-            }
-
-            $row       = isset( $stats[ $uid ] ) ? $stats[ $uid ] : null;
-            $open      = $row ? absint( $row->open_tasks ) : 0;
-            $completed = $row ? absint( $row->completed ) : 0;
-            $overdue   = $row ? absint( $row->overdue ) : 0;
-            $due_soon  = $row ? absint( $row->due_soon ) : 0;
-
-            $team[] = [
-                'id'         => $uid,
-                'name'       => $wp_user->display_name,
-                'avatar_url' => Avatar::get_url( $uid ),
-                'open'       => $open,
-                'overdue'    => $overdue,
-                'due_soon'   => $due_soon,
-                'completed'  => $completed,
-                // What the member is carrying for this window: everything late
-                // plus everything landing inside it.
-                'burden'     => $overdue + $due_soon,
-                // Kept so existing consumers of the old shape do not break.
-                'active'     => $open,
-            ];
-        }
-
-        // Most loaded first; overdue breaks ties because it is the sharper
-        // signal. Idle members sort to the bottom rather than disappearing.
-        usort( $team, function ( $a, $b ) {
-            return [ $b['burden'], $b['overdue'], $b['open'] ] <=> [ $a['burden'], $a['overdue'], $a['open'] ];
-        } );
+        $workload = new Team_Workload( $project_ids, $days );
+        $team     = $workload->rows();
 
         // An admin is looking at the whole organisation and needs the full
         // roster; a manager gets a slice of their own projects.
@@ -1007,6 +915,7 @@ class Dashboard_Controller {
             'members' => array_slice( $team, 0, $cap ),
             'total'   => count( $team ),
             'scope'   => $this->is_admin ? 'organisation' : 'projects',
+            'summary' => $workload->summary(),
         ];
     }
 
