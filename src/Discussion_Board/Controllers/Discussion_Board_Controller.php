@@ -88,6 +88,12 @@ class Discussion_Board_Controller {
         $is_private    = $request->get_param( 'privacy' );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
         
+        $size_error = $files ? \WeDevs\PM\Core\File_System\File_System::size_limit_error( $files ) : '';
+
+        if ( $size_error ) {
+            return new \WP_Error( 'pm_file_too_large', $size_error, [ 'status' => 400 ] );
+        }
+
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::create( $data );
 
@@ -133,6 +139,12 @@ class Discussion_Board_Controller {
         $discussion_board = Discussion_Board::with('metas')->where( 'id', $discussion_board_id )
             ->where( 'project_id', $project_id )
             ->first();
+
+        $size_error = $files ? \WeDevs\PM\Core\File_System\File_System::size_limit_error( $files ) : '';
+
+        if ( $size_error ) {
+            return new \WP_Error( 'pm_file_too_large', $size_error, [ 'status' => 400 ] );
+        }
 
         $discussion_board->update_model( $data );
 

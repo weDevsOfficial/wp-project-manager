@@ -245,8 +245,9 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
       setCommentFiles([]);
       setCommentNotifyUsers([]);
       toast.success(__("Comment added", 'wedevs-project-manager'));
-    } catch {
-      toast.error(__("Failed to add comment", 'wedevs-project-manager'));
+    } catch (err) {
+      // Show the server's reason (for example the file size limit).
+      toast.error(__("Failed to add comment", 'wedevs-project-manager'), typeof err === 'string' ? err : err?.message);
     }
     setSubmitting(false);
   }, [api, projectId, discussionId, newComment, commentFiles, commentNotifyUsers, submitting, toast, __]);
@@ -305,8 +306,9 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
       await fetchDiscussion();
       cancelEditComment();
       toast.success(__("Comment updated", 'wedevs-project-manager'));
-    } catch {
-      toast.error(__("Failed to update comment", 'wedevs-project-manager'));
+    } catch (err) {
+      // Show the server's reason (for example the file size limit).
+      toast.error(__("Failed to update comment", 'wedevs-project-manager'), typeof err === 'string' ? err : err?.message);
     }
     setSavingEditComment(false);
   }, [api, projectId, editingCommentId, editCommentText, editCommentNewFiles, editCommentDeletedFileIds, fetchDiscussion, toast, __]);

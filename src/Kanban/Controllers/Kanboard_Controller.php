@@ -527,10 +527,10 @@ class Kanboard_Controller {
             wp_send_json_error( [ 'message' => __( 'Please choose an image file', 'wedevs-project-manager' ) ], 400 );
         }
 
-        $attachment_id = \WeDevs\PM\Core\File_System\File_System::upload( $file );
+        $attachment_id = \WeDevs\PM\Core\File_System\File_System::upload( $file, $upload_error );
 
         if ( is_wp_error( $attachment_id ) || empty( $attachment_id ) ) {
-            wp_send_json_error( [ 'message' => __( 'Upload failed', 'wedevs-project-manager' ) ], 500 );
+            wp_send_json_error( [ 'message' => $upload_error ? $upload_error : __( 'Upload failed', 'wedevs-project-manager' ) ], $upload_error ? 400 : 500 );
         }
 
         wp_send_json_success( [

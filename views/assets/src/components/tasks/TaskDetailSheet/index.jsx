@@ -426,8 +426,9 @@ export default function TaskDetailSheet() {
       setCommentFiles([])
       setCommentNotifyUsers([])
       toast.success(__('Comment added', 'wedevs-project-manager'))
-    } catch {
-      toast.error(__('Failed to add comment', 'wedevs-project-manager'))
+    } catch (err) {
+      // Show the server's reason (for example the file size limit).
+      toast.error(__('Failed to add comment', 'wedevs-project-manager'), typeof err === 'string' ? err : err?.message)
     }
     setSubmittingComment(false)
   }, [dispatch, projectId, currentTask, newComment, commentFiles, commentNotifyUsers, api, toast, __])
@@ -470,8 +471,9 @@ export default function TaskDetailSheet() {
       }
       cancelEditComment()
       toast.success(__('Comment updated', 'wedevs-project-manager'))
-    } catch {
-      toast.error(__('Failed to update comment', 'wedevs-project-manager'))
+    } catch (err) {
+      // Show the server's reason (for example the file size limit).
+      toast.error(__('Failed to update comment', 'wedevs-project-manager'), typeof err === 'string' ? err : err?.message)
     }
     setSavingEditComment(false)
   }, [dispatch, projectId, editingCommentId, editCommentText, editCommentNewFiles, editCommentDeletedFileIds, currentTask?.id, toast, __, cancelEditComment])

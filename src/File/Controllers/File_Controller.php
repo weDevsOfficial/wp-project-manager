@@ -102,7 +102,12 @@ class File_Controller {
         $media_data = $request->get_file_params();
         $file = $media_data['file'];
 
-        $attachment_id = File_System::upload( $file );
+        $attachment_id = File_System::upload( $file, $upload_error );
+
+        if ( ! $attachment_id ) {
+            return new \WP_Error( 'pm_file_upload', $upload_error ? $upload_error : __( 'The file could not be saved.', 'wedevs-project-manager' ), [ 'status' => 400 ] );
+        }
+
         $request->set_param( 'attachment_id', $attachment_id );
 
         $data = $this->extract_non_empty_values( $request );

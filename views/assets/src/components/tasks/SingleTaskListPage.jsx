@@ -127,8 +127,9 @@ export default function SingleTaskListPage() {
       setCommentNotifyUsers([])
       setCommentFiles([])
       toast.success(__('Comment added', 'wedevs-project-manager'))
-    } catch {
-      toast.error(__('Failed to add comment', 'wedevs-project-manager'))
+    } catch (err) {
+      // Show the server's reason (for example the file size limit).
+      toast.error(__('Failed to add comment', 'wedevs-project-manager'), typeof err === 'string' ? err : err?.message)
     }
     setSubmittingComment(false)
   }, [api, projectId, listId, newComment, commentNotifyUsers, commentFiles, toast, __])
@@ -186,8 +187,9 @@ export default function SingleTaskListPage() {
       dispatch(fetchSingleList({ projectId, listId }))
       cancelEditComment()
       toast.success(__('Comment updated', 'wedevs-project-manager'))
-    } catch {
-      toast.error(__('Failed to update comment', 'wedevs-project-manager'))
+    } catch (err) {
+      // Show the server's reason (for example the file size limit).
+      toast.error(__('Failed to update comment', 'wedevs-project-manager'), typeof err === 'string' ? err : err?.message)
     }
     setSavingEditComment(false)
   }, [api, projectId, listId, dispatch, editingCommentId, editCommentText, editCommentNewFiles, editCommentDeletedFileIds, toast, __, cancelEditComment])

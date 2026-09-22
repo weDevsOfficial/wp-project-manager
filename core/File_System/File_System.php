@@ -6,12 +6,54 @@ require_once( ABSPATH . 'wp-admin/includes/file.php' );
 
 Class File_System {
 
-    public static function upload( $file ) {
+    /**
+     * Settings > General > File Upload Limit, in bytes; 0 when it is not set.
+     */
+    public static function size_limit() {
+        $megabytes = intval( wedevs_pm_get_setting( 'upload_limit' ) );
+
+        return $megabytes > 0 ? $megabytes * MB_IN_BYTES : 0;
+    }
+
+    /**
+     * Message for the first file over the limit, or '' when every file fits.
+     * Accepts one $_FILES entry or a multi-file entry (arrays per key).
+     */
+    public static function size_limit_error( $files ) {
+        $limit = self::size_limit();
+
+        if ( ! $limit || empty( $files['size'] ) ) {
+            return '';
+        }
+
+        foreach ( (array) $files['size'] as $size ) {
+            if ( intval( $size ) > $limit ) {
+                /* translators: %s: the upload limit, for example "2 MB". */
+                return sprintf( __( 'Files must be %s or smaller.', 'wedevs-project-manager' ), size_format( $limit ) );
+            }
+        }
+
+        return '';
+    }
+
+    public static function upload( $file, &$error = null ) {
         if ( ! function_exists( 'wp_handle_upload' ) ) {
             require_once( ABSPATH . 'wp-admin/includes/file.php' );
         }
 
+        // The File Upload Limit setting was never applied by the new UI.
+        $error = self::size_limit_error( $file );
+
+        if ( $error ) {
+            return 0;
+        }
+
         $uploaded_file = wp_handle_upload( $file, array( 'test_form' => false ) );
+
+        if ( isset( $uploaded_file['error'] ) ) {
+            $error = $uploaded_file['error'];
+        }
+
         $attachment_id = self::attachment_id( $uploaded_file );
         do_action( 'wedevs_cpm_after_upload_file', $attachment_id );
 
@@ -105,6 +147,16 @@ Class File_System {
                 'error'    => $file['error'][$i],
                 'size'     => $file['size'][$i],
             ];
+
+            $size_error = self::size_limit_error( $file_to_upload );
+
+            if ( $size_error ) {
+                $errors[] = [
+                    'name'    => $file_to_upload['name'],
+                    'message' => $size_error,
+                ];
+                continue;
+            }
 
             $uploaded_file = wp_handle_upload( $file_to_upload, array( 'test_form' => false ) );
 
