@@ -374,6 +374,8 @@ class Activity_Transformer extends TransformerAbstract {
                 /* translators: 1: User display name, 2: Task title */
                 return __( '{{actor.data.display_name}} has updated the description of a task, {{meta.task_title}}.', 'wedevs-project-manager' );
             
+            // Task_Observer logs start date changes as update_task_start_at_date.
+            case 'update_task_start_at_date':
             case 'update_task_start_at':
                 /* translators: 1: User display name, 2: Task title, 3: Old start date, 4: New start date */
                 return __( '{{actor.data.display_name}} has updated the start date of a task, {{meta.task_title}}, from {{meta.task_start_at_old}} to {{meta.task_start_at_new}}.', 'wedevs-project-manager' );
