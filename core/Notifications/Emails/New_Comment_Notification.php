@@ -39,7 +39,10 @@ class New_Comment_Notification extends Email {
                     if ( ! $this->can_user_view_commentable( $u, $request ) ) {
                         continue;
                     }
-                    $users[] = $project->assignees->where( 'ID', $u )->first()->user_email;
+                    $member = $project->assignees->where( 'ID', $u )->first();
+                    if ( $member ) {
+                        $users[] = $member->user_email;
+                    }
                 }
             }
         }

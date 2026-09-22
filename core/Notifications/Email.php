@@ -116,14 +116,19 @@ class Email {
             'milestone'        => 'view_private_milestone',
         ];
 
-        $type = isset( $request['commentable_type'] ) ? $request['commentable_type'] : '';
+        $type       = isset( $request['commentable_type'] ) ? $request['commentable_type'] : '';
+        $project_id = isset( $request['project_id'] ) ? intval( $request['project_id'] ) : 0;
+        $entity_id  = isset( $request['commentable_id'] ) ? intval( $request['commentable_id'] ) : 0;
+
+        // Recipients must be able to open the project; otherwise any user id in
+        // the request was mailed the project, the item title and the comment.
+        if ( $project_id && ! wedevs_pm_user_can( 'view_project', $project_id, $user_id ) ) {
+            return false;
+        }
 
         if ( ! isset( $caps[ $type ] ) ) {
             return true;
         }
-
-        $project_id = isset( $request['project_id'] ) ? intval( $request['project_id'] ) : 0;
-        $entity_id  = isset( $request['commentable_id'] ) ? intval( $request['commentable_id'] ) : 0;
 
         if ( ! $project_id || ! $entity_id ) {
             return true;
@@ -141,11 +146,27 @@ class Email {
             $is_private = $task ? intval( $task->is_private ) === 1 : false;
         }
 
-        if ( ! $is_private ) {
-            return true;
+        if ( $is_private ) {
+            return wedevs_pm_user_can( $caps[ $type ], $project_id, $user_id );
         }
 
-        return wedevs_pm_user_can( $caps[ $type ], $project_id, $user_id );
+        // A public task inside a private list is hidden the same way the REST API hides it.
+        if ( 'task' === $type ) {
+            $boardable = \WeDevs\PM\Common\Models\Boardable::where( 'boardable_id', $entity_id )
+                ->where( 'boardable_type', 'task' )
+                ->where( 'board_type', 'task_list' )
+                ->first();
+
+            if ( $boardable ) {
+                $list_meta = wedevs_pm_get_meta( $boardable->board_id, $project_id, 'task_list', 'privacy' );
+
+                if ( $list_meta && intval( $list_meta->meta_value ) === 1 ) {
+                    return wedevs_pm_user_can( 'view_private_list', $project_id, $user_id );
+                }
+            }
+        }
+
+        return true;
     }
 
     public function is_enable_user_notification( $user_id ) {
