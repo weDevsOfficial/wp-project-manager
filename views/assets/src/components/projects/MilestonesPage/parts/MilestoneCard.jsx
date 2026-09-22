@@ -328,7 +328,9 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                 const overdueTask = isOverdue(task.due_date, task.status);
                 const descText = (task.description?.content || task.description?.html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
                 const prioSlug = taskPriority(task.priority);
-                const prio = prioSlug === 'high'
+                const prio = prioSlug === 'urgent'
+                  ? { label: __('Urgent', 'wedevs-project-manager'), cls: 'bg-red-600 text-white' }
+                  : prioSlug === 'high'
                   ? { label: __('High', 'wedevs-project-manager'), cls: 'bg-red-100 text-red-700' }
                   : prioSlug === 'medium'
                     ? { label: __('Medium', 'wedevs-project-manager'), cls: 'bg-amber-100 text-amber-700' }

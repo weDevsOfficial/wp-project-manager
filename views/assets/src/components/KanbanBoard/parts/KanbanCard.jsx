@@ -36,7 +36,9 @@ export default function KanbanCard({ task, boardId, onRemove }) {
     .trim();
 
   const prioritySlug = taskPriority(task.priority);
-  const priority = prioritySlug === "high"
+  const priority = prioritySlug === "urgent"
+    ? { label: __("Urgent", 'wedevs-project-manager'), cls: "bg-red-600 text-white", dot: "bg-white" }
+    : prioritySlug === "high"
     ? { label: __("High", 'wedevs-project-manager'), cls: "bg-red-100 text-red-700", dot: "bg-red-500" }
     : prioritySlug === "medium"
       ? { label: __("Medium", 'wedevs-project-manager'), cls: "bg-amber-100 text-amber-700", dot: "bg-amber-500" }

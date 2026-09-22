@@ -22,8 +22,12 @@ const OPTIONS = () => [
 export default function TaskPriorityField({ task, projectId, dispatch, canEdit = true }) {
   const toast = useToast();
   const [saving, setSaving] = useState(false);
-  const options = OPTIONS();
   const current = taskPriority(task?.priority) ?? 'medium';
+  // Urgent (stored 3) comes from older data; show it for tasks that have it so
+  // the select no longer falls back to "Medium", without offering it as new.
+  const options = current === 'urgent'
+    ? [...OPTIONS(), { value: 'urgent', label: __('Urgent', 'wedevs-project-manager'), pill: 'bg-red-600 text-white' }]
+    : OPTIONS();
   const active = options.find((o) => o.value === current) ?? options[1];
 
   const handleChange = useCallback(async (value) => {

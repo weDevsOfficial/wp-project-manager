@@ -44,16 +44,18 @@ export function isProjectComplete(status) {
 
 // ── Task Priority ─────────────────────────────────────
 
-const PRIORITY_SLUGS = ['low', 'medium', 'high']
+// Stored as 0 low, 1 medium, 2 high, 3 urgent (Task::priorities()).
+const PRIORITY_SLUGS = ['low', 'medium', 'high', 'urgent']
 
 /**
  * Normalize a task priority to a slug.
- * API returns the slug ('low' | 'medium' | 'high'); the DB int (0 | 1 | 2)
- * only reaches the client on payloads that bypass the model accessor.
+ * API returns the slug ('low' | 'medium' | 'high' | 'urgent'); the DB int
+ * (0 to 3, sometimes as a string) only reaches the client on payloads that
+ * bypass the model accessor.
  */
 export function taskPriority(value) {
   if (value === null || value === undefined || value === '') return null
-  const slug = typeof value === 'number' ? PRIORITY_SLUGS[value] : String(value).toLowerCase()
+  const slug = /^\d+$/.test(String(value).trim()) ? PRIORITY_SLUGS[Number(value)] : String(value).toLowerCase()
   return PRIORITY_SLUGS.includes(slug) ? slug : null
 }
 

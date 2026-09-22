@@ -4,9 +4,11 @@ import { AlertTriangle, CheckCircle2 } from 'lucide-react'
 import { Card } from '@components/ui/card'
 import { Badge } from '@components/ui/badge'
 import { cn } from '@lib/utils'
+import { taskPriority } from '@lib/pm-utils'
 import { CardHead, EmptyState, ROW } from './CardShell'
 
 const PRIORITY_DOT = {
+  urgent: 'bg-red-600',
   high:   'bg-rose-500',
   medium: 'bg-amber-500',
   low:    'bg-pm-text-muted/50',
@@ -36,7 +38,7 @@ export default function OverduePriorityCard({ items, total = 0 }) {
               onClick={() => navigate(`/projects/${t.project_id}/task-lists/tasks/${t.id}`)}
               className={ROW}
             >
-              <span className={cn('w-2 h-2 rounded-full shrink-0', PRIORITY_DOT[t.priority] || PRIORITY_DOT.medium)} />
+              <span className={cn('w-2 h-2 rounded-full shrink-0', PRIORITY_DOT[taskPriority(t.priority)] || PRIORITY_DOT.medium)} />
               <div className="flex-1 min-w-0">
                 <div className="text-[14px] font-medium text-pm-text-primary truncate">{t.title}</div>
                 {t.project_title && <div className="text-[12px] text-pm-text-muted truncate">{t.project_title}</div>}

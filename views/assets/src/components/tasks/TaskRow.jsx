@@ -124,12 +124,16 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
   }, [dispatch])
 
   const priority = taskPriority(task.priority)
-  const priorityPill = priority === 'high'
+  const priorityPill = priority === 'urgent'
+    ? 'bg-red-600 text-white'
+    : priority === 'high'
     ? 'bg-red-100 text-red-700'
     : priority === 'medium'
       ? 'bg-amber-100 text-amber-700'
       : 'bg-emerald-100 text-emerald-700'
-  const priorityLabel = priority === 'high'
+  const priorityLabel = priority === 'urgent'
+    ? __('Urgent', 'wedevs-project-manager')
+    : priority === 'high'
     ? __('High', 'wedevs-project-manager')
     : priority === 'medium'
       ? __('Medium', 'wedevs-project-manager')

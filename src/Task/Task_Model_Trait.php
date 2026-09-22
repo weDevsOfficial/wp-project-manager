@@ -16,6 +16,7 @@ trait Task_Model_Trait {
         0 => 'low',
         1 => 'medium',
         2 => 'high',
+        3 => 'urgent',
     ];
 
     public static $recurrency = [
