@@ -88,6 +88,7 @@ class Dashboard_Controller {
             'active_projects'   => $this->active_projects(),
             'recent_activity'   => $this->recent_activity( $days ),
             'milestones'        => $this->upcoming_milestones(),
+            'overdue_milestones' => $this->overdue_milestones(),
             'team'              => ( $this->is_admin || $this->is_manager ) ? $this->team_status( $days ) : null,
             'my_workload'       => $this->my_workload( $days ),
             'generated_at'      => current_time( 'mysql' ),
@@ -250,12 +251,15 @@ class Dashboard_Controller {
         $total = $projects->count();
         $completed = $on_track = $at_risk = $archived = 0;
 
+        $late_milestone_projects = array_flip( array_column( $this->milestone_rows( true, 0 ), 'project_id' ) );
+
         foreach ( $projects as $p ) {
-            if ( (int) $p->status === Project::COMPLETE ) {
+            // The Project_Status accessor returns the status key ('complete'), not the stored int.
+            if ( 'complete' === $p->status ) {
                 $completed++;
-            } elseif ( (int) $p->status === Project::ARCHIVED ) {
+            } elseif ( 'archived' === $p->status ) {
                 $archived++;
-            } elseif ( $p->overdue_count > 0 ) {
+            } elseif ( $p->overdue_count > 0 || isset( $late_milestone_projects[ $p->id ] ) ) {
                 $at_risk++;
             } else {
                 $on_track++;
@@ -590,7 +594,9 @@ class Dashboard_Controller {
 
         return $items->map( function ( $a ) {
             $actor   = $a->actor ? $a->actor->display_name : __( 'Someone', 'wedevs-project-manager' );
-            $is_task = 'task' === (string) $a->resource_type;
+            // A deleted task has nothing left to open, so its entry links to the list.
+            $is_task = 'task' === (string) $a->resource_type
+                && 0 !== strpos( (string) $a->action, 'delete' );
 
             return [
                 'id'         => absint( $a->id ),
@@ -610,6 +616,21 @@ class Dashboard_Controller {
      * Upcoming, not-yet-complete milestones with completion progress.
      */
     protected function upcoming_milestones() {
+        return $this->milestone_rows( false );
+    }
+
+    /**
+     * Past-due, not-complete milestones, most overdue first.
+     */
+    protected function overdue_milestones() {
+        return $this->milestone_rows( true );
+    }
+
+    /**
+     * Not-complete milestones in scope, split by whether the due date has passed.
+     * Upcoming ones (and undated) sort soonest first; overdue ones most overdue first.
+     */
+    protected function milestone_rows( $overdue, $limit = 5 ) {
         $query = \WeDevs\PM\Milestone\Models\Milestone::with( [ 'achieve_date_field', 'project' ] )
             ->where( 'status', '!=', \WeDevs\PM\Milestone\Models\Milestone::COMPLETE )
             ->withCount( [
@@ -624,20 +645,29 @@ class Dashboard_Controller {
         }
 
         $milestones = $query->get();
+        $today      = Carbon::today();
 
         $rows = [];
         foreach ( $milestones as $m ) {
             $achieve = $m->achieve_date; // Carbon|null via accessor
-            $total   = (int) $m->total_tasks;
-            $done    = (int) $m->completed_tasks;
+            $is_late = $achieve && $achieve->copy()->startOfDay()->lt( $today );
+
+            if ( $is_late !== (bool) $overdue ) {
+                continue;
+            }
+
+            $total = (int) $m->total_tasks;
+            $done  = (int) $m->completed_tasks;
 
             $rows[] = [
-                'id'        => absint( $m->id ),
-                'title'     => $m->title,
-                'project'   => $m->project ? $m->project->title : '',
-                'due_date'  => $achieve ? $achieve->format( 'M j, Y' ) : null,
-                'ts'        => $achieve ? $achieve->timestamp : PHP_INT_MAX,
-                'progress'  => $total > 0 ? (int) round( ( $done / $total ) * 100 ) : 0,
+                'id'           => absint( $m->id ),
+                'title'        => $m->title,
+                'project'      => $m->project ? $m->project->title : '',
+                'project_id'   => absint( $m->project_id ),
+                'due_date'     => $achieve ? $achieve->format( 'M j, Y' ) : null,
+                'days_overdue' => $is_late ? $achieve->copy()->startOfDay()->diffInDays( $today ) : 0,
+                'ts'           => $achieve ? $achieve->timestamp : PHP_INT_MAX,
+                'progress'     => $total > 0 ? (int) round( ( $done / $total ) * 100 ) : 0,
             ];
         }
 
@@ -645,10 +675,14 @@ class Dashboard_Controller {
             return $a['ts'] <=> $b['ts'];
         } );
 
-        $rows = array_slice( $rows, 0, 5 );
+        if ( $limit ) {
+            $rows = array_slice( $rows, 0, $limit );
+        }
+
         foreach ( $rows as &$r ) {
             unset( $r['ts'] );
         }
+        unset( $r );
 
         return $rows;
     }
@@ -670,7 +704,10 @@ class Dashboard_Controller {
             'complete' => __( 'completed', 'wedevs-project-manager' ),
             'new'      => __( 'added', 'wedevs-project-manager' ),
             'add'      => __( 'added', 'wedevs-project-manager' ),
-            'assign'   => __( 'assigned', 'wedevs-project-manager' ),
+            'assign'    => __( 'assigned', 'wedevs-project-manager' ),
+            'comment'   => __( 'commented', 'wedevs-project-manager' ),
+            'reply'     => __( 'replied to', 'wedevs-project-manager' ),
+            'duplicate' => __( 'duplicated', 'wedevs-project-manager' ),
         ];
 
         $verb = isset( $past[ $verb ] ) ? $past[ $verb ] : $verb;
@@ -852,10 +889,12 @@ class Dashboard_Controller {
 
 
     protected function trend( $current, $previous ) {
+        // No base to compare against: say so instead of inventing a percentage.
         if ( $previous <= 0 ) {
             return [
                 'direction' => $current > 0 ? 'up' : 'flat',
-                'percent'   => $current > 0 ? 100 : 0,
+                'percent'   => null,
+                'state'     => $current > 0 ? 'new' : 'none',
             ];
         }
 

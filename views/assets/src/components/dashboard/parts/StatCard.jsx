@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import { ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react'
 import { cn } from '@lib/utils'
 
@@ -51,8 +52,11 @@ export default function StatCard({ icon: Icon, label, value, sub, trend, accent 
                   ? 'text-emerald-500'
                   : 'text-pm-text-muted',
           )}>
-            <TrendIcon className="w-3.5 h-3.5" />
-            {trend.percent}%
+            {trend.state === 'new'
+              ? __('New', 'wedevs-project-manager')
+              : trend.state === 'none'
+                ? __('No change', 'wedevs-project-manager')
+                : <><TrendIcon className="w-3.5 h-3.5" />{trend.percent}%</>}
           </span>
         )}
         {sub && <span className={cn(accent ? 'text-white/80' : 'text-pm-text-muted')}>{sub}</span>}

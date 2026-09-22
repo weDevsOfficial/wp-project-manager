@@ -36,7 +36,10 @@ export default function TeamStatusCard({ team, range = 7, scope }) {
           {__('No one has open tasks. Assign work to see workload here.', 'wedevs-project-manager')}
         </EmptyState>
       ) : (
-        <div className="flex-1 min-h-0 max-h-[340px] overflow-y-auto pm-sidebar-scroll pr-1 space-y-3">
+        // The list fills whatever height the row gives the card (set by its taller
+        // neighbour) instead of a fixed 340px that left an empty band below it.
+        <div className="relative flex-1 min-h-[300px]">
+        <div className="absolute inset-0 overflow-y-auto pm-sidebar-scroll pr-1 space-y-3">
           {members.map(m => {
             const burden = m.burden ?? 0
             const overdue = m.overdue ?? 0
@@ -87,6 +90,7 @@ export default function TeamStatusCard({ team, range = 7, scope }) {
               </div>
             )
           })}
+        </div>
         </div>
       )}
 

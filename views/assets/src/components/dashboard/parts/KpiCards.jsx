@@ -13,16 +13,16 @@ export default function KpiCards({ kpis, range = 7 }) {
         accent
         icon={CheckCircle2}
         label={__('Completed', 'wedevs-project-manager')}
-        value={k.completed ?? 0}
+        value={k.completed_in_range ?? k.completed ?? 0}
         trend={k.completed_trend}
         sub={sprintf( /* translators: %d is the number of days in the selected range. */ __( 'vs previous %d days', 'wedevs-project-manager' ), range )}
-        onClick={() => navigate('/my-tasks')}
+        onClick={() => navigate('/my-tasks/complete')}
       />
       <StatCard
         icon={Activity}
         label={__('In Progress', 'wedevs-project-manager')}
         value={k.in_progress ?? 0}
-        sub={__('currently active', 'wedevs-project-manager')}
+        sub={__('open right now', 'wedevs-project-manager')}
         onClick={() => navigate('/my-tasks')}
       />
       <StatCard
@@ -36,14 +36,14 @@ export default function KpiCards({ kpis, range = 7 }) {
         icon={AlertTriangle}
         label={__('Overdue', 'wedevs-project-manager')}
         value={k.overdue ?? 0}
-        sub={__('past due date', 'wedevs-project-manager')}
-        onClick={() => navigate('/my-tasks')}
+        sub={__('past due, as of today', 'wedevs-project-manager')}
+        onClick={() => navigate('/my-tasks/outstanding')}
       />
       <StatCard
         icon={ListChecks}
         label={__('Total Tasks', 'wedevs-project-manager')}
         value={k.total_tasks ?? 0}
-        sub={`${k.completion_rate ?? 0}% ${__('complete', 'wedevs-project-manager')}`}
+        sub={sprintf( /* translators: %d is the share of all tasks that are complete. */ __( 'all time, %d%% complete', 'wedevs-project-manager' ), k.completion_rate ?? 0 )}
         onClick={() => navigate('/my-tasks')}
       />
     </div>

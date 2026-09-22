@@ -147,7 +147,7 @@ export default function DashboardPage() {
         <div className="lg:col-span-2">
           <Lazy h="h-80"><ActiveProjectsCard projects={data?.active_projects} /></Lazy>
         </div>
-        <Lazy><MilestonesCard milestones={data?.milestones} /></Lazy>
+        <Lazy><MilestonesCard milestones={data?.milestones} overdue={data?.overdue_milestones} /></Lazy>
       </div>
 
       {/* Who and how — supporting context. A member with Pro gets neither the

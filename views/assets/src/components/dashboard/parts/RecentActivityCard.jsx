@@ -1,4 +1,4 @@
-import { __, sprintf } from '@wordpress/i18n'
+import { __, _x, sprintf } from '@wordpress/i18n'
 import { useNavigate } from 'react-router-dom'
 import { Activity } from 'lucide-react'
 import { Card } from '@components/ui/card'
@@ -9,15 +9,12 @@ export default function RecentActivityCard({ activity, range = 7 }) {
   const navigate = useNavigate()
   const list = activity || []
 
-  // Deep-link to the task the activity is about, else the project's task list —
-  // same destination as the Active Projects ("progress") card.
+  // Deep-link to the task the activity is about, else the project's task list,
+  // the same destination as the Active Projects ("progress") card.
   const goActivity = (a) => {
     if (!a.project_id) return
     if (a.task_id) navigate(`/projects/${a.project_id}/task-lists/tasks/${a.task_id}`)
     else navigate(`/projects/${a.project_id}/task-lists`)
-  }
-  const goProject = (a) => {
-    if (a.project_id) navigate(`/projects/${a.project_id}/task-lists`)
   }
 
   return (
@@ -42,15 +39,11 @@ export default function RecentActivityCard({ activity, range = 7 }) {
               />
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] text-pm-text-primary leading-snug">
-                  {a.project_id ? (
-                    <button type="button" onClick={() => goActivity(a)} className="text-left align-baseline font-medium hover:text-pm-accent hover:underline">{a.actor}</button>
-                  ) : (
-                    <span className="font-medium">{a.actor}</span>
-                  )}{' '}
+                  <span className="font-medium">{a.actor}</span>{' '}
                   <span className="text-pm-text-muted">{a.action}</span>
-                  {a.project && <> <span className="text-pm-text-muted">·</span>{' '}
+                  {a.project && <> <span className="text-pm-text-muted">{_x('in', 'recent activity: "updated task title in <project>"', 'wedevs-project-manager')}</span>{' '}
                     {a.project_id ? (
-                      <button type="button" onClick={() => goProject(a)} className="inline-block max-w-full truncate align-bottom text-left text-pm-text-primary hover:text-pm-accent hover:underline">{a.project}</button>
+                      <button type="button" onClick={() => goActivity(a)} className="inline-block max-w-full truncate align-bottom text-left font-medium text-pm-text-primary hover:text-pm-accent hover:underline">{a.project}</button>
                     ) : (
                       <span className="inline-block max-w-full truncate align-bottom text-pm-text-primary">{a.project}</span>
                     )}</>}
