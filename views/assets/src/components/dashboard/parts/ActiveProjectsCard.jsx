@@ -20,7 +20,7 @@ export default function ActiveProjectsCard({ projects }) {
       />
 
       {list.length === 0 ? (
-        <EmptyState icon={FolderKanban}>{__('No active projects. Create one to start tracking work.', 'wedevs-project-manager')}</EmptyState>
+        <EmptyState icon={FolderKanban} title={__('No active projects', 'wedevs-project-manager')}>{__('Create one to start tracking work.', 'wedevs-project-manager')}</EmptyState>
       ) : (
         <div className="space-y-3 flex-1 min-h-0 overflow-y-auto pm-sidebar-scroll pr-1">
           {list.map(p => (

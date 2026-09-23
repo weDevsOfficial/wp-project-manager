@@ -65,7 +65,7 @@ export default function TeamStatusCard({ team, range = 7, scope }) {
       )}
 
       {members.length === 0 ? (
-        <EmptyState icon={Users}>
+        <EmptyState icon={Users} title={__('No open work yet', 'wedevs-project-manager')}>
           {__('No one has open tasks. Assign work to see workload here.', 'wedevs-project-manager')}
         </EmptyState>
       ) : (

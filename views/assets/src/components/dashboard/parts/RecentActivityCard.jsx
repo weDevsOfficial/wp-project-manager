@@ -47,7 +47,7 @@ export default function RecentActivityCard({ activity, range = 7 }) {
       />
 
       {list.length === 0 ? (
-        <EmptyState icon={Activity}>{__('No activity in this period. Changes your team makes will show up here.', 'wedevs-project-manager')}</EmptyState>
+        <EmptyState icon={Activity} title={__('No activity in this period', 'wedevs-project-manager')}>{__('Changes your team makes will show up here.', 'wedevs-project-manager')}</EmptyState>
       ) : (
         <div className="space-y-3 flex-1 min-h-0 overflow-y-auto pm-sidebar-scroll pr-1">
           {list.map(a => (

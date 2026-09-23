@@ -29,7 +29,7 @@ export default function OverduePriorityCard({ items, total = 0 }) {
       />
 
       {list.length === 0 ? (
-        <EmptyState icon={CheckCircle2} tone="positive">{__('Nothing overdue. Everything with a due date is on time.', 'wedevs-project-manager')}</EmptyState>
+        <EmptyState icon={CheckCircle2} tone="positive" title={__('Nothing overdue', 'wedevs-project-manager')}>{__('Everything with a due date is on time.', 'wedevs-project-manager')}</EmptyState>
       ) : (
         <div className="space-y-1 flex-1 min-h-0 overflow-y-auto pm-sidebar-scroll pr-1">
           {list.map(t => (

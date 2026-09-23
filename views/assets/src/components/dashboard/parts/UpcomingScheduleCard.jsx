@@ -25,7 +25,7 @@ export default function UpcomingScheduleCard({ items, total = 0 }) {
       />
 
       {list.length === 0 ? (
-        <EmptyState icon={CalendarDays}>{__('Nothing scheduled. Add a due date to a task to see it here.', 'wedevs-project-manager')}</EmptyState>
+        <EmptyState icon={CalendarDays} title={__('Nothing scheduled', 'wedevs-project-manager')}>{__('Add a due date to a task to see it here.', 'wedevs-project-manager')}</EmptyState>
       ) : (
         <div className="space-y-1 flex-1 min-h-0 overflow-y-auto pm-sidebar-scroll pr-1">
           {list.map(t => (

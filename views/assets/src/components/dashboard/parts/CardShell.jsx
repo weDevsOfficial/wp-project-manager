@@ -1,4 +1,6 @@
+import React from 'react'
 import { cn } from '@lib/utils'
+import { EmptyState as SharedEmptyState } from '@components/common/EmptyState'
 
 // Shared chrome for every dashboard card, so titles, actions and empty
 // states keep one rhythm instead of each card re-deciding its own.
@@ -30,19 +32,22 @@ export function CardAction({ onClick, children }) {
   )
 }
 
-export function EmptyState({ icon: Icon, tone = 'muted', children }) {
+// The plugin-wide empty state in its compact size, filling the card so it
+// stays centred. `positive` tints the icon for good news ("nothing overdue").
+export function EmptyState({ icon: Icon, tone = 'muted', title, children }) {
+  const TintedIcon = React.useMemo(() => {
+    if (!Icon || tone !== 'positive') return Icon
+    return (props) => <Icon {...props} className={cn(props.className, 'text-emerald-500/70')} />
+  }, [Icon, tone])
+
   return (
-    <div className="flex-1 flex flex-col items-center justify-center py-8 text-center">
-      {Icon && (
-        <span className={cn(
-          'flex items-center justify-center w-11 h-11 rounded-full mb-2.5',
-          tone === 'positive' ? 'bg-emerald-50' : 'bg-pm-surface-muted',
-        )}>
-          <Icon className={cn('w-5 h-5', tone === 'positive' ? 'text-emerald-500' : 'text-pm-text-muted/60')} />
-        </span>
-      )}
-      <p className="text-[13px] text-pm-text-muted max-w-[220px]">{children}</p>
-    </div>
+    <SharedEmptyState
+      compact
+      className="flex-1"
+      icon={TintedIcon}
+      title={title}
+      description={children}
+    />
   )
 }
 

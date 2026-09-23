@@ -53,7 +53,7 @@ export default function TaskPerformanceCard({ performance, range = 7, mode = 'cr
 
       {isEmpty ? (
         <div className="h-[220px] flex">
-          <EmptyState icon={BarChart3}>
+          <EmptyState icon={BarChart3} title={__('No task activity yet', 'wedevs-project-manager')}>
             {mode === 'created'
               ? __('No tasks created or completed in this period.', 'wedevs-project-manager')
               : __('No tasks assigned or completed in this period.', 'wedevs-project-manager')}

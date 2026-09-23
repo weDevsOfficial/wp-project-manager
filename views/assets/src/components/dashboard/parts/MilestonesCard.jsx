@@ -40,7 +40,7 @@ export default function MilestonesCard({ milestones, overdue }) {
       <CardHead icon={Flag} title={__('Milestones', 'wedevs-project-manager')} />
 
       {list.length === 0 && late.length === 0 ? (
-        <EmptyState icon={Flag}>{__('No milestones due. Add one to a project to track a delivery date.', 'wedevs-project-manager')}</EmptyState>
+        <EmptyState icon={Flag} title={__('No milestones due', 'wedevs-project-manager')}>{__('Add one to a project to track a delivery date.', 'wedevs-project-manager')}</EmptyState>
       ) : (
         // Scrolls inside the height its row already has, so a long list never
         // stretches the row and leaves a gap under Active Projects.
