@@ -9,6 +9,7 @@ import { cn } from '@lib/utils'
 import { useToast } from '@hooks/useToast'
 import { usePermissions } from '@hooks/usePermissions'
 import { useCurrentProject, useProjectLoadFailed } from '@hooks/useCurrentProject'
+import { attributeChipClass, attributePillClass } from '@components/common/AttributePicker'
 import { useConfirm } from '@hooks/useConfirm'
 import {
   Dialog,
@@ -40,7 +41,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu'
-import { Calendar, Users, Check, Maximize2, Minimize2, MoreHorizontal, Trash2, Link2, X, Plus, FolderKanban, Pencil, FileText, Loader2, Video, ListChecks, MessageSquare, Activity, AlertCircle, RefreshCw } from 'lucide-react'
+import { Calendar, CalendarRange, CalendarClock, User, UserPlus, Users, Check, Maximize2, Minimize2, MoreHorizontal, Trash2, Link2, X, Plus, FolderKanban, Pencil, FileText, Loader2, Video, ListChecks, MessageSquare, Activity, AlertCircle, RefreshCw } from 'lucide-react'
 import { DriveMonoGlyph } from '@components/google-workspace/GoogleIcons'
 import {
   isTaskComplete,
@@ -760,8 +761,7 @@ export default function TaskDetailSheet() {
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                     <Check className="h-4 w-4" /><span className="text-sm">{__('Status', 'wedevs-project-manager')}</span>
                   </div>
-                  <span className={cn('inline-flex items-center gap-1.5 text-[15px] font-medium px-2.5 py-0.5 rounded-md',
-                    complete ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700')}>
+                  <span className={attributePillClass(complete ? 'green' : 'amber')}>
                     <span className={cn('h-1.5 w-1.5 rounded-full', complete ? 'bg-emerald-500' : 'bg-amber-500')} />
                     {complete ? __('Done', 'wedevs-project-manager') : __('Active', 'wedevs-project-manager')}
                   </span>
@@ -770,7 +770,7 @@ export default function TaskDetailSheet() {
                 <div className={cn('flex min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors', editingDates ? 'items-start py-2' : 'items-center')}>
                   {/* While editing, the label lines up with the Start row instead of the middle of the block. */}
                   <div className={cn('flex items-center gap-2 text-pm-text-muted w-28 shrink-0', editingDates && 'h-7')}>
-                    <Calendar className="h-4 w-4" /><span className="text-sm">{__('Dates', 'wedevs-project-manager')}</span>
+                    <CalendarRange className="h-4 w-4" /><span className="text-sm">{__('Dates', 'wedevs-project-manager')}</span>
                   </div>
                   {editingDates ? (
                     <div className="flex flex-col gap-2 min-w-0">
@@ -800,13 +800,22 @@ export default function TaskDetailSheet() {
                       </div>
                     </div>
                   ) : (
-                    <button type="button" disabled={!canEditCurrentTask} onClick={() => canEditCurrentTask && setEditingDates(true)} className={cn('text-sm text-pm-text-primary transition-colors', canEditCurrentTask && 'hover:text-pm-accent')}>
-                      {extractDateStr(currentTask.start_at) && extractDateStr(currentTask.due_date)
+                    (() => {
+                      const hasDates = Boolean(extractDateStr(currentTask.due_date))
+                      const text = extractDateStr(currentTask.start_at) && hasDates
                         ? `${formatPmDate(currentTask.start_at)} → ${formatPmDate(currentTask.due_date)}`
-                        : extractDateStr(currentTask.due_date)
+                        : hasDates
                           ? formatPmDate(currentTask.due_date)
-                          : __('Set dates', 'wedevs-project-manager')}
-                    </button>
+                          : __('Set dates', 'wedevs-project-manager')
+                      return canEditCurrentTask ? (
+                        <button type="button" onClick={() => setEditingDates(true)} className={attributeChipClass(hasDates)}>
+                          <CalendarRange className="h-3.5 w-3.5 shrink-0" />
+                          <span className="truncate">{text}</span>
+                        </button>
+                      ) : (
+                        <span className="text-sm text-pm-text-primary">{hasDates ? text : '—'}</span>
+                      )
+                    })()
                   )}
                 </div>
 
@@ -860,9 +869,8 @@ export default function TaskDetailSheet() {
                           )
                         })()}
                         {canEditTask(currentTask) && (
-                          <button type="button" onClick={() => setShowAssigneeSearch(true)}
-                            className="inline-flex items-center gap-1 text-[15px] text-pm-accent hover:text-pm-accent/80 transition-colors">
-                            <Plus className="h-4 w-4" />{__('Add', 'wedevs-project-manager')}
+                          <button type="button" onClick={() => setShowAssigneeSearch(true)} className={attributeChipClass(false)}>
+                            <UserPlus className="h-3.5 w-3.5 shrink-0" />{__('Add', 'wedevs-project-manager')}
                           </button>
                         )}
                       </div>
@@ -914,23 +922,32 @@ export default function TaskDetailSheet() {
                 {currentTask.creator?.data && (
                   <div className="flex items-center h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
                     <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-                      <Users className="h-4 w-4" /><span className="text-sm">{__('Created by', 'wedevs-project-manager')}</span>
+                      <User className="h-4 w-4" /><span className="text-sm">{__('Created by', 'wedevs-project-manager')}</span>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => { dispatch(closeTaskSheet()); navigate('/my-tasks'); }}
-                      className="inline-flex items-center gap-1.5 text-sm text-pm-text-primary hover:text-pm-accent transition-colors"
-                    >
-                      <UserAvatar user={currentTask.creator.data} size="sm" />
-                      {currentTask.creator.data.display_name}
-                    </button>
+                    {/* Opened My Tasks for the viewer, not the creator. Managers can view
+                        someone else's tasks through ?user=; everyone else sees the name. */}
+                    {canManage ? (
+                      <button
+                        type="button"
+                        onClick={() => { dispatch(closeTaskSheet()); navigate(`/my-tasks?user=${currentTask.creator.data.id}`); }}
+                        className="inline-flex items-center gap-1.5 text-sm text-pm-text-primary hover:text-pm-accent transition-colors"
+                      >
+                        <UserAvatar user={currentTask.creator.data} size="sm" />
+                        {currentTask.creator.data.display_name}
+                      </button>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 text-sm text-pm-text-primary">
+                        <UserAvatar user={currentTask.creator.data} size="sm" />
+                        {currentTask.creator.data.display_name}
+                      </span>
+                    )}
                   </div>
                 )}
 
                 {currentTask.created_at && (
                   <div className="flex items-center h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
                     <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-                      <Calendar className="h-4 w-4" /><span className="text-sm">{__('Created', 'wedevs-project-manager')}</span>
+                      <CalendarClock className="h-4 w-4" /><span className="text-sm">{__('Created', 'wedevs-project-manager')}</span>
                     </div>
                     <span className="text-sm text-pm-text-primary">{formatPmDateTime(currentTask.created_at)}</span>
                   </div>

@@ -16,6 +16,21 @@ import { cn } from '@lib/utils'
  * value:    id of the chosen option, or null
  * create:   { label, placeholder, requiredMessage, extra?, onSubmit(title) -> Promise, onReset? }
  */
+// The chip every task-sheet value uses, so fields that do not go through this
+// picker (dates, assignees, estimate) still look like it. `filled` is false
+// for an empty value, which draws the dashed border.
+export const attributeChipClass = (filled) => cn(
+  'inline-flex items-center gap-1 min-w-0 max-w-full min-h-[26px] px-1.5 py-0.5 rounded border text-sm transition-colors hover:text-pm-accent hover:border-pm-accent/30 disabled:opacity-50',
+  filled ? 'border-pm-border/50 text-pm-text-primary' : 'border-dashed border-pm-border/50 text-pm-text-muted',
+)
+
+// Same box as the chip, coloured, for values that are a state (Status, Privacy).
+export const attributePillClass = (tone) => cn(
+  'inline-flex items-center gap-1.5 min-h-[26px] px-1.5 py-0.5 rounded border text-sm font-medium transition-colors',
+  tone === 'green' && 'bg-emerald-50 border-emerald-200 text-emerald-700',
+  tone === 'amber' && 'bg-amber-50 border-amber-200 text-amber-700',
+)
+
 export default function AttributePicker({
   icon: Icon,
   value = null,
@@ -104,11 +119,7 @@ export default function AttributePicker({
           <button
             type="button"
             disabled={saving}
-            className={cn(
-              'inline-flex items-center gap-1 min-w-0 max-w-full min-h-[26px] px-1.5 py-0.5 rounded border text-sm transition-colors hover:text-pm-accent hover:border-pm-accent/30 disabled:opacity-50',
-              selected ? 'border-pm-border/50 text-pm-text-primary' : 'border-dashed border-pm-border/50 text-pm-text-muted',
-              triggerClassName,
-            )}
+            className={cn(attributeChipClass(!!selected), triggerClassName)}
           >
             {saving ? (
               <>

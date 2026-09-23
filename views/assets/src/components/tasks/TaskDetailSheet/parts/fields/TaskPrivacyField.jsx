@@ -9,6 +9,7 @@ import ProGate from '@components/common/ProGate';
 import ProBadge from '@components/common/ProBadge';
 import { Shield, Eye, EyeOff } from 'lucide-react';
 import { isPrivate } from '@lib/pm-utils';
+import { attributePillClass } from '@components/common/AttributePicker';
 
 export default function TaskPrivacyField({ task, projectId, dispatch, api }) {
   const { isPro } = usePermissions();
@@ -55,10 +56,8 @@ export default function TaskPrivacyField({ task, projectId, dispatch, api }) {
       </div>
       <button
         className={cn(
-          'flex items-center gap-1.5 text-sm px-2 py-0.5 rounded transition-colors',
-          taskPrivate
-            ? 'bg-amber-50 text-amber-700 hover:bg-amber-100'
-            : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100',
+          attributePillClass(taskPrivate ? 'amber' : 'green'),
+          taskPrivate ? 'hover:bg-amber-100' : 'hover:bg-emerald-100',
           toggling && 'opacity-50'
         )}
         onClick={handleToggle}
