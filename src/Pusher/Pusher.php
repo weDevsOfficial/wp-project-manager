@@ -75,7 +75,6 @@ class Pusher {
         $localize = [
             'base_url'       => esc_url_raw( get_rest_url() ),
             'pusher_app_key' => Auth::app_key(),
-            'pusher_app_id'  => Auth::app_id(),
             'pusher_cluster' => Auth::app_cluster(),
             'user_id'        => get_current_user_id(),
             'is_admin'       => is_admin(),

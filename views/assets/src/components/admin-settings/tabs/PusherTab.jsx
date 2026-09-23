@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { savePusher } from '@store/settingsSlice'
 import { useToast } from '@hooks/useToast'
@@ -32,6 +32,18 @@ const PusherTab = () => {
   const [form, setForm] = useState({ ...pusher })
   const [isDirty, setIsDirty] = useState(false)
   const [testing, setTesting] = useState(false)
+  const [secretSaved, setSecretSaved] = useState(false)
+
+  // The secret is write-only: the API returns true when one is stored, never the value.
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await api.get('settings', { key: 'pusher_secret' })
+        setSecretSaved(res?.data?.[0]?.value === true)
+      } catch { /* no secret saved yet */ }
+    }
+    load()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const updateField = useCallback((key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -40,8 +52,15 @@ const PusherTab = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault()
+    const secret = (form.pusher_secret || '').trim()
+    const { pusher_secret: _omit, ...payload } = form
+    if (secret) payload.pusher_secret = secret
     try {
-      await dispatch(savePusher(form)).unwrap()
+      await dispatch(savePusher(payload)).unwrap()
+      if (secret) {
+        setSecretSaved(true)
+        setForm((prev) => ({ ...prev, pusher_secret: '' }))
+      }
       setIsDirty(false)
       toast.success(__('Pusher settings saved', 'wedevs-project-manager'))
     } catch (err) {
@@ -109,7 +128,7 @@ const PusherTab = () => {
         <div className="border-t border-pm-border" />
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <div><Label htmlFor="pusher_secret">{__('App Secret', 'wedevs-project-manager')}</Label></div>
-          <Input id="pusher_secret" type="password" value={form.pusher_secret} onChange={(e) => updateField('pusher_secret', e.target.value)} placeholder={__('Your Pusher App Secret', 'wedevs-project-manager')} className="max-w-sm" />
+          <Input id="pusher_secret" type="password" value={form.pusher_secret} onChange={(e) => updateField('pusher_secret', e.target.value)} placeholder={secretSaved ? __('Saved. Leave blank to keep the current secret', 'wedevs-project-manager') : __('Your Pusher App Secret', 'wedevs-project-manager')} className="max-w-sm" />
         </div>
         <div className="border-t border-pm-border" />
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">

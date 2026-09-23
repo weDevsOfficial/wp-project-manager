@@ -26,6 +26,11 @@ class Settings_Controller {
             return new \WP_Error( 'pm_settings', __( 'You have no permission.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
         }
 
+        // Without a project_id the query reads global settings (integration credentials), which are admin-only.
+        if ( ! $project_id && ! wedevs_pm_user_can_access( wedevs_pm_admin_cap_slug() ) ) {
+            return new \WP_Error( 'pm_settings', __( 'You have no permission.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
+        }
+
         if ( $project_id && $key ) {
             $settings = Settings::where( 'project_id', $project_id )
                 ->where( 'key', $key )
