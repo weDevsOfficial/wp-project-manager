@@ -1,7 +1,7 @@
 import { Loader2 } from 'lucide-react'
 import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState } from "react";
-import { useApi } from "@hooks/useApi";
+import { api } from "@hooks/useApi";
 import { Button } from "@components/ui/button";
 import { Label } from "@components/ui/label";
 import { Checkbox } from "@components/ui/checkbox";
@@ -23,7 +23,6 @@ import {
 import { ScrollArea } from "@components/ui/scroll-area";
 import { toast } from "sonner";
 
-const api = useApi();
 
 export default function AutomationModal({
   open,

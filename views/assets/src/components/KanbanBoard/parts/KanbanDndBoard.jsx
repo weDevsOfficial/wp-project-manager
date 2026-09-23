@@ -7,13 +7,12 @@ import {
   moveTaskBetweenBoards,
   taskAddedToBoard,
 } from "@store/kanbanSlice";
-import { useApi } from "@hooks/useApi";
+import { api as proApi } from "@hooks/useApi";
 import { Input } from "@components/ui/input";
 import { toast } from "sonner";
 import { KanbanProvider } from "../../kanban/index";
 import KanbanBoardColumn from "./KanbanBoardColumn";
 
-const proApi = useApi();
 
 export default function KanbanDndBoard({
   boards,

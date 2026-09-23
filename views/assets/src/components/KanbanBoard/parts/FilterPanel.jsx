@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import React, { useEffect, useMemo, useState } from "react";
-import { useApi } from "@hooks/useApi";
+import { api } from "@hooks/useApi";
 import { UserAvatar } from "@components/common/UserAvatar";
 import { Button } from "@components/ui/button";
 import {
@@ -12,7 +12,6 @@ import {
 } from "@components/ui/select";
 import { Filter, X } from "lucide-react";
 
-const api = useApi();
 
 const getDueDateOptions = () => [
   { id: "", title: __("Any", 'wedevs-project-manager') },

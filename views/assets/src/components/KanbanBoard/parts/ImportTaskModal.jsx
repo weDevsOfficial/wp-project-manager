@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useMemo } from "react";
-import { useApi } from "@hooks/useApi";
+import { api } from "@hooks/useApi";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
@@ -24,7 +24,6 @@ import {
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Import, Loader2 } from "lucide-react";
 
-const api = useApi();
 
 export default function ImportTaskModal({ open, onOpenChange, projectId, boardId, onImport }) {
   const [taskLists, setTaskLists] = useState([]);

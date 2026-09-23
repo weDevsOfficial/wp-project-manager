@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState } from "react";
-import { useApi } from "@hooks/useApi";
+import { api } from "@hooks/useApi";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,6 @@ import {
 import { Plus, Search, Loader2 } from "lucide-react";
 import { EmptyState } from "@components/common/EmptyState";
 
-const api = useApi();
 
 export default function SearchAddTask({
   projectId,

@@ -13,7 +13,7 @@ import {
   importTasks,
   saveAutomation,
 } from "@store/kanbanSlice";
-import { useApi } from "@hooks/useApi";
+import { api } from "@hooks/useApi";
 import { useConfirm } from "@hooks/useConfirm";
 import { usePermissions } from "@hooks/usePermissions";
 import { useProjectAssignees } from "@hooks/useProjectAssignees";
@@ -35,7 +35,6 @@ import { toast } from "sonner";
 import FilterPanel from "./parts/FilterPanel";
 import KanbanDndBoard from "./parts/KanbanDndBoard";
 
-const api = useApi();
 
 export default function KanbanBoard() {
   const { projectId } = useParams();

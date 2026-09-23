@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useAppDispatch } from "@store/index";
 import { loadMoreBoardTasks } from "@store/kanbanSlice";
 import { openTaskSheet } from "@store/tasksSlice";
-import { useApi } from "@hooks/useApi";
+import { api } from "@hooks/useApi";
 import { usePermissions } from "@hooks/usePermissions";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
@@ -62,7 +62,6 @@ const PRIORITY_LABELS = () => ({
   high: __("High", 'wedevs-project-manager'),
 });
 
-const api = useApi();
 
 export default function KanbanBoardColumn({
   column,
