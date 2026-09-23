@@ -54,6 +54,13 @@ class Project_Controller {
 
 		$projects = $this->fetch_projects( $category, $status );
 
+		// Opt-in: the Projects page keeps archived projects in their own list.
+		// Clients that never send the flag still get every status, as before.
+		$exclude_archived = $this->excludes_archived( $request );
+		if ( $exclude_archived && ( '' === $status || 'favourite' === $status ) ) {
+			$projects = $projects->where( wedevs_pm_tb_prefix() . 'pm_projects.status', '<>', Project::ARCHIVED );
+		}
+
 		// Search by title (used by React UI search bar)
 		$title = sanitize_text_field( $request->get_param( 'title' ) );
 		if ( ! empty( $title ) ) {
@@ -95,14 +102,22 @@ class Project_Controller {
 		$project_collection = $projects->getCollection();
 		$resource = new Collection( $project_collection, new Project_Transformer );
 
-		$resource->setMeta( $this->projects_meta( $category ) );
+		$resource->setMeta( $this->projects_meta( $category, $exclude_archived ) );
 
         $resource->setPaginator( new IlluminatePaginatorAdapter( $projects ) );
 
         return $this->get_response( $resource );
     }
 
-    private function projects_meta( $category ) {
+    /**
+     * Whether the request asked to leave archived projects out of the listing.
+     */
+    private function excludes_archived( WP_REST_Request $request ) {
+		$flag = $request->get_param( 'exclude_archived' );
+		return ! empty( $flag ) && 'false' !== $flag;
+    }
+
+    private function projects_meta( $category, $exclude_archived = false ) {
 		$user_id = get_current_user_id();
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
 		$total_projects   = $eloquent_sql->count();
@@ -115,12 +130,20 @@ class Project_Controller {
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
 		$total_archived   = $eloquent_sql->where( 'status', Project::ARCHIVED )->count();
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		if ( $exclude_archived ) {
+			$eloquent_sql = $eloquent_sql->where( 'status', '<>', Project::ARCHIVED );
+		}
 		$favourite 		  = $eloquent_sql->whereHas( 'meta', function ( $query ) use( $user_id ) {
 						$query->where('meta_key', '=', 'favourite_project')
 							->where('entity_id', '=', $user_id)
 							->whereNotNull( 'meta_value' );
 					} )->count();
 		$user_id          = get_current_user_id();
+
+		// "All" on the Projects page no longer holds archived projects.
+		if ( $exclude_archived ) {
+			$total_projects -= $total_archived;
+		}
 
 		$meta  = [
 			'total_projects'   => $total_projects,

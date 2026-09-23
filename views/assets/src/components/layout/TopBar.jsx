@@ -70,7 +70,7 @@ export function TopBar() {
 
   const activeProjectId = useMemo(() => {
     const parts = location.pathname.split('/').filter(Boolean)
-    return parts[0] === 'projects' && parts[1] ? parts[1] : null
+    return parts[0] === 'projects' && /^\d+$/.test(parts[1] || '') ? parts[1] : null
   }, [location.pathname])
 
   const activeProject = useCurrentProject(activeProjectId)
@@ -123,7 +123,9 @@ export function TopBar() {
     const parts = location.pathname.split('/').filter(Boolean)
     const crumbs = [{ label: BREADCRUMB_LABELS['projects'] || __('Projects', 'wedevs-project-manager'), path: '/projects' }]
 
-    if (parts[0] === 'projects' && parts[1]) {
+    if (parts[0] === 'projects' && parts[1] === 'archived') {
+      crumbs.push({ label: __('Archived', 'wedevs-project-manager'), path: '/projects/archived' })
+    } else if (parts[0] === 'projects' && parts[1]) {
       const projectLabel = activeProject?.title
         ? `#${parts[1]} · ${activeProject.title}`
         : `#${parts[1]}`

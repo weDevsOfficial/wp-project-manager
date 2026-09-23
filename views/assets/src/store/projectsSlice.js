@@ -26,6 +26,8 @@ export const fetchProjects = createAsyncThunk(
         with: 'assignees',
         project_meta: 'all',
         orderby: params?.orderby ?? state.orderBy ?? 'id:desc',
+        // Archived projects live in their own list (#/projects/archived).
+        exclude_archived: 1,
         ...params,
       }
       // Only send status filter if not "all"
@@ -69,6 +71,29 @@ export const deleteProject = createAsyncThunk(
       return projectId
     } catch (e) {
       return rejectWithValue(e.message ?? 'Failed to delete project')
+    }
+  }
+)
+
+// Archive or restore a project. Sends the current assignees, because the
+// update endpoint treats a missing list as "remove everyone" on older builds.
+export const setProjectArchived = createAsyncThunk(
+  'projects/setProjectArchived',
+  async ({ project, archived }, { rejectWithValue }) => {
+    try {
+      const assignees = (project.assignees?.data ?? []).map(u => ({
+        user_id: u.id,
+        role_id: u.roles?.data?.[0]?.id ?? 1,
+      }))
+      await api.post(`projects/${project.id}/update`, {
+        id: project.id,
+        title: project.title,
+        status: archived ? 'archived' : 'incomplete',
+        assignees,
+      })
+      return { project, archived }
+    } catch (e) {
+      return rejectWithValue(e.message ?? 'Failed to update project')
     }
   }
 )
@@ -211,7 +236,7 @@ const initialState = {
   orderBy:      'id:desc',
   viewMode:     localStorage.getItem('pm-project-view') ?? 'grid',
 
-  projectsMeta: { total_incomplete: 0, total_complete: 0, total_favourite: 0 },
+  projectsMeta: { total_incomplete: 0, total_complete: 0, total_pending: 0, total_favourite: 0 },
 
   categories:       [],
   categoriesLoaded: false,
@@ -298,6 +323,7 @@ const projectsSlice = createSlice({
         const m = action.payload.meta
         if (typeof m.total_incomplete === 'number') state.projectsMeta.total_incomplete = m.total_incomplete
         if (typeof m.total_complete === 'number')   state.projectsMeta.total_complete   = m.total_complete
+        if (typeof m.total_pending === 'number')    state.projectsMeta.total_pending    = m.total_pending
         if (typeof m.total_favourite === 'number')  state.projectsMeta.total_favourite  = m.total_favourite
       }
     })
@@ -329,6 +355,25 @@ const projectsSlice = createSlice({
       }
       state.projects = state.projects.filter(p => p.id !== action.payload)
       state.total = Math.max(0, state.total - 1)
+    })
+
+    builder.addCase(setProjectArchived.fulfilled, (state, action) => {
+      const { project, archived } = action.payload
+      if (!archived) return
+      // Leaves every tab on the Projects page, so drop it and its counts.
+      const listed = state.projects.find(p => p.id === project.id)
+      if (listed) {
+        if (listed.status === 'complete') {
+          state.projectsMeta.total_complete = Math.max(0, state.projectsMeta.total_complete - 1)
+        } else if (listed.status === 'incomplete') {
+          state.projectsMeta.total_incomplete = Math.max(0, state.projectsMeta.total_incomplete - 1)
+        }
+        if (listed.favourite) {
+          state.projectsMeta.total_favourite = Math.max(0, state.projectsMeta.total_favourite - 1)
+        }
+        state.projects = state.projects.filter(p => p.id !== project.id)
+        state.total = Math.max(0, state.total - 1)
+      }
     })
 
     builder.addCase(toggleProjectStatus.fulfilled, (state, action) => {

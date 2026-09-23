@@ -7,6 +7,7 @@ import {
   toggleFavourite,
   deleteProject,
   toggleProjectStatus,
+  setProjectArchived,
   fetchCategories,
   fetchRoles,
   setStatus,
@@ -73,6 +74,7 @@ import {
   CheckCircle,
   Undo2,
   FolderKanban,
+  Archive,
   LayoutList,
   MessageSquare,
   MessagesSquare,
@@ -112,7 +114,7 @@ export default function ProjectsPage() {
   const FILTER_TABS = useMemo(() => getFilterTabs(), []);
   const navigate = useNavigate();
   const toast = useToast();
-  const { canCreate, isPro } = usePermissions();
+  const { canCreate, isPro, canManage, isManagerAnywhere } = usePermissions();
   const proApi = useProApi();
   const { setOpen: setProModalOpen } = useProModal();
   const [collapsedGroups, setCollapsedGroups] = useState({});
@@ -209,6 +211,18 @@ export default function ProjectsPage() {
     [dispatch, toast, __],
   );
 
+  const handleArchive = useCallback(
+    async (project) => {
+      try {
+        await dispatch(setProjectArchived({ project, archived: true })).unwrap();
+        toast.success(__("Project archived. Find it under Archive.", 'wedevs-project-manager'));
+      } catch {
+        toast.error(__("Failed to archive the project", 'wedevs-project-manager'));
+      }
+    },
+    [dispatch, toast, __],
+  );
+
   const confirmDelete = useCallback((project) => {
     setProjectToDelete(project);
     setDeleteDialogOpen(true);
@@ -249,7 +263,8 @@ export default function ProjectsPage() {
   );
 
   const totalCount = useMemo(
-    () => projectsMeta.total_incomplete + projectsMeta.total_complete,
+    // Everything the All tab lists: archived projects have their own page.
+    () => projectsMeta.total_incomplete + projectsMeta.total_complete + (projectsMeta.total_pending || 0),
     [projectsMeta],
   );
 
@@ -403,6 +418,10 @@ export default function ProjectsPage() {
           <Copy className="h-4 w-4 mr-2" />
           {__("Duplicate", 'wedevs-project-manager')}
           {!isPro && <Crown className="h-4 w-4 ml-auto text-pm-accent" />}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleArchive(project)}>
+          <Archive className="h-4 w-4 mr-2" />
+          {__("Archive", 'wedevs-project-manager')}
         </DropdownMenuItem>
         <DropdownMenuItem
           className="text-destructive focus:text-destructive"
@@ -695,8 +714,20 @@ export default function ProjectsPage() {
         <h1 className="text-xl font-bold text-pm-text-primary">
           {__("Projects", 'wedevs-project-manager')}
         </h1>
-        {canCreate && (
-          <div className="flex items-center gap-2">
+        {(canCreate || canManage || isManagerAnywhere) && (
+          <div className="flex items-center gap-2 flex-wrap">
+            {(canManage || isManagerAnywhere) && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="gap-1.5 h-11 px-5"
+                onClick={() => navigate('/projects/archived')}
+              >
+                <Archive className="h-4 w-4" />
+                {__("Archive", 'wedevs-project-manager')}
+              </Button>
+            )}
+            {canCreate && (<>
             {/* Templates button — real picker when pro, upgrade teaser when free */}
             <TemplatesHeaderButton />
             <Button
@@ -716,6 +747,7 @@ export default function ProjectsPage() {
               <Plus className="h-4 w-4" />
               {__("New Project", 'wedevs-project-manager')}
             </Button>
+            </>)}
           </div>
         )}
       </div>
