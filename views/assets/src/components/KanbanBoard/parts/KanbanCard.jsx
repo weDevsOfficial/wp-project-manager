@@ -68,8 +68,9 @@ export default function KanbanCard({ task, boardId, onRemove }) {
           onPointerDown={(e) => { e.stopPropagation(); e.nativeEvent?.stopImmediatePropagation() }}
           onMouseDown={(e) => { e.stopPropagation(); e.nativeEvent?.stopImmediatePropagation() }}
           onPointerUp={(e) => { e.stopPropagation(); e.nativeEvent?.stopImmediatePropagation() }}
-          className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 p-1 rounded-lg hover:bg-red-50 text-pm-text-muted hover:text-red-500 transition-all border-none outline-none shadow-none bg-transparent"
+          className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 p-1 rounded-lg text-pm-text-muted hover:text-destructive hover:bg-destructive/10 transition-all border-none outline-none shadow-none bg-transparent"
           title={__("Remove", 'wedevs-project-manager')}
+          aria-label={__("Remove", 'wedevs-project-manager')}
         >
           <Minus className="h-4 w-4" />
         </button>

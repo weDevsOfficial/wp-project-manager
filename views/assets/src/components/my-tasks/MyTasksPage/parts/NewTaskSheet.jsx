@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback } from "react";
 import { useApi } from "@hooks/useApi";
 import { useToast } from "@hooks/useToast";
@@ -273,6 +273,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
                       <button
                         type="button"
                         onClick={() => removeAssignee(user.id)}
+                        aria-label={sprintf(/* translators: %s is the user's name. */ __("Remove %s", 'wedevs-project-manager'), user.display_name)}
                         className="text-pm-text-muted hover:text-destructive"
                       >
                         <X className="h-3 w-3" />

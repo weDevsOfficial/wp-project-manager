@@ -108,6 +108,8 @@ export function FrontendLayout() {
                 type="button"
                 className="md:hidden p-1.5 rounded-md text-pm-text-muted hover:bg-muted/50"
                 onClick={() => setMobileMenuOpen(v => !v)}
+                aria-label={mobileMenuOpen ? __('Close menu', 'wedevs-project-manager') : __('Open menu', 'wedevs-project-manager')}
+                aria-expanded={mobileMenuOpen}
               >
                 {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>

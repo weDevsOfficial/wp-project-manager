@@ -399,6 +399,7 @@ export default function KanbanBoard() {
                 type="button"
                 onClick={clearSearch}
                 title={__("Clear search and filters", 'wedevs-project-manager')}
+                aria-label={__("Clear search and filters", 'wedevs-project-manager')}
                 className="shrink-0 rounded p-0.5 text-pm-text-muted hover:text-pm-text-primary transition-colors"
               >
                 <X className="h-3.5 w-3.5" />
@@ -410,11 +411,11 @@ export default function KanbanBoard() {
               <Button
                 size="sm"
                 variant="outline"
-                className="h-11 text-xs gap-1.5 border-pm-border text-pm-text hover:bg-pm-surface-muted"
+                className="h-11 text-sm gap-1.5 border-pm-border text-pm-text hover:bg-pm-surface-muted"
                 onClick={() => setBgDialogOpen(true)}
                 title={__("Set board background", 'wedevs-project-manager')}
               >
-                <ImageIcon className="h-3.5 w-3.5" />
+                <ImageIcon className="h-4 w-4" />
                 {__("Background", 'wedevs-project-manager')}
               </Button>
               {boardBg && (
@@ -424,6 +425,7 @@ export default function KanbanBoard() {
                   className="h-8 w-8 p-0 text-pm-text-muted hover:text-pm-text-primary"
                   onClick={clearBoardBg}
                   title={__("Remove background", 'wedevs-project-manager')}
+                  aria-label={__("Remove background", 'wedevs-project-manager')}
                 >
                   <X className="h-4 w-4" />
                 </Button>

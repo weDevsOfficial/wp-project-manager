@@ -90,6 +90,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
                 className="p-0.5 rounded hover:bg-muted text-pm-text-muted/40 hover:text-pm-text-muted transition-colors"
                 onClick={(e) => { e.stopPropagation(); onRefresh() }}
                 title={__('Refresh', 'wedevs-project-manager')}
+                aria-label={__('Refresh', 'wedevs-project-manager')}
               >
                 <RefreshCw className="h-3.5 w-3.5" />
               </button>

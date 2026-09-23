@@ -22,7 +22,7 @@ import {
   DialogFooter,
 } from "@components/ui/dialog";
 import { ScrollArea } from "@components/ui/scroll-area";
-import { Import } from "lucide-react";
+import { Import, Loader2 } from "lucide-react";
 
 const api = useApi();
 
@@ -104,7 +104,9 @@ export default function ImportTaskModal({ open, onOpenChange, projectId, boardId
         </DialogHeader>
         <div className="space-y-3 flex-1 overflow-y-auto overflow-x-hidden min-h-0">
           {loadingLists ? (
-            <p className="text-sm text-pm-text-muted">{__("Loading...", 'wedevs-project-manager')}</p>
+            <div className="flex items-center justify-center py-6" role="status" aria-label={__("Loading...", 'wedevs-project-manager')}>
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+            </div>
           ) : (
             <div className="space-y-1.5">
               <Label>{__("Task List", 'wedevs-project-manager')}</Label>
@@ -160,8 +162,8 @@ export default function ImportTaskModal({ open, onOpenChange, projectId, boardId
               </div>
               <ScrollArea className="h-48 border rounded-md">
                 {loadingTasks ? (
-                  <div className="p-4 text-sm text-center text-pm-text-muted">
-                    {__("Loading...", 'wedevs-project-manager')}
+                  <div className="flex items-center justify-center py-6" role="status" aria-label={__("Loading...", 'wedevs-project-manager')}>
+                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                   </div>
                 ) : filtered.length === 0 ? (
                   <div className="p-4 text-sm text-center text-pm-text-muted">
@@ -208,14 +210,14 @@ export default function ImportTaskModal({ open, onOpenChange, projectId, boardId
           )}
         </div>
         <DialogFooter className="shrink-0">
-          <Button className="h-11 px-5"
+          <Button className="h-11 px-5 text-sm"
             variant="outline"
             size="sm"
             onClick={() => onOpenChange(false)}
           >
             {__("Cancel", 'wedevs-project-manager')}
           </Button>
-          <Button className="h-11 px-5"
+          <Button className="h-11 px-5 text-sm"
             size="sm"
             onClick={handleImport}
             disabled={selectedTasks.length === 0}

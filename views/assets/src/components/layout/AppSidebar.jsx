@@ -472,6 +472,7 @@ export function AppSidebar() {
           <div className="flex items-center gap-0.5">
             <button
               className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors"
+              aria-label={collapsed ? __('Expand sidebar', 'wedevs-project-manager') : __('Collapse sidebar', 'wedevs-project-manager')}
               title={collapsed ? __('Expand sidebar', 'wedevs-project-manager') : __('Collapse sidebar', 'wedevs-project-manager')}
               onClick={toggleCollapse}
             >
@@ -565,6 +566,7 @@ export function AppSidebar() {
             {!isPro && collapsed && (
               <button
                 className="w-full flex justify-center py-2 text-pm-accent hover:bg-pm-accent/5 rounded-md transition-colors"
+                aria-label={__('Upgrade to Pro', 'wedevs-project-manager')}
                 title={__('Upgrade to Pro', 'wedevs-project-manager')}
                 onClick={() => navigate('/premium')}
               >
@@ -626,6 +628,7 @@ export function AppSidebar() {
           {collapsed ? (
             <button
               className="w-full flex justify-center p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-accent transition-colors"
+              aria-label={__('Back to WP Admin', 'wedevs-project-manager')}
               title={__('Back to WP Admin', 'wedevs-project-manager')}
               onClick={goBack}
             >

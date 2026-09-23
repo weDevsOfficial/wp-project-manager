@@ -263,6 +263,7 @@ export default function CommentAttachment({ file, onRemove, className, children,
             }}
             className="absolute -right-1.5 -top-1.5 z-10 rounded-full border border-border/60 bg-background p-0.5 text-pm-text-muted shadow-sm hover:border-destructive/40 hover:text-destructive"
             title={__('Remove', 'wedevs-project-manager')}
+            aria-label={__('Remove', 'wedevs-project-manager')}
           >
             <X className="h-3 w-3" />
           </button>

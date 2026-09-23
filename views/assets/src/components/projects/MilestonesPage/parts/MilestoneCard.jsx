@@ -339,7 +339,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                       : null;
                 const progressPct = taskComplete ? 100 : 0;
                 return (
-                  <div key={task.id} className={cn("group grid items-center gap-2 px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-muted/20 transition-colors", TASK_GRID, taskComplete && "opacity-60")}>
+                  <div key={task.id} className={cn("group grid items-center gap-2 px-4 py-3 border-b border-pm-border/40 last:border-b-0 hover:bg-muted/40 transition-colors", TASK_GRID, taskComplete && "opacity-60")}>
                     {/* Task */}
                     <div className="flex items-center gap-2 min-w-0">
                       <TaskCheckbox complete={taskComplete} taskTitle={task.title} onClick={() => handleToggleTaskStatus(task)} />
@@ -396,11 +396,12 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                       <span className="text-[11px] font-medium text-pm-text-muted tabular-nums w-8 text-right">{progressPct}%</span>
                     </div>
                     {/* Actions — unlink */}
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity justify-self-end">
+                    <div className="opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity justify-self-end">
                       <button
                         type="button"
-                        className="h-6 w-6 rounded flex items-center justify-center text-pm-text-muted/40 hover:text-destructive hover:bg-destructive/10 transition-all"
+                        className="h-6 w-6 rounded flex items-center justify-center text-pm-text-muted hover:text-destructive hover:bg-destructive/10 transition-all"
                         onClick={() => handleUnlinkTask(task)}
+                        aria-label={__("Unlink from milestone", 'wedevs-project-manager')}
                         title={__("Unlink from milestone", 'wedevs-project-manager')}
                       >
                         <Minus className="h-4 w-4" />
@@ -441,7 +442,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                       {incompleteTasks.length > 0 && (
                         <div>
                           <div className="inline-flex items-center gap-1.5 rounded-md bg-amber-100 text-amber-700 px-2.5 py-0.5 text-[12px] font-medium uppercase tracking-wide mb-1.5"><Clock className="h-4 w-4" />{__("Pending", 'wedevs-project-manager')} ({incompleteTasks.length})</div>
-                          <div className="rounded-lg border bg-card overflow-hidden">
+                          <div className="rounded-lg border border-pm-border/60 bg-card overflow-hidden">
                             <div className="overflow-x-auto"><div className="min-w-[1120px]">
                               {gridHeader}
                               {incompleteTasks.map((task) => renderTask(task, false))}
@@ -452,7 +453,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                       {completedTasks.length > 0 && (
                         <div>
                           <div className="inline-flex items-center gap-1.5 rounded-md bg-emerald-100 text-emerald-700 px-2.5 py-0.5 text-[12px] font-medium uppercase tracking-wide mb-1.5"><CheckCircle className="h-4 w-4" />{__("Completed", 'wedevs-project-manager')} ({completedTasks.length})</div>
-                          <div className="rounded-lg border bg-card overflow-hidden">
+                          <div className="rounded-lg border border-pm-border/60 bg-card overflow-hidden">
                             <div className="overflow-x-auto"><div className="min-w-[1120px]">
                               {gridHeader}
                               {completedTasks.map((task) => renderTask(task, true))}
@@ -472,7 +473,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                   <MessageSquare className="h-4 w-4" />
                   {__("Discussions", 'wedevs-project-manager')} ({discussions.length})
                 </div>
-                <div className="rounded-lg border bg-card overflow-hidden divide-y divide-border/40">
+                <div className="rounded-lg border border-pm-border/60 bg-card overflow-hidden divide-y divide-pm-border/40">
                   {discussions.map((disc) => {
                     const commentCount = disc.meta?.total_comments ?? disc.meta?.total_comment ?? 0;
                     const discCreator = disc.creator?.data;
@@ -482,7 +483,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                       <button
                         key={disc.id}
                         type="button"
-                        className="group w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-muted/20 transition-colors"
+                        className="group w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-muted/40 transition-colors"
                         onClick={() => navigate(`/projects/${projectId}/discussions/${disc.id}`)}
                       >
                         <span className="flex h-9 w-9 items-center justify-center rounded-md bg-blue-50 text-blue-500 shrink-0">

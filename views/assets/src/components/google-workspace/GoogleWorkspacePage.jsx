@@ -42,7 +42,7 @@ const ProFeatureCard = ({ icon: Icon, title, description }) => {
               {title}
               <ProBadge />
             </div>
-            <div className="text-xs text-pm-text-muted mt-0.5">{description}</div>
+            <div className="text-[13px] text-pm-text-muted mt-0.5">{description}</div>
           </div>
         </div>
         <Lock className="h-4 w-4 text-pm-text-muted shrink-0" />
@@ -151,7 +151,7 @@ export default function GoogleWorkspacePage() {
             <GoogleDriveColorGlyph width="20" height="20" />
             <div>
               <div className="text-sm font-medium text-pm-text-primary">{__('Google Drive', 'wedevs-project-manager')}</div>
-              <div className="text-xs text-pm-text-muted mt-0.5">{__('Attach Drive files to tasks, comments, discussions and files.', 'wedevs-project-manager')}</div>
+              <div className="text-[13px] text-pm-text-muted mt-0.5">{__('Attach Drive files to tasks, comments, discussions and files.', 'wedevs-project-manager')}</div>
             </div>
           </div>
           {status.drive_enabled ? (
@@ -172,9 +172,9 @@ export default function GoogleWorkspacePage() {
           )}
         </div>
         {!status.drive_enabled ? (
-          <p className="mt-2 pl-8 text-xs text-pm-text-muted">{__('Drive is turned off. An administrator can enable it in Settings → Google Workspace.', 'wedevs-project-manager')}</p>
+          <p className="mt-2 pl-8 text-[13px] text-pm-text-muted">{__('Drive is turned off. An administrator can enable it in Settings → Google Workspace.', 'wedevs-project-manager')}</p>
         ) : !status.connected ? (
-          <p className="mt-2 pl-8 text-xs text-amber-700">{__('Connect your Google account above to use Drive.', 'wedevs-project-manager')}</p>
+          <p className="mt-2 pl-8 text-[13px] text-amber-700">{__('Connect your Google account above to use Drive.', 'wedevs-project-manager')}</p>
         ) : null}
       </section>
 

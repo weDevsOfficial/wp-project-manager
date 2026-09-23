@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import {
@@ -450,14 +450,14 @@ export function ProjectCreateSheet() {
 
             {/* Selected users table */}
             {selectedUsers.length > 0 && (
-              <div className="rounded-md border overflow-hidden">
+              <div className="rounded-lg border border-pm-border/60 overflow-hidden">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="h-10 border-b border-border bg-card">
-                      <th className="text-left px-3 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">
+                    <tr className="h-10 border-b bg-muted/20">
+                      <th className="text-left px-3 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">
                         {__('User', 'wedevs-project-manager')}
                       </th>
-                      <th className="text-left px-3 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282] w-36">
+                      <th className="text-left px-3 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70 w-36">
                         {__('Role', 'wedevs-project-manager')}
                       </th>
                       <th className="px-3 py-2 w-10" />
@@ -465,7 +465,7 @@ export function ProjectCreateSheet() {
                   </thead>
                   <tbody>
                     {selectedUsers.map((user) => (
-                      <tr key={user.id} className="border-b border-border last:border-b-0 hover:bg-muted/40 transition-colors">
+                      <tr key={user.id} className="group border-b border-pm-border/40 last:border-b-0 hover:bg-muted/40 transition-colors">
                         <td className="px-3 py-2">
                           <div className="flex items-center gap-2">
                             <UserAvatar user={{ ...user, display_name: getUserName(user) }} size="md" />
@@ -493,10 +493,11 @@ export function ProjectCreateSheet() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                            className="h-7 w-7 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity text-pm-text-muted hover:text-destructive hover:bg-destructive/10"
                             onClick={() => handleRemoveUser(user.id)}
+                            aria-label={sprintf(/* translators: %s is the user's name. */ __('Remove %s', 'wedevs-project-manager'), getUserName(user))}
                           >
-                            <X className="h-5 w-5" />
+                            <X className="h-4 w-4" />
                           </Button>
                         </td>
                       </tr>

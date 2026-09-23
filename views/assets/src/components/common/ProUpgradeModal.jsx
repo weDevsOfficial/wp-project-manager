@@ -141,6 +141,7 @@ function ProUpgradeModal() {
         <button
           type="button"
           onClick={() => setOpen(false)}
+          aria-label={__('Close', 'wedevs-project-manager')}
           className="absolute top-5 right-5 z-10 p-2.5 rounded-full bg-black/5 hover:bg-black/10 text-pm-text-muted hover:text-pm-text transition-all"
         >
           <X className="h-5 w-5" />

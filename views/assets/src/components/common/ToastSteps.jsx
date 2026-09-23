@@ -1,4 +1,5 @@
 import React from 'react'
+import { __ } from '@wordpress/i18n'
 import { CircleCheck, CircleX, Loader2, Circle, Sparkles, X } from 'lucide-react'
 
 // A multi-step "server flow" toast card: a title plus a checklist of steps that
@@ -33,7 +34,7 @@ export default function ToastSteps({ title, icon, steps = [], onDismiss }) {
           <button
             type="button"
             onClick={onDismiss}
-            aria-label="Close"
+            aria-label={__('Close', 'wedevs-project-manager')}
             className="shrink-0 -mr-1 -mt-0.5 p-1 rounded text-pm-text-muted/70 hover:text-pm-text-primary hover:bg-muted transition-colors"
           >
             <X className="h-3.5 w-3.5" />

@@ -9,7 +9,8 @@ import { useConfirm } from '@hooks/useConfirm'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Label } from '@components/ui/label'
-import { Plus, Pencil, Trash2, Check, X, Loader2 } from 'lucide-react'
+import { Plus, Pencil, Trash2, Check, X, Loader2, Tag } from 'lucide-react'
+import { EmptyState } from '@components/common/EmptyState'
 
 const emptyForm = { title: '', description: '', status: 1 }
 
@@ -117,7 +118,7 @@ const TaskTypesTab = () => {
         </Button>
       </div>
 
-      <div className="mt-5 rounded-lg border border-pm-border bg-pm-surface">
+      <div className="mt-5 rounded-lg border border-pm-border/60 bg-pm-surface overflow-hidden">
         {showNewForm && (
           <>
             <div className="px-5 py-4 bg-pm-surface-muted space-y-3">
@@ -132,8 +133,8 @@ const TaskTypesTab = () => {
                   <Input value={newForm.description} onChange={(e) => setNewForm((f) => ({ ...f, description: e.target.value }))} placeholder={__('Short description...', 'wedevs-project-manager')} />
                 </div>
                 <div className="flex gap-2 pb-0.5">
-                  <Button className="h-11 px-5" size="sm" disabled={newFormBusy} onClick={submitNew}>{newFormBusy ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Creating...', 'wedevs-project-manager')}</> : __('Create', 'wedevs-project-manager')}</Button>
-                  <Button className="h-11 px-5" size="sm" variant="outline" disabled={newFormBusy} onClick={() => setShowNewForm(false)}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                  <Button className="h-11 px-5 text-sm" size="sm" variant="outline" disabled={newFormBusy} onClick={() => setShowNewForm(false)}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                  <Button className="h-11 px-5 text-sm" size="sm" disabled={newFormBusy} onClick={submitNew}>{newFormBusy ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Creating...', 'wedevs-project-manager')}</> : __('Create', 'wedevs-project-manager')}</Button>
                 </div>
               </div>
             </div>
@@ -150,23 +151,23 @@ const TaskTypesTab = () => {
         {!taskTypesLoading && taskTypes.length > 0 && (
           <table className="w-full text-sm">
             <thead>
-              <tr className="h-10 border-b border-border bg-card">
-                <th className="text-left px-5 py-3 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282] w-1/4">{__('Name', 'wedevs-project-manager')}</th>
-                <th className="text-left px-5 py-3 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__('Description', 'wedevs-project-manager')}</th>
-                <th className="text-right px-5 py-3 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282] w-28">{__('Actions', 'wedevs-project-manager')}</th>
+              <tr className="h-10 border-b bg-muted/20">
+                <th className="text-left px-5 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70 w-1/4">{__('Name', 'wedevs-project-manager')}</th>
+                <th className="text-left px-5 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__('Description', 'wedevs-project-manager')}</th>
+                <th className="text-right px-5 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70 w-28">{__('Actions', 'wedevs-project-manager')}</th>
               </tr>
             </thead>
             <tbody>
               {taskTypes.map((type) => (
-                <tr key={type.id} className={`border-b border-pm-border last:border-b-0 ${editingId === type.id ? 'bg-pm-surface-muted' : ''}`}>
+                <tr key={type.id} className={`group border-b border-pm-border/40 last:border-b-0 transition-colors ${editingId === type.id ? 'bg-pm-surface-muted' : 'hover:bg-muted/40'}`}>
                   {editingId === type.id ? (
                     <>
                       <td className="px-5 py-3"><Input value={editForm.title} onChange={(e) => setEditForm((f) => ({ ...f, title: e.target.value }))} className="h-11 text-sm" /></td>
                       <td className="px-5 py-3"><Input value={editForm.description} onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))} className="h-11 text-sm" placeholder={__('optional', 'wedevs-project-manager')} /></td>
                       <td className="px-5 py-3 text-right">
                         <div className="flex justify-end gap-1">
-                          <Button variant="ghost" size="icon" className="h-7 w-7 text-pm-status-done hover:bg-green-50" disabled={editBusy} title={__('Save', 'wedevs-project-manager')} onClick={() => submitEdit(type.id)}><Check className="w-4 h-4" /></Button>
-                          <Button variant="ghost" size="icon" className="h-7 w-7" title={__('Cancel', 'wedevs-project-manager')} onClick={cancelEdit}><X className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" className="h-7 w-7 text-pm-status-done hover:bg-green-50" disabled={editBusy} aria-label={__('Save', 'wedevs-project-manager')} title={__('Save', 'wedevs-project-manager')} onClick={() => submitEdit(type.id)}><Check className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" className="h-7 w-7" aria-label={__('Cancel', 'wedevs-project-manager')} title={__('Cancel', 'wedevs-project-manager')} onClick={cancelEdit}><X className="w-4 h-4" /></Button>
                         </div>
                       </td>
                     </>
@@ -176,8 +177,8 @@ const TaskTypesTab = () => {
                       <td className="px-5 py-3 text-pm-text-muted">{type.description}</td>
                       <td className="px-5 py-3 text-right">
                         <div className="flex justify-end gap-1">
-                          <Button variant="ghost" size="icon" className="h-7 w-7" title={__('Edit', 'wedevs-project-manager')} onClick={() => startEdit(type)}><Pencil className="w-4 h-4" /></Button>
-                          <Button variant="ghost" size="icon" className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50" disabled={deletingId === type.id} title={__('Delete', 'wedevs-project-manager')} onClick={() => handleDelete(type.id)}><Trash2 className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity text-pm-text-muted hover:bg-muted" aria-label={__('Edit', 'wedevs-project-manager')} title={__('Edit', 'wedevs-project-manager')} onClick={() => startEdit(type)}><Pencil className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity text-pm-text-muted hover:text-destructive hover:bg-destructive/10" disabled={deletingId === type.id} aria-label={__('Delete', 'wedevs-project-manager')} title={__('Delete', 'wedevs-project-manager')} onClick={() => handleDelete(type.id)}><Trash2 className="w-4 h-4" /></Button>
                         </div>
                       </td>
                     </>
@@ -189,13 +190,18 @@ const TaskTypesTab = () => {
         )}
 
         {!taskTypesLoading && taskTypes.length === 0 && (
-          <div className="px-5 py-8 text-center">
-            <p className="text-sm text-pm-text-muted">{__('No task types yet.', 'wedevs-project-manager')}</p>
-            <Button variant="outline" size="sm" className="mt-3 gap-1.5 h-11 px-5" onClick={() => setShowNewForm(true)}>
-              <Plus className="w-4 h-4" />
-              {__('Create your first type', 'wedevs-project-manager')}
-            </Button>
-          </div>
+          <EmptyState
+            compact
+            icon={Tag}
+            title={__('No task types yet.', 'wedevs-project-manager')}
+            description={__('Create a type such as Bug or Feature to sort your tasks.', 'wedevs-project-manager')}
+            action={(
+              <Button variant="outline" size="sm" className="gap-1.5 h-11 px-5" onClick={() => setShowNewForm(true)}>
+                <Plus className="w-4 h-4" />
+                {__('Create your first type', 'wedevs-project-manager')}
+              </Button>
+            )}
+          />
         )}
       </div>
     </div>

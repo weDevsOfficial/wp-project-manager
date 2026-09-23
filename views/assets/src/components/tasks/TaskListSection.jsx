@@ -19,6 +19,7 @@ import RichTextEditor from '@components/common/RichTextEditor'
 import { Progress } from '@components/ui/progress'
 import { UserAvatar } from '@components/common/UserAvatar'
 import ProBadge from '@components/common/ProBadge'
+import { EmptyState } from '@components/common/EmptyState'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -370,8 +371,8 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
               onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') setRenaming(false); }}
               className="text-sm font-medium text-pm-text-primary flex-1 bg-transparent border-b border-pm-accent outline-none px-0 py-0"
             />
-            <button type="button" onClick={handleRename} className="text-pm-accent hover:text-pm-accent/80 p-1 rounded hover:bg-muted transition-colors" title={__('Save', 'wedevs-project-manager')}><Check className="h-4 w-4" /></button>
-            <button type="button" onClick={() => setRenaming(false)} className="text-pm-text-muted hover:text-pm-text p-1 rounded hover:bg-muted transition-colors" title={__('Cancel', 'wedevs-project-manager')}><X className="h-4 w-4" /></button>
+            <button type="button" onClick={handleRename} className="text-pm-accent hover:text-pm-accent/80 p-1 rounded hover:bg-muted transition-colors" title={__('Save', 'wedevs-project-manager')} aria-label={__('Save', 'wedevs-project-manager')}><Check className="h-4 w-4" /></button>
+            <button type="button" onClick={() => setRenaming(false)} className="text-pm-text-muted hover:text-pm-text p-1 rounded hover:bg-muted transition-colors" title={__('Cancel', 'wedevs-project-manager')} aria-label={__('Cancel', 'wedevs-project-manager')}><X className="h-4 w-4" /></button>
           </div>
         ) : (
           <h3 className="text-sm font-medium text-pm-text-primary flex-1 truncate" dangerouslySetInnerHTML={{ __html: sanitizeHtml(list.title) }} />
@@ -399,6 +400,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
           size="icon"
           className="h-6 w-6"
           title={__('View List', 'wedevs-project-manager')}
+          aria-label={__('View List', 'wedevs-project-manager')}
           onClick={() => navigate(`/projects/${projectId}/task-lists/${list.id}`)}
         >
           <ArrowUpRight className="h-4 w-4" />
@@ -545,9 +547,12 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
           )}
 
           {incompleteTasks.length === 0 && !showNewTask ? (
-            <div className="px-4 py-8 text-center">
-              <p className="text-sm text-pm-text-muted mb-3">{__('No tasks yet', 'wedevs-project-manager')}</p>
-              {canCreateTask && (
+            <EmptyState
+              compact
+              icon={ListChecks}
+              title={__('No tasks yet', 'wedevs-project-manager')}
+              description={canCreateTask ? __('Add a task to start tracking work in this list.', 'wedevs-project-manager') : undefined}
+              action={canCreateTask ? (
                 <Button
                   size="sm"
                   className="gap-1.5 h-11 px-5"
@@ -556,8 +561,8 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   <Plus className="h-5 w-5" />
                   {__('Add a task', 'wedevs-project-manager')}
                 </Button>
-              )}
-            </div>
+              ) : undefined}
+            />
           ) : null}
 
           {/* Inline add task */}
@@ -681,8 +686,9 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                               type="button"
                               className="ml-0.5 text-pm-text-muted hover:text-destructive"
                               onClick={() => removeAssignee(user.id)}
+                              aria-label={__('Remove', 'wedevs-project-manager')}
                             >
-                              ×
+                              <X className="h-3.5 w-3.5" />
                             </button>
                           </span>
                         ))}
@@ -713,21 +719,21 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
               {/* Actions */}
               <div className="flex items-center gap-2">
                 <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-11 text-sm"
+                  onClick={resetForm}
+                >
+                  {__('Cancel', 'wedevs-project-manager')}
+                </Button>
+                <Button
                   type="submit"
                   size="sm"
                   className="h-11 text-sm"
                   disabled={!newTitle.trim() || creating}
                 >
                   {creating ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Adding...', 'wedevs-project-manager')}</> : __('Add Task', 'wedevs-project-manager')}
-                </Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="h-11 text-sm"
-                  onClick={resetForm}
-                >
-                  {__('Cancel', 'wedevs-project-manager')}
                 </Button>
               </div>
             </form>

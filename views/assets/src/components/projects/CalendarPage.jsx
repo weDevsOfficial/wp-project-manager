@@ -101,12 +101,14 @@ export default function CalendarPage() {
               <div className="flex gap-1">
                 <button
                   onClick={handlePrevMonth}
+                  aria-label={__("Previous month", 'wedevs-project-manager')}
                   className="h-7 w-7 rounded hover:bg-muted transition-colors flex items-center justify-center"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </button>
                 <button
                   onClick={handleNextMonth}
+                  aria-label={__("Next month", 'wedevs-project-manager')}
                   className="h-7 w-7 rounded hover:bg-muted transition-colors flex items-center justify-center"
                 >
                   <ChevronRight className="h-4 w-4" />

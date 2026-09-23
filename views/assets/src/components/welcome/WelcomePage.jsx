@@ -254,7 +254,7 @@ export default function WelcomePage() {
                 __('Kanban & List Views', 'wedevs-project-manager'),
                 __('Team Collaboration', 'wedevs-project-manager'),
               ].map((item) => (
-                <span key={item} className="inline-flex items-center gap-1.5 text-xs text-white/80">
+                <span key={item} className="inline-flex items-center gap-1.5 text-sm text-white/80">
                   <CheckCircle2 className="h-4 w-4 text-green-300" />
                   {item}
                 </span>

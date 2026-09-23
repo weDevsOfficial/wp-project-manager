@@ -425,14 +425,14 @@ export default function KanbanBoardColumn({
                     >
                       <div className="max-h-52 overflow-y-auto">
                         {taskLists.length === 0 ? (
-                          <div className="p-2 text-xs text-pm-text-muted">
+                          <div className="px-2 py-3 text-center text-sm text-pm-text-muted">
                             {__("No lists", 'wedevs-project-manager')}
                           </div>
                         ) : (
                           taskLists.map((l) => (
                             <button
                               key={l.id}
-                              className="w-full flex items-center justify-between text-left px-2 py-1.5 text-xs hover:bg-pm-surface-muted rounded-md"
+                              className="w-full flex items-center justify-between text-left px-2 py-1.5 text-sm hover:bg-pm-surface-muted rounded-md"
                               onClick={() => setNewTaskListId(String(l.id))}
                             >
                               <span className="truncate">{l.title}</span>
@@ -483,7 +483,7 @@ export default function KanbanBoardColumn({
                     >
                       <div className="max-h-52 overflow-y-auto">
                         {users.length === 0 ? (
-                          <div className="p-2 text-xs text-pm-text-muted">
+                          <div className="px-2 py-3 text-center text-sm text-pm-text-muted">
                             {__("No users", 'wedevs-project-manager')}
                           </div>
                         ) : (
@@ -493,7 +493,7 @@ export default function KanbanBoardColumn({
                             return (
                               <button
                                 key={uid}
-                                className={`w-full flex items-center gap-2 text-left px-2 py-1.5 text-xs rounded-md transition-colors ${
+                                className={`w-full flex items-center gap-2 text-left px-2 py-1.5 text-sm rounded-md transition-colors ${
                                   checked ? "bg-pm-accent/5" : "hover:bg-pm-surface-muted"
                                 }`}
                                 onClick={() => toggleAssignee(uid)}
@@ -559,6 +559,7 @@ export default function KanbanBoardColumn({
                         }}
                         className="mr-1.5 p-0.5 rounded-full hover:bg-pm-accent/10 border-none outline-none shadow-none bg-transparent cursor-pointer"
                         title={__("Clear", 'wedevs-project-manager')}
+                        aria-label={__("Clear", 'wedevs-project-manager')}
                       >
                         <X className="h-2.5 w-2.5" />
                       </button>
@@ -594,7 +595,7 @@ export default function KanbanBoardColumn({
                       {Object.entries(PRIORITY_LABELS()).map(([value, label]) => (
                         <button
                           key={value}
-                          className={`w-full flex items-center gap-2 text-left px-2 py-1.5 text-xs rounded-md transition-colors ${
+                          className={`w-full flex items-center gap-2 text-left px-2 py-1.5 text-sm rounded-md transition-colors ${
                             value === newTaskPriority ? "bg-pm-accent/5" : "hover:bg-pm-surface-muted"
                           }`}
                           onClick={() => setNewTaskPriority(value)}
@@ -611,18 +612,18 @@ export default function KanbanBoardColumn({
                 </div>
 
                 <div className="flex items-center justify-end pt-1 border-t border-pm-border/40">
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-2">
                     <Button
                       size="sm"
-                      variant="ghost"
-                      className="h-11 text-xs px-2 text-pm-text-muted"
+                      variant="outline"
+                      className="h-11 text-sm px-3"
                       onClick={resetCreateForm}
                     >
                       {__("Cancel", 'wedevs-project-manager')}
                     </Button>
                     <Button
                       size="sm"
-                      className="h-11 text-xs px-3"
+                      className="h-11 text-sm px-3"
                       disabled={creating || !newTaskTitle.trim()}
                       onClick={handleCreateTask}
                     >

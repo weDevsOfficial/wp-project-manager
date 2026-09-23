@@ -5,7 +5,7 @@ import { useProApi } from '@hooks/useProApi'
 import { Button } from '@components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@components/ui/card'
 import { Badge } from '@components/ui/badge'
-import { Shield, ShieldCheck, ShieldX, Key, Mail, Trash2 } from 'lucide-react'
+import { Shield, ShieldCheck, ShieldX, Key, Mail, Trash2, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 export default function LicensePage() {
@@ -64,7 +64,7 @@ export default function LicensePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="w-5 h-5 rounded-full border-2 border-pm-accent border-t-transparent animate-spin" />
+        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
       </div>
     )
   }

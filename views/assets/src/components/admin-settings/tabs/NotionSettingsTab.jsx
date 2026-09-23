@@ -181,7 +181,7 @@ const NotionSettingsTab = () => {
             {!editingToken && tokenSaved ? (
               <>
                 <Input type={showToken ? 'text' : 'password'} value={showToken ? maskedToken : '••••••••••••'} readOnly className="max-w-full w-56" />
-                <Button type="button" variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={handleToggleShow} disabled={revealing}>
+                <Button type="button" variant="outline" size="icon" className="h-11 w-11 shrink-0" onClick={handleToggleShow} disabled={revealing} aria-label={showToken ? __('Hide token', 'wedevs-project-manager') : __('Show token', 'wedevs-project-manager')}>
                   {revealing ? <Loader2 className="h-4 w-4 animate-spin" /> : (showToken ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />)}
                 </Button>
                 <Button type="button" variant="outline" size="sm" className="h-11 shrink-0" onClick={() => { setEditingToken(true); markDirty() }}>

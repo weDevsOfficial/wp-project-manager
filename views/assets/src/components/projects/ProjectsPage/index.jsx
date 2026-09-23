@@ -27,6 +27,7 @@ import { useProModal } from "@components/common/ProUpgradeModal";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
 import { LoadFailed } from "@components/common/LoadFailed";
+import { EmptyState } from "@components/common/EmptyState";
 import { Progress } from "@components/ui/progress";
 import { Avatar, AvatarFallback } from "@components/ui/avatar";
 import { UserAvatar } from '@components/common/UserAvatar';
@@ -310,33 +311,27 @@ export default function ProjectsPage({ archived = false }) {
 
     if (archived && !filtered) {
       return (
-        <div className="flex flex-col items-center justify-center py-16 text-center rounded-lg border bg-card">
-          <Archive className="h-14 w-14 text-muted-foreground/30 mb-3" />
-          <h3 className="text-sm font-medium text-pm-text-primary mb-1">
-            {__("No archived projects", 'wedevs-project-manager')}
-          </h3>
-          <p className="text-sm text-pm-text-muted mb-4">
-            {__("Archive a project from its menu on the Projects page and it will appear here.", 'wedevs-project-manager')}
-          </p>
-          <BackButton fallback="/projects" label={__("Back to Projects", 'wedevs-project-manager')} />
-        </div>
+        <EmptyState
+          bordered
+          icon={Archive}
+          title={__("No archived projects", 'wedevs-project-manager')}
+          description={__("Archive a project from its menu on the Projects page and it will appear here.", 'wedevs-project-manager')}
+          action={<BackButton fallback="/projects" label={__("Back to Projects", 'wedevs-project-manager')} />}
+        />
       );
     }
 
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center rounded-lg border bg-card">
-        <FolderKanban className="h-14 w-14 text-muted-foreground/30 mb-3" />
-        <h3 className="text-sm font-medium text-pm-text-primary mb-1">
-          {filtered
-            ? __("No projects match your filters", 'wedevs-project-manager')
-            : __("No projects found", 'wedevs-project-manager')}
-        </h3>
-        <p className="text-sm text-pm-text-muted mb-4">
-          {filtered
-            ? __("Try a different search or category.", 'wedevs-project-manager')
-            : __("Get started by creating a new project.", 'wedevs-project-manager')}
-        </p>
-        {filtered ? (
+      <EmptyState
+        bordered
+        icon={FolderKanban}
+        title={filtered
+          ? __("No projects match your filters", 'wedevs-project-manager')
+          : __("No projects found", 'wedevs-project-manager')}
+        description={filtered
+          ? __("Try a different search or category.", 'wedevs-project-manager')
+          : __("Get started by creating a new project.", 'wedevs-project-manager')}
+        action={filtered ? (
           <Button variant="outline" size="sm" className="h-11 text-sm gap-1" onClick={handleClearFilters}>
             <X className="h-3.5 w-3.5" />
             {__("Clear", 'wedevs-project-manager')}
@@ -349,7 +344,7 @@ export default function ProjectsPage({ archived = false }) {
             </Button>
           )
         )}
-      </div>
+      />
     );
   };
 
@@ -617,23 +612,23 @@ export default function ProjectsPage({ archived = false }) {
   const renderListView = () => {
     const groups = groupByStatus(projects);
     return (
-      <div className="rounded-xl border bg-card overflow-x-auto">
+      <div className="rounded-lg border border-pm-border/60 bg-card overflow-x-auto">
         <table className="w-full text-sm min-w-[820px]">
           <thead>
-            <tr className="h-10 border-b border-border bg-card">
-              <th className="text-left px-5 py-2.5 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">
+            <tr className="h-10 border-b bg-muted/20">
+              <th className="text-left px-5 py-2.5 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">
                 <span className="inline-flex items-center gap-1.5"><FolderKanban className="h-3.5 w-3.5" />{__("Project Name", 'wedevs-project-manager')}</span>
               </th>
-              <th className="text-left px-4 py-2.5 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">
+              <th className="text-left px-4 py-2.5 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">
                 <span className="inline-flex items-center gap-1.5"><FileText className="h-3.5 w-3.5" />{__("Description", 'wedevs-project-manager')}</span>
               </th>
-              <th className="text-left px-4 py-2.5 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282] whitespace-nowrap">
+              <th className="text-left px-4 py-2.5 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70 whitespace-nowrap">
                 <span className="inline-flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{__("Deadline", 'wedevs-project-manager')}</span>
               </th>
-              <th className="text-left px-4 py-2.5 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282] w-40">
+              <th className="text-left px-4 py-2.5 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70 w-40">
                 <span className="inline-flex items-center gap-1.5"><Activity className="h-3.5 w-3.5" />{__("Progress", 'wedevs-project-manager')}</span>
               </th>
-              <th className="text-left px-4 py-2.5 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">
+              <th className="text-left px-4 py-2.5 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">
                 <span className="inline-flex items-center gap-1.5"><Users className="h-3.5 w-3.5" />{__("Members", 'wedevs-project-manager')}</span>
               </th>
               <th className="px-4 py-2.5 w-10"></th>
@@ -669,7 +664,7 @@ export default function ProjectsPage({ archived = false }) {
                   return (
                     <tr
                       key={project.id}
-                      className="group border-b border-border last:border-b-0 hover:bg-muted/40 transition-colors"
+                      className="group border-b border-pm-border/40 last:border-b-0 hover:bg-muted/40 transition-colors"
                     >
                       <td className="px-5 py-3 max-w-[260px]">
                         <div className="flex items-center gap-2.5 min-w-0">

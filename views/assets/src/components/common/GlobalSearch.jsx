@@ -78,6 +78,7 @@ export function GlobalSearch({ variant = 'topbar' }) {
             variant="ghost"
             size="icon"
             className="h-8 w-8 md:hidden shrink-0"
+            aria-label={__('Search', 'wedevs-project-manager')}
             onClick={() => setOpen(true)}
           >
             <Search className="h-5 w-5 text-pm-text-muted" />
@@ -99,6 +100,7 @@ export function GlobalSearch({ variant = 'topbar' }) {
             variant="ghost"
             size="icon"
             className="h-8 w-8 md:hidden shrink-0"
+            aria-label={__('Search', 'wedevs-project-manager')}
             onClick={() => setOpen(true)}
           >
             <Search className="h-5 w-5 text-pm-text-muted" />

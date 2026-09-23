@@ -13,6 +13,7 @@ import { Label } from "@components/ui/label";
 import { Checkbox } from "@components/ui/checkbox";
 import { Skeleton } from "@components/ui/skeleton";
 import { LoadFailed } from "@components/common/LoadFailed";
+import { EmptyState } from "@components/common/EmptyState";
 import {
   Sheet,
   SheetContent,
@@ -249,15 +250,12 @@ export default function CategoriesPage() {
           onRetry={() => fetchCategories(page)}
         />
       ) : categories.length === 0 ? (
-        <div className="text-center py-20">
-          <Tag className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
-          <h3 className="text-sm font-medium text-pm-text-primary mb-1">
-            {__("No categories yet", 'wedevs-project-manager')}
-          </h3>
-          <p className="text-sm text-pm-text-muted mb-4">
-            {__("Create categories to organize your projects.", 'wedevs-project-manager')}
-          </p>
-          {canManage && (
+        <EmptyState
+          bordered
+          icon={Tag}
+          title={__("No categories yet", 'wedevs-project-manager')}
+          description={__("Create categories to organize your projects.", 'wedevs-project-manager')}
+          action={canManage && (
             <Button
               size="sm"
               variant="outline"
@@ -268,11 +266,11 @@ export default function CategoriesPage() {
               {__("Add Category", 'wedevs-project-manager')}
             </Button>
           )}
-        </div>
+        />
       ) : (
-        <div className="rounded-xl border bg-card overflow-hidden">
+        <div className="rounded-lg border border-pm-border/60 bg-card overflow-hidden">
           {/* Table header */}
-          <div className="grid grid-cols-12 gap-4 items-center px-4 py-2.5 bg-muted/30 border-b text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">
+          <div className="grid grid-cols-12 gap-4 items-center px-4 py-2 bg-muted/20 border-b text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">
             <div className="col-span-1">
               <Checkbox
                 checked={
@@ -294,7 +292,7 @@ export default function CategoriesPage() {
           {categories.map((cat) => (
             <div
               key={cat.id}
-              className="grid grid-cols-12 gap-4 items-center px-4 py-3 border-b last:border-b-0 hover:bg-muted/20 transition-colors group"
+              className="grid grid-cols-12 gap-4 items-center px-4 py-3 border-b border-pm-border/40 last:border-b-0 hover:bg-muted/40 transition-colors group"
             >
               <div className="col-span-1">
                 <Checkbox
@@ -320,9 +318,9 @@ export default function CategoriesPage() {
                     <Button aria-label={__('Category actions', 'wedevs-project-manager')}
                       variant="ghost"
                       size="icon"
-                      className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="h-7 w-7 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 data-[state=open]:opacity-100 transition-opacity text-pm-text-muted hover:bg-muted"
                     >
-                      <MoreHorizontal className="h-5 w-5" />
+                      <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">

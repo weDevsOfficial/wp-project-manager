@@ -13,6 +13,7 @@ import ProBadge from "@components/common/ProBadge";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
 import { LoadFailed } from "@components/common/LoadFailed";
+import { EmptyState } from "@components/common/EmptyState";
 import { cn } from "@lib/utils";
 import {
   FileText,
@@ -187,7 +188,7 @@ export default function FilesPage() {
       onClick={() => toggleSort(sortKey)}
       className={cn(
         "flex items-center gap-1 text-left transition-colors hover:text-pm-text-primary",
-        sort.key === sortKey ? "text-pm-text-primary" : "text-pm-text-muted",
+        sort.key === sortKey ? "text-pm-text-primary" : "text-muted-foreground/70",
         className,
       )}
     >
@@ -296,17 +297,14 @@ export default function FilesPage() {
           onRetry={fetchFiles}
         />
       ) : rows.length === 0 ? (
-        <div className="text-center py-16 rounded-lg border bg-card">
-          <FileText className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
-          <h3 className="text-sm font-medium text-pm-text-primary mb-1">
-            {query.trim() || tab === "mine"
-              ? __("No files match.", 'wedevs-project-manager')
-              : __("No files yet.", 'wedevs-project-manager')}
-          </h3>
-          <p className="text-sm text-pm-text-muted">
-            {__("Files attached to tasks, discussions, and comments will appear here.", 'wedevs-project-manager')}
-          </p>
-        </div>
+        <EmptyState
+          bordered
+          icon={FileText}
+          title={query.trim() || tab === "mine"
+            ? __("No files match.", 'wedevs-project-manager')
+            : __("No files yet.", 'wedevs-project-manager')}
+          description={__("Files attached to tasks, discussions, and comments will appear here.", 'wedevs-project-manager')}
+        />
       ) : (
         <>
           {/* Recent Files strip */}
@@ -347,11 +345,11 @@ export default function FilesPage() {
           {/* Split: files table (left) + File Details rail (right) */}
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px] items-start">
             {/* Table */}
-            <div className="rounded-xl border bg-card overflow-hidden min-w-0">
+            <div className="rounded-lg border border-pm-border/60 bg-card overflow-hidden min-w-0">
               <div className="overflow-x-auto">
                 <div className="min-w-[760px]">
                   {/* Header */}
-                  <div className={cn("grid gap-3 px-4 py-2.5 bg-muted/30 border-b text-[12px] font-medium uppercase tracking-wide", FILES_GRID)}>
+                  <div className={cn("grid gap-3 px-4 py-2 bg-muted/20 border-b text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70", FILES_GRID)}>
                     <SortHead label={__("File Name", 'wedevs-project-manager')} sortKey="name" />
                     <SortHead label={__("Type", 'wedevs-project-manager')} sortKey="type" />
                     <SortHead label={__("Uploaded", 'wedevs-project-manager')} sortKey="uploaded" />
@@ -361,7 +359,7 @@ export default function FilesPage() {
                   </div>
 
                   {/* Rows */}
-                  <div className="divide-y divide-border/50">
+                  <div className="divide-y divide-pm-border/40">
                     {rows.map((r) => {
                       const { Icon } = r;
                       const active = r.id === selectedId;
@@ -371,7 +369,7 @@ export default function FilesPage() {
                           onClick={() => setSelectedId(r.id)}
                           className={cn(
                             "grid gap-3 items-center px-4 py-3 cursor-pointer transition-colors group",
-                            active ? "bg-pm-accent-light/40" : "hover:bg-muted/30",
+                            active ? "bg-pm-accent-light/40" : "hover:bg-muted/40",
                             FILES_GRID,
                           )}
                         >
@@ -434,13 +432,13 @@ export default function FilesPage() {
                           {/* Action */}
                           <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
                             {r.url && (
-                              <Button variant="ghost" size="icon" className="h-8 w-8" title={__("Download", 'wedevs-project-manager')} onClick={() => downloadRow(r)}>
+                              <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity text-pm-text-muted hover:bg-muted" aria-label={__("Download", 'wedevs-project-manager')} title={__("Download", 'wedevs-project-manager')} onClick={() => downloadRow(r)}>
                                 <Download className="h-4 w-4" />
                               </Button>
                             )}
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <Button aria-label={__('File actions', 'wedevs-project-manager')} variant="ghost" size="icon" className="h-8 w-8">
+                                <Button aria-label={__('File actions', 'wedevs-project-manager')} variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 data-[state=open]:opacity-100 transition-opacity text-pm-text-muted hover:bg-muted">
                                   <MoreHorizontal className="h-4 w-4" />
                                 </Button>
                               </DropdownMenuTrigger>
@@ -526,16 +524,19 @@ export default function FilesPage() {
                       </Button>
                     )}
                     {canDeleteFile(selected.raw) && (
-                      <Button size="icon" variant="outline" className="h-8 w-8 text-destructive hover:text-destructive" title={__("Delete", 'wedevs-project-manager')} onClick={() => handleDelete(selected.id)}>
+                      <Button size="icon" variant="outline" className="h-11 w-11 shrink-0 text-pm-text-muted hover:text-destructive hover:bg-destructive/10" aria-label={__("Delete", 'wedevs-project-manager')} title={__("Delete", 'wedevs-project-manager')} onClick={() => handleDelete(selected.id)}>
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     )}
                   </div>
                 </div>
               ) : (
-                <p className="text-sm text-pm-text-muted text-center py-10">
-                  {__("Select a file to see details.", 'wedevs-project-manager')}
-                </p>
+                <EmptyState
+                  compact
+                  icon={FileText}
+                  title={__("No file selected", 'wedevs-project-manager')}
+                  description={__("Select a file to see details.", 'wedevs-project-manager')}
+                />
               )}
             </div>
           </div>

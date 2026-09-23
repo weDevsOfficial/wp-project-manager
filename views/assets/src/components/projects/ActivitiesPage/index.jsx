@@ -10,6 +10,7 @@ import ProBadge from '@components/common/ProBadge';
 import { Button } from '@components/ui/button';
 import { Skeleton } from '@components/ui/skeleton';
 import { LoadFailed } from '@components/common/LoadFailed';
+import { EmptyState } from '@components/common/EmptyState';
 import { Badge } from '@components/ui/badge';
 import { Separator } from '@components/ui/separator';
 import { Avatar, AvatarFallback } from '@components/ui/avatar';
@@ -232,11 +233,12 @@ export default function ActivitiesPage() {
           onRetry={loadActivities}
         />
       ) : activities.length === 0 ? (
-        <div className="text-center py-16 rounded-lg border bg-card">
-          <Activity className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
-          <h3 className="text-sm font-medium text-pm-text-primary mb-1">{__('No activities yet', 'wedevs-project-manager')}</h3>
-          <p className="text-sm text-pm-text-muted">{__('Project activity will appear here.', 'wedevs-project-manager')}</p>
-        </div>
+        <EmptyState
+          bordered
+          icon={Activity}
+          title={__('No activities yet', 'wedevs-project-manager')}
+          description={__('Project activity will appear here.', 'wedevs-project-manager')}
+        />
       ) : (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

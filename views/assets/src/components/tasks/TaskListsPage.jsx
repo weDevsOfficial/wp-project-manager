@@ -23,6 +23,7 @@ import RichTextEditor from "@components/common/RichTextEditor";
 import { Checkbox } from "@components/ui/checkbox";
 import { Skeleton } from "@components/ui/skeleton";
 import { LoadFailed } from "@components/common/LoadFailed";
+import { EmptyState } from "@components/common/EmptyState";
 import { PaginationNav } from "@components/ui/pagination";
 import { Plus, ChevronsUpDown, ListTodo, Filter, X } from "lucide-react";
 import ProBadge from "@components/common/ProBadge";
@@ -208,21 +209,18 @@ export default function TaskListsPage() {
   // ── Empty state ─────────────────────────────
 
   const renderEmpty = () => (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      <ListTodo className="h-16 w-16 text-muted-foreground/40 mb-4" />
-      <h3 className="text-lg font-medium text-pm-text-primary mb-1">
-        {__("No task lists yet", 'wedevs-project-manager')}
-      </h3>
-      <p className="text-sm text-pm-text-muted mb-4">
-        {__("Create your first task list to start organizing work.", 'wedevs-project-manager')}
-      </p>
-      {canCreateList && (
-        <Button className="h-11 px-5" onClick={() => setShowNewList(true)}>
+    <EmptyState
+      bordered
+      icon={ListTodo}
+      title={__("No task lists yet", 'wedevs-project-manager')}
+      description={__("Create your first task list to start organizing work.", 'wedevs-project-manager')}
+      action={canCreateList ? (
+        <Button size="sm" className="h-11 px-5 text-sm" onClick={() => setShowNewList(true)}>
           <Plus className="h-5 w-5 mr-2" />
           {__("New Task List", 'wedevs-project-manager')}
         </Button>
-      )}
-    </div>
+      ) : undefined}
+    />
   );
 
   const [filterOpen, setFilterOpen] = useState(false)
@@ -357,7 +355,7 @@ export default function TaskListsPage() {
             </div>
           )}
           <div className="flex items-center gap-2 pt-1">
-            <Button className="h-11 px-5"
+            <Button className="h-11 px-5 text-sm"
               type="button"
               variant="outline"
               size="sm"
@@ -370,7 +368,7 @@ export default function TaskListsPage() {
             >
               {__("Cancel", 'wedevs-project-manager')}
             </Button>
-            <Button className="h-11 px-5"
+            <Button className="h-11 px-5 text-sm"
               type="submit"
               size="sm"
               disabled={!newListTitle.trim() || creatingList}
@@ -414,10 +412,11 @@ export default function TaskListsPage() {
             </span>
           </div>
           {filteredTasks.length === 0 ? (
-            <div className="py-16 text-center">
-              <Filter className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
-              <p className="text-sm text-pm-text-muted">{__("No tasks match your filters.", 'wedevs-project-manager')}</p>
-            </div>
+            <EmptyState
+              icon={Filter}
+              title={__("No tasks found", 'wedevs-project-manager')}
+              description={__("No tasks match your filters.", 'wedevs-project-manager')}
+            />
           ) : (
             <div>
               {filteredTasks.map((task) => (

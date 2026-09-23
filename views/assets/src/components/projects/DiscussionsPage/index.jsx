@@ -12,6 +12,7 @@ import { Input } from "@components/ui/input";
 import RichTextEditor from "@components/common/RichTextEditor";
 import { Skeleton } from "@components/ui/skeleton";
 import { LoadFailed } from "@components/common/LoadFailed";
+import { EmptyState } from "@components/common/EmptyState";
 import { UserAvatar } from "@components/common/UserAvatar";
 import {
   Select,
@@ -379,19 +380,16 @@ export default function DiscussionsPage() {
               onRetry={() => fetchDiscussions(page)}
             />
           ) : discussions.length === 0 ? (
-            <div className="text-center py-16 rounded-lg border bg-card">
-              <MessageSquare className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
-              <h3 className="text-sm font-medium text-pm-text-primary mb-1">
-                {query.trim()
-                  ? __("No discussions match your search", 'wedevs-project-manager')
-                  : __("No discussions yet", 'wedevs-project-manager')}
-              </h3>
-              <p className="text-sm text-pm-text-muted">
-                {query.trim()
-                  ? __("Try a different search term.", 'wedevs-project-manager')
-                  : __("Start a conversation about this project.", 'wedevs-project-manager')}
-              </p>
-            </div>
+            <EmptyState
+              bordered
+              icon={MessageSquare}
+              title={query.trim()
+                ? __("No discussions match your search", 'wedevs-project-manager')
+                : __("No discussions yet", 'wedevs-project-manager')}
+              description={query.trim()
+                ? __("Try a different search term.", 'wedevs-project-manager')
+                : __("Start a conversation about this project.", 'wedevs-project-manager')}
+            />
           ) : (
             <div className="space-y-2">
               {discussions.map((d) => {
@@ -417,7 +415,7 @@ export default function DiscussionsPage() {
                           <div className="shrink-0 -mr-1.5 -mt-1" onClick={(e) => e.stopPropagation()}>
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-6 w-6" aria-label={__('Discussion actions', 'wedevs-project-manager')}>
+                                <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 data-[state=open]:opacity-100 transition-opacity text-pm-text-muted hover:bg-muted" aria-label={__('Discussion actions', 'wedevs-project-manager')}>
                                   <MoreHorizontal className="h-4 w-4" />
                                 </Button>
                               </DropdownMenuTrigger>
@@ -531,12 +529,12 @@ export default function DiscussionsPage() {
               }
             />
           ) : (
-            <div className="w-full flex flex-col items-center justify-center text-center rounded-xl border border-dashed border-pm-border py-24 px-6">
-              <MessageSquare className="h-12 w-12 text-muted-foreground/30 mb-3" />
-              <p className="text-sm text-pm-text-muted">
-                {__("Select a discussion to view the conversation.", 'wedevs-project-manager')}
-              </p>
-            </div>
+            <EmptyState
+              className="w-full rounded-xl border border-dashed border-pm-border py-24"
+              icon={MessageSquare}
+              title={__("No discussion selected", 'wedevs-project-manager')}
+              description={__("Select a discussion to view the conversation.", 'wedevs-project-manager')}
+            />
           )}
         </div>
       </div>

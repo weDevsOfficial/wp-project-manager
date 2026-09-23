@@ -7,7 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, Loader2 } from "lucide-react";
+import { EmptyState } from "@components/common/EmptyState";
 
 const api = useApi();
 
@@ -65,6 +66,7 @@ export default function SearchAddTask({
         className="p-1 rounded-lg hover:bg-black/10 border-none outline-none shadow-none bg-transparent transition-colors"
         style={iconStyle}
         title={__("Search & add existing task", 'wedevs-project-manager')}
+        aria-label={__("Search & add existing task", 'wedevs-project-manager')}
       >
         <Plus className="h-4 w-4" />
       </button>
@@ -92,17 +94,19 @@ export default function SearchAddTask({
 
           <div className="flex-1 overflow-y-auto mt-2 -mx-2 px-2">
             {query.length < 3 ? (
-              <div className="text-center text-xs text-pm-text-muted py-8">
+              <div className="text-center text-sm text-pm-text-muted py-8">
                 {__("Type at least 3 characters to search", 'wedevs-project-manager')}
               </div>
             ) : searching ? (
-              <div className="text-center text-xs text-pm-text-muted py-8">
-                {__("Searching...", 'wedevs-project-manager')}
+              <div className="flex items-center justify-center py-6" role="status" aria-label={__("Searching...", 'wedevs-project-manager')}>
+                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
               </div>
             ) : results.length === 0 ? (
-              <div className="text-center text-xs text-pm-text-muted py-8">
-                {__("No tasks found", 'wedevs-project-manager')}
-              </div>
+              <EmptyState
+                compact
+                icon={Search}
+                title={__("No tasks found", 'wedevs-project-manager')}
+              />
             ) : (
               <ul className="space-y-1">
                 {results.map((t) => (
@@ -115,7 +119,7 @@ export default function SearchAddTask({
                         {t.title}
                       </div>
                       {t.task_list?.data?.title && (
-                        <div className="text-[11px] text-pm-text-muted mt-0.5">
+                        <div className="text-[13px] text-pm-text-muted mt-0.5">
                           {t.task_list.data.title}
                         </div>
                       )}

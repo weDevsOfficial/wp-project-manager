@@ -156,7 +156,7 @@ export default function AutomationModal({
                           {__("Newly added", 'wedevs-project-manager')}
                         </Label>
                       </div>
-                      <p className="text-[15px] text-pm-text-muted pl-6">
+                      <p className="text-[13px] text-pm-text-muted pl-6">
                         {__(
                           "Tasks added recently on any task lists will be automatically moved here.", 'wedevs-project-manager',
                         )}
@@ -173,7 +173,7 @@ export default function AutomationModal({
                           {__("Task lists", 'wedevs-project-manager')}
                         </Label>
                       </div>
-                      <p className="text-[15px] text-pm-text-muted pl-6">
+                      <p className="text-[13px] text-pm-text-muted pl-6">
                         {__(
                           "Tasks added only in the selected task lists will be automatically moved here.", 'wedevs-project-manager',
                         )}
@@ -222,7 +222,7 @@ export default function AutomationModal({
                       {__("Reopened tasks", 'wedevs-project-manager')}
                     </Label>
                   </div>
-                  <p className="text-[15px] text-pm-text-muted pl-6">
+                  <p className="text-[13px] text-pm-text-muted pl-6">
                     {__(
                       "If a closed task in this project reopens, it will automatically move here.", 'wedevs-project-manager',
                     )}
@@ -248,7 +248,7 @@ export default function AutomationModal({
                       {__("Completed tasks", 'wedevs-project-manager')}
                     </Label>
                   </div>
-                  <p className="text-[15px] text-pm-text-muted pl-6">
+                  <p className="text-[13px] text-pm-text-muted pl-6">
                     {__(
                       "Issues will automatically move here when marked as complete.", 'wedevs-project-manager',
                     )}
@@ -258,7 +258,7 @@ export default function AutomationModal({
 
               {moveType === "overdue" && (
                 <div className="space-y-2 pl-1">
-                  <p className="text-[15px] text-pm-text-muted">
+                  <p className="text-[13px] text-pm-text-muted">
                     {__(
                       "Tasks that are past their due date will automatically move to this column.", 'wedevs-project-manager',
                     )}
@@ -271,7 +271,7 @@ export default function AutomationModal({
               <Label className="text-sm font-medium">
                 {__("Assign User", 'wedevs-project-manager')}
               </Label>
-              <p className="text-[15px] text-pm-text-muted">
+              <p className="text-[13px] text-pm-text-muted">
                 {__(
                   "Select team members to be assigned automatically when a task dropped in this column.", 'wedevs-project-manager',
                 )}
@@ -320,7 +320,7 @@ export default function AutomationModal({
                       {__("None", 'wedevs-project-manager')}
                     </Label>
                   </div>
-                  <p className="text-[15px] text-pm-text-muted pl-6">
+                  <p className="text-[13px] text-pm-text-muted pl-6">
                     {__("Dropping task here has no progress status", 'wedevs-project-manager')}
                   </p>
                 </div>
@@ -335,7 +335,7 @@ export default function AutomationModal({
                       {__("Completed task", 'wedevs-project-manager')}
                     </Label>
                   </div>
-                  <p className="text-[15px] text-pm-text-muted pl-6">
+                  <p className="text-[13px] text-pm-text-muted pl-6">
                     {__(
                       "Dropping task here will automatically mark the task as complete.", 'wedevs-project-manager',
                     )}
@@ -352,7 +352,7 @@ export default function AutomationModal({
                       {__("Incompleted task", 'wedevs-project-manager')}
                     </Label>
                   </div>
-                  <p className="text-[15px] text-pm-text-muted pl-6">
+                  <p className="text-[13px] text-pm-text-muted pl-6">
                     {__(
                       "Dropping task here will automatically mark the task as incomplete.", 'wedevs-project-manager',
                     )}

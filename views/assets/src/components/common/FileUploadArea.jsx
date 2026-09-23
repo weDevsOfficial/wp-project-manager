@@ -46,7 +46,7 @@ export default function FileUploadArea({ files = [], onFilesChange, compact = fa
             <FileThumbnail file={f} />
             <span className="truncate max-w-[120px]">{f.name}</span>
             <span className="text-[11px] text-pm-text-muted tabular-nums">{formatFileSize(f.size)}</span>
-            <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive ml-0.5">
+            <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive ml-0.5" aria-label={__('Remove', 'wedevs-project-manager')}>
               <X className="h-3.5 w-3.5" />
             </button>
           </span>
@@ -85,7 +85,7 @@ export default function FileUploadArea({ files = [], onFilesChange, compact = fa
               <FileThumbnail file={f} />
               <span className="text-sm text-pm-text-primary flex-1 min-w-0 truncate">{f.name}</span>
               <span className="text-[13px] text-pm-text-muted tabular-nums shrink-0">{formatFileSize(f.size)}</span>
-              <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive shrink-0">
+              <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive shrink-0" aria-label={__('Remove', 'wedevs-project-manager')}>
                 <X className="h-4 w-4" />
               </button>
             </div>

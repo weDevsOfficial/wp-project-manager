@@ -74,7 +74,7 @@ export default function MoveTaskDialog({ open, onOpenChange, task, projectId, cu
 
         {loading ? (
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-5 w-5 animate-spin text-pm-text-muted" />
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
           </div>
         ) : (
           <Command className="rounded-lg border">

@@ -386,13 +386,13 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
             )}
             <FileUploadArea files={editNewFiles} onFilesChange={setEditNewFiles} compact />
             <div className="flex gap-2">
-              <Button size="sm" className="gap-1 h-11 px-5" onClick={handleUpdate} disabled={savingDiscussion || !editTitle.trim()}>
-                <Check className="h-3.5 w-3.5" />
-                {savingDiscussion ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__("Saving...", 'wedevs-project-manager')}</> : __("Save", 'wedevs-project-manager')}
-              </Button>
-              <Button size="sm" variant="outline" className="gap-1 h-11 px-5" onClick={cancelEdit} disabled={savingDiscussion}>
+              <Button size="sm" variant="outline" className="gap-1 h-11 px-5 text-sm" onClick={cancelEdit} disabled={savingDiscussion}>
                 <X className="h-3.5 w-3.5" />
                 {__("Cancel", 'wedevs-project-manager')}
+              </Button>
+              <Button size="sm" className="gap-1 h-11 px-5 text-sm" onClick={handleUpdate} disabled={savingDiscussion || !editTitle.trim()}>
+                <Check className="h-3.5 w-3.5" />
+                {savingDiscussion ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__("Saving...", 'wedevs-project-manager')}</> : __("Save", 'wedevs-project-manager')}
               </Button>
             </div>
           </div>
@@ -554,21 +554,21 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
                       <div className="flex flex-wrap gap-1">
                         <Button
                           size="sm"
-                          className="h-11 text-[13px] gap-1 px-2"
+                          variant="outline"
+                          className="h-11 text-sm px-3"
+                          onClick={cancelEditComment}
+                          disabled={savingEditComment}
+                        >
+                          {__("Cancel", 'wedevs-project-manager')}
+                        </Button>
+                        <Button
+                          size="sm"
+                          className="h-11 text-sm gap-1 px-3"
                           onClick={handleUpdateComment}
                           disabled={savingEditComment || !editCommentText.trim()}
                         >
                           <Check className="h-3 w-3" />
                           {savingEditComment ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__("Saving...", 'wedevs-project-manager')}</> : __("Save", 'wedevs-project-manager')}
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          className="h-11 text-[13px] px-2"
-                          onClick={cancelEditComment}
-                          disabled={savingEditComment}
-                        >
-                          {__("Cancel", 'wedevs-project-manager')}
                         </Button>
                         <CommentLinkActions projectId={projectId} onInsert={(html) => setEditCommentText(prev => (prev || '') + html)} />
                       </div>

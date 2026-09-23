@@ -54,7 +54,7 @@ export default function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
       : __("Low", 'wedevs-project-manager');
 
   return (
-    <div className={cn("grid items-center gap-2 px-4 py-3 border-b border-border/40 last:border-b-0 hover:bg-muted/20 transition-colors group", MYTASK_GRID)}>
+    <div className={cn("grid items-center gap-2 px-4 py-3 border-b border-pm-border/40 last:border-b-0 hover:bg-muted/40 transition-colors group", MYTASK_GRID)}>
       {/* Task */}
       <div className="flex items-center gap-2 min-w-0">
         <button

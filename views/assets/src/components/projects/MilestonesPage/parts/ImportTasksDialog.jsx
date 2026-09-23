@@ -9,6 +9,7 @@ import { Badge } from "@components/ui/badge";
 import { Checkbox } from "@components/ui/checkbox";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Skeleton } from "@components/ui/skeleton";
+import { EmptyState } from "@components/common/EmptyState";
 import {
   Dialog,
   DialogContent,
@@ -143,15 +144,20 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
               ))}
             </div>
           ) : available.length === 0 ? (
-            <div className="py-6 text-center">
-              <p className="text-sm text-pm-text-muted">
-                {tasks.length === 0
-                  ? __("No tasks found in this project", 'wedevs-project-manager')
-                  : search.trim()
-                    ? __("No tasks match your search", 'wedevs-project-manager')
-                    : __("All tasks are already linked", 'wedevs-project-manager')}
-              </p>
-            </div>
+            <EmptyState
+              compact
+              icon={ListChecks}
+              title={tasks.length === 0
+                ? __("No tasks found in this project", 'wedevs-project-manager')
+                : search.trim()
+                  ? __("No tasks match your search", 'wedevs-project-manager')
+                  : __("All tasks are already linked", 'wedevs-project-manager')}
+              description={tasks.length === 0
+                ? __("Create tasks in this project, then link them here.", 'wedevs-project-manager')
+                : search.trim()
+                  ? __("Try a different search term.", 'wedevs-project-manager')
+                  : __("Every task in this project is already on this milestone.", 'wedevs-project-manager')}
+            />
           ) : (
             <>
               <div className="flex items-center gap-2 border-b pb-2">

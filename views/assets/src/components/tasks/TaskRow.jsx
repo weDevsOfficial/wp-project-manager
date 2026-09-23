@@ -148,9 +148,9 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
   return (
     <div
       className={cn(
-        'group grid items-center gap-2 px-4 py-3.5 border-b border-border/40 last:border-b-0',
+        'group grid items-center gap-2 px-4 py-3.5 border-b border-pm-border/40 last:border-b-0',
         TASK_GRID,
-        'hover:bg-muted/20 transition-colors',
+        'hover:bg-muted/40 transition-colors',
         isComplete && 'opacity-60',
         isDragOver && 'border-t-2 border-t-pm-accent',
       )}
@@ -308,7 +308,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
       </div>
 
       {/* Col 9 — Actions */}
-      <div className="opacity-0 group-hover:opacity-100 transition-opacity justify-self-end">
+      <div className="opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity justify-self-end">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button aria-label={__('Task actions', 'wedevs-project-manager')} variant="ghost" size="icon" className="h-6 w-6">

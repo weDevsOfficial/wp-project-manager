@@ -13,6 +13,7 @@ import { Button } from "@components/ui/button";
 import { DatePicker } from "@components/ui/date-picker";
 import { Skeleton } from "@components/ui/skeleton";
 import { LoadFailed } from "@components/common/LoadFailed";
+import { EmptyState } from "@components/common/EmptyState";
 import {
   PaginationNav,
 } from "@components/ui/pagination";
@@ -709,13 +710,13 @@ export default function MyTasksPage() {
                   {__("Calendar", 'wedevs-project-manager')}
                 </h3>
                 <div className="flex items-center gap-2">
-                  <Button size="sm" variant="outline" className="h-11 text-xs" onClick={() => setCalDate(new Date())}>
+                  <Button size="sm" variant="outline" className="h-11 text-sm" onClick={() => setCalDate(new Date())}>
                     {__("Today", 'wedevs-project-manager')}
                   </Button>
-                  <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => setCalDate(new Date(calYear, calMonth - 1, 1))}>
+                  <Button size="icon" variant="ghost" className="h-7 w-7" aria-label={__("Previous month", 'wedevs-project-manager')} onClick={() => setCalDate(new Date(calYear, calMonth - 1, 1))}>
                     <ChevronLeft className="h-5 w-5" />
                   </Button>
-                  <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => setCalDate(new Date(calYear, calMonth + 1, 1))}>
+                  <Button size="icon" variant="ghost" className="h-7 w-7" aria-label={__("Next month", 'wedevs-project-manager')} onClick={() => setCalDate(new Date(calYear, calMonth + 1, 1))}>
                     <ChevronRight className="h-5 w-5" />
                   </Button>
                   <span className="text-sm font-medium min-w-[140px] text-center">{calMonths[calMonth]} {calYear}</span>
@@ -804,10 +805,12 @@ export default function MyTasksPage() {
               </div>
               <Button size="sm" className="h-11" onClick={fetchReport}>{__("Run Report", 'wedevs-project-manager')}</Button>
             </div>
-            <div className="text-center py-12">
-              <BarChart3 className="h-12 w-12 text-pm-text-muted/20 mx-auto mb-3" />
-              <p className="text-sm text-pm-text-muted">{__("Select date range and click Run Report.", 'wedevs-project-manager')}</p>
-            </div>
+            <EmptyState
+              className="py-12"
+              icon={BarChart3}
+              title={__("No report yet", 'wedevs-project-manager')}
+              description={__("Select date range and click Run Report.", 'wedevs-project-manager')}
+            />
           </div>
         ) : (
           <div className="space-y-4">
@@ -909,7 +912,13 @@ export default function MyTasksPage() {
                       </ResponsiveContainer>
                     </div>
                   ) : (
-                    <div className="h-[200px] flex items-center justify-center text-sm text-pm-text-muted">{__("No data", 'wedevs-project-manager')}</div>
+                    <EmptyState
+                      compact
+                      className="h-[200px] py-0"
+                      icon={BarChart3}
+                      title={__("No data", 'wedevs-project-manager')}
+                      description={__("Nothing was logged for these dates.", 'wedevs-project-manager')}
+                    />
                   )}
                 </div>
               );
@@ -932,19 +941,19 @@ export default function MyTasksPage() {
               return (
                 <>
                   {allProj.length > 0 && (
-                    <div className="rounded-xl border bg-card overflow-x-auto">
+                    <div className="rounded-lg border border-pm-border/60 bg-card overflow-x-auto">
                       <h4 className="text-sm font-medium text-pm-text-primary px-4 py-3 border-b">{__("Projects", 'wedevs-project-manager')}</h4>
                       <table className="w-full text-sm">
-                        <thead><tr className="h-10 border-b border-border bg-card">
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Project", 'wedevs-project-manager')}</th>
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Assigned", 'wedevs-project-manager')}</th>
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Completed", 'wedevs-project-manager')}</th>
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Working H", 'wedevs-project-manager')}</th>
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Est. H", 'wedevs-project-manager')}</th>
+                        <thead><tr className="h-10 border-b bg-muted/20">
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Project", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Assigned", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Completed", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Working H", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Est. H", 'wedevs-project-manager')}</th>
                         </tr></thead>
                         <tbody>
                           {allProj.map((p, i) => (
-                            <tr key={i} className="border-b border-border last:border-b-0 hover:bg-muted/40 transition-colors">
+                            <tr key={i} className="border-b border-pm-border/40 last:border-b-0 hover:bg-muted/40 transition-colors">
                               <td className="px-4 py-2 font-medium max-w-[200px] truncate" title={p.project?.title || ""}>{p.project?.title || "—"}</td>
                               <td className="px-4 py-2 text-pm-text-muted">{p.assigned_tasks || 0}</td>
                               <td className="px-4 py-2 text-pm-text-muted">{p.completed_tasks || 0}</td>
@@ -958,17 +967,17 @@ export default function MyTasksPage() {
                   )}
 
                   {Array.isArray(taskTypes) && taskTypes.length > 0 && (
-                    <div className="rounded-xl border bg-card overflow-x-auto">
+                    <div className="rounded-lg border border-pm-border/60 bg-card overflow-x-auto">
                       <h4 className="text-sm font-medium text-pm-text-primary px-4 py-3 border-b">{__("Task type", 'wedevs-project-manager')}</h4>
                       <table className="w-full text-sm">
-                        <thead><tr className="h-10 border-b border-border bg-card">
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Task type", 'wedevs-project-manager')}</th>
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Task", 'wedevs-project-manager')}</th>
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Est. Hour", 'wedevs-project-manager')}</th>
+                        <thead><tr className="h-10 border-b bg-muted/20">
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Task type", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Task", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Est. Hour", 'wedevs-project-manager')}</th>
                         </tr></thead>
                         <tbody>
                           {taskTypes.map((t, i) => (
-                            <tr key={i} className="border-b border-border last:border-b-0 hover:bg-muted/40 transition-colors">
+                            <tr key={i} className="border-b border-pm-border/40 last:border-b-0 hover:bg-muted/40 transition-colors">
                               <td className="px-4 py-2 font-medium">{t.type || "—"}</td>
                               <td className="px-4 py-2 text-pm-text-muted">{t.assigned || 0}</td>
                               <td className="px-4 py-2 text-pm-text-muted">{t.est_hours || "0:00"}</td>
@@ -980,20 +989,20 @@ export default function MyTasksPage() {
                   )}
 
                   {subtasksAll.length > 0 && (
-                    <div className="rounded-xl border bg-card overflow-x-auto">
+                    <div className="rounded-lg border border-pm-border/60 bg-card overflow-x-auto">
                       <h4 className="text-sm font-medium text-pm-text-primary px-4 py-3 border-b">{__("Subtasks", 'wedevs-project-manager')}</h4>
                       <table className="w-full text-sm">
-                        <thead><tr className="h-10 border-b border-border bg-card">
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Completed At", 'wedevs-project-manager')}</th>
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Task Title", 'wedevs-project-manager')}</th>
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Subtask Title", 'wedevs-project-manager')}</th>
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Project", 'wedevs-project-manager')}</th>
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Type", 'wedevs-project-manager')}</th>
-                          <th className="text-left px-4 py-2 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282]">{__("Hour", 'wedevs-project-manager')}</th>
+                        <thead><tr className="h-10 border-b bg-muted/20">
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Completed At", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Task Title", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Subtask Title", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Project", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Type", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{__("Hour", 'wedevs-project-manager')}</th>
                         </tr></thead>
                         <tbody>
                           {subtasksAll.map((st, i) => (
-                            <tr key={i} className="border-b border-border last:border-b-0 hover:bg-muted/40 transition-colors">
+                            <tr key={i} className="border-b border-pm-border/40 last:border-b-0 hover:bg-muted/40 transition-colors">
                               <td className="px-4 py-2 text-pm-text-muted">{st.completed_at_display || "N/A"}</td>
                               <td className="px-4 py-2 max-w-[180px] truncate" title={st.parent_task_title || ""}>{st.parent_task_title || "—"}</td>
                               <td className="px-4 py-2 font-medium max-w-[180px] truncate" title={st.title}>{st.title}</td>
@@ -1121,8 +1130,8 @@ export default function MyTasksPage() {
           )}
 
           {loading ? (
-            <div className="rounded-xl border bg-card overflow-hidden">
-              <div className="hidden md:grid grid-cols-12 gap-2 px-4 py-2 bg-muted/30 border-b">
+            <div className="rounded-lg border border-pm-border/60 bg-card overflow-hidden">
+              <div className="hidden md:grid grid-cols-12 gap-2 px-4 py-2 bg-muted/20 border-b">
                 <Skeleton className="col-span-5 h-3 w-12" />
                 <Skeleton className="col-span-2 h-3 w-16" />
                 <Skeleton className="col-span-2 h-3 w-14" />
@@ -1148,23 +1157,25 @@ export default function MyTasksPage() {
               onRetry={() => fetchTasks(taskPage)}
             />
           ) : tasks.length === 0 ? (
-            <div className="text-center py-16 rounded-lg border bg-card">
-              <ListChecks className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
-              <p className="text-sm text-pm-text-muted">
-                {(searchTitle || filterProjectId || taskStartDate || taskEndDate)
-                  ? __("No tasks match your filters.", 'wedevs-project-manager')
-                  : activeTab === "current"
-                  ? __("No current tasks", 'wedevs-project-manager')
-                  : activeTab === "outstanding"
-                  ? __("No overdue tasks, great job!", 'wedevs-project-manager')
-                  : __("No completed tasks yet", 'wedevs-project-manager')}
-              </p>
-            </div>
+            <EmptyState
+              bordered
+              icon={ListChecks}
+              title={(searchTitle || filterProjectId || taskStartDate || taskEndDate)
+                ? __("No tasks match your filters.", 'wedevs-project-manager')
+                : activeTab === "current"
+                ? __("No current tasks", 'wedevs-project-manager')
+                : activeTab === "outstanding"
+                ? __("No overdue tasks, great job!", 'wedevs-project-manager')
+                : __("No completed tasks yet", 'wedevs-project-manager')}
+              description={(searchTitle || filterProjectId || taskStartDate || taskEndDate)
+                ? __("Try a different search, project or date range.", 'wedevs-project-manager')
+                : __("Tasks assigned to you will show up here.", 'wedevs-project-manager')}
+            />
           ) : (
-            <div className="rounded-xl border bg-card overflow-hidden">
+            <div className="rounded-lg border border-pm-border/60 bg-card overflow-hidden">
               <div className="overflow-x-auto">
                 <div className="min-w-[1040px]">
-                  <div className={cn("grid gap-2 px-4 py-2.5 bg-muted/30 border-b text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70", MYTASK_GRID)}>
+                  <div className={cn("grid gap-2 px-4 py-2 bg-muted/20 border-b text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70", MYTASK_GRID)}>
                     <div className="flex items-center gap-1.5"><ListChecks className="h-3.5 w-3.5" />{__("Task", 'wedevs-project-manager')}</div>
                     <div className="flex items-center gap-1.5"><Activity className="h-3.5 w-3.5" />{__("Status", 'wedevs-project-manager')}</div>
                     <div className="flex items-center gap-1.5"><AlertTriangle className="h-3.5 w-3.5" />{__("Priority", 'wedevs-project-manager')}</div>
@@ -1207,12 +1218,12 @@ export default function MyTasksPage() {
               ))}
             </div>
           ) : activities.length === 0 ? (
-            <div className="text-center py-16 rounded-lg border bg-card">
-              <Activity className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
-              <p className="text-sm text-pm-text-muted">
-                {__("No activities found", 'wedevs-project-manager')}
-              </p>
-            </div>
+            <EmptyState
+              bordered
+              icon={Activity}
+              title={__("No activities found", 'wedevs-project-manager')}
+              description={__("Changes you make to tasks and comments will show up here.", 'wedevs-project-manager')}
+            />
           ) : (
             <>
               {activities.map((act, i) => {

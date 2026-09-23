@@ -6,6 +6,7 @@ import { useToast } from "@hooks/useToast";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
 import { LoadFailed } from "@components/common/LoadFailed";
+import { EmptyState } from "@components/common/EmptyState";
 import { Progress } from "@components/ui/progress";
 import { UserAvatar } from '@components/common/UserAvatar';
 import {
@@ -438,6 +439,7 @@ export default function ProjectOverview() {
             <PopoverTrigger asChild>
               <button
                 type="button"
+                aria-label={__("Add member", 'wedevs-project-manager')}
                 title={__("Add member", 'wedevs-project-manager')}
                 className="inline-flex items-center justify-center h-7 w-7 rounded-md border border-dashed border-pm-border text-pm-text-muted hover:text-pm-accent hover:border-pm-accent transition-colors"
               >
@@ -614,7 +616,13 @@ export default function ProjectOverview() {
               );
             })()
           ) : (
-            <p className="text-sm text-pm-text-muted py-16 text-center">{__("No activity data yet", 'wedevs-project-manager')}</p>
+            <EmptyState
+              compact
+              className="py-16"
+              icon={Activity}
+              title={__("No activity data yet", 'wedevs-project-manager')}
+              description={__("Task and comment activity in this project will be charted here.", 'wedevs-project-manager')}
+            />
           )}
         </div>
 
@@ -633,11 +641,11 @@ export default function ProjectOverview() {
             <div className="overflow-x-auto -mx-1">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="h-10 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282] border-b border-border bg-card">
-                    <th className="text-left font-normal py-2 px-2">{__("Document", 'wedevs-project-manager')}</th>
-                    <th className="text-left font-normal py-2 px-2">{__("Type", 'wedevs-project-manager')}</th>
-                    <th className="text-left font-normal py-2 px-2">{__("Date", 'wedevs-project-manager')}</th>
-                    <th className="text-left font-normal py-2 px-2">{__("Created by", 'wedevs-project-manager')}</th>
+                  <tr className="h-10 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70 border-b bg-muted/20">
+                    <th className="text-left font-medium py-2 px-2">{__("Document", 'wedevs-project-manager')}</th>
+                    <th className="text-left font-medium py-2 px-2">{__("Type", 'wedevs-project-manager')}</th>
+                    <th className="text-left font-medium py-2 px-2">{__("Date", 'wedevs-project-manager')}</th>
+                    <th className="text-left font-medium py-2 px-2">{__("Created by", 'wedevs-project-manager')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -674,7 +682,12 @@ export default function ProjectOverview() {
               </table>
             </div>
           ) : (
-            <p className="text-sm text-pm-text-muted py-8 text-center">{__("No documents yet", 'wedevs-project-manager')}</p>
+            <EmptyState
+              compact
+              icon={FileText}
+              title={__("No documents yet", 'wedevs-project-manager')}
+              description={__("Files uploaded to this project will show up here.", 'wedevs-project-manager')}
+            />
           )}
         </div>
       </div>
@@ -694,12 +707,12 @@ export default function ProjectOverview() {
           <div className="overflow-x-auto -mx-1">
             <table className="w-full text-sm">
               <thead>
-                <tr className="h-10 text-[12px] font-normal uppercase leading-[1.4] tracking-normal text-[#828282] border-b border-border bg-card">
+                <tr className="h-10 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70 border-b bg-muted/20">
                   <th className="text-left font-medium py-2 px-2 w-10">{__("No", 'wedevs-project-manager')}</th>
-                  <th className="text-left font-normal py-2 px-2">{__("Milestone", 'wedevs-project-manager')}</th>
-                  <th className="text-left font-normal py-2 px-2">{__("Planned Date", 'wedevs-project-manager')}</th>
-                  <th className="text-left font-normal py-2 px-2">{__("Tasks", 'wedevs-project-manager')}</th>
-                  <th className="text-left font-normal py-2 px-2">{__("Status", 'wedevs-project-manager')}</th>
+                  <th className="text-left font-medium py-2 px-2">{__("Milestone", 'wedevs-project-manager')}</th>
+                  <th className="text-left font-medium py-2 px-2">{__("Planned Date", 'wedevs-project-manager')}</th>
+                  <th className="text-left font-medium py-2 px-2">{__("Tasks", 'wedevs-project-manager')}</th>
+                  <th className="text-left font-medium py-2 px-2">{__("Status", 'wedevs-project-manager')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -727,7 +740,12 @@ export default function ProjectOverview() {
             </table>
           </div>
         ) : (
-          <p className="text-sm text-pm-text-muted py-8 text-center">{__("No milestones yet", 'wedevs-project-manager')}</p>
+          <EmptyState
+            compact
+            icon={Milestone}
+            title={__("No milestones yet", 'wedevs-project-manager')}
+            description={__("Add a milestone to track a delivery date for this project.", 'wedevs-project-manager')}
+          />
         )}
       </div>
 
@@ -785,8 +803,9 @@ export default function ProjectOverview() {
                 {canManageMembers && (
                   <button
                     type="button"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity text-pm-text-muted hover:text-destructive shrink-0"
+                    className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity p-0.5 rounded text-pm-text-muted hover:text-destructive hover:bg-destructive/10 shrink-0"
                     onClick={() => handleRemoveMember(user.id)}
+                    aria-label={sprintf(/* translators: %s is the member's name. */ __("Remove %s", 'wedevs-project-manager'), user.display_name)}
                     title={sprintf(/* translators: %s is the member's name. */ __("Remove %s", 'wedevs-project-manager'), user.display_name)}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -796,9 +815,12 @@ export default function ProjectOverview() {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-pm-text-muted italic">
-            {__("No team members assigned", 'wedevs-project-manager')}
-          </p>
+          <EmptyState
+            compact
+            icon={Users}
+            title={__("No team members assigned", 'wedevs-project-manager')}
+            description={__("People added to this project will show up here.", 'wedevs-project-manager')}
+          />
         )}
       </div>
 

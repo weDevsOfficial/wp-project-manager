@@ -11,13 +11,14 @@ import { Button } from '@components/ui/button'
 import { Progress } from '@components/ui/progress'
 import { Skeleton } from '@components/ui/skeleton'
 import { LoadFailed } from '@components/common/LoadFailed'
+import { EmptyState } from '@components/common/EmptyState'
 import { UserAvatar } from '@components/common/UserAvatar'
 import RichTextEditor from '@components/common/RichTextEditor'
 import NotifyUsers from '@components/common/NotifyUsers'
 import { CopyMarkdownButton } from '@components/common/CopyMarkdownButton'
 import FileUploadArea from '@components/common/FileUploadArea'
 import CommentAttachment from '@components/common/CommentAttachment'
-import { Lock, MessageSquare, Pencil, Trash2, Loader2, ChevronDown, CheckCircle2, Clock, ListChecks, Tag, AlignLeft, Users, Calendar, Flag, BarChart3 } from 'lucide-react'
+import { Lock, MessageSquare, Pencil, Trash2, Loader2, ChevronDown, CheckCircle2, Clock, ListChecks, ListTodo, Tag, AlignLeft, Users, Calendar, Flag, BarChart3 } from 'lucide-react'
 import BackButton from '@components/common/BackButton'
 import { formatPmDateTime, isPrivate } from '@lib/pm-utils'
 import { cn } from '@lib/utils'
@@ -273,7 +274,11 @@ export default function SingleTaskListPage() {
             onRetry={loadList}
           />
         ) : (
-          <p className="text-sm text-pm-text-muted">{__('Task list not found.', 'wedevs-project-manager')}</p>
+          <EmptyState
+            bordered
+            icon={ListTodo}
+            title={__('Task list not found.', 'wedevs-project-manager')}
+          />
         )}
       </div>
     )
@@ -351,9 +356,11 @@ export default function SingleTaskListPage() {
                 <TaskRow key={task.id} task={task} projectId={projectId} listId={listId} showLabels={showLabels} />
               ))
             ) : (
-              <div className="px-4 py-8 text-center text-sm text-pm-text-muted">
-                {__('No incomplete tasks', 'wedevs-project-manager')}
-              </div>
+              <EmptyState
+                compact
+                icon={ListChecks}
+                title={__('No incomplete tasks', 'wedevs-project-manager')}
+              />
             )}
 
             {/* Load more incomplete */}
@@ -438,11 +445,11 @@ export default function SingleTaskListPage() {
                         <span className="opacity-0 group-hover/comment:opacity-100 focus-within:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
                           <CopyMarkdownButton html={comment.content} className="p-0.5" />
                           {isOwn && (<>
-                          <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit', 'wedevs-project-manager')}>
-                            <Pencil className="h-3.5 w-3.5" />
+                          <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit', 'wedevs-project-manager')} aria-label={__('Edit', 'wedevs-project-manager')}>
+                            <Pencil className="h-4 w-4" />
                           </button>
-                          <button type="button" onClick={() => handleDeleteComment(comment.id)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-destructive" title={__('Delete', 'wedevs-project-manager')}>
-                            <Trash2 className="h-3.5 w-3.5" />
+                          <button type="button" onClick={() => handleDeleteComment(comment.id)} className="p-0.5 rounded text-pm-text-muted hover:text-destructive hover:bg-destructive/10" title={__('Delete', 'wedevs-project-manager')} aria-label={__('Delete', 'wedevs-project-manager')}>
+                            <Trash2 className="h-4 w-4" />
                           </button>
                           </>)}
                         </span>
@@ -460,10 +467,10 @@ export default function SingleTaskListPage() {
                         )}
                         <FileUploadArea files={editCommentNewFiles} onFilesChange={setEditCommentNewFiles} compact />
                         <div className="flex items-center gap-2">
-                          <Button size="sm" className="h-11 text-[15px]" onClick={handleUpdateComment} disabled={savingEditComment || !editCommentText.trim()}>
+                          <Button size="sm" variant="outline" className="h-11 text-sm" onClick={cancelEditComment} disabled={savingEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
+                          <Button size="sm" className="h-11 text-sm" onClick={handleUpdateComment} disabled={savingEditComment || !editCommentText.trim()}>
                             {savingEditComment ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</> : __('Save', 'wedevs-project-manager')}
                           </Button>
-                          <Button size="sm" variant="ghost" className="h-11 text-[15px]" onClick={cancelEditComment} disabled={savingEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
                         </div>
                       </div>
                     ) : (

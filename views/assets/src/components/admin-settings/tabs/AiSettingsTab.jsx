@@ -168,16 +168,17 @@ const AiSettingsTab = () => {
               {aiApiState.api_key_saved && !editingKey ? (
                 <>
                   <div className="flex items-center gap-2">
-                    <div className="flex items-center h-9 w-56 rounded-md border border-pm-border bg-pm-surface px-3 text-sm select-none overflow-hidden">
+                    <div className="flex items-center h-11 w-56 rounded-md border border-pm-border bg-pm-surface px-3 text-sm select-none overflow-hidden">
                       <span className="truncate">{showKey && aiApiState.api_key ? aiApiState.api_key : '••••••••••••••••••••••••'}</span>
                     </div>
                     <Button
                       type="button"
                       variant="outline"
                       size="icon"
-                      className="h-9 w-9 shrink-0"
+                      className="h-11 w-11 shrink-0"
                       onClick={handleToggleShow}
                       disabled={revealing}
+                      aria-label={showKey ? __('Hide API Key', 'wedevs-project-manager') : __('Show API Key', 'wedevs-project-manager')}
                       title={showKey ? __('Hide API Key', 'wedevs-project-manager') : __('Show API Key', 'wedevs-project-manager')}
                     >
                       {revealing ? <Loader2 className="h-4 w-4 animate-spin" /> : (showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />)}
@@ -186,8 +187,9 @@ const AiSettingsTab = () => {
                       type="button"
                       variant="outline"
                       size="icon"
-                      className="h-9 w-9 shrink-0"
+                      className="h-11 w-11 shrink-0"
                       onClick={() => { setEditingKey(true); setLocalApiKey(''); setShowKey(false) }}
+                      aria-label={__('Change API Key', 'wedevs-project-manager')}
                       title={__('Change API Key', 'wedevs-project-manager')}
                     >
                       <Pencil className="h-4 w-4" />
@@ -214,8 +216,9 @@ const AiSettingsTab = () => {
                       type="button"
                       variant="outline"
                       size="icon"
-                      className="h-9 w-9 shrink-0"
+                      className="h-11 w-11 shrink-0"
                       onClick={() => setShowKey(v => !v)}
+                      aria-label={showKey ? __('Hide API Key', 'wedevs-project-manager') : __('Show API Key', 'wedevs-project-manager')}
                     >
                       {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </Button>

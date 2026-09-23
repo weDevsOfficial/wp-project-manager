@@ -35,7 +35,8 @@ export default function ProUpgradeCard() {
       </ul>
       <Button
         variant="secondary"
-        className="mt-auto bg-white text-pm-accent hover:bg-white/90"
+        size="sm"
+        className="mt-auto h-11 text-sm bg-white text-pm-accent hover:bg-white/90"
         onClick={() => navigate('/premium')}
       >
         {__('Upgrade to Pro', 'wedevs-project-manager')}

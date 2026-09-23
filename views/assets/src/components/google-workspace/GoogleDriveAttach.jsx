@@ -13,7 +13,8 @@ import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { fetchStatus, fetchCanUse, fetchAttachmentsFor, detachFileFor } from '@store/googleWorkspaceSlice'
 import { Button } from '@components/ui/button'
-import { FileText, Plus, ExternalLink, Trash2, Link2, Lock, X } from 'lucide-react'
+import { FileText, Plus, ExternalLink, Trash2, Link2, Lock, X, HardDrive } from 'lucide-react'
+import { EmptyState } from '@components/common/EmptyState'
 import { toast } from 'sonner'
 import { GoogleDriveColorGlyph, DriveMonoGlyph } from '@components/google-workspace/GoogleIcons'
 import DrivePickerModal from './DrivePickerModal'
@@ -112,7 +113,7 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
       <Lock className="h-3 w-3" /> {__('View only', 'wedevs-project-manager')}
     </span>
   ) : canEdit && !status.connected ? (
-    <a href="#/google-workspace" className="text-xs text-blue-600 hover:underline inline-flex items-center gap-1">
+    <a href="#/google-workspace" className="text-[13px] text-pm-accent hover:underline inline-flex items-center gap-1">
       <Link2 className="h-3.5 w-3.5" /> {__('Connect Google', 'wedevs-project-manager')}
     </a>
   ) : null
@@ -137,7 +138,7 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
             <a href={safeHttpUrl(file.web_view_link)} target="_blank" rel="noreferrer" className="truncate hover:text-pm-accent" title={file.name}>{file.name}</a>
             <AdderAvatar file={file} />
             {canEdit && (
-              <button onClick={() => onDetach(file.id)} className="text-pm-text-muted hover:text-destructive" title={__('Remove', 'wedevs-project-manager')}>
+              <button onClick={() => onDetach(file.id)} className="text-pm-text-muted hover:text-destructive" title={__('Remove', 'wedevs-project-manager')} aria-label={__('Remove', 'wedevs-project-manager')}>
                 <X className="h-3 w-3" />
               </button>
             )}
@@ -162,7 +163,12 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
       </div>
 
       {attachments.length === 0 ? (
-        <p className="text-xs text-pm-text-muted py-1">{__('No Drive files attached.', 'wedevs-project-manager')}</p>
+        <EmptyState
+          compact
+          className="py-4"
+          icon={HardDrive}
+          title={__('No Drive files yet', 'wedevs-project-manager')}
+        />
       ) : (
         <>
           <ul className="space-y-1">
@@ -173,12 +179,12 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
                   {file.name}
                 </a>
                 <AdderAvatar file={file} />
-                <a href={safeHttpUrl(file.web_view_link)} target="_blank" rel="noreferrer" className="opacity-0 group-hover:opacity-100 text-pm-text-muted hover:text-pm-accent">
-                  <ExternalLink className="h-3.5 w-3.5" />
+                <a href={safeHttpUrl(file.web_view_link)} target="_blank" rel="noreferrer" className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100 p-0.5 rounded text-pm-text-muted hover:text-pm-accent hover:bg-muted" aria-label={__('Open in Google Drive', 'wedevs-project-manager')}>
+                  <ExternalLink className="h-4 w-4" />
                 </a>
                 {canEdit && (
-                  <button onClick={() => onDetach(file.id)} className="opacity-0 group-hover:opacity-100 text-pm-text-muted hover:text-destructive" title={__('Remove', 'wedevs-project-manager')}>
-                    <Trash2 className="h-3.5 w-3.5" />
+                  <button onClick={() => onDetach(file.id)} className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100 p-0.5 rounded text-pm-text-muted hover:text-destructive hover:bg-destructive/10" title={__('Remove', 'wedevs-project-manager')} aria-label={__('Remove', 'wedevs-project-manager')}>
+                    <Trash2 className="h-4 w-4" />
                   </button>
                 )}
               </li>
@@ -188,7 +194,7 @@ export default function GoogleDriveAttach({ projectId, attachableType, attachabl
             <button
               type="button"
               onClick={() => setExpanded(v => !v)}
-              className="mt-1 text-xs font-medium text-blue-600 hover:underline"
+              className="mt-1 text-[13px] font-medium text-pm-accent hover:underline"
             >
               {expanded
                 ? __('Show less', 'wedevs-project-manager')
