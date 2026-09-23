@@ -10,6 +10,7 @@ import { useToast } from '@hooks/useToast'
 import { usePermissions } from '@hooks/usePermissions'
 import { useCurrentProject, useProjectLoadFailed } from '@hooks/useCurrentProject'
 import { attributeChipClass, attributePillClass } from '@components/common/AttributePicker'
+import { EmptyState } from '@components/common/EmptyState'
 import { useConfirm } from '@hooks/useConfirm'
 import {
   Dialog,
@@ -41,7 +42,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu'
-import { Calendar, CalendarRange, CalendarClock, User, UserPlus, Users, Check, Maximize2, Minimize2, MoreHorizontal, Trash2, Link2, X, Plus, FolderKanban, Pencil, FileText, Loader2, Video, ListChecks, MessageSquare, Activity, AlertCircle, RefreshCw } from 'lucide-react'
+import { Settings2, Calendar, CalendarRange, CalendarClock, User, UserPlus, Users, Check, Maximize2, Minimize2, MoreHorizontal, Trash2, Link2, X, Plus, FolderKanban, Pencil, FileText, Loader2, Video, ListChecks, MessageSquare, Activity, AlertCircle, RefreshCw } from 'lucide-react'
 import { DriveMonoGlyph } from '@components/google-workspace/GoogleIcons'
 import {
   isTaskComplete,
@@ -712,7 +713,7 @@ export default function TaskDetailSheet() {
 
             {/* LEFT — task header + properties */}
             <aside className="w-[400px] shrink-0 overflow-y-auto border-r border-pm-border px-5 py-4 space-y-2.5 max-md:w-full max-md:overflow-visible max-md:border-r-0 max-md:border-b">
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 px-2">
                 <div className="flex items-center gap-2 text-[13px] text-muted-foreground min-w-0">
                   {(currentTask.project?.data?.title || currentTask.project?.title) && (
                     <button
@@ -755,9 +756,9 @@ export default function TaskDetailSheet() {
                 </div>
               </div>
 
-              <h3 className="px-2 text-[13px] font-semibold text-pm-text-primary">{__('Attributes', 'wedevs-project-manager')}</h3>
+              <h4 className="flex items-center gap-1.5 px-2 pt-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70"><Settings2 className="h-4 w-4" />{__('Attributes', 'wedevs-project-manager')}</h4>
               <div className="flex flex-col divide-y divide-pm-border/40 -mt-2">
-                <div className="flex items-center h-11 px-2 rounded-md hover:bg-muted/40 transition-colors cursor-pointer" onClick={handleToggleStatus}>
+                <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors cursor-pointer" onClick={handleToggleStatus}>
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                     <Check className="h-4 w-4" /><span className="text-sm">{__('Status', 'wedevs-project-manager')}</span>
                   </div>
@@ -806,7 +807,7 @@ export default function TaskDetailSheet() {
                         ? `${formatPmDate(currentTask.start_at)} → ${formatPmDate(currentTask.due_date)}`
                         : hasDates
                           ? formatPmDate(currentTask.due_date)
-                          : __('Set dates', 'wedevs-project-manager')
+                          : __('Add dates', 'wedevs-project-manager')
                       return canEditCurrentTask ? (
                         <button type="button" onClick={() => setEditingDates(true)} className={attributeChipClass(hasDates)}>
                           <CalendarRange className="h-3.5 w-3.5 shrink-0" />
@@ -870,7 +871,7 @@ export default function TaskDetailSheet() {
                         })()}
                         {canEditTask(currentTask) && (
                           <button type="button" onClick={() => setShowAssigneeSearch(true)} className={attributeChipClass(false)}>
-                            <UserPlus className="h-3.5 w-3.5 shrink-0" />{__('Add', 'wedevs-project-manager')}
+                            <UserPlus className="h-3.5 w-3.5 shrink-0" />{assignees.length ? __('Add', 'wedevs-project-manager') : __('Add assignee', 'wedevs-project-manager')}
                           </button>
                         )}
                       </div>
@@ -920,7 +921,7 @@ export default function TaskDetailSheet() {
                 </div>
 
                 {currentTask.creator?.data && (
-                  <div className="flex items-center h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
+                  <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
                     <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                       <User className="h-4 w-4" /><span className="text-sm">{__('Created by', 'wedevs-project-manager')}</span>
                     </div>
@@ -945,7 +946,7 @@ export default function TaskDetailSheet() {
                 )}
 
                 {currentTask.created_at && (
-                  <div className="flex items-center h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
+                  <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
                     <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                       <CalendarClock className="h-4 w-4" /><span className="text-sm">{__('Created', 'wedevs-project-manager')}</span>
                     </div>
@@ -1025,7 +1026,15 @@ export default function TaskDetailSheet() {
                       <LoomPreviewContainer content={currentTask.description.html} />
                     </>
                   ) : (
-                    <p className="text-sm text-pm-text-muted italic">{canEditTask(currentTask) ? __('Click here to add a description…', 'wedevs-project-manager') : __('No description yet.', 'wedevs-project-manager')}</p>
+                    <EmptyState
+                      compact
+                      className="py-4"
+                      icon={FileText}
+                      title={__('No description yet', 'wedevs-project-manager')}
+                      description={canEditTask(currentTask)
+                        ? __('Click here to add the goal, the steps or the links someone needs to do this task.', 'wedevs-project-manager')
+                        : null}
+                    />
                   )}
                 </div>
               )}
@@ -1065,6 +1074,14 @@ export default function TaskDetailSheet() {
 
             {detailTab === 'comments' && (
               <div className="px-6 py-4">
+              {comments.length === 0 && (
+                <EmptyState
+                  compact
+                  icon={MessageSquare}
+                  title={__('No comments yet', 'wedevs-project-manager')}
+                  description={__('Start the conversation below. Type @ to mention a teammate.', 'wedevs-project-manager')}
+                />
+              )}
               {comments.length > 0 && (
                 <div className="space-y-3 mb-4">
                   {comments.map(comment => {
@@ -1252,7 +1269,12 @@ export default function TaskDetailSheet() {
                       })}
                     </div>
                   ) : (
-                    <p className="text-sm text-pm-text-muted italic">{__('No activity yet', 'wedevs-project-manager')}</p>
+                    <EmptyState
+                      compact
+                      icon={Activity}
+                      title={__('No activity yet', 'wedevs-project-manager')}
+                      description={__('Changes to this task, its comments and its files will show up here.', 'wedevs-project-manager')}
+                    />
                   )}
                 </div>
               )}

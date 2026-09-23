@@ -47,6 +47,7 @@ export default function TaskPriorityField({ task, projectId, dispatch, canEdit =
       </div>
       {canEdit ? (
         <AttributePicker
+          placeholder={__('Add priority', 'wedevs-project-manager')}
           icon={Flag}
           value={current}
           options={options.map((o) => ({ id: o.value, label: o.label }))}

@@ -126,8 +126,8 @@ export default function MilestoneField({ task, projectId, api, canEdit = true, c
         saving={saving}
         loading={loading && milestones.length === 0}
         onOpenChange={(open) => { if (open) setLoaded(false); }}
-        placeholder={__('None', 'wedevs-project-manager')}
-        readOnlyText={currentMilestone?.title || __('None', 'wedevs-project-manager')}
+        placeholder={__('Add milestone', 'wedevs-project-manager')}
+        readOnlyText={currentMilestone?.title || '—'}
         noneLabel={__('None', 'wedevs-project-manager')}
         emptyText={__('No milestones', 'wedevs-project-manager')}
         create={canCreate ? {

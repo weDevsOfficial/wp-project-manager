@@ -303,6 +303,7 @@ window.PM = {
     NewTaskSheet:    require('@components/my-tasks/MyTasksPage/parts/NewTaskSheet'),
     AttributePicker: require('@components/common/AttributePicker'),
     LoadFailed: require('@components/common/LoadFailed'),
+    EmptyState: require('@components/common/EmptyState'),
     TaskDetailSheet: (() => {
       // Wrap component to ensure proper error handling across plugin boundaries
       const WrappedTaskDetailSheet = (props) => {
