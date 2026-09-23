@@ -57,7 +57,6 @@ export default function TaskPrivacyField({ task, projectId, dispatch, api }) {
       <button
         className={cn(
           attributePillClass(taskPrivate ? 'amber' : 'green'),
-          taskPrivate ? 'hover:bg-amber-100' : 'hover:bg-emerald-100',
           toggling && 'opacity-50'
         )}
         onClick={handleToggle}

@@ -25,8 +25,9 @@ export const attributeChipClass = (filled) => cn(
 )
 
 // Same box as the chip, coloured, for values that are a state (Status, Privacy).
+// Hover keeps the state colour and borrows the chip's accent border.
 export const attributePillClass = (tone) => cn(
-  'inline-flex items-center gap-1.5 min-h-[26px] px-1.5 py-0.5 rounded border text-sm font-medium transition-colors',
+  'inline-flex items-center gap-1.5 min-h-[26px] px-1.5 py-0.5 rounded border text-sm font-medium transition-colors hover:border-pm-accent/30',
   tone === 'green' && 'bg-emerald-50 border-emerald-200 text-emerald-700',
   tone === 'amber' && 'bg-amber-50 border-amber-200 text-amber-700',
 )

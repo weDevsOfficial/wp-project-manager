@@ -758,11 +758,11 @@ export default function TaskDetailSheet() {
 
               <h4 className="flex items-center gap-1.5 px-2 pt-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70"><Settings2 className="h-4 w-4" />{__('Attributes', 'wedevs-project-manager')}</h4>
               <div className="flex flex-col divide-y divide-pm-border/40 -mt-2">
-                <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors cursor-pointer" onClick={handleToggleStatus}>
+                <div className="group flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors cursor-pointer" onClick={handleToggleStatus}>
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                     <Check className="h-4 w-4" /><span className="text-sm">{__('Status', 'wedevs-project-manager')}</span>
                   </div>
-                  <span className={attributePillClass(complete ? 'green' : 'amber')}>
+                  <span className={cn(attributePillClass(complete ? 'green' : 'amber'), 'group-hover:border-pm-accent/30')}>
                     <span className={cn('h-1.5 w-1.5 rounded-full', complete ? 'bg-emerald-500' : 'bg-amber-500')} />
                     {complete ? __('Done', 'wedevs-project-manager') : __('Active', 'wedevs-project-manager')}
                   </span>
