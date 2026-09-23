@@ -6,7 +6,7 @@ $wedevs_pm_router    = Router::singleton();
 $wedevs_pm_authentic = 'WeDevs\PM\Core\Permissions\Authentic';
 
 $wedevs_pm_router->get( 'settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@index' )
-    ->permission( [ $wedevs_pm_authentic ] );
+    ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] );
 
 $wedevs_pm_router->post( 'settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@store' )
     ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] );
