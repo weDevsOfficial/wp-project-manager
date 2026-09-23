@@ -40,7 +40,6 @@ import './tailwind.css'
 // ── Free pages (always loaded) ──────────────────────────
 const DashboardPage   = React.lazy(() => import('@components/dashboard/DashboardPage'))
 const ProjectsPage    = React.lazy(() => import('@components/projects/ProjectsPage'))
-const ArchivedProjectsPage = React.lazy(() => import('@components/projects/ArchivedProjectsPage'))
 const SettingsPage    = React.lazy(() => import('@components/admin-settings/SettingsPage'))
 const TaskListsPage   = React.lazy(() => import('@components/tasks/TaskListsPage'))
 const SingleTaskListPage = React.lazy(() => import('@components/tasks/SingleTaskListPage'))
@@ -113,7 +112,7 @@ function AppRoutes() {
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="projects" element={<ProjectsPage />} />
-        <Route path="projects/archived" element={<ManagerRoute><ArchivedProjectsPage /></ManagerRoute>} />
+        <Route path="projects/archived" element={<ManagerRoute><ProjectsPage key="archived" archived /></ManagerRoute>} />
         <Route path="projects/:projectId/task-lists" element={<ProjectRoute><TaskListsPage /></ProjectRoute>} />
         <Route path="projects/:projectId/task-lists/tasks/:taskId" element={<ProjectRoute><TaskListsPage /><TaskDeepLinkOpener /></ProjectRoute>} />
         <Route path="projects/:projectId/task-lists/:listId" element={<ProjectRoute><SingleTaskListPage /></ProjectRoute>} />

@@ -359,7 +359,14 @@ const projectsSlice = createSlice({
 
     builder.addCase(setProjectArchived.fulfilled, (state, action) => {
       const { project, archived } = action.payload
-      if (!archived) return
+      if (!archived) {
+        // Restored from the archive list: it no longer belongs there.
+        if (state.activeFilter === 'archived' && state.projects.some(p => p.id === project.id)) {
+          state.projects = state.projects.filter(p => p.id !== project.id)
+          state.total = Math.max(0, state.total - 1)
+        }
+        return
+      }
       // Leaves every tab on the Projects page, so drop it and its counts.
       const listed = state.projects.find(p => p.id === project.id)
       if (listed) {

@@ -31,6 +31,7 @@ import { Progress } from "@components/ui/progress";
 import { Avatar, AvatarFallback } from "@components/ui/avatar";
 import { UserAvatar } from '@components/common/UserAvatar';
 import TemplatesHeaderButton from '@components/projects/TemplatesHeaderButton';
+import BackButton from '@components/common/BackButton';
 import {
   Select,
   SelectContent,
@@ -75,6 +76,7 @@ import {
   Undo2,
   FolderKanban,
   Archive,
+  RotateCcw,
   LayoutList,
   MessageSquare,
   MessagesSquare,
@@ -109,7 +111,9 @@ import {
   getFilterTabs,
 } from "./utils";
 
-export default function ProjectsPage() {
+// `archived` turns this page into the archive: same cards and list view,
+// its own header and card menu, no filter tabs.
+export default function ProjectsPage({ archived = false }) {
   const dispatch = useAppDispatch();
   const FILTER_TABS = useMemo(() => getFilterTabs(), []);
   const navigate = useNavigate();
@@ -145,11 +149,15 @@ export default function ProjectsPage() {
   const searchTimerRef = React.useRef(null);
 
   useEffect(() => {
+    // The archive and the normal page share one store, so each sets its own
+    // filter on the way in instead of inheriting the other's.
+    if (archived) dispatch(setStatus('archived'));
+    else if (activeFilter === 'archived') dispatch(setStatus('all'));
     dispatch(fetchProjects(undefined));
     dispatch(fetchCategories());
     dispatch(fetchRoles());
     return () => clearTimeout(searchTimerRef.current);
-  }, [dispatch]);
+  }, [dispatch, archived]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFilterChange = useCallback(
     (key) => {
@@ -223,6 +231,18 @@ export default function ProjectsPage() {
     [dispatch, toast, __],
   );
 
+  const handleRestore = useCallback(
+    async (project) => {
+      try {
+        await dispatch(setProjectArchived({ project, archived: false })).unwrap();
+        toast.success(__("Project restored to Active", 'wedevs-project-manager'));
+      } catch {
+        toast.error(__("Failed to restore the project", 'wedevs-project-manager'));
+      }
+    },
+    [dispatch, toast, __],
+  );
+
   const confirmDelete = useCallback((project) => {
     setProjectToDelete(project);
     setDeleteDialogOpen(true);
@@ -287,6 +307,21 @@ export default function ProjectsPage() {
 
   const renderEmpty = () => {
     const filtered = Boolean(searchQuery || categoryId !== undefined);
+
+    if (archived && !filtered) {
+      return (
+        <div className="flex flex-col items-center justify-center py-16 text-center rounded-lg border bg-card">
+          <Archive className="h-14 w-14 text-muted-foreground/30 mb-3" />
+          <h3 className="text-sm font-medium text-pm-text-primary mb-1">
+            {__("No archived projects", 'wedevs-project-manager')}
+          </h3>
+          <p className="text-sm text-pm-text-muted mb-4">
+            {__("Archive a project from its menu on the Projects page and it will appear here.", 'wedevs-project-manager')}
+          </p>
+          <BackButton fallback="/projects" label={__("Back to Projects", 'wedevs-project-manager')} />
+        </div>
+      );
+    }
 
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center rounded-lg border bg-card">
@@ -357,10 +392,12 @@ export default function ProjectsPage() {
     );
   };
 
-  const renderAssignees = (project) => {
+  // Cards cap the stack lower than the table: six faces plus the due date
+  // and a "Completed" or "Archived" chip do not fit in a card's footer.
+  const renderAssignees = (project, max = 6) => {
     const users = project.assignees?.data ?? [];
-    const visible = users.slice(0, 6);
-    const overflow = users.length - 6;
+    const visible = users.slice(0, max);
+    const overflow = users.length - max;
 
     return (
       <div className="flex items-center -space-x-2">
@@ -383,6 +420,31 @@ export default function ProjectsPage() {
     // manager-only — mirrors Vue `v-if="is_manager(project)"`. manage_options /
     // manager cap bypass via pmIsManager.
     if (!pmIsManager(project)) return null;
+
+    if (archived) {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button aria-label={__('Project actions', 'wedevs-project-manager')} variant="ghost" size="icon" className="h-8 w-8 text-pm-text-primary">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => handleRestore(project)}>
+              <RotateCcw className="h-4 w-4 mr-2" />
+              {__("Restore", 'wedevs-project-manager')}
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="text-destructive focus:text-destructive"
+              onClick={() => confirmDelete(project)}
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              {__("Delete permanently", 'wedevs-project-manager')}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    }
 
     return (
     <DropdownMenu>
@@ -470,6 +532,7 @@ export default function ProjectsPage() {
                     className={cn(
                       "h-7 w-7 transition-opacity",
                       !project.favourite && "opacity-0 group-hover:opacity-100",
+                      archived && "hidden",
                     )}
                     onClick={() => handleToggleFavourite(project.id)}
                     aria-pressed={!!project.favourite}
@@ -519,9 +582,9 @@ export default function ProjectsPage() {
                   />
                 </div>
 
-                <div className="flex items-center justify-between gap-2 pt-3 border-t border-pm-border/50">
+                <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-2 pt-3 border-t border-pm-border/50">
                   <div className="flex items-center gap-2.5 min-w-0">
-                    {renderAssignees(project)}
+                    {renderAssignees(project, 4)}
                     {project.est_completion_date && (
                       <span className="inline-flex items-center gap-1 text-[12px] text-pm-text-muted whitespace-nowrap">
                         <Calendar className="h-4 w-4 shrink-0" />
@@ -529,8 +592,10 @@ export default function ProjectsPage() {
                       </span>
                     )}
                   </div>
+                  {/* Every card in the archive is archived, and the header says so. */}
+                  {!archived && (
                   <span
-                    className="inline-flex items-center gap-1.5 text-[12px] font-medium px-2.5 py-0.5 rounded-md shrink-0"
+                    className="ml-auto inline-flex items-center gap-1.5 text-[12px] font-medium px-2.5 py-0.5 rounded-md shrink-0"
                     style={{ backgroundColor: statusPill(project).bg, color: statusPill(project).text }}
                   >
                     <span
@@ -539,6 +604,7 @@ export default function ProjectsPage() {
                     />
                     {statusLabel(project)}
                   </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -634,6 +700,7 @@ export default function ProjectsPage() {
                               "h-6 w-6 shrink-0 transition-opacity",
                               !project.favourite &&
                                 "opacity-0 group-hover:opacity-100",
+                              archived && "hidden",
                             )}
                             onClick={() => handleToggleFavourite(project.id)}
                             aria-pressed={!!project.favourite}
@@ -711,10 +778,25 @@ export default function ProjectsPage() {
       <PromoBanner placement="projects" />
 
       <div className="flex items-center justify-between flex-wrap gap-2">
+        {archived ? (
+          <div className="flex items-center gap-3">
+            <BackButton fallback="/projects" />
+            <Archive className="h-5 w-5 text-pm-text-muted" />
+            <h1 className="text-xl font-bold text-pm-text-primary">
+              {__("Archived Projects", 'wedevs-project-manager')}
+            </h1>
+            {!loading && total > 0 && (
+              <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-md tabular-nums">
+                {total}
+              </span>
+            )}
+          </div>
+        ) : (
         <h1 className="text-xl font-bold text-pm-text-primary">
           {__("Projects", 'wedevs-project-manager')}
         </h1>
-        {(canCreate || canManage || isManagerAnywhere) && (
+        )}
+        {!archived && (canCreate || canManage || isManagerAnywhere) && (
           <div className="flex items-center gap-2 flex-wrap">
             {(canManage || isManagerAnywhere) && (
               <Button
@@ -753,6 +835,11 @@ export default function ProjectsPage() {
       </div>
 
       <div className="flex items-center justify-between flex-wrap gap-3">
+        {archived ? (
+          <p className="text-sm text-pm-text-muted">
+            {__("Archived projects are hidden from the other tabs. Restore one to bring it back to Active.", 'wedevs-project-manager')}
+          </p>
+        ) : (
         <div className="inline-flex max-w-full items-center rounded-lg border border-pm-border bg-muted/60 p-1 gap-0.5 overflow-x-auto scrollbar-none">
           {FILTER_TABS.map((tab) => {
             const count = tab.countKey
@@ -790,6 +877,7 @@ export default function ProjectsPage() {
             );
           })}
         </div>
+        )}
 
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex items-center gap-1.5 h-11 flex-1 min-w-[160px] max-w-[240px] rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent/40 focus-within:border-pm-accent">
