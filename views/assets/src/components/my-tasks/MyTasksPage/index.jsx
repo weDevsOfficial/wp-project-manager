@@ -74,12 +74,14 @@ import {
   getActivityLabels,
   isPro,
   getTabs,
-  PIE_COLORS,
+  STATUS_TONES,
 } from "./constants";
 import { parseActivityMessage } from "./utils";
 import { resolveActivityUrl } from "@lib/activity-links";
 import MyTaskRow, { MYTASK_GRID } from "./parts/MyTaskRow";
 import NewTaskSheet from "./parts/NewTaskSheet";
+import { CalendarWeekRow } from "@components/common/calendar/CalendarWeekRow";
+import { getEventDates, getAllDatesBetween } from "@components/common/calendar/eventDates";
 
 export default function MyTasksPage() {
   const dispatch = useAppDispatch();
@@ -346,14 +348,31 @@ export default function MyTasksPage() {
       .catch(() => setCalEvents([]));
   }, [userId, activeTab, calYear, calMonth, calDaysInMonth]);
 
+  // Multi-day tasks count on every day they span, like the Pro calendar.
   const calEventsByDate = useMemo(() => {
     const map = {};
     calEvents.forEach((evt) => {
-      const d = extractDateStr(evt.start_date || evt.due_date || evt.start);
-      if (d) { if (!map[d]) map[d] = []; map[d].push(evt); }
+      const { start, end } = getEventDates(evt);
+      getAllDatesBetween(start, end).forEach((d) => {
+        if (!map[d]) map[d] = [];
+        map[d].push(evt);
+      });
     });
     return map;
   }, [calEvents]);
+
+  // Month grid as whole weeks, padded with null outside the month.
+  const calWeeks = useMemo(() => {
+    const cells = Array(calFirstDay).fill(null);
+    for (let day = 1; day <= calDaysInMonth; day++) {
+      cells.push(`${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`);
+    }
+    while (cells.length % 7) cells.push(null);
+    const weeks = [];
+    for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+    return weeks;
+  }, [calYear, calMonth, calFirstDay, calDaysInMonth]);
+  const todayStr = toLocalDateStr(new Date());
 
   const [reportDates, setReportDates] = useState({ start: reportStart, end: reportEnd });
 
@@ -638,8 +657,8 @@ export default function MyTasksPage() {
                         paddingAngle={3}
                         dataKey="value"
                       >
-                        {PIE_COLORS.map((color, i) => (
-                          <Cell key={i} fill={color} />
+                        {["current", "outstanding", "complete"].map((key) => (
+                          <Cell key={key} style={{ fill: STATUS_TONES[key].fill }} />
                         ))}
                       </Pie>
                       <Tooltip />
@@ -648,15 +667,12 @@ export default function MyTasksPage() {
                 </div>
                 <div className="space-y-3">
                   {[
-                    { label: __("Current", 'wedevs-project-manager'),     count: overviewCounts.current,     color: "#61BD4F" },
-                    { label: __("Outstanding", 'wedevs-project-manager'), count: overviewCounts.outstanding, color: "#EB5A46" },
-                    { label: __("Completed", 'wedevs-project-manager'),   count: overviewCounts.complete,    color: "#0090D9" },
+                    { label: __("Current", 'wedevs-project-manager'),     count: overviewCounts.current,     dot: STATUS_TONES.current.dot },
+                    { label: __("Outstanding", 'wedevs-project-manager'), count: overviewCounts.outstanding, dot: STATUS_TONES.outstanding.dot },
+                    { label: __("Completed", 'wedevs-project-manager'),   count: overviewCounts.complete,    dot: STATUS_TONES.complete.dot },
                   ].map((item) => (
                     <div key={item.label} className="flex items-center gap-3 min-w-[240px]">
-                      <span
-                        className="h-3.5 w-3.5 rounded-sm shrink-0"
-                        style={{ background: item.color }}
-                      />
+                      <span className={cn("h-2.5 w-2.5 rounded-full shrink-0", item.dot)} />
                       <span className="text-sm text-pm-text-primary w-28">
                         {item.label}
                       </span>
@@ -695,8 +711,8 @@ export default function MyTasksPage() {
                         interval={Math.floor(graph.length / 5)}
                       />
                       <Tooltip />
-                      <Line type="monotone" dataKey="tasks" stroke="#61BD4F" strokeWidth={2} dot={false} name={__("Tasks", 'wedevs-project-manager')} />
-                      <Line type="monotone" dataKey="activities" stroke="#0090D9" strokeWidth={2} dot={false} name={__("Activities", 'wedevs-project-manager')} />
+                      <Line type="monotone" dataKey="tasks" style={{ stroke: STATUS_TONES.current.fill }} strokeWidth={2} dot={false} name={__("Tasks", 'wedevs-project-manager')} />
+                      <Line type="monotone" dataKey="activities" style={{ stroke: STATUS_TONES.complete.fill }} strokeWidth={2} dot={false} name={__("Activities", 'wedevs-project-manager')} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -709,76 +725,43 @@ export default function MyTasksPage() {
                   <CalendarIcon className="h-5 w-5 text-pm-accent" />
                   {__("Calendar", 'wedevs-project-manager')}
                 </h3>
-                <div className="flex items-center gap-2">
-                  <Button size="sm" variant="outline" className="h-11 text-sm" onClick={() => setCalDate(new Date())}>
+                <div className="flex items-center gap-1">
+                  <Button size="sm" variant="outline" className="h-7 px-2.5 text-[13px] mr-1" onClick={() => setCalDate(new Date())}>
                     {__("Today", 'wedevs-project-manager')}
                   </Button>
-                  <Button size="icon" variant="ghost" className="h-7 w-7" aria-label={__("Previous month", 'wedevs-project-manager')} onClick={() => setCalDate(new Date(calYear, calMonth - 1, 1))}>
-                    <ChevronLeft className="h-5 w-5" />
+                  <Button size="icon" variant="ghost" className="h-7 w-7 text-pm-text-muted hover:bg-pm-hover hover:text-pm-text-primary" aria-label={__("Previous month", 'wedevs-project-manager')} onClick={() => setCalDate(new Date(calYear, calMonth - 1, 1))}>
+                    <ChevronLeft className="h-4 w-4" />
                   </Button>
-                  <Button size="icon" variant="ghost" className="h-7 w-7" aria-label={__("Next month", 'wedevs-project-manager')} onClick={() => setCalDate(new Date(calYear, calMonth + 1, 1))}>
-                    <ChevronRight className="h-5 w-5" />
+                  <span className="text-[13px] font-semibold text-pm-text-primary min-w-[120px] text-center tabular-nums">{calMonths[calMonth]} {calYear}</span>
+                  <Button size="icon" variant="ghost" className="h-7 w-7 text-pm-text-muted hover:bg-pm-hover hover:text-pm-text-primary" aria-label={__("Next month", 'wedevs-project-manager')} onClick={() => setCalDate(new Date(calYear, calMonth + 1, 1))}>
+                    <ChevronRight className="h-4 w-4" />
                   </Button>
-                  <span className="text-sm font-medium min-w-[140px] text-center">{calMonths[calMonth]} {calYear}</span>
                 </div>
               </div>
-              <div className="grid grid-cols-7 border-b border-pm-border">
+              <div className="grid grid-cols-7 border-b border-pm-border bg-pm-surface-muted/60">
                 {calDays.map((d) => (
-                  <div key={d} className="text-center py-2 text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70">{d}</div>
+                  <div key={d} className="text-center py-2 text-[11px] font-medium uppercase tracking-wide text-pm-text-muted">{d}</div>
                 ))}
               </div>
-              <div className="grid grid-cols-7">
-                {Array.from({ length: calFirstDay }).map((_, i) => (
-                  <div key={`e-${i}`} className="min-h-[120px] border-b border-r border-pm-border/30 bg-muted/20" />
-                ))}
-                {Array.from({ length: calDaysInMonth }).map((_, i) => {
-                  const day = i + 1;
-                  const dateStr = `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-                  const todayStr = toLocalDateStr(new Date());
-                  const isToday = dateStr === todayStr;
-                  const dayEvts = calEventsByDate[dateStr] || [];
-                  return (
-                    <div key={day} className={cn("min-h-[120px] border-b border-r border-pm-border/30 p-1", isToday && "bg-pm-accent/5")}>
-                      <div className="flex items-center justify-between">
-                        <span className={cn(
-                          "text-sm font-medium inline-flex items-center justify-center w-6 h-6 rounded-full",
-                          isToday ? "bg-pm-accent text-white" : "text-pm-text-muted"
-                        )}>{day}</span>
-                        {dayEvts.length > 0 && (
-                          <span className="text-[11px] text-pm-text-muted">{dayEvts.length}</span>
-                        )}
-                      </div>
-                      <div className="mt-1 space-y-0.5">
-                        {dayEvts.map((evt, j) => {
-                          const complete = evt.status === 1 || evt.status === "complete";
-                          const overdue = !complete && evt.due_date && extractDateStr(evt.due_date) < todayStr;
-                          return (
-                            <button
-                              type="button"
-                              key={evt.id || j}
-                              onClick={() => {
-                                if (evt.project_id) dispatch(setProjectId(evt.project_id));
-                                dispatch(openTaskSheet(evt));
-                              }}
-                              className={cn(
-                                "text-[11px] px-1.5 py-0.5 rounded truncate block w-full text-left cursor-pointer hover:opacity-80 transition-opacity",
-                                complete ? "bg-blue-100 text-blue-700" : overdue ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"
-                              )}
-                              title={evt.title}
-                            >
-                              {evt.title}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              {calWeeks.map((weekDates) => (
+                <CalendarWeekRow
+                  key={weekDates.find(Boolean)}
+                  dates={weekDates}
+                  events={calEvents}
+                  eventsByDate={calEventsByDate}
+                  todayStr={todayStr}
+                  maxLanes={3}
+                  className="min-h-[120px]"
+                  onEventClick={(evt) => {
+                    if (evt.project_id) dispatch(setProjectId(evt.project_id));
+                    dispatch(openTaskSheet(evt));
+                  }}
+                />
+              ))}
               <div className="flex items-center gap-4 px-4 py-3 text-[13px] text-pm-text-muted border-t border-pm-border">
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-green-500" />{__("Current", 'wedevs-project-manager')}</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-500" />{__("Outstanding", 'wedevs-project-manager')}</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-blue-500" />{__("Completed", 'wedevs-project-manager')}</span>
+                <span className="flex items-center gap-1.5"><span className={cn("w-2 h-2 rounded-full", STATUS_TONES.current.dot)} />{__("Current", 'wedevs-project-manager')}</span>
+                <span className="flex items-center gap-1.5"><span className={cn("w-2 h-2 rounded-full", STATUS_TONES.outstanding.dot)} />{__("Outstanding", 'wedevs-project-manager')}</span>
+                <span className="flex items-center gap-1.5"><span className={cn("w-2 h-2 rounded-full", STATUS_TONES.complete.dot)} />{__("Completed", 'wedevs-project-manager')}</span>
               </div>
             </div>
           </div>

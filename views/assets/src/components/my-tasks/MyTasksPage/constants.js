@@ -51,4 +51,5 @@ export const getTabs = () => [
   { key: "reports",     label: __('Reports',       'wedevs-project-manager'), icon: BarChart3, pro: true },
 ];
 
-export const PIE_COLORS = ["#61BD4F", "#EB5A46", "#0090D9"];
+// Same tones as the calendar chips, so the chart, legend and calendar agree.
+export { CALENDAR_TONES as STATUS_TONES } from "@components/common/calendar/eventDates";
