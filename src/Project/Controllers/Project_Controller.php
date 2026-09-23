@@ -305,7 +305,11 @@ class Project_Controller {
 			$project->categories()->sync( $category_ids );
 		}
 
-		$assignees = wedevs_pm_validate_assignee( $request->get_param( 'assignees' ) );
+		// wedevs_pm_validate_assignee() turns a missing value into [], so without
+		// this check an update that only changes the status removed every member.
+		$assignees = $request->has_param( 'assignees' )
+			? wedevs_pm_validate_assignee( $request->get_param( 'assignees' ) )
+			: null;
 
 		if ( is_array( $assignees ) ) {
 			$previous_ids = array_map( 'intval', User_Role::where( 'project_id', $project->id )->pluck( 'user_id' )->all() );
