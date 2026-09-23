@@ -12,6 +12,7 @@ import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Checkbox } from "@components/ui/checkbox";
 import { Skeleton } from "@components/ui/skeleton";
+import { LoadFailed } from "@components/common/LoadFailed";
 import {
   Sheet,
   SheetContent,
@@ -44,6 +45,7 @@ export default function CategoriesPage() {
   const dispatch = useAppDispatch();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -63,6 +65,7 @@ export default function CategoriesPage() {
   const fetchCategories = useCallback(
     async (pg = 1) => {
       setLoading(true);
+      setLoadFailed(false);
       try {
         const res = await api.get("categories", { per_page: 20, page: pg });
         setCategories(res.data ?? []);
@@ -70,7 +73,9 @@ export default function CategoriesPage() {
           setTotalPages(res.meta.pagination.total_pages || 1);
           setPage(pg);
         }
-      } catch {}
+      } catch {
+        setLoadFailed(true);
+      }
       setLoading(false);
     },
     [api],
@@ -238,6 +243,11 @@ export default function CategoriesPage() {
             <Skeleton key={i} className="h-14 rounded-lg" />
           ))}
         </div>
+      ) : loadFailed ? (
+        <LoadFailed
+          title={__('Categories could not be loaded.', 'wedevs-project-manager')}
+          onRetry={() => fetchCategories(page)}
+        />
       ) : categories.length === 0 ? (
         <div className="text-center py-20">
           <Tag className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />

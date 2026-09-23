@@ -12,6 +12,7 @@ import { usePermissions, pmCanSeeUpgrade } from "@hooks/usePermissions";
 import { Button } from "@components/ui/button";
 import { DatePicker } from "@components/ui/date-picker";
 import { Skeleton } from "@components/ui/skeleton";
+import { LoadFailed } from "@components/common/LoadFailed";
 import {
   PaginationNav,
 } from "@components/ui/pagination";
@@ -99,6 +100,7 @@ export default function MyTasksPage() {
   const activeTab = TABS.some((t) => t.key === urlTab) ? urlTab : "current";
   const setActiveTab = (key) => navigate(key === "current" ? "/my-tasks" : `/my-tasks/${key}`);
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [user, setUser] = useState(null);
   // The Overview tab's date-filtered numbers; kept apart so the tab badges keep the unfiltered counts.
   const [overviewUser, setOverviewUser] = useState(null);
@@ -193,6 +195,7 @@ export default function MyTasksPage() {
       if (!tab?.taskType) return;
 
       setLoading(true);
+      setLoadFailed(false);
       const today = new Date().toISOString().split("T")[0];
       const data = {
         with: "task_list,project,labels,assignees",
@@ -225,7 +228,9 @@ export default function MyTasksPage() {
         setTasks(res.data ?? []);
         setTaskTotalPages(res.meta?.total_page ?? 1);
         setTaskPage(page);
-      } catch {}
+      } catch {
+        setLoadFailed(true);
+      }
       setLoading(false);
     },
     [api, userId, activeTab, sortBy, searchTitle, filterProjectId, taskStartDate, taskEndDate],
@@ -1137,6 +1142,11 @@ export default function MyTasksPage() {
                 </div>
               ))}
             </div>
+          ) : loadFailed ? (
+            <LoadFailed
+              title={__('Tasks could not be loaded.', 'wedevs-project-manager')}
+              onRetry={() => fetchTasks(taskPage)}
+            />
           ) : tasks.length === 0 ? (
             <div className="text-center py-16 rounded-lg border bg-card">
               <ListChecks className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />

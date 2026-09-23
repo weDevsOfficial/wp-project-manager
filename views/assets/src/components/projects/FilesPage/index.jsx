@@ -12,6 +12,7 @@ import { useProModal } from "@components/common/ProUpgradeModal";
 import ProBadge from "@components/common/ProBadge";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
+import { LoadFailed } from "@components/common/LoadFailed";
 import { cn } from "@lib/utils";
 import {
   FileText,
@@ -79,12 +80,14 @@ export default function FilesPage() {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState({ key: "uploaded", dir: "desc" });
   const [selectedId, setSelectedId] = useState(null);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   const fetchFiles = useCallback(() => {
     setLoading(true);
+    setLoadFailed(false);
     api.get(`projects/${projectId}/files`, { per_page: 100 })
       .then((res) => setFiles(res?.data ?? res ?? []))
-      .catch(() => setFiles([]))
+      .catch(() => { setFiles([]); setLoadFailed(true); })
       .finally(() => setLoading(false));
   }, [api, projectId]);
 
@@ -287,6 +290,11 @@ export default function FilesPage() {
             <div key={i} className="px-4 py-3"><Skeleton className="h-8 rounded-md" /></div>
           ))}
         </div>
+      ) : loadFailed ? (
+        <LoadFailed
+          title={__('Files could not be loaded.', 'wedevs-project-manager')}
+          onRetry={fetchFiles}
+        />
       ) : rows.length === 0 ? (
         <div className="text-center py-16 rounded-lg border bg-card">
           <FileText className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />

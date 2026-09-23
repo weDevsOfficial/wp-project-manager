@@ -15,6 +15,7 @@ export default function MilestoneField({ task, projectId, api, canEdit = true, c
   const [milestones, setMilestones] = useState([]);
   const [currentMilestone, setCurrentMilestone] = useState(null);
   const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [newDate, setNewDate] = useState('');
 
@@ -24,6 +25,7 @@ export default function MilestoneField({ task, projectId, api, canEdit = true, c
   useEffect(() => {
     if (loaded || !projectId || !taskId) return;
     setLoaded(true);
+    setLoading(true);
     api.get(`projects/${projectId}/milestones`, { with: 'task_lists,tasks', per_page: 50 })
       .then(res => {
         const items = res?.data ?? [];
@@ -39,7 +41,8 @@ export default function MilestoneField({ task, projectId, api, canEdit = true, c
         });
         setCurrentMilestone(match ?? null);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, [api, projectId, taskId, taskListId, loaded]);
 
   // Reset when task changes
@@ -121,6 +124,8 @@ export default function MilestoneField({ task, projectId, api, canEdit = true, c
         clearLabel={__('Remove milestone', 'wedevs-project-manager')}
         canEdit={canEdit}
         saving={saving}
+        loading={loading && milestones.length === 0}
+        onOpenChange={(open) => { if (open) setLoaded(false); }}
         placeholder={__('None', 'wedevs-project-manager')}
         readOnlyText={currentMilestone?.title || __('None', 'wedevs-project-manager')}
         noneLabel={__('None', 'wedevs-project-manager')}

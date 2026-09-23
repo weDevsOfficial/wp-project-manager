@@ -10,6 +10,7 @@ import { useCurrentProject } from '@hooks/useCurrentProject'
 import { Button } from '@components/ui/button'
 import { Progress } from '@components/ui/progress'
 import { Skeleton } from '@components/ui/skeleton'
+import { LoadFailed } from '@components/common/LoadFailed'
 import { UserAvatar } from '@components/common/UserAvatar'
 import RichTextEditor from '@components/common/RichTextEditor'
 import NotifyUsers from '@components/common/NotifyUsers'
@@ -50,6 +51,7 @@ export default function SingleTaskListPage() {
 
   const currentList = useAppSelector(s => s.taskLists.currentList)
   const [loading, setLoading] = useState(true)
+  const [loadFailed, setLoadFailed] = useState(false)
   const [showCompleted, setShowCompleted] = useState(false)
   const [showLabels, setShowLabels] = useState(false)
   const [loadingMore, setLoadingMore] = useState(false)
@@ -69,11 +71,17 @@ export default function SingleTaskListPage() {
   const [editCommentDeletedFileIds, setEditCommentDeletedFileIds] = useState([])
   const [savingEditComment, setSavingEditComment] = useState(false)
 
+  const loadList = useCallback(() => {
+    setLoading(true)
+    setLoadFailed(false)
+    dispatch(fetchSingleList({ projectId, listId }))
+      .then((action) => { if (action?.type?.endsWith('/rejected')) setLoadFailed(true) })
+      .finally(() => setLoading(false))
+  }, [dispatch, projectId, listId])
+
   useEffect(() => {
     if (projectId && listId) {
-      setLoading(true)
-      dispatch(fetchSingleList({ projectId, listId }))
-        .finally(() => setLoading(false))
+      loadList()
 
       api.get(`projects/${projectId}`, { with: 'labels' })
         .then(res => {
@@ -259,7 +267,14 @@ export default function SingleTaskListPage() {
     return (
       <div className="w-full p-4 sm:p-6">
         <BackButton fallback={`/projects/${projectId}/task-lists`} label={__('Back to Task Lists', 'wedevs-project-manager')} className="mb-4" />
-        <p className="text-sm text-pm-text-muted">{__('Task list not found.', 'wedevs-project-manager')}</p>
+        {loadFailed ? (
+          <LoadFailed
+            title={__('This task list could not be loaded.', 'wedevs-project-manager')}
+            onRetry={loadList}
+          />
+        ) : (
+          <p className="text-sm text-pm-text-muted">{__('Task list not found.', 'wedevs-project-manager')}</p>
+        )}
       </div>
     )
   }

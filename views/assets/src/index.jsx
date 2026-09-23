@@ -92,10 +92,9 @@ function TaskDeepLinkOpener() {
   useEffect(() => {
     const state = store.getState()
     if (state.tasks?.taskSheetOpen && String(state.tasks?.currentTask?.id) === String(taskId)) return
-    store.dispatch(fetchTask({ projectId, taskId })).then((action) => {
-      const task = action.payload
-      if (task) store.dispatch(openTaskSheet(task))
-    })
+    // Open on the ids first so the sheet shows its skeleton straight away; the
+    // sheet itself fetches the task and fills in.
+    store.dispatch(openTaskSheet({ id: Number(taskId), project_id: Number(projectId) }))
   }, [projectId, taskId])
   return null
 }
@@ -302,6 +301,7 @@ window.PM = {
     LicenseGuard:    require('@components/common/LicenseGuard'),
     NewTaskSheet:    require('@components/my-tasks/MyTasksPage/parts/NewTaskSheet'),
     AttributePicker: require('@components/common/AttributePicker'),
+    LoadFailed: require('@components/common/LoadFailed'),
     TaskDetailSheet: (() => {
       // Wrap component to ensure proper error handling across plugin boundaries
       const WrappedTaskDetailSheet = (props) => {

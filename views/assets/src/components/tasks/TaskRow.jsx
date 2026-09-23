@@ -40,7 +40,7 @@ import {
 
 // Shared column grid template — header row (TaskListSection) + task rows must match.
 // Task | Type | Labels | Description | Assignee | Due | Priority | Progress | Actions
-export const TASK_GRID = 'grid-cols-[minmax(200px,1.8fr)_100px_minmax(120px,1.2fr)_minmax(150px,1.4fr)_120px_150px_120px_minmax(110px,0.9fr)_44px]'
+export const TASK_GRID = 'grid-cols-[minmax(200px,1.6fr)_100px_minmax(110px,1fr)_minmax(140px,1.2fr)_120px_minmax(215px,1.3fr)_120px_minmax(110px,0.9fr)_44px]'
 
 // ── Component ────────────────────────────────────────
 

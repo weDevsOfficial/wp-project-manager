@@ -25,6 +25,7 @@ import { useProModal } from "@components/common/ProUpgradeModal";
 
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
+import { LoadFailed } from "@components/common/LoadFailed";
 import { Progress } from "@components/ui/progress";
 import { Avatar, AvatarFallback } from "@components/ui/avatar";
 import { UserAvatar } from '@components/common/UserAvatar';
@@ -123,6 +124,7 @@ export default function ProjectsPage() {
   const {
     projects,
     loading,
+    loadFailed,
     currentPage,
     totalPages,
     total,
@@ -833,6 +835,11 @@ export default function ProjectsPage() {
 
       {loading
         ? renderSkeleton()
+        : loadFailed
+        ? <LoadFailed
+            title={__('Projects could not be loaded.', 'wedevs-project-manager')}
+            onRetry={() => dispatch(fetchProjects({ status: activeFilter === 'all' ? '' : activeFilter }))}
+          />
         : projects.length === 0
         ? renderEmpty()
         : viewMode === "grid"

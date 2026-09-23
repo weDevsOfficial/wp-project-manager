@@ -281,7 +281,7 @@ const projectsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchProjects.pending, (state) => { state.loading = true })
+    builder.addCase(fetchProjects.pending, (state) => { state.loading = true; state.loadFailed = false })
     builder.addCase(fetchProjects.fulfilled, (state, action) => {
       state.loading  = false
       state.projects = action.payload.data ?? []
@@ -301,7 +301,7 @@ const projectsSlice = createSlice({
         if (typeof m.total_favourite === 'number')  state.projectsMeta.total_favourite  = m.total_favourite
       }
     })
-    builder.addCase(fetchProjects.rejected, (state) => { state.loading = false })
+    builder.addCase(fetchProjects.rejected, (state) => { state.loading = false; state.loadFailed = true })
 
     builder.addCase(toggleFavourite.fulfilled, (state, action) => {
       const project = state.projects.find(p => p.id === action.payload)

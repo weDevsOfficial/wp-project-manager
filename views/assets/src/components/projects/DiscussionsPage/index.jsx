@@ -11,6 +11,7 @@ import { PaginationNav } from "@components/ui/pagination";
 import { Input } from "@components/ui/input";
 import RichTextEditor from "@components/common/RichTextEditor";
 import { Skeleton } from "@components/ui/skeleton";
+import { LoadFailed } from "@components/common/LoadFailed";
 import { UserAvatar } from "@components/common/UserAvatar";
 import {
   Select,
@@ -105,6 +106,7 @@ export default function DiscussionsPage() {
   }, []);
   useEffect(() => () => { if (dragCleanupRef.current) dragCleanupRef.current(); }, []);
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -128,6 +130,7 @@ export default function DiscussionsPage() {
   const fetchDiscussions = useCallback(
     async (pg = 1, title = queryRef.current) => {
       setLoading(true);
+      setLoadFailed(false);
       try {
         const params = { per_page: 20, page: pg };
         if (title.trim()) params.title = title.trim();
@@ -137,7 +140,9 @@ export default function DiscussionsPage() {
           setTotalPages(res.meta.pagination.total_pages || 1);
           setPage(pg);
         }
-      } catch {}
+      } catch {
+        setLoadFailed(true);
+      }
       setLoading(false);
     },
     [api, projectId]
@@ -367,6 +372,12 @@ export default function DiscussionsPage() {
                 <Skeleton key={i} className="h-20 rounded-lg" />
               ))}
             </div>
+          ) : loadFailed ? (
+            <LoadFailed
+              compact
+              title={__('Discussions could not be loaded.', 'wedevs-project-manager')}
+              onRetry={() => fetchDiscussions(page)}
+            />
           ) : discussions.length === 0 ? (
             <div className="text-center py-16 rounded-lg border bg-card">
               <MessageSquare className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />

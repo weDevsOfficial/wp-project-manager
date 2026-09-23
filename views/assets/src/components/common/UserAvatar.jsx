@@ -1,13 +1,13 @@
 import React from 'react';
-import { Avatar, AvatarImage, AvatarFallback } from '@components/ui/avatar';
+import { Avatar, AvatarImage } from '@components/ui/avatar';
 import { cn } from '@/lib/utils';
 
-// Gravatar answers `d=404` with a real 404 for anyone who has never set an
-// avatar, which is exactly how AvatarFallback gets its turn. Remembering the
-// URLs that already failed lets later renders skip the <img> altogether: no
-// repeat request, no console error, and the initials paint on the first frame
-// instead of after a round trip. Per page load by design, so a newly uploaded
-// gravatar shows up on the next refresh.
+// Gravatar answers `d=blank` with a transparent PNG for anyone who has never
+// set an avatar, so the initials painted underneath show through and the
+// browser logs nothing. Remembering the URLs that did fail (a broken custom
+// avatar, an offline host) lets later renders skip the <img> altogether. Per
+// page load by design, so a newly uploaded gravatar shows up on the next
+// refresh.
 const failedAvatarUrls = new Set();
 
 const sizeMap = {
@@ -28,14 +28,13 @@ function getInitials(name) {
 function normalizeAvatarUrl(url) {
   if (!url) return '';
   if (!/gravatar\.com\/avatar/i.test(url)) return url;
-  // Force `d=404` so missing gravatars return HTTP 404. Radix AvatarImage
-  // then fires onError and the AvatarFallback (initials) renders. Any other
-  // default (blank/mp/identicon/custom URL) loads successfully and would
-  // suppress the fallback.
+  // Force `d=blank`: a missing gravatar comes back as a transparent 200 that
+  // lets the initials underneath show through. `d=404` also worked, through
+  // AvatarFallback, but every avatarless user cost a 404 in the console.
   if (/[?&]d=/i.test(url)) {
-    return url.replace(/([?&])d=[^&#]*/i, '$1d=404');
+    return url.replace(/([?&])d=[^&#]*/i, '$1d=blank');
   }
-  return url + (url.includes('?') ? '&' : '?') + 'd=404';
+  return url + (url.includes('?') ? '&' : '?') + 'd=blank';
 }
 
 export function UserAvatar({ user, size = 'md', className, fallbackClassName, ...props }) {
@@ -49,11 +48,22 @@ export function UserAvatar({ user, size = 'md', className, fallbackClassName, ..
 
   return (
     <Avatar className={cn(s.avatar, 'shrink-0', className)} {...props}>
+      <span
+        aria-hidden="true"
+        className={cn(
+          s.text,
+          'absolute inset-0 flex items-center justify-center font-semibold bg-pm-accent-light text-pm-accent',
+          fallbackClassName,
+        )}
+      >
+        {getInitials(name)}
+      </span>
       {avatarUrl && !alreadyFailed && (
         <AvatarImage
           src={avatarUrl}
           alt={name}
           loading="lazy"
+          className="relative"
           onLoadingStatusChange={status => {
             if (status === 'error' && !failedAvatarUrls.has(avatarUrl)) {
               failedAvatarUrls.add(avatarUrl);
@@ -62,11 +72,6 @@ export function UserAvatar({ user, size = 'md', className, fallbackClassName, ..
           }}
         />
       )}
-      <AvatarFallback
-        className={cn(s.text, 'font-semibold bg-pm-accent-light text-pm-accent', fallbackClassName)}
-      >
-        {getInitials(name)}
-      </AvatarFallback>
     </Avatar>
   );
 }

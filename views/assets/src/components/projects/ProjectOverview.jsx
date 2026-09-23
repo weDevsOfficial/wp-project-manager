@@ -5,6 +5,7 @@ import { useApi } from "@hooks/useApi";
 import { useToast } from "@hooks/useToast";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
+import { LoadFailed } from "@components/common/LoadFailed";
 import { Progress } from "@components/ui/progress";
 import { UserAvatar } from '@components/common/UserAvatar';
 import {
@@ -272,7 +273,16 @@ export default function ProjectOverview() {
     );
   }
 
-  if (!project) return null;
+  if (!project) {
+    return (
+      <div className="w-full p-4 sm:p-6">
+        <LoadFailed
+          title={__('This project could not be loaded.', 'wedevs-project-manager')}
+          onRetry={() => { invalidateProjectCache(projectId); window.location.reload(); }}
+        />
+      </div>
+    );
+  }
 
   const meta = unwrapData(project.meta) || {};
   const totalTasks = meta.total_tasks ?? 0;

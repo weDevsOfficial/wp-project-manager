@@ -22,6 +22,7 @@ import { Input } from "@components/ui/input";
 import RichTextEditor from "@components/common/RichTextEditor";
 import { Checkbox } from "@components/ui/checkbox";
 import { Skeleton } from "@components/ui/skeleton";
+import { LoadFailed } from "@components/common/LoadFailed";
 import { PaginationNav } from "@components/ui/pagination";
 import { Plus, ChevronsUpDown, ListTodo, Filter, X } from "lucide-react";
 import ProBadge from "@components/common/ProBadge";
@@ -44,7 +45,7 @@ export default function TaskListsPage() {
   const { isPro, userCan, isManager } = usePermissions(project);
   const canCreateList = isManager || userCan('create_list');
 
-  const { lists, loading, expandedIds, listsMeta } = useAppSelector((s) => s.taskLists);
+  const { lists, loading, loadFailed, expandedIds, listsMeta } = useAppSelector((s) => s.taskLists);
 
   const handlePageChange = useCallback((page) => {
     if (page < 1 || page > listsMeta.total_pages || page === listsMeta.current_page) return
@@ -397,6 +398,11 @@ export default function TaskListsPage() {
       {/* Content */}
       {loading ? (
         renderSkeleton()
+      ) : loadFailed ? (
+        <LoadFailed
+          title={__('Task lists could not be loaded.', 'wedevs-project-manager')}
+          onRetry={() => dispatch(fetchTaskLists({ projectId }))}
+        />
       ) : lists.length === 0 ? (
         renderEmpty()
       ) : filteredTasks ? (

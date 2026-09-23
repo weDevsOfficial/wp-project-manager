@@ -4,6 +4,7 @@ import { useApi } from '@hooks/useApi'
 import { usePermissions, pmCanSeeUpgrade } from '@hooks/usePermissions'
 import { useFilter } from '@hooks/useSlot'
 import { Skeleton } from '@components/ui/skeleton'
+import { LoadFailed } from '@components/common/LoadFailed'
 import { cn } from '@lib/utils'
 
 // ── Header is eager (above the fold, tiny). Everything else is lazy-loaded
@@ -94,14 +95,12 @@ export default function DashboardPage() {
   if (error) {
     return (
       <div className="p-4 sm:p-6">
-        <div className="rounded-xl border border-pm-border bg-card p-8 text-center">
-          <p className="text-[14px] text-pm-text-muted mb-3">{error}</p>
-          <button
-            onClick={() => load(range, true)}
-            className="rounded-lg bg-pm-accent px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-pm-accent-hover"
-          >
-            {__('Try again', 'wedevs-project-manager')}
-          </button>
+        <div className="rounded-xl border border-pm-border bg-card">
+          <LoadFailed
+            title={__('The dashboard could not be loaded.', 'wedevs-project-manager')}
+            description={error}
+            onRetry={() => load(range, true)}
+          />
         </div>
       </div>
     )

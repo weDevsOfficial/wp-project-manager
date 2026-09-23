@@ -9,6 +9,7 @@ import { useProModal } from '@components/common/ProUpgradeModal';
 import ProBadge from '@components/common/ProBadge';
 import { Button } from '@components/ui/button';
 import { Skeleton } from '@components/ui/skeleton';
+import { LoadFailed } from '@components/common/LoadFailed';
 import { Badge } from '@components/ui/badge';
 import { Separator } from '@components/ui/separator';
 import { Avatar, AvatarFallback } from '@components/ui/avatar';
@@ -32,6 +33,7 @@ export default function ActivitiesPage() {
 
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -40,6 +42,7 @@ export default function ActivitiesPage() {
   const loadActivities = () => {
     if (!isPro) return;
     setLoading(true);
+    setLoadFailed(false);
     api.get(`projects/${projectId}/activities`, { per_page: 20, page: 1 })
       .then((res) => {
         setActivities(res.data ?? []);
@@ -48,7 +51,7 @@ export default function ActivitiesPage() {
         setTotal(p?.total || 0);
         setPage(1);
       })
-      .catch(() => {})
+      .catch(() => setLoadFailed(true))
       .finally(() => setLoading(false));
   };
 
@@ -223,6 +226,11 @@ export default function ActivitiesPage() {
             </div>
           ))}
         </div>
+      ) : loadFailed ? (
+        <LoadFailed
+          title={__('Activities could not be loaded.', 'wedevs-project-manager')}
+          onRetry={loadActivities}
+        />
       ) : activities.length === 0 ? (
         <div className="text-center py-16 rounded-lg border bg-card">
           <Activity className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />

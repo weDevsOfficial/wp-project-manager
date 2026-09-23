@@ -8,7 +8,7 @@ import { useApi } from '@hooks/useApi'
 import { cn } from '@lib/utils'
 import { useToast } from '@hooks/useToast'
 import { usePermissions } from '@hooks/usePermissions'
-import { useCurrentProject } from '@hooks/useCurrentProject'
+import { useCurrentProject, useProjectLoadFailed } from '@hooks/useCurrentProject'
 import { useConfirm } from '@hooks/useConfirm'
 import {
   Dialog,
@@ -40,7 +40,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu'
-import { Calendar, Users, Check, Maximize2, Minimize2, MoreHorizontal, Trash2, Link2, X, Plus, FolderKanban, Pencil, FileText, Loader2, Video, ListChecks, MessageSquare, Activity } from 'lucide-react'
+import { Calendar, Users, Check, Maximize2, Minimize2, MoreHorizontal, Trash2, Link2, X, Plus, FolderKanban, Pencil, FileText, Loader2, Video, ListChecks, MessageSquare, Activity, AlertCircle, RefreshCw } from 'lucide-react'
 import { DriveMonoGlyph } from '@components/google-workspace/GoogleIcons'
 import {
   isTaskComplete,
@@ -83,6 +83,53 @@ function isGooglePickerInteraction(e) {
   return !!t.closest('.picker-dialog, .picker-dialog-bg, .picker, .picker-dialog-content')
 }
 
+// Same two columns, same row heights as the loaded sheet, so the content
+// replaces the placeholder in place instead of popping in.
+function TaskSheetSkeleton() {
+  return (
+    <div className="flex flex-1 min-h-0 flex-col" aria-busy="true">
+      <div className="flex items-center gap-2 px-4 py-2.5 pr-14 shrink-0">
+        <Skeleton className="h-5 w-40" />
+      </div>
+      <div className="flex flex-1 min-h-0 max-md:flex-col">
+        <aside className="w-80 shrink-0 border-r border-border/60 px-4 py-5 space-y-3 max-md:w-full max-md:border-r-0">
+          <Skeleton className="h-6 w-3/4" />
+          <Skeleton className="h-4 w-1/3" />
+          <div className="pt-3 space-y-2.5">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <Skeleton className="h-4 w-24 shrink-0" />
+                <Skeleton className="h-6 w-28" />
+              </div>
+            ))}
+          </div>
+        </aside>
+        <div className="flex-1 min-w-0 px-6 py-5 space-y-5">
+          <div className="space-y-2">
+            <Skeleton className="h-3.5 w-28" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-11/12" />
+            <Skeleton className="h-4 w-2/3" />
+          </div>
+          <Skeleton className="h-9 w-64" />
+          <div className="space-y-4">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="flex gap-2.5">
+                <Skeleton className="h-7 w-7 rounded-full shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-3.5 w-40" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-4/5" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function TaskDetailSheet() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -97,6 +144,7 @@ export default function TaskDetailSheet() {
   const projectId = storeProjectId || currentTask?.project_id || currentTask?.project?.id
   const isProContext = !storeProjectId && (currentTask?.project_id || currentTask?.project?.id)
   const project = useCurrentProject(projectId)
+  const projectLoadFailed = useProjectLoadFailed(projectId)
   const { canEditTask, canEditComment, userCan, isPro, isAdmin, canManage } = usePermissions(project)
   const canEditCurrentTask = currentTask ? canEditTask(currentTask) : false
 
@@ -150,11 +198,18 @@ export default function TaskDetailSheet() {
     }
   }, [currentTask])
 
+  const [loadFailed, setLoadFailed] = useState(false)
+  const [retryCount, setRetryCount] = useState(0)
+  const retryLoad = useCallback(() => setRetryCount(c => c + 1), [])
+
   useEffect(() => {
     if (taskSheetOpen && currentTask && projectId) {
-      dispatch(fetchTask({ projectId, taskId: currentTask.id }))
+      setLoadFailed(false)
+      dispatch(fetchTask({ projectId, taskId: currentTask.id })).then((action) => {
+        if (action?.type?.endsWith('/rejected')) setLoadFailed(true)
+      })
     }
-  }, [taskSheetOpen, currentTask?.id, projectId, isProContext, dispatch])
+  }, [taskSheetOpen, currentTask?.id, projectId, isProContext, dispatch, retryCount])
 
   const lastPushedPathRef = useRef(null)
 
@@ -352,6 +407,7 @@ export default function TaskDetailSheet() {
   }, [showAssigneeSearch])
 
   const projectMembers = project?.assignees?.data ?? []
+  const membersLoading = Boolean(projectId) && !project && !projectLoadFailed
   const filteredMembers = assigneeQuery.trim().length === 0
     ? projectMembers
     : projectMembers.filter(u => (u.display_name || '').toLowerCase().includes(assigneeQuery.toLowerCase()))
@@ -602,10 +658,21 @@ export default function TaskDetailSheet() {
         }}
       >
         <DialogTitle className="sr-only">{currentTask?.title || __('Task details', 'wedevs-project-manager')}</DialogTitle>
-        {loading && !currentTask ? (
-          <div className="flex flex-1 items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-pm-accent" />
-          </div>
+        {!currentTask?.title ? (
+          loadFailed ? (
+            <div className="flex flex-1 flex-col items-center justify-center gap-3 py-20 px-6 text-center">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-destructive/10">
+                <AlertCircle className="h-6 w-6 text-destructive" />
+              </span>
+              <p className="text-sm text-pm-text-primary font-medium">{__('This task could not be loaded.', 'wedevs-project-manager')}</p>
+              <p className="text-[13px] text-pm-text-muted">{__('It may have been deleted, or you may not have access to it.', 'wedevs-project-manager')}</p>
+              <Button size="sm" variant="outline" className="h-11 text-sm gap-1.5" onClick={retryLoad}>
+                <RefreshCw className="h-4 w-4" />{__('Try again', 'wedevs-project-manager')}
+              </Button>
+            </div>
+          ) : (
+            <TaskSheetSkeleton />
+          )
         ) : currentTask ? (
           <>
             {/* Toolbar (built-in close button sits top-right) */}
@@ -814,7 +881,12 @@ export default function TaskDetailSheet() {
                           <X className="h-4 w-4" />
                         </button>
                         <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50 max-h-72 overflow-y-auto p-1">
-                          {filteredMembers.length === 0 && (
+                          {membersLoading && (
+                            <div className="flex items-center justify-center py-4">
+                              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                            </div>
+                          )}
+                          {!membersLoading && filteredMembers.length === 0 && (
                             <div className="px-3 py-3 text-sm text-pm-text-muted">{__('No project members', 'wedevs-project-manager')}</div>
                           )}
                           {filteredMembers.map(u => {

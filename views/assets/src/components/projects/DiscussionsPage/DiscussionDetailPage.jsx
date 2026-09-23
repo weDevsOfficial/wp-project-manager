@@ -399,7 +399,7 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
         ) : (
           <>
             <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <h2 className="text-lg font-bold text-pm-text-primary flex items-center gap-2">
                   <span className="truncate">{discussion.title}</span>
                   {isPrivate && <Lock className="h-4 w-4 text-pm-text-muted shrink-0" />}
@@ -414,6 +414,7 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
                   </button>
                 )}
               </div>
+              <div className="flex items-center gap-1 shrink-0">
               <CopyMarkdownButton html={descHtml} className="h-7 w-7 justify-center shrink-0" />
               {canEditDiscussion(discussion) && (
                 <DropdownMenu>
@@ -450,6 +451,7 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
+              </div>
             </div>
 
             {/* Meta chips */}

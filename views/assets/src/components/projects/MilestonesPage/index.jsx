@@ -24,6 +24,7 @@ import {
   DialogTitle,
 } from "@components/ui/dialog";
 import { Skeleton } from "@components/ui/skeleton";
+import { LoadFailed } from "@components/common/LoadFailed";
 import {
   Plus,
   Milestone as MilestoneIcon,
@@ -42,7 +43,7 @@ export default function MilestonesPage() {
   const dispatch = useAppDispatch();
   const toast = useToast();
 
-  const { items: milestones, loading, filter, sort, formOpen, editingId } =
+  const { items: milestones, loading, loadFailed, filter, sort, formOpen, editingId } =
     useAppSelector((s) => s.milestones);
   const taskSheetOpen = useAppSelector((s) => s.tasks.taskSheetOpen);
   const taskModified = useAppSelector((s) => s.tasks.taskModifiedInSheet);
@@ -245,6 +246,11 @@ export default function MilestonesPage() {
             <Skeleton key={i} className="h-20 rounded-lg" />
           ))}
         </div>
+      ) : loadFailed ? (
+        <LoadFailed
+          title={__('Milestones could not be loaded.', 'wedevs-project-manager')}
+          onRetry={() => dispatch(fetchMilestones({ projectId }))}
+        />
       ) : milestones.length === 0 ? (
         <div className="text-center py-16 rounded-lg border bg-card">
           <MilestoneIcon className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />

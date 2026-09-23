@@ -104,7 +104,7 @@ export default function AttributePicker({
             type="button"
             disabled={saving}
             className={cn(
-              'inline-flex items-center gap-1 min-w-0 max-w-full px-1.5 py-0.5 rounded border text-sm transition-colors hover:text-pm-accent hover:border-pm-accent/30 disabled:opacity-50',
+              'inline-flex items-center gap-1 min-w-0 max-w-full min-h-[26px] px-1.5 py-0.5 rounded border text-sm transition-colors hover:text-pm-accent hover:border-pm-accent/30 disabled:opacity-50',
               selected ? 'border-pm-border/50 text-pm-text-primary' : 'border-dashed border-pm-border/50 text-pm-text-muted',
             )}
           >
