@@ -414,17 +414,48 @@ export default function TaskDetailSheet() {
     ? projectMembers
     : projectMembers.filter(u => (u.display_name || '').toLowerCase().includes(assigneeQuery.toLowerCase()))
 
+  // The update endpoint replaces the whole assignee list, so two quick clicks
+  // each built from the same stale list dropped the first change. Changes are
+  // queued, and every request sends the latest intended list.
+  const pendingAssigneesRef = useRef(null)
+  const assigneeQueueRef = useRef(Promise.resolve())
+  useEffect(() => { pendingAssigneesRef.current = null }, [currentTask?.id])
+
+  const saveAssignees = useCallback((nextIds) => {
+    pendingAssigneesRef.current = nextIds
+    const taskId = currentTask.id
+    const run = assigneeQueueRef.current.then(async () => {
+      const ids = pendingAssigneesRef.current ?? nextIds
+      await dispatch(updateTask({
+        projectId, taskId,
+        data: { assignees: ids.length > 0 ? ids : [-1] },
+      })).unwrap()
+    })
+    assigneeQueueRef.current = run.catch(() => {})
+    return run.then(
+      () => {
+        if (pendingAssigneesRef.current === nextIds) pendingAssigneesRef.current = null
+        dispatch(fetchTask({ projectId, taskId }))
+      },
+      (e) => {
+        pendingAssigneesRef.current = null
+        dispatch(fetchTask({ projectId, taskId }))
+        throw e
+      }
+    )
+  }, [dispatch, projectId, currentTask])
+
+  const currentAssigneeIds = useCallback(
+    () => pendingAssigneesRef.current ?? assignees.map(a => a.assigned_to ?? a.id),
+    [assignees]
+  )
+
   const handleAddAssignee = useCallback(async (user) => {
     if (!currentTask || !projectId) return
-    const existingIds = assignees.map(a => a.assigned_to ?? a.id)
+    const existingIds = currentAssigneeIds()
     if (existingIds.includes(user.id)) return
-    const newAssignees = [...existingIds, user.id]
     try {
-      await dispatch(updateTask({
-        projectId, taskId: currentTask.id,
-        data: { assignees: newAssignees },
-      })).unwrap()
-      dispatch(fetchTask({ projectId, taskId: currentTask.id }))
+      await saveAssignees([...existingIds, user.id])
       toast.success(
         __('Assignee added', 'wedevs-project-manager'),
         sprintf(/* translators: %s is the name of the user assigned to the task. */ __('%s was assigned to this task.', 'wedevs-project-manager'), user.display_name),
@@ -435,20 +466,15 @@ export default function TaskDetailSheet() {
     }
     setAssigneeQuery('')
     setShowAssigneeSearch(false)
-  }, [dispatch, projectId, currentTask, assignees, toast, __])
+  }, [projectId, currentTask, currentAssigneeIds, saveAssignees, toast, __])
 
   const handleRemoveAssignee = useCallback(async (userId) => {
     if (!currentTask || !projectId) return
     const removedUser = projectMembers.find(u => parseInt(u.id) === parseInt(userId))
     const removedName = removedUser?.display_name
-    const remainingIds = assignees.map(a => a.assigned_to ?? a.id).filter(id => parseInt(id) !== parseInt(userId))
+    const remainingIds = currentAssigneeIds().filter(id => parseInt(id) !== parseInt(userId))
     try {
-      const assigneePayload = remainingIds.length > 0 ? remainingIds : [-1]
-      await dispatch(updateTask({
-        projectId, taskId: currentTask.id,
-        data: { assignees: assigneePayload },
-      })).unwrap()
-      dispatch(fetchTask({ projectId, taskId: currentTask.id }))
+      await saveAssignees(remainingIds)
       toast.success(
         __('Assignee removed', 'wedevs-project-manager'),
         removedName
@@ -459,7 +485,7 @@ export default function TaskDetailSheet() {
     } catch {
       toast.error(__('Failed to remove assignee', 'wedevs-project-manager'))
     }
-  }, [dispatch, projectId, currentTask, assignees, projectMembers, toast, __])
+  }, [projectId, currentTask, currentAssigneeIds, saveAssignees, projectMembers, toast, __])
 
   const handleSubmitComment = useCallback(async () => {
     if (!currentTask || !projectId || !newComment.trim()) return
