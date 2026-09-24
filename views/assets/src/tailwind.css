@@ -918,8 +918,8 @@ body.pm-mode-wordpress [data-pm-alert-overlay][data-state],
 body.admin-bar [data-pm-alert-overlay][data-state] {
   z-index: 100250 !important;
 }
-body.pm-mode-wordpress [role="alertdialog"][data-state],
-body.admin-bar [role="alertdialog"][data-state] {
+body.pm-mode-wordpress [data-pm-alert-content][data-state],
+body.admin-bar [data-pm-alert-content][data-state] {
   z-index: 100251 !important;
 }
 
