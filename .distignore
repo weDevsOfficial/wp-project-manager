@@ -64,3 +64,7 @@ CLAUDE.local.md.example
 .npmrc
 .nvmrc
 .env.example
+QA
+QA-*.md
+UI_REDESIGN_PLAN.md
+/db/seeds/TaskListTableSeeder.php
