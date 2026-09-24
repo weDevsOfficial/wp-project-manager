@@ -498,11 +498,17 @@ class Kanboard_Controller {
         $background     = esc_url_raw( (string) $request->get_param('background') );
         $attachment_id = intval( $request->get_param('attachment_id') );
 
+        // Only an image this user uploaded through this endpoint may be stored or
+        // deleted, so a crafted attachment_id cannot remove someone else's media.
+        if ( $attachment_id && ! $this->is_own_board_background( $attachment_id, $user_id ) ) {
+            $attachment_id = 0;
+        }
+
         // Replacing or removing the background deletes the previous asset from
         // the media library so uploads don't pile up unused.
         $old    = wedevs_pm_get_meta( $user_id, $project_id, 'kanban_bg', 'board_background_id' );
         $old_id = $old ? intval( $old->meta_value ) : 0;
-        if ( $old_id && $old_id !== $attachment_id ) {
+        if ( $old_id && $old_id !== $attachment_id && $this->is_own_board_background( $old_id, $user_id ) ) {
             wp_delete_attachment( $old_id, true );
         }
 
@@ -533,10 +539,18 @@ class Kanboard_Controller {
             wp_send_json_error( [ 'message' => $upload_error ? $upload_error : __( 'Upload failed', 'wedevs-project-manager' ) ], $upload_error ? 400 : 500 );
         }
 
+        update_post_meta( $attachment_id, '_pm_kanban_bg', get_current_user_id() );
+
         wp_send_json_success( [
             'url'           => wp_get_attachment_url( $attachment_id ),
             'attachment_id' => $attachment_id,
         ] );
+    }
+
+    private function is_own_board_background( $attachment_id, $user_id ) {
+        return 'attachment' === get_post_type( $attachment_id )
+            && (int) get_post_field( 'post_author', $attachment_id ) === (int) $user_id
+            && (int) get_post_meta( $attachment_id, '_pm_kanban_bg', true ) === (int) $user_id;
     }
 
     static function after_new_comment( $response, $params ) {
