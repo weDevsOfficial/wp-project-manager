@@ -64,7 +64,7 @@ import {
   Bar,
   Legend,
 } from "recharts";
-import { extractDateStr, formatPmDate, isTaskComplete, toLocalDateStr, monthToDate, compactNumber } from "@lib/pm-utils";
+import { extractDateStr, formatPmDate, isTaskComplete, toLocalDateStr, monthToDate, compactNumber, siteTodayStr } from "@lib/pm-utils";
 import TaskDetailSheet from "@components/tasks/TaskDetailSheet";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import { cn } from "@lib/utils";
@@ -113,6 +113,14 @@ export default function MyTasksPage() {
   const [taskPage, setTaskPage] = useState(1);
   const [taskTotalPages, setTaskTotalPages] = useState(1);
   const [searchTitle, setSearchTitle] = useState("");
+  // The request waits for typing to pause instead of firing on every keystroke.
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(searchTitle.trim()), 300);
+    return () => clearTimeout(timer);
+  }, [searchTitle]);
+  // Only the latest task request may write the list.
+  const fetchSeqRef = useRef(0);
   const [sortBy, setSortBy] = useState("id:desc");
   const [filterProjectId, setFilterProjectId] = useState("");
   const [taskStartDate, setTaskStartDate] = useState("");
@@ -197,9 +205,12 @@ export default function MyTasksPage() {
       const tab = TABS.find((t) => t.key === activeTab);
       if (!tab?.taskType) return;
 
+      const seq = ++fetchSeqRef.current;
       setLoading(true);
       setLoadFailed(false);
-      const today = new Date().toISOString().split("T")[0];
+      // The site's calendar day, as the server compares due dates; toISOString()
+      // gave the UTC day and moved tasks between Current and Outstanding.
+      const today = siteTodayStr();
       const data = {
         with: "task_list,project,labels,assignees",
         per_page: 20,
@@ -223,20 +234,22 @@ export default function MyTasksPage() {
         if (taskEndDate) data.completed_at = taskEndDate;
       }
 
-      if (searchTitle.trim()) data.title = searchTitle.trim();
+      if (debouncedSearch) data.title = debouncedSearch;
       if (filterProjectId) data.project_id = [filterProjectId];
 
       try {
         const res = await api.get("tasks", data);
+        if (seq !== fetchSeqRef.current) return;
         setTasks(res.data ?? []);
         setTaskTotalPages(res.meta?.total_page ?? 1);
         setTaskPage(page);
       } catch {
+        if (seq !== fetchSeqRef.current) return;
         setLoadFailed(true);
       }
       setLoading(false);
     },
-    [api, userId, activeTab, sortBy, searchTitle, filterProjectId, taskStartDate, taskEndDate],
+    [api, userId, activeTab, sortBy, debouncedSearch, filterProjectId, taskStartDate, taskEndDate],
   );
 
   useEffect(() => {
