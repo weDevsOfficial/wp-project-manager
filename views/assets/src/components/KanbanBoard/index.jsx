@@ -256,8 +256,12 @@ export default function KanbanBoard() {
     [dispatch, projectId, __],
   );
 
+  // Each filter request gets a number; only the latest may write the columns,
+  // so typing "de" then "des" can't end with the older result on screen.
+  const filterSeqRef = useRef(0);
   const applyFilters = useCallback(
     async (filters) => {
+      const seq = ++filterSeqRef.current;
       try {
         setSearching(true);
         const payload = {
@@ -283,6 +287,7 @@ export default function KanbanBoard() {
           `projects/${projectId}/kanboard/filter`,
           payload,
         );
+        if (seq !== filterSeqRef.current) return;
         const filteredBoards = res?.data ?? res;
         if (Array.isArray(filteredBoards)) {
           filteredBoards.forEach((fb) => {
@@ -298,9 +303,11 @@ export default function KanbanBoard() {
           });
         }
       } catch {
-        toast.error(__("Couldn't search this board", 'wedevs-project-manager'));
+        if (seq === filterSeqRef.current) {
+          toast.error(__("Couldn't search this board", 'wedevs-project-manager'));
+        }
       } finally {
-        setSearching(false);
+        if (seq === filterSeqRef.current) setSearching(false);
       }
     },
     [projectId, dispatch, __],
@@ -318,13 +325,22 @@ export default function KanbanBoard() {
 
   // Debounced title search, composed with the panel's other filters. Emptying
   // the box with no panel filters active restores the untouched board.
+  // Skipped on mount: the board has just been loaded, and reloading it 350ms
+  // later flashed the skeleton and fetched every column twice.
+  const searchMountedRef = useRef(false);
   useEffect(() => {
+    if (!searchMountedRef.current) {
+      searchMountedRef.current = true;
+      return;
+    }
+
     const term = search.trim();
 
     if (term.length > 0 && term.length < 2) return;
 
     const timer = setTimeout(() => {
       if (!term && !panelFilters) {
+        filterSeqRef.current++; // a filter still in flight must not land on the reloaded board
         loadAllBoards();
         return;
       }
@@ -337,6 +353,8 @@ export default function KanbanBoard() {
   const clearSearch = useCallback(() => {
     setSearch("");
     setPanelFilters(null);
+    filterSeqRef.current++;
+    setSearching(false);
     loadAllBoards();
   }, [loadAllBoards]);
 
