@@ -1,5 +1,5 @@
 import { __, sprintf } from '@wordpress/i18n'
-import { useMemo, useState, useEffect, useCallback } from 'react'
+import { useMemo, useState, useEffect, useCallback, useRef } from 'react'
 import { parseISO, format, getDay } from 'date-fns'
 import { Flame } from 'lucide-react'
 import { useApi } from '@hooks/useApi'
@@ -32,14 +32,18 @@ export default function ProductivityHeatmapCard() {
   const [year, setYear] = useState(ROLLING)
   const [loading, setLoading] = useState(true)
 
+  // Switching years quickly must not leave an older year's grid under the
+  // newly selected year: only the latest request writes.
+  const seqRef = useRef(0)
   const load = useCallback(async (y) => {
+    const seq = ++seqRef.current
     setLoading(true)
     try {
       const params = y && y !== ROLLING ? { year: y } : {}
       const res = await api.get('dashboard/heatmap', params)
-      setData(res?.data ?? res)
+      if (seq === seqRef.current) setData(res?.data ?? res)
     } catch { /* heatmap is best-effort */ }
-    finally { setLoading(false) }
+    finally { if (seq === seqRef.current) setLoading(false) }
   }, [api])
 
   useEffect(() => { load(ROLLING) }, [load])

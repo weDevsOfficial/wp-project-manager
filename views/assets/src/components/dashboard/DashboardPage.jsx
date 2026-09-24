@@ -5,6 +5,7 @@ import { usePermissions, pmCanSeeUpgrade } from '@hooks/usePermissions'
 import { useFilter } from '@hooks/useSlot'
 import { Skeleton } from '@components/ui/skeleton'
 import { LoadFailed } from '@components/common/LoadFailed'
+import { useToast } from '@hooks/useToast'
 import { cn } from '@lib/utils'
 
 // ── Header is eager (above the fold, tiny). Everything else is lazy-loaded
@@ -60,6 +61,7 @@ export default function DashboardPage() {
   const [refetching, setRefetching] = useState(false)
   const [range, setRange] = useState(7)
   const [error, setError] = useState(null)
+  const toast = useToast()
 
   const load = useCallback(async (rangeArg = 7, isInitial = false) => {
     const seq = ++requestSeqRef.current
@@ -71,7 +73,11 @@ export default function DashboardPage() {
       if (seq === requestSeqRef.current) setData(res?.data ?? res)
     } catch (e) {
       if (seq === requestSeqRef.current) {
-        setError(e?.message || __('Failed to load dashboard.', 'wedevs-project-manager'))
+        const message = e?.message || __('Failed to load dashboard.', 'wedevs-project-manager')
+        // A failed refetch (range change, new task) keeps the dashboard that is
+        // already on screen; only a failed first load shows the error state.
+        if (isInitial) setError(message)
+        else toast.error(__('The dashboard could not be refreshed.', 'wedevs-project-manager'), message)
       }
     } finally {
       if (seq === requestSeqRef.current) {
@@ -79,7 +85,7 @@ export default function DashboardPage() {
         setRefetching(false)
       }
     }
-  }, [api])
+  }, [api]) // eslint-disable-line react-hooks/exhaustive-deps -- toast wraps the global Sonner
 
   useEffect(() => { load(range, true) }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
