@@ -54,19 +54,15 @@ export default function LoomPreviewContainer({ content }) {
     })
   }, [urlsKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // The card keeps its current data while refreshing: clearing it first made
+  // the card vanish (only loaded cards render), and a failed refresh left it gone.
   const handleRefresh = useCallback((url) => {
-    cache.current.delete(url)
-    setPreviews(prev => ({ ...prev, [url]: null }))
     api.post('loom/preview', { url, force_refresh: true }).then(res => {
       if (res) {
         cache.current.set(url, res)
         setPreviews(prev => ({ ...prev, [url]: res }))
-      } else {
-        setPreviews(prev => ({ ...prev, [url]: ERROR_SENTINEL }))
       }
-    }).catch(() => {
-      setPreviews(prev => ({ ...prev, [url]: ERROR_SENTINEL }))
-    })
+    }).catch(() => { /* keep the card that is already shown */ })
   }, [api])
 
   // Only cards whose data loaded. While a batch is in flight, or when it
