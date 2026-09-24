@@ -1,5 +1,7 @@
 "use client";
 
+import { __, sprintf } from '@wordpress/i18n';
+
 import {
   closestCenter,
   closestCorners,
@@ -313,36 +315,36 @@ export const KanbanProvider = ({
     onDragStart({ active }) {
       if (active.data?.current?.type === "column") {
         const col = columns.find((c) => c.id === active.id);
-        return `Picked up the column "${col?.name}"`;
+        return sprintf(/* translators: %s: column name. */ __('Picked up the column "%s"', 'wedevs-project-manager'), col?.name);
       }
       const { name, column } = data.find((item) => item.id === active.id) ?? {};
       // `column` is the board id, so announcing it raw read as "from the 3 column".
-      return `Picked up the card "${name}" from the "${resolveColumnName(column)}" column`;
+      return sprintf(/* translators: 1: card title, 2: column name. */ __('Picked up the card "%1$s" from the "%2$s" column', 'wedevs-project-manager'), name, resolveColumnName(column));
     },
     onDragOver({ active, over }) {
       if (active.data?.current?.type === "column") return "";
       const { name, column } = data.find((item) => item.id === active.id) ?? {};
       const newColumn = resolveColumnName(over?.id) ?? resolveColumnName(column);
-      return `Dragged the card "${name}" over the "${newColumn}" column`;
+      return sprintf(/* translators: 1: card title, 2: column name. */ __('Dragged the card "%1$s" over the "%2$s" column', 'wedevs-project-manager'), name, newColumn);
     },
     onDragEnd({ active, over }) {
       if (active.data?.current?.type === "column") {
         const col = columns.find((c) => c.id === active.id);
-        return `Dropped the column "${col?.name}"`;
+        return sprintf(/* translators: %s: column name. */ __('Dropped the column "%s"', 'wedevs-project-manager'), col?.name);
       }
       const item = data.find((entry) => entry.id === active.id) ?? {};
       // A drop with no droppable under it lands back where it started, so fall
       // back to the card's own column instead of announcing "undefined".
       const newColumn = resolveColumnName(over?.id) ?? resolveColumnName(item.column);
-      return `Dropped the card "${item.name}" into the "${newColumn}" column`;
+      return sprintf(/* translators: 1: card title, 2: column name. */ __('Dropped the card "%1$s" into the "%2$s" column', 'wedevs-project-manager'), item.name, newColumn);
     },
     onDragCancel({ active }) {
       if (active.data?.current?.type === "column") {
         const col = columns.find((c) => c.id === active.id);
-        return `Cancelled dragging the column "${col?.name}"`;
+        return sprintf(/* translators: %s: column name. */ __('Cancelled dragging the column "%s"', 'wedevs-project-manager'), col?.name);
       }
       const { name } = data.find((item) => item.id === active.id) ?? {};
-      return `Cancelled dragging the card "${name}"`;
+      return sprintf(/* translators: %s: card title. */ __('Cancelled dragging the card "%s"', 'wedevs-project-manager'), name);
     },
   };
 

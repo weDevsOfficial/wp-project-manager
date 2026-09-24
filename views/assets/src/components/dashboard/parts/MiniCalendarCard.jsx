@@ -1,5 +1,5 @@
-import { __ } from '@wordpress/i18n'
-import { useMemo, useState } from 'react'
+import { __, _n, sprintf } from '@wordpress/i18n'
+import { createContext, useContext, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { format, parseISO } from 'date-fns'
 import { CalendarDays } from 'lucide-react'
@@ -8,6 +8,57 @@ import { Calendar } from '@components/ui/calendar'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@components/ui/tooltip'
 import { cn } from '@lib/utils'
 import { CardHead } from './CardShell'
+
+// Day data reaches the day button through context, so the button can live at
+// module level: defined inside the card it was a new component type on every
+// render, and react-day-picker remounted all 42 cells (dropping focus).
+const DayMapContext = createContext(new Map())
+
+// Custom day button: number on top, load dot on its own row underneath, so
+// the dot never lands on the digits the way an overlaid dot did.
+function DayButton({ day, modifiers, className, children, ...rest }) {
+  const dayMap = useContext(DayMapContext)
+  const ds = format(day.date, 'yyyy-MM-dd')
+  const info = dayMap.get(ds)
+
+  const btn = (
+    <button
+      {...rest}
+      className={cn(
+        className,
+        'flex h-full w-full flex-col items-center justify-center gap-[3px] rounded-lg text-[13px] leading-none',
+      )}
+    >
+      <span className="leading-none">{format(day.date, 'd')}</span>
+      <span
+        className={cn(
+          'h-1.5 w-1.5 rounded-full',
+          !info ? 'bg-transparent'
+            : modifiers?.selected ? 'bg-pm-surface'
+            : info.overdue ? 'bg-rose-500' : 'bg-pm-accent',
+        )}
+      />
+    </button>
+  )
+
+  if (!info) return btn
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{btn}</TooltipTrigger>
+      <TooltipContent side="top" className="text-[12px]">
+        <span className="font-medium">{format(day.date, 'MMM d')}</span>
+        {' · '}
+        {sprintf(
+          /* translators: %d: number of tasks due that day. */
+          _n('%d task due', '%d tasks due', info.total, 'wedevs-project-manager'),
+          info.total
+        )}
+        {info.overdue && <span className="text-rose-300"> ({__('overdue', 'wedevs-project-manager')})</span>}
+      </TooltipContent>
+    </Tooltip>
+  )
+}
 
 export default function MiniCalendarCard({ calendar }) {
   const navigate = useNavigate()
@@ -42,47 +93,6 @@ export default function MiniCalendarCard({ calendar }) {
     return [...(calendar?.days || [])].sort((a, b) => a.date.localeCompare(b.date))
   }, [calendar])
 
-  // Custom day button: number on top, load dot on its own row underneath, so
-  // the dot never lands on the digits the way an overlaid dot did.
-  const DayButton = ({ day, modifiers, className, children, ...rest }) => {
-    const ds = format(day.date, 'yyyy-MM-dd')
-    const info = dayMap.get(ds)
-
-    const btn = (
-      <button
-        {...rest}
-        className={cn(
-          className,
-          'flex h-full w-full flex-col items-center justify-center gap-[3px] rounded-lg text-[13px] leading-none',
-        )}
-      >
-        <span className="leading-none">{format(day.date, 'd')}</span>
-        <span
-          className={cn(
-            'h-1.5 w-1.5 rounded-full',
-            !info ? 'bg-transparent'
-              : modifiers?.selected ? 'bg-pm-surface'
-              : info.overdue ? 'bg-rose-500' : 'bg-pm-accent',
-          )}
-        />
-      </button>
-    )
-
-    if (!info) return btn
-
-    return (
-      <Tooltip>
-        <TooltipTrigger asChild>{btn}</TooltipTrigger>
-        <TooltipContent side="top" className="text-[12px]">
-          <span className="font-medium">{format(day.date, 'MMM d')}</span>
-          {' · '}
-          {info.total} {__('task(s) due', 'wedevs-project-manager')}
-          {info.overdue && <span className="text-rose-300"> ({__('overdue', 'wedevs-project-manager')})</span>}
-        </TooltipContent>
-      </Tooltip>
-    )
-  }
-
   return (
     <Card className="rounded-xl p-5 border-pm-border flex flex-col">
       <CardHead
@@ -96,6 +106,7 @@ export default function MiniCalendarCard({ calendar }) {
         }
       />
 
+      <DayMapContext.Provider value={dayMap}>
       <TooltipProvider delayDuration={100}>
         <Calendar
           mode="single"
@@ -124,6 +135,7 @@ export default function MiniCalendarCard({ calendar }) {
           }}
         />
       </TooltipProvider>
+      </DayMapContext.Provider>
 
       {/* Due-days list — fills the space below the grid */}
       {dueList.length > 0 && (
@@ -141,7 +153,7 @@ export default function MiniCalendarCard({ calendar }) {
                 <span className={cn('w-1.5 h-1.5 rounded-full shrink-0', d.overdue ? 'bg-rose-500' : 'bg-pm-accent')} />
                 <span className="text-[13px] text-pm-text-primary flex-1">{format(parseISO(d.date), 'EEE, MMM d')}</span>
                 <span className="text-[12px] font-medium text-pm-text-muted">
-                  {d.total} {__('task(s)', 'wedevs-project-manager')}
+                  {sprintf(/* translators: %d: number of tasks. */ _n('%d task', '%d tasks', d.total, 'wedevs-project-manager'), d.total)}
                 </span>
               </button>
             ))}
@@ -151,7 +163,7 @@ export default function MiniCalendarCard({ calendar }) {
 
       <div className="flex items-center justify-between mt-3 pt-3 border-t border-pm-border text-[12px]">
         <span className="text-pm-text-muted">
-          {monthTotal} {__('tasks due this month', 'wedevs-project-manager')}
+          {sprintf(/* translators: %d: number of tasks due this month. */ _n('%d task due this month', '%d tasks due this month', monthTotal, 'wedevs-project-manager'), monthTotal)}
         </span>
         <button className="text-pm-accent hover:underline font-medium" onClick={() => navigate('/calendar')}>
           {__('Full calendar', 'wedevs-project-manager')}
