@@ -219,6 +219,7 @@ export const fetchProjectAssignees = createAsyncThunk(
 const initialState = {
   projects:     [],
   loading:      false,
+  projectsRequestId: null,
   currentPage:  1,
   totalPages:   1,
   total:        0,
@@ -299,8 +300,15 @@ const projectsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchProjects.pending, (state) => { state.loading = true; state.loadFailed = false })
+    // The archive page and the Projects page share this list, so only the latest
+    // request may write it; an older one landing last would show the wrong set.
+    builder.addCase(fetchProjects.pending, (state, action) => {
+      state.loading = true
+      state.loadFailed = false
+      state.projectsRequestId = action.meta.requestId
+    })
     builder.addCase(fetchProjects.fulfilled, (state, action) => {
+      if (action.meta.requestId !== state.projectsRequestId) return
       state.loading  = false
       state.projects = action.payload.data ?? []
       state.perPage  = parseInt(String(PM_Vars.settings?.project_per_page), 10) || 10
@@ -320,7 +328,11 @@ const projectsSlice = createSlice({
         if (typeof m.total_favourite === 'number')  state.projectsMeta.total_favourite  = m.total_favourite
       }
     })
-    builder.addCase(fetchProjects.rejected, (state) => { state.loading = false; state.loadFailed = true })
+    builder.addCase(fetchProjects.rejected, (state, action) => {
+      if (action.meta.requestId !== state.projectsRequestId) return
+      state.loading = false
+      state.loadFailed = true
+    })
 
     builder.addCase(toggleFavourite.fulfilled, (state, action) => {
       const project = state.projects.find(p => p.id === action.payload)
