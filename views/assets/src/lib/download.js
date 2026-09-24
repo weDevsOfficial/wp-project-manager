@@ -42,17 +42,22 @@ async function fetchToBlob(url, { headers, onProgress, stallTimeout = 30000 } = 
   try {
     arm()
     const res = await fetch(url, { headers, credentials: 'same-origin', signal: controller.signal })
+    // Headers arrived: the stall window starts again for the body.
+    arm()
     if (!res.ok) throw new Error(`Download failed (${res.status})`)
 
     const total = Number(res.headers.get('Content-Length')) || 0
-    // No stream or unknown length → indeterminate; just await the blob.
-    if (!res.body || !total || typeof res.body.getReader !== 'function') {
+    // No stream to read → just await the blob (no progress to report).
+    if (!res.body || typeof res.body.getReader !== 'function') {
       onProgress?.({ progress: 0, indeterminate: true })
       const blob = await res.blob()
       onProgress?.({ progress: 100, indeterminate: false })
       return { blob, res }
     }
 
+    // Read by chunks even without Content-Length (generated PDFs usually have
+    // none), so every chunk re-arms the stall timer; progress is indeterminate then.
+    if (!total) onProgress?.({ progress: 0, indeterminate: true })
     const reader = res.body.getReader()
     const chunks = []
     let loaded = 0
@@ -62,7 +67,7 @@ async function fetchToBlob(url, { headers, onProgress, stallTimeout = 30000 } = 
       arm()
       chunks.push(value)
       loaded += value.length
-      onProgress?.({ progress: Math.min(99, Math.round((loaded / total) * 100)), indeterminate: false })
+      if (total) onProgress?.({ progress: Math.min(99, Math.round((loaded / total) * 100)), indeterminate: false })
     }
     onProgress?.({ progress: 100, indeterminate: false })
     const type = res.headers.get('Content-Type') || 'application/octet-stream'
