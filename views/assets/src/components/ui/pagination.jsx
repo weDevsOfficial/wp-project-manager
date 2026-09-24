@@ -30,20 +30,26 @@ const PaginationItem = React.forwardRef(({ className, ...props }, ref) => (
 ))
 PaginationItem.displayName = "PaginationItem"
 
+// A real link when given an href; otherwise a button, so keyboard users can
+// reach and press it (an <a> without href is not focusable).
 const PaginationLink = ({
   className,
   isActive,
   size = "icon",
   ...props
-}) => (
-  <a
-    aria-current={isActive ? "page" : undefined}
-    className={cn(buttonVariants({
-      variant: isActive ? "outline" : "ghost",
-      size,
-    }), "cursor-pointer", className)}
-    {...props} />
-)
+}) => {
+  const Comp = props.href ? "a" : "button"
+  return (
+    <Comp
+      {...(Comp === "button" ? { type: "button" } : {})}
+      aria-current={isActive ? "page" : undefined}
+      className={cn(buttonVariants({
+        variant: isActive ? "outline" : "ghost",
+        size,
+      }), "cursor-pointer", className)}
+      {...props} />
+  )
+}
 PaginationLink.displayName = "PaginationLink"
 
 const PaginationPrevious = ({
@@ -137,6 +143,7 @@ function PaginationNav({ page, totalPages, onPageChange, siblingCount = 1, class
         <PaginationItem>
           <PaginationLink
             aria-label={__('Go to previous page', 'wedevs-project-manager')}
+            disabled={current === 1}
             className={cn(current === 1 && 'pointer-events-none opacity-50')}
             onClick={() => go(current - 1)}>
             <ChevronLeft className="h-4 w-4" />
@@ -158,6 +165,7 @@ function PaginationNav({ page, totalPages, onPageChange, siblingCount = 1, class
         <PaginationItem>
           <PaginationLink
             aria-label={__('Go to next page', 'wedevs-project-manager')}
+            disabled={current === total}
             className={cn(current === total && 'pointer-events-none opacity-50')}
             onClick={() => go(current + 1)}>
             <ChevronRight className="h-4 w-4" />
