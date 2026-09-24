@@ -187,6 +187,19 @@ export function userInitials(name) {
     .join('')
 }
 
+// ── Safe Links ────────────────────────────────────────
+
+// The URL itself when it is http(s), otherwise ''. Stored file and link URLs
+// are user data, so anything opened or linked from them goes through this.
+export function safeHttpUrl(url) {
+  try {
+    const parsed = new URL(url)
+    return (parsed.protocol === 'https:' || parsed.protocol === 'http:') ? url : ''
+  } catch {
+    return ''
+  }
+}
+
 // ── Project Roles ─────────────────────────────────────
 
 /**
