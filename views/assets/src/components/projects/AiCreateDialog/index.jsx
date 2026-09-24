@@ -49,12 +49,17 @@ const AiCreateDialog = ({ open, onOpenChange }) => {
   }, [messages, steps]);
 
   const genTimersRef = useRef([]);
+  // Bumped on close: a create run that is still going keeps adding lists and
+  // tasks (so the project is not left half-built) but stops driving this
+  // dialog and does not navigate the user away from wherever they went.
+  const createRunRef = useRef(0);
   const clearGenTimers = useCallback(() => {
     genTimersRef.current.forEach(clearTimeout);
     genTimersRef.current = [];
   }, []);
 
   const reset = useCallback(() => {
+    createRunRef.current++;
     clearGenTimers();
     setMessages([]);
     setGenerating(false);
@@ -144,6 +149,10 @@ const AiCreateDialog = ({ open, onOpenChange }) => {
     const LIST_LABEL = __('Creating task lists', 'wedevs-project-manager');
     const TASK_LABEL = __('Adding tasks', 'wedevs-project-manager');
 
+    const run = ++createRunRef.current;
+    const live = () => createRunRef.current === run;
+    const step = (i, patch) => { if (live()) setStep(i, patch); };
+
     setCreating(true);
     setCommitted(true);
     setSteps({
@@ -164,31 +173,31 @@ const AiCreateDialog = ({ open, onOpenChange }) => {
       });
       const projectId = projectRes?.data?.id;
       if (!projectId) {
-        setStep(0, { status: 'error', label: __('Failed to create project', 'wedevs-project-manager') });
+        step(0, { status: 'error', label: __('Failed to create project', 'wedevs-project-manager') });
         toast.error(__('Failed to create project', 'wedevs-project-manager'));
-        setCreating(false);
+        if (live()) setCreating(false);
         return;
       }
-      setStep(0, { status: 'done' });
+      step(0, { status: 'done' });
 
       let listFailures = 0;
       let taskFailures = 0;
 
       const listIds = [];
       if (totalLists) {
-        setStep(1, { status: 'active' });
+        step(1, { status: 'active' });
         for (let gi = 0; gi < groups.length; gi++) {
           try {
             const listRes = await api.post(`projects/${projectId}/task-lists`, { title: groups[gi].title });
             listIds[gi] = listRes?.data?.id ?? null;
           } catch { listIds[gi] = null; listFailures++; }
-          setStep(1, { label: `${LIST_LABEL} (${gi + 1}/${totalLists})` });
+          step(1, { label: `${LIST_LABEL} (${gi + 1}/${totalLists})` });
         }
       }
-      setStep(1, { status: 'done' });
+      step(1, { status: 'done' });
 
       if (totalTasks) {
-        setStep(2, { status: 'active' });
+        step(2, { status: 'active' });
         let done = 0;
         for (let gi = 0; gi < groups.length; gi++) {
           const listId = listIds[gi];
@@ -200,31 +209,33 @@ const AiCreateDialog = ({ open, onOpenChange }) => {
                 ...(listId ? { board_id: listId } : {}),
               });
             } catch { taskFailures++; }
-            setStep(2, { label: `${TASK_LABEL} (${++done}/${totalTasks})` });
+            step(2, { label: `${TASK_LABEL} (${++done}/${totalTasks})` });
           }
         }
         for (const task of looseTasks) {
           try {
             await api.post(`projects/${projectId}/tasks`, { title: task.title, project_id: projectId });
           } catch { taskFailures++; }
-          setStep(2, { label: `${TASK_LABEL} (${++done}/${totalTasks})` });
+          step(2, { label: `${TASK_LABEL} (${++done}/${totalTasks})` });
         }
       }
-      setStep(2, { status: 'done' });
+      step(2, { status: 'done' });
 
       const hadFailures = listFailures > 0 || taskFailures > 0;
-      setMessages((m) => [...m, { id: nextId(), role: 'assistant', kind: 'text', text: __('Your project is ready — opening it now.', 'wedevs-project-manager') }]);
       if (hadFailures) {
         toast.warning(__('Project created, but some lists or tasks could not be added.', 'wedevs-project-manager'));
       } else {
         toast.success(__('Project created successfully!', 'wedevs-project-manager'));
       }
+      if (!live()) return;
+      setMessages((m) => [...m, { id: nextId(), role: 'assistant', kind: 'text', text: __('Your project is ready — opening it now.', 'wedevs-project-manager') }]);
       genTimersRef.current.push(setTimeout(() => {
         handleOpenChange(false);
         navigate(`/projects/${projectId}/overview`);
       }, 700));
     } catch (err) {
       toast.error(err?.message || __('Failed to create project', 'wedevs-project-manager'));
+      if (!live()) return;
       setSteps(null);
       setCreating(false);
       setCommitted(false);
