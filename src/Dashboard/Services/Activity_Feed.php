@@ -243,8 +243,9 @@ class Activity_Feed {
                 $this->tasks[ (int) $task->id ] = $task;
             }
 
+            // Subtasks are linked to their list as 'sub_task'.
             $links = Boardable::whereIn( 'boardable_id', $task_ids )
-                ->where( 'boardable_type', 'task' )
+                ->whereIn( 'boardable_type', [ 'task', 'sub_task' ] )
                 ->where( 'board_type', 'task_list' )
                 ->get( [ 'board_id', 'boardable_id' ] );
 
@@ -257,8 +258,14 @@ class Activity_Feed {
         $board_ids = array_diff( array_unique( $ids['board'] ), array_keys( $this->boards ) );
 
         if ( $board_ids ) {
-            foreach ( Board::whereIn( 'id', $board_ids )->get( [ 'id', 'title', 'type', 'project_id' ] ) as $board ) {
+            foreach ( Board::whereIn( 'id', $board_ids )->get( [ 'id', 'title', 'type', 'project_id', 'is_private' ] ) as $board ) {
                 $this->boards[ (int) $board->id ] = $board;
+
+                // Lists, milestones and discussions made private on create or
+                // update carry the column; the privacy toggle writes the meta.
+                if ( 1 === (int) $board->is_private ) {
+                    $this->private[ 'board:' . (int) $board->id ] = true;
+                }
             }
 
             $this->prime_private( 'board', $board_ids, [ 'task_list', 'milestone', 'discussion_board' ], 'privacy' );

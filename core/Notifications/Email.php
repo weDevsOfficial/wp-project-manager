@@ -134,16 +134,22 @@ class Email {
             return true;
         }
 
+        // Files keep their flag under 'private'; everything else under 'privacy'.
         $is_private = false;
-        $meta       = wedevs_pm_get_meta( $entity_id, $project_id, $type, 'privacy' );
+        $meta       = wedevs_pm_get_meta( $entity_id, $project_id, $type, 'file' === $type ? 'private' : 'privacy' );
 
         if ( $meta && isset( $meta->meta_value ) ) {
             $is_private = intval( $meta->meta_value ) === 1;
         }
 
+        // Tasks, lists, milestones and discussions also carry an is_private
+        // column, which is what create/update set.
         if ( ! $is_private && 'task' === $type ) {
             $task       = \WeDevs\PM\Task\Models\Task::find( $entity_id );
             $is_private = $task ? intval( $task->is_private ) === 1 : false;
+        } elseif ( ! $is_private && in_array( $type, [ 'discussion_board', 'task_list', 'milestone' ], true ) ) {
+            $board      = \WeDevs\PM\Common\Models\Board::find( $entity_id );
+            $is_private = $board ? intval( $board->is_private ) === 1 : false;
         }
 
         if ( $is_private ) {
@@ -153,14 +159,15 @@ class Email {
         // A public task inside a private list is hidden the same way the REST API hides it.
         if ( 'task' === $type ) {
             $boardable = \WeDevs\PM\Common\Models\Boardable::where( 'boardable_id', $entity_id )
-                ->where( 'boardable_type', 'task' )
+                ->whereIn( 'boardable_type', [ 'task', 'sub_task' ] )
                 ->where( 'board_type', 'task_list' )
                 ->first();
 
             if ( $boardable ) {
                 $list_meta = wedevs_pm_get_meta( $boardable->board_id, $project_id, 'task_list', 'privacy' );
+                $list      = \WeDevs\PM\Common\Models\Board::find( $boardable->board_id );
 
-                if ( $list_meta && intval( $list_meta->meta_value ) === 1 ) {
+                if ( ( $list_meta && intval( $list_meta->meta_value ) === 1 ) || ( $list && intval( $list->is_private ) === 1 ) ) {
                     return wedevs_pm_user_can( 'view_private_list', $project_id, $user_id );
                 }
             }

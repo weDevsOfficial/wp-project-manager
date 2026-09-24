@@ -127,6 +127,11 @@ class Task_Controller {
             return false;
         }
 
+        // A subtask is only as visible as the task it belongs to.
+        if ( $task && intval( $task->parent_id ) > 0 ) {
+            return self::can_view_task( intval( $task->parent_id ), $project_id );
+        }
+
         return self::can_view_parent_list( $task_id, $project_id );
     }
 
@@ -139,7 +144,7 @@ class Task_Controller {
      */
     private static function can_view_parent_list( $task_id, $project_id ) {
         $boardable = Boardable::where( 'boardable_id', $task_id )
-            ->where( 'boardable_type', 'task' )
+            ->whereIn( 'boardable_type', [ 'task', 'sub_task' ] )
             ->where( 'board_type', 'task_list' )
             ->first();
 
@@ -147,13 +152,15 @@ class Task_Controller {
             return true;
         }
 
-        $meta = wedevs_pm_get_meta( $boardable->board_id, $project_id, 'task_list', 'privacy' );
+        // A list is private through its is_private column (set on create/update)
+        // or its privacy meta (set by the privacy toggle).
+        $board = Board::find( $boardable->board_id );
+        $meta  = wedevs_pm_get_meta( $boardable->board_id, $project_id, 'task_list', 'privacy' );
 
-        if ( ! $meta || intval( $meta->meta_value ) !== 1 ) {
-            return true;
-        }
+        $is_private = ( $board && intval( $board->is_private ) === 1 )
+            || ( $meta && intval( $meta->meta_value ) === 1 );
 
-        return wedevs_pm_user_can( 'view_private_list', $project_id );
+        return ! $is_private || wedevs_pm_user_can( 'view_private_list', $project_id );
     }
 
     public static function get_task( $task_id, $project_id = false, $request=[] ) {

@@ -831,6 +831,15 @@ class Dashboard_Controller {
      * Not-complete milestones in scope, split by whether the due date has passed.
      * Upcoming ones (and undated) sort soonest first; overdue ones most overdue first.
      */
+    // Private milestones (is_private column or privacy meta) need view_private_milestone.
+    protected function can_see_milestone( $milestone ) {
+        $project_id = (int) $milestone->project_id;
+        $meta       = wedevs_pm_get_meta( $milestone->id, $project_id, 'milestone', 'privacy' );
+        $is_private = 1 === (int) $milestone->is_private || ( $meta && 1 === (int) $meta->meta_value );
+
+        return ! $is_private || wedevs_pm_user_can( 'view_private_milestone', $project_id );
+    }
+
     protected function milestone_rows( $overdue, $limit = 5 ) {
         $query = \WeDevs\PM\Milestone\Models\Milestone::with( [ 'achieve_date_field', 'project' ] )
             ->where( 'status', '!=', \WeDevs\PM\Milestone\Models\Milestone::COMPLETE )
@@ -850,6 +859,10 @@ class Dashboard_Controller {
 
         $rows = [];
         foreach ( $milestones as $m ) {
+            if ( ! $this->is_admin && ! $this->can_see_milestone( $m ) ) {
+                continue;
+            }
+
             $achieve = $m->achieve_date; // Carbon|null via accessor
             $is_late = $achieve && $achieve->copy()->startOfDay()->lt( $today );
 

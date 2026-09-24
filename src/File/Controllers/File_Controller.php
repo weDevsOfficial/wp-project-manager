@@ -70,12 +70,25 @@ class File_Controller {
         // array_map, not Collection::map: the latter passes (value, key), and
         // intval()'s second argument is the numeric base, so every element after
         // the first would be reparsed in a bogus base and come back 0.
-        return array_map( 'intval', Meta::where( 'project_id', $project_id )
+        // Same rule as pm-pro's File::scopePrivate: any non-zero flag is private,
+        // and the uploader always sees their own file.
+        $private_ids = array_map( 'intval', Meta::where( 'project_id', $project_id )
             ->where( 'entity_type', 'file' )
             ->where( 'meta_key', 'private' )
-            ->where( 'meta_value', 1 )
+            ->whereNotIn( 'meta_value', [ '0', '', 'false' ] )
             ->pluck( 'entity_id' )
             ->all() );
+
+        if ( empty( $private_ids ) ) {
+            return [];
+        }
+
+        $own_ids = array_map( 'intval', File::whereIn( 'id', $private_ids )
+            ->where( 'created_by', get_current_user_id() )
+            ->pluck( 'id' )
+            ->all() );
+
+        return array_values( array_diff( $private_ids, $own_ids ) );
     }
 
     public function show( WP_REST_Request $request ) {
