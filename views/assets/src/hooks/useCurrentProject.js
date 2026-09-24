@@ -4,7 +4,7 @@ import { useApi } from '@hooks/useApi'
 // Per-projectId in-memory cache so repeated callers share one fetch.
 const cache = new Map()        // projectId → project object
 const inflight = new Map()     // projectId → Promise
-const failed = new Map()       // projectId → true when the fetch was rejected
+const failed = new Map()       // projectId → HTTP status of the rejected fetch (0 = no response)
 const listeners = new Set()    // () => void subscribers for cache updates
 
 function notify() {
@@ -29,11 +29,11 @@ function fetchProject(api, projectId) {
       notify()
       return data
     })
-    .catch(() => {
+    .catch((e) => {
       inflight.delete(projectId)
       // Remember the failure so callers can tell 'denied/missing' from 'still loading'
       // instead of rendering a spinner forever.
-      failed.set(projectId, true)
+      failed.set(projectId, Number(e?.status) || 0)
       notify()
       return null
     })
@@ -86,6 +86,15 @@ export function useCurrentProject(projectId) {
   }, [key, api])
 
   return project
+}
+
+/**
+ * HTTP status of a rejected project load (403/404 = no access or gone, 0 = no
+ * response), or null while it has not failed.
+ */
+export function projectLoadStatus(projectId) {
+  const key = projectId ? String(projectId) : null
+  return key && failed.has(key) ? failed.get(key) : null
 }
 
 /**

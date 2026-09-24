@@ -3,7 +3,8 @@ import React from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { Lock } from 'lucide-react'
 import { usePermissions } from '@hooks/usePermissions'
-import { useCurrentProject, useProjectLoadFailed } from '@hooks/useCurrentProject'
+import { useCurrentProject, useProjectLoadFailed, projectLoadStatus, invalidateProjectCache } from '@hooks/useCurrentProject'
+import { LoadFailed } from '@components/common/LoadFailed'
 
 function Forbidden({ message }) {
   return (
@@ -66,20 +67,25 @@ export function ProjectRoute({ children, cap = null, managerOnly = false }) {
   const loadFailed = useProjectLoadFailed(projectId)
   const { isManager, isUserInProject, userCan, canManage } = usePermissions(project)
 
-  // The project could not be loaded (403/404). Without this the spinner below
-  // never resolved, so a user without access just watched it spin forever.
-  if (!project && loadFailed) {
-    return (
-      <Forbidden
-        message={__(
-          'You do not have access to this project, or it no longer exists.',
-          'wedevs-project-manager'
-        )}
-      />
-    )
-  }
-
   if (canManage) return children
+
+  // The project could not be loaded. Without this the spinner below never
+  // resolved. Only 403/404 mean no access; anything else (network, expired
+  // nonce, server error) gets a retry instead of a misleading "no access".
+  if (!project && loadFailed) {
+    const status = projectLoadStatus(projectId)
+    if (status === 403 || status === 404) {
+      return (
+        <Forbidden
+          message={__(
+            'You do not have access to this project, or it no longer exists.',
+            'wedevs-project-manager'
+          )}
+        />
+      )
+    }
+    return <LoadFailed onRetry={() => invalidateProjectCache(projectId)} />
+  }
   // Wait for project to load before deciding
   if (!project) {
     return (
