@@ -311,6 +311,9 @@ class Project_Controller {
 		$data    = $request->get_params();//$this->extract_non_empty_values( $request );
 		$project = Project::find( $data['id'] );
 
+		// completed_at is fillable but only this method may set it (below, from the status).
+		unset( $data['completed_at'] );
+
 		$was_complete = Project::COMPLETE === (int) $project->getAttributes()['status'];
 
 		$project->update_model( $data );

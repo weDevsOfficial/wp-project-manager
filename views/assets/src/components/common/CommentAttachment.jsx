@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { __ } from '@wordpress/i18n'
 import { Download, ExternalLink, File, FileArchive, FileSpreadsheet, FileText, Image as ImageIcon, Presentation, RotateCcw, Video, X, ZoomIn, ZoomOut } from 'lucide-react'
 import { cn } from '@lib/utils'
+import { safeHttpUrl } from '@lib/pm-utils'
 import {
   Dialog,
   DialogContent,
@@ -65,7 +66,10 @@ function getFileIconMeta(file) {
   return { Icon: File, className: 'text-pm-text-muted' }
 }
 
-export default function CommentAttachment({ file, onRemove, className, children, previewOnly = false }) {
+export default function CommentAttachment({ file: rawFile, onRemove, className, children, previewOnly = false }) {
+  // Attachment URLs are stored data: only http(s) may reach the iframe, media
+  // and link targets below, so a javascript: URL can never run in the page.
+  const file = rawFile ? { ...rawFile, url: safeHttpUrl(rawFile.url) } : rawFile
   const [previewOpen, setPreviewOpen] = useState(false)
   const [imageFailed, setImageFailed] = useState(false)
   const [zoom, setZoom] = useState(1)

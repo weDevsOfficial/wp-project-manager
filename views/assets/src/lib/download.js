@@ -80,12 +80,23 @@ async function fetchToBlob(url, { headers, onProgress, stallTimeout = 30000 } = 
   }
 }
 
+// Same-origin REST downloads need the nonce like every other API call; without
+// it a cookie-authenticated request is treated as logged out.
+function withRestNonce(url, headers) {
+  const rest = typeof PM_Vars !== 'undefined' ? PM_Vars?.rest_url : ''
+  const nonce = typeof PM_Vars !== 'undefined' ? PM_Vars?.permission : ''
+  if (!nonce || headers?.['X-WP-Nonce']) return headers
+  const restRoot = rest ? String(rest).replace(/\/(pm|pm-pro)\/v\d+\/?$/, '/') : ''
+  if (!restRoot || !String(url).startsWith(restRoot)) return headers
+  return { ...(headers || {}), 'X-WP-Nonce': nonce }
+}
+
 // Download a server-generated file (PDF, export) with progress feedback.
 export async function downloadFile(url, { filename, headers } = {}) {
   const t = createDownloadToast(filename || __label(url))
   try {
     const { blob, res } = await fetchToBlob(url, {
-      headers,
+      headers: withRestNonce(url, headers),
       onProgress: ({ progress, indeterminate }) => t.progress(progress, indeterminate),
     })
     const name = filenameFromResponse(res, filename || __label(url))
