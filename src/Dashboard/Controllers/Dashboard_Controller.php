@@ -45,6 +45,9 @@ class Dashboard_Controller {
     /** @var string admin | manager | member | client */
     protected $tier = 'member';
 
+    /** @var \Illuminate\Support\Collection|null milestones visible to the caller, loaded once */
+    protected $milestones_cache = null;
+
     /**
      * Resolve the caller's scope once per request. Three tiers:
      *   - admin   → full organisation (all projects, all tasks)
@@ -54,6 +57,9 @@ class Dashboard_Controller {
     protected function boot() {
         $this->user_id  = get_current_user_id();
         $this->is_admin = wedevs_pm_has_admin_capability();
+
+        // The router reuses one controller instance for every request.
+        $this->milestones_cache = null;
 
         // Everyone except a full admin is limited to the projects they belong to.
         if ( ! $this->is_admin ) {
@@ -828,19 +834,15 @@ class Dashboard_Controller {
     }
 
     /**
-     * Not-complete milestones in scope, split by whether the due date has passed.
-     * Upcoming ones (and undated) sort soonest first; overdue ones most overdue first.
+     * Not-complete milestones the viewer may see, loaded once per request (three
+     * dashboard blocks read them). Private ones (is_private column or privacy
+     * meta) need view_private_milestone in their project.
      */
-    // Private milestones (is_private column or privacy meta) need view_private_milestone.
-    protected function can_see_milestone( $milestone ) {
-        $project_id = (int) $milestone->project_id;
-        $meta       = wedevs_pm_get_meta( $milestone->id, $project_id, 'milestone', 'privacy' );
-        $is_private = 1 === (int) $milestone->is_private || ( $meta && 1 === (int) $meta->meta_value );
+    protected function scoped_milestones() {
+        if ( null !== $this->milestones_cache ) {
+            return $this->milestones_cache;
+        }
 
-        return ! $is_private || wedevs_pm_user_can( 'view_private_milestone', $project_id );
-    }
-
-    protected function milestone_rows( $overdue, $limit = 5 ) {
         $query = \WeDevs\PM\Milestone\Models\Milestone::with( [ 'achieve_date_field', 'project' ] )
             ->where( 'status', '!=', \WeDevs\PM\Milestone\Models\Milestone::COMPLETE )
             ->withCount( [
@@ -855,14 +857,42 @@ class Dashboard_Controller {
         }
 
         $milestones = $query->get();
-        $today      = Carbon::today();
+
+        if ( ! $this->is_admin && $milestones->count() ) {
+            $private_meta = array_flip( array_map( 'intval', \WeDevs\PM\Common\Models\Meta::whereIn( 'entity_id', $milestones->pluck( 'id' )->all() )
+                ->where( 'entity_type', 'milestone' )
+                ->where( 'meta_key', 'privacy' )
+                ->where( 'meta_value', 1 )
+                ->pluck( 'entity_id' )
+                ->all() ) );
+
+            $can_private = [];
+            $milestones  = $milestones->filter( function ( $m ) use ( $private_meta, &$can_private ) {
+                if ( 1 !== (int) $m->is_private && ! isset( $private_meta[ (int) $m->id ] ) ) {
+                    return true;
+                }
+
+                $project_id = (int) $m->project_id;
+                if ( ! isset( $can_private[ $project_id ] ) ) {
+                    $can_private[ $project_id ] = wedevs_pm_user_can( 'view_private_milestone', $project_id );
+                }
+
+                return $can_private[ $project_id ];
+            } );
+        }
+
+        return $this->milestones_cache = $milestones;
+    }
+
+    /**
+     * Not-complete milestones in scope, split by whether the due date has passed.
+     * Upcoming ones (and undated) sort soonest first; overdue ones most overdue first.
+     */
+    protected function milestone_rows( $overdue, $limit = 5 ) {
+        $today = Carbon::today();
 
         $rows = [];
-        foreach ( $milestones as $m ) {
-            if ( ! $this->is_admin && ! $this->can_see_milestone( $m ) ) {
-                continue;
-            }
-
+        foreach ( $this->scoped_milestones() as $m ) {
             $achieve = $m->achieve_date; // Carbon|null via accessor
             $is_late = $achieve && $achieve->copy()->startOfDay()->lt( $today );
 
