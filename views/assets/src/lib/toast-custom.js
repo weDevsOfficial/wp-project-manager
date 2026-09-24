@@ -4,13 +4,11 @@ import { toast } from 'sonner'
 import ToastCard from '@components/common/ToastCard'
 import ToastSteps from '@components/common/ToastSteps'
 
-// Short fallback description per type so every toast has a supporting line.
+// Fallback description, only where it cannot contradict the title: a generic
+// "saved successfully" under "Project deleted" or "Link copied" misled users,
+// and "Something went wrong" repeated errors that already say what failed.
 // Caller-provided `description` always wins. Evaluated lazily so locale is ready.
 const DEFAULT_DESC = {
-  success: () => __('Your changes were saved successfully.', 'wedevs-project-manager'),
-  error: () => __('Something went wrong. Please try again.', 'wedevs-project-manager'),
-  warning: () => __('Please review the highlighted issue.', 'wedevs-project-manager'),
-  info: () => __('Here is something you should know.', 'wedevs-project-manager'),
   loading: () => __('Please wait a moment…', 'wedevs-project-manager'),
 }
 
