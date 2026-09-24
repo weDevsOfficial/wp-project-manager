@@ -75,21 +75,19 @@ export const deleteProject = createAsyncThunk(
   }
 )
 
-// Archive or restore a project. Sends the current assignees, because the
-// update endpoint treats a missing list as "remove everyone" on older builds.
+// Archive or restore a project. Only the status changes: the update endpoint
+// keeps members when no assignees list is sent, and a list built from cached
+// data would drop anyone added since. Archiving keeps completed_at, so a
+// finished project is restored as complete.
 export const setProjectArchived = createAsyncThunk(
   'projects/setProjectArchived',
   async ({ project, archived }, { rejectWithValue }) => {
     try {
-      const assignees = (project.assignees?.data ?? []).map(u => ({
-        user_id: u.id,
-        role_id: u.roles?.data?.[0]?.id ?? 1,
-      }))
+      const wasComplete = Boolean(project.completed_at?.date)
       await api.post(`projects/${project.id}/update`, {
         id: project.id,
         title: project.title,
-        status: archived ? 'archived' : 'incomplete',
-        assignees,
+        status: archived ? 'archived' : (wasComplete ? 'complete' : 'incomplete'),
       })
       return { project, archived }
     } catch (e) {
@@ -108,16 +106,11 @@ export const toggleProjectStatus = createAsyncThunk(
 
       const isComplete = project.status === 'complete' || project.status === '1' || project.status === 1
       const newStatus = isComplete ? 'incomplete' : 'complete'
-      const assignees = (project.assignees?.data ?? []).map(u => ({
-        user_id: u.id,
-        role_id: u.roles?.data?.[0]?.id ?? 1,
-      }))
 
       await api.post(`projects/${projectId}/update`, {
         id: projectId,
         title: project.title,
         status: newStatus,
-        assignees,
       })
       return { projectId, newStatus, currentFilter: state.status }
     } catch (e) {

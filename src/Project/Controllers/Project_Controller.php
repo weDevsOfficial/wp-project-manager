@@ -315,10 +315,15 @@ class Project_Controller {
 
 		$project->update_model( $data );
 
-		// Stamp the completion date on the way into "complete" and clear it on the way out.
-		$is_complete = Project::COMPLETE === (int) $project->getAttributes()['status'];
-		if ( $is_complete !== $was_complete ) {
-			$project->completed_at = $is_complete ? current_time( 'mysql' ) : null;
+		// Stamp the completion date on the way into "complete" and clear it only on
+		// the way back to "incomplete". Archiving keeps it, so a restore can tell a
+		// finished project from an open one.
+		$new_status = (int) $project->getAttributes()['status'];
+		if ( Project::COMPLETE === $new_status && ! $was_complete && empty( $project->completed_at ) ) {
+			$project->completed_at = current_time( 'mysql' );
+			$project->save();
+		} elseif ( Project::INCOMPLETE === $new_status && ! empty( $project->completed_at ) ) {
+			$project->completed_at = null;
 			$project->save();
 		}
 
