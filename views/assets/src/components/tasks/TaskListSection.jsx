@@ -648,8 +648,10 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                           placeholder={__('Search users...', 'wedevs-project-manager')}
                           className="h-11 text-sm"
                         />
+                        {/* In the page flow, not absolute: the list sits in a horizontal
+                            scroller (overflow-x-auto), which clips anything that overflows it. */}
                         {assigneeOpen && assigneeResults.length > 0 && (
-                          <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50 max-h-72 overflow-y-auto p-1">
+                          <div className="mt-1 bg-background border rounded-lg shadow-sm max-h-72 overflow-y-auto p-1">
                             {assigneeResults.map(user => {
                               const isSelected = selectedAssignees.some(u => parseInt(u.id) === parseInt(user.id))
                               return (
