@@ -39,14 +39,13 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
     )
   }
 
-  if (!previewData) return null
-
-  const isError = previewData.state === 'access_denied' || previewData.state === 'error' || previewData.state === 'rate_limited'
+  // A card that could not load adds nothing: the link stays in the text as
+  // the fallback (decorateIntegrationLinks in lib/url-strippers).
+  if (!previewData || ['access_denied', 'error', 'rate_limited'].includes(previewData.state)) return null
   const duration = formatDuration(previewData.duration)
 
   const openEmbed = (e) => {
     e.stopPropagation()
-    if (isError) return
     if (previewData.embed_url) {
       setEmbedOpen(true)
     } else if (url) {
@@ -65,12 +64,10 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
     <>
       <div
         className={cn(
-          'rounded-lg border border-pm-border bg-pm-surface max-w-md overflow-hidden cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all',
-          isError && 'opacity-70 cursor-default'
+          'rounded-lg border border-pm-border bg-pm-surface max-w-md overflow-hidden cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all'
         )}
         role="button"
         tabIndex={0}
-        aria-disabled={isError}
         onClick={openEmbed}
         onKeyDown={handleKeyDown}
       >
@@ -86,6 +83,7 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
                 className="p-0.5 rounded hover:bg-muted text-pm-text-muted/40 hover:text-pm-text-muted transition-colors"
                 onClick={(e) => { e.stopPropagation(); onRefresh() }}
                 title={__('Refresh', 'wedevs-project-manager')}
+                aria-label={__('Refresh', 'wedevs-project-manager')}
               >
                 <RefreshCw className="h-3.5 w-3.5" />
               </button>
@@ -94,12 +92,7 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
           </div>
         </div>
 
-        {isError ? (
-          <div className="px-3 pb-3">
-            <span className="text-sm text-pm-text-muted">{__('Loom Video', 'wedevs-project-manager')}</span>
-            {previewData.error && <p className="text-[14px] text-amber-600 mt-0.5">{previewData.error}</p>}
-          </div>
-        ) : (
+        {(
           <>
             {/* Thumbnail with play overlay + duration */}
             {previewData.thumbnail_url && (

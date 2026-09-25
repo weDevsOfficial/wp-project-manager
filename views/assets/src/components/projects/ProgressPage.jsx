@@ -1,10 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { usePermissions } from '@hooks/usePermissions'
+import { usePermissions, pmCanSeeUpgrade } from '@hooks/usePermissions';
 import { useLicenseGuard } from '@components/common/LicenseGuard'
 import { useProModal } from '@components/common/ProUpgradeModal'
 import ProBadge from '@components/common/ProBadge'
+import ProUnavailable from '@components/common/ProUnavailable'
 import { Activity, Crown, User, FolderKanban, CheckSquare, MessageSquare, FileText, Plus, BarChart2, Clock, Upload } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@components/ui/avatar'
 import { Badge } from '@components/ui/badge'
@@ -59,7 +60,7 @@ function MockActivityItem({ item }) {
   return (
     <div className="flex items-start gap-3 py-3 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors">
       <Avatar className="h-8 w-8 shrink-0 mt-0.5">
-        <AvatarFallback className="text-[15px] font-semibold bg-pm-accent/10 text-pm-accent">
+        <AvatarFallback className="text-[15px] font-semibold bg-pm-accent-light text-pm-accent">
           {item.initials}
         </AvatarFallback>
       </Avatar>
@@ -68,7 +69,7 @@ function MockActivityItem({ item }) {
           <button
             type="button"
             onClick={() => navigate('/my-tasks')}
-            className="text-sm font-semibold text-pm-text hover:text-pm-accent transition-colors cursor-pointer"
+            className="text-sm font-medium text-pm-text hover:text-pm-accent transition-colors cursor-pointer"
           >
             {item.user}
           </button>
@@ -100,8 +101,15 @@ export default function ProgressPage() {
   const licenseGuard = useLicenseGuard()
   if (licenseGuard) return licenseGuard
 
+  // A co-worker or client cannot install or license Pro, so the marketing
+  // preview below (invented tasks, teammates, invoices) is replaced by a
+  // plain unavailable card for them.
+  if (!isPro && !pmCanSeeUpgrade()) {
+    return <ProUnavailable title={__('Progress', 'wedevs-project-manager')} description={__('Track all project activity and team progress in one place', 'wedevs-project-manager')} />;
+  }
+
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+    <div className="w-full p-4 sm:p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -116,7 +124,7 @@ export default function ProgressPage() {
       </div>
 
       {/* Progress preview card */}
-      <div className="group relative rounded-xl border bg-card overflow-hidden">
+      <div className="group relative rounded-lg border bg-card overflow-hidden">
         <div className="p-4">
           {/* Stats bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5">
@@ -126,7 +134,7 @@ export default function ProgressPage() {
               { label: __('Comments', 'wedevs-project-manager'),        value: '8',  icon: MessageSquare, color: 'text-blue-500 bg-blue-50' },
               { label: __('Files Uploaded', 'wedevs-project-manager'),  value: '3',  icon: Upload,        color: 'text-amber-500 bg-amber-50' },
             ].map((stat) => (
-              <div key={stat.label} className="rounded-xl border bg-card p-4 flex items-center gap-3">
+              <div key={stat.label} className="rounded-lg border bg-card p-4 flex items-center gap-3">
                 <div className={`shrink-0 p-2 rounded-lg ${stat.color.split(' ')[1]}`}>
                   <stat.icon className={`h-5 w-5 ${stat.color.split(' ')[0]}`} />
                 </div>
@@ -143,7 +151,7 @@ export default function ProgressPage() {
             {MOCK_ACTIVITIES.map((group) => (
               <div key={group.date}>
                 <div className="flex items-center gap-3 mb-2 px-1">
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-pm-text-muted/70">{group.date}</h3>
+                  <h3 className="text-sm font-medium uppercase tracking-wide text-muted-foreground/70">{group.date}</h3>
                   <Separator className="flex-1" />
                 </div>
                 <div className="space-y-0.5">
@@ -166,7 +174,7 @@ export default function ProgressPage() {
         {/* Pro overlay */}
         {!isPro && (
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={() => setOpen(true)}
           >
             <div className="bg-pm-surface rounded-2xl px-8 py-6 shadow-xl text-center">

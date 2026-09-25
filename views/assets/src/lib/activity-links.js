@@ -16,8 +16,11 @@ export function resolveActivityUrl(activity, fallbackProjectId) {
       };
     case 'project':
       return { path: `/projects/${resourceId}/overview` };
-    case 'task_list':
-      return { path: `/projects/${projectId}/task-lists` };
+    case 'task_list': {
+      // duplicate_list stores the project id as its resource id, and a deleted list has no page.
+      const single = resourceId && activity.action !== 'duplicate_list' && !String(activity.action || '').startsWith('delete');
+      return { path: single ? `/projects/${projectId}/task-lists/${resourceId}` : `/projects/${projectId}/task-lists` };
+    }
     case 'milestone':
       return { path: `/projects/${projectId}/milestones` };
     case 'discussion_board':

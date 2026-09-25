@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react'
 import { __ } from '@wordpress/i18n';
 import React, { useState, useEffect } from 'react'
 import { useAppDispatch } from '@store/index'
@@ -54,7 +55,7 @@ export default function PagesSettingsTab() {
 
   return (
     <form onSubmit={onSubmit}>
-      <h2 className="text-lg font-semibold text-pm-text mb-1">{__('Front-end Page', 'wedevs-project-manager')}</h2>
+      <h2 className="text-lg font-semibold text-pm-text-primary mb-1">{__('Front-end Page', 'wedevs-project-manager')}</h2>
       <p className="text-sm text-pm-text-muted mb-5">{__('Configure front-end pages for Project Manager', 'wedevs-project-manager')}</p>
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
@@ -67,7 +68,7 @@ export default function PagesSettingsTab() {
             value={frontEndPage}
             onValueChange={(v) => { setFrontEndPage(v); setIsDirty(true) }}
           >
-            <SelectTrigger className="max-w-full w-64 h-8 text-sm">
+            <SelectTrigger className="max-w-full w-64 h-11 text-sm">
               <SelectValue placeholder={__('Select a page...', 'wedevs-project-manager')} />
             </SelectTrigger>
             <SelectContent>
@@ -81,8 +82,8 @@ export default function PagesSettingsTab() {
       </div>
 
       <div className="flex items-center gap-3">
-        <Button type="submit" disabled={!isDirty || saving}>
-          {saving ? __('Saving...', 'wedevs-project-manager') : __('Save Changes', 'wedevs-project-manager')}
+        <Button className="h-11 px-5" type="submit" disabled={!isDirty || saving}>
+          {saving ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</> : __('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && (
           <span className="text-sm text-pm-text-muted">

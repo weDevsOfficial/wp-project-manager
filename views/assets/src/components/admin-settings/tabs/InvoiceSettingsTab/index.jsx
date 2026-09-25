@@ -9,8 +9,20 @@ import { Textarea } from '@components/ui/textarea';
 import { Label } from '@components/ui/label';
 import { Switch } from '@components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
+import RichTextEditor from '@components/common/RichTextEditor';
 import { CURRENCIES, COUNTRIES, getInv } from './constants';
 import ColorPicker from './parts/ColorPicker';
+import KeyInput from './parts/KeyInput';
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Default terms used to be a plain textarea; show old plain values as paragraphs.
+const termsToHtml = (value) => {
+  const text = String(value || '').trim();
+  if (!text || /<\/?[a-z][^>]*>/i.test(text)) return text;
+  const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return text.split(/\r?\n\s*\r?\n/).map((para) => `<p>${esc(para).replace(/\r?\n/g, '<br>')}</p>`).join('');
+};
 
 export default function InvoiceSettingsTab() {
   const toast = useToast();
@@ -37,10 +49,8 @@ export default function InvoiceSettingsTab() {
   const [zip, setZip] = useState(() => getInv('zip_code', ''));
   const [countryCode, setCountryCode] = useState(() => getInv('country_code', 'BD'));
 
-  const [companyName, setCompanyName] = useState(() => getInv('company_name', ''));
-  const [companyAddress, setCompanyAddress] = useState(() => getInv('company_address', ''));
   const [taxRate, setTaxRate] = useState(() => getInv('tax_rate', ''));
-  const [defaultNotes, setDefaultNotes] = useState(() => getInv('default_notes', ''));
+  const [defaultNotes, setDefaultNotes] = useState(() => termsToHtml(getInv('default_notes', '')));
 
   const [stripeEnabled, setStripeEnabled] = useState(() => {
     const v = getInv('stripe_status', null);
@@ -54,15 +64,23 @@ export default function InvoiceSettingsTab() {
     const v = getInv('stripe_test_secret', false);
     return v === true || v === 'true';
   });
-  const [secretKey, setSecretKey] = useState(() => getInv('secret_key', ''));
+  // Secret keys never come back from the server; only whether one is saved.
+  const [secretKey, setSecretKey] = useState('');
+  const [secretKeySaved, setSecretKeySaved] = useState(() => !!getInv('secret_key_set', false));
   const [secretPublishableKey, setSecretPublishableKey] = useState(() => getInv('secret_publishable_key', ''));
-  const [liveSecretKey, setLiveSecretKey] = useState(() => getInv('live_secret_key', ''));
+  const [liveSecretKey, setLiveSecretKey] = useState('');
+  const [liveSecretKeySaved, setLiveSecretKeySaved] = useState(() => !!getInv('live_secret_key_set', false));
   const [livePublishableKey, setLivePublishableKey] = useState(() => getInv('live_publishable_key', ''));
+  const paypalMailInvalid = paypalEnabled && paypalMail.trim() !== '' && !EMAIL_RE.test(paypalMail.trim());
 
   const set = useCallback((setter) => (val) => { setter(val); setIsDirty(true); }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (paypalMailInvalid) {
+      toast.error(__('Enter a valid PayPal email address.', 'wedevs-project-manager'), __('For example name@example.com.', 'wedevs-project-manager'));
+      return;
+    }
     try {
       const invoiceData = {
         theme_color: themeColor,
@@ -72,10 +90,10 @@ export default function InvoiceSettingsTab() {
           { name: 'stripe', label: 'Stripe', active: stripeEnabled },
         ],
         paypal_status: paypalEnabled ? 'on' : 'off',
-        paypal_email: paypalMail,
+        paypal_email: paypalMail.trim(),
         paypal_test: sandboxMode,
         paypal: paypalEnabled,
-        paypal_mail: paypalMail,
+        paypal_mail: paypalMail.trim(),
         sand_box_mode: sandboxMode,
         paypal_instruction: paypalInstruction,
         stripe_status: stripeEnabled ? 'on' : 'off',
@@ -85,10 +103,8 @@ export default function InvoiceSettingsTab() {
         secret_publishable_key: secretPublishableKey,
         live_secret_key: liveSecretKey,
         live_publishable_key: livePublishableKey,
-        company_name: companyName,
-        company_address: companyAddress,
         tax_rate: taxRate,
-        default_notes: defaultNotes,
+        default_notes: defaultNotes === '<p></p>' ? '' : defaultNotes,
         organization,
         address_line_1: address1,
         address_line_2: address2,
@@ -98,7 +114,14 @@ export default function InvoiceSettingsTab() {
         country_code: countryCode,
       };
       await dispatch(saveGeneral({ invoice: invoiceData })).unwrap();
-      if (PM_Vars.settings) PM_Vars.settings.invoice = invoiceData;
+      const secretSaved = secretKeySaved || !!secretKey;
+      const liveSecretSaved = liveSecretKeySaved || !!liveSecretKey;
+      // Keep the page copy free of secrets, like the server's own PM_Vars.
+      if (PM_Vars.settings) PM_Vars.settings.invoice = { ...invoiceData, secret_key: '', live_secret_key: '', secret_key_set: secretSaved, live_secret_key_set: liveSecretSaved };
+      setSecretKeySaved(secretSaved);
+      setLiveSecretKeySaved(liveSecretSaved);
+      setSecretKey('');
+      setLiveSecretKey('');
       setIsDirty(false);
       toast.success(__('Invoice settings saved', 'wedevs-project-manager'));
     } catch (err) {
@@ -108,12 +131,12 @@ export default function InvoiceSettingsTab() {
 
   return (
     <form onSubmit={onSubmit}>
-      <h2 className="text-lg font-semibold text-pm-text mb-1">{__('Invoice Settings', 'wedevs-project-manager')}</h2>
+      <h2 className="text-lg font-semibold text-pm-text-primary mb-1">{__('Invoice Settings', 'wedevs-project-manager')}</h2>
       <p className="text-sm text-pm-text-muted mb-5">{__('Configure invoice appearance and payment gateways', 'wedevs-project-manager')}</p>
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Appearance', 'wedevs-project-manager')}</h3>
+          <h3 className="text-sm font-medium text-pm-text-primary">{__('Appearance', 'wedevs-project-manager')}</h3>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <div>
@@ -127,7 +150,7 @@ export default function InvoiceSettingsTab() {
             <Label className="text-sm font-medium">{__('Currency', 'wedevs-project-manager')}</Label>
           </div>
           <Select value={currencyCode} onValueChange={set(setCurrencyCode)}>
-            <SelectTrigger className="w-52 h-8 text-sm">
+            <SelectTrigger className="w-52 h-11 text-sm">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -139,7 +162,7 @@ export default function InvoiceSettingsTab() {
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Payment Gateways', 'wedevs-project-manager')}</h3>
+          <h3 className="text-sm font-medium text-pm-text-primary">{__('Payment Gateways', 'wedevs-project-manager')}</h3>
         </div>
 
         <div className="border-b border-pm-border">
@@ -149,24 +172,36 @@ export default function InvoiceSettingsTab() {
                 <span className="text-blue-600 font-bold text-sm">PP</span>
               </div>
               <div className="min-w-0">
-                <Label className="text-sm font-semibold">{__('PayPal', 'wedevs-project-manager')}</Label>
+                <Label className="text-sm font-medium">{__('PayPal', 'wedevs-project-manager')}</Label>
                 <p className="text-[15px] text-pm-text-muted">{__('Accept payments via PayPal', 'wedevs-project-manager')}</p>
               </div>
             </div>
-            <Switch checked={paypalEnabled} onCheckedChange={set(setPaypalEnabled)} />
+            <Switch aria-label={__('Accept payments via PayPal', 'wedevs-project-manager')} checked={paypalEnabled} onCheckedChange={set(setPaypalEnabled)} />
           </div>
           {paypalEnabled && (
             <div className="px-5 pb-4 pt-0 space-y-3 ml-[52px]">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <Label className="text-sm">{__('PayPal Email', 'wedevs-project-manager')}</Label>
-                <Input value={paypalMail} onChange={e => set(setPaypalMail)(e.target.value)} className="max-w-full w-64 h-7 text-sm" placeholder="paypal@example.com" />
+                <div className="max-w-full w-64">
+                  <Input
+                    type="email"
+                    value={paypalMail}
+                    onChange={e => set(setPaypalMail)(e.target.value)}
+                    className={`w-full h-7 text-sm${paypalMailInvalid ? ' border-red-500 ring-1 ring-red-500' : ''}`}
+                    placeholder="paypal@example.com"
+                    aria-invalid={paypalMailInvalid || undefined}
+                  />
+                  {paypalMailInvalid && (
+                    <p className="mt-1 text-[12px] text-red-600">{__('Enter a valid email address.', 'wedevs-project-manager')}</p>
+                  )}
+                </div>
               </div>
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <Label className="text-sm">{__('Sandbox Mode', 'wedevs-project-manager')}</Label>
                   <p className="text-[13px] text-pm-text-muted">{__('Use demo mode for testing', 'wedevs-project-manager')}</p>
                 </div>
-                <Switch checked={sandboxMode} onCheckedChange={set(setSandboxMode)} />
+                <Switch aria-label={__('Use demo mode for testing', 'wedevs-project-manager')} checked={sandboxMode} onCheckedChange={set(setSandboxMode)} />
               </div>
               <div>
                 <Label className="text-sm mb-1 block">{__('PayPal Instruction', 'wedevs-project-manager')}</Label>
@@ -183,11 +218,11 @@ export default function InvoiceSettingsTab() {
                 <span className="text-purple-600 font-bold text-sm">S</span>
               </div>
               <div className="min-w-0">
-                <Label className="text-sm font-semibold">{__('Stripe', 'wedevs-project-manager')}</Label>
+                <Label className="text-sm font-medium">{__('Stripe', 'wedevs-project-manager')}</Label>
                 <p className="text-[15px] text-pm-text-muted">{__('Accept credit card payments via Stripe', 'wedevs-project-manager')}</p>
               </div>
             </div>
-            <Switch checked={stripeEnabled} onCheckedChange={set(setStripeEnabled)} />
+            <Switch aria-label={__('Accept credit card payments via Stripe', 'wedevs-project-manager')} checked={stripeEnabled} onCheckedChange={set(setStripeEnabled)} />
           </div>
           {stripeEnabled && (
             <div className="px-5 pb-4 pt-0 space-y-3 ml-[52px]">
@@ -200,28 +235,28 @@ export default function InvoiceSettingsTab() {
                   <Label className="text-sm">{__('Enable Test Secret Key', 'wedevs-project-manager')}</Label>
                   <p className="text-[13px] text-pm-text-muted">{__('Use sandbox mode for testing', 'wedevs-project-manager')}</p>
                 </div>
-                <Switch checked={stripeTestSecret} onCheckedChange={set(setStripeTestSecret)} />
+                <Switch aria-label={__('Use sandbox mode for testing', 'wedevs-project-manager')} checked={stripeTestSecret} onCheckedChange={set(setStripeTestSecret)} />
               </div>
               {stripeTestSecret ? (
                 <>
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <Label className="text-sm">{__('Test Secret Key', 'wedevs-project-manager')}</Label>
-                    <Input value={secretKey} onChange={e => set(setSecretKey)(e.target.value)} className="max-w-full w-64 h-7 text-sm font-mono" placeholder="sk_test_..." />
+                    <KeyInput value={secretKey} onChange={set(setSecretKey)} placeholder="sk_test_..." saved={secretKeySaved} label={__('Test Secret Key', 'wedevs-project-manager')} />
                   </div>
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <Label className="text-sm">{__('Test Publishable Key', 'wedevs-project-manager')}</Label>
-                    <Input value={secretPublishableKey} onChange={e => set(setSecretPublishableKey)(e.target.value)} className="max-w-full w-64 h-7 text-sm font-mono" placeholder="pk_test_..." />
+                    <KeyInput value={secretPublishableKey} onChange={set(setSecretPublishableKey)} placeholder="pk_test_..." label={__('Test Publishable Key', 'wedevs-project-manager')} />
                   </div>
                 </>
               ) : (
                 <>
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <Label className="text-sm">{__('Live Secret Key', 'wedevs-project-manager')}</Label>
-                    <Input value={liveSecretKey} onChange={e => set(setLiveSecretKey)(e.target.value)} className="max-w-full w-64 h-7 text-sm font-mono" placeholder="sk_live_..." />
+                    <KeyInput value={liveSecretKey} onChange={set(setLiveSecretKey)} placeholder="sk_live_..." saved={liveSecretKeySaved} label={__('Live Secret Key', 'wedevs-project-manager')} />
                   </div>
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <Label className="text-sm">{__('Live Publishable Key', 'wedevs-project-manager')}</Label>
-                    <Input value={livePublishableKey} onChange={e => set(setLivePublishableKey)(e.target.value)} className="max-w-full w-64 h-7 text-sm font-mono" placeholder="pk_live_..." />
+                    <KeyInput value={livePublishableKey} onChange={set(setLivePublishableKey)} placeholder="pk_live_..." label={__('Live Publishable Key', 'wedevs-project-manager')} />
                   </div>
                 </>
               )}
@@ -232,28 +267,12 @@ export default function InvoiceSettingsTab() {
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Invoice Defaults', 'wedevs-project-manager')}</h3>
-        </div>
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
-          <div>
-            <Label className="text-sm font-medium">{__('Company Name', 'wedevs-project-manager')}</Label>
-            <p className="text-sm text-pm-text-muted mt-0.5">{__('Displayed on invoices as the billing entity', 'wedevs-project-manager')}</p>
-          </div>
-          <Input value={companyName} onChange={e => set(setCompanyName)(e.target.value)} className="w-64 h-8 text-sm" placeholder={__('Your Company Name', 'wedevs-project-manager')} />
-        </div>
-        <div className="px-5 py-4 border-b border-pm-border">
-          <div className="flex items-center justify-between mb-1">
-            <div>
-              <Label className="text-sm font-medium">{__('Company Address', 'wedevs-project-manager')}</Label>
-              <p className="text-sm text-pm-text-muted mt-0.5">{__('Full address shown on invoices', 'wedevs-project-manager')}</p>
-            </div>
-          </div>
-          <Textarea value={companyAddress} onChange={e => set(setCompanyAddress)(e.target.value)} className="text-sm mt-2" rows={3} placeholder={__('123 Main St, Suite 100\nCity, State 12345', 'wedevs-project-manager')} />
+          <h3 className="text-sm font-medium text-pm-text-primary">{__('Invoice Defaults', 'wedevs-project-manager')}</h3>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <div>
             <Label className="text-sm font-medium">{__('Tax Rate (%)', 'wedevs-project-manager')}</Label>
-            <p className="text-sm text-pm-text-muted mt-0.5">{__('Default tax percentage applied to invoices', 'wedevs-project-manager')}</p>
+            <p className="text-sm text-pm-text-muted mt-0.5">{__('Prefills the tax on each line item of a new invoice', 'wedevs-project-manager')}</p>
           </div>
           <Input
             type="number"
@@ -262,53 +281,55 @@ export default function InvoiceSettingsTab() {
             step="0.01"
             value={taxRate}
             onChange={e => set(setTaxRate)(e.target.value)}
-            className="w-32 h-8 text-sm text-right"
+            className="w-32 h-11 text-sm text-right"
             placeholder="0.00"
           />
         </div>
         <div className="px-5 py-4">
           <div className="flex items-center justify-between mb-1">
             <div>
-              <Label className="text-sm font-medium">{__('Default Notes / Terms', 'wedevs-project-manager')}</Label>
-              <p className="text-sm text-pm-text-muted mt-0.5">{__('Automatically included at the bottom of every invoice', 'wedevs-project-manager')}</p>
+              <Label className="text-sm font-medium">{__('Default Terms & Conditions', 'wedevs-project-manager')}</Label>
+              <p className="text-sm text-pm-text-muted mt-0.5">{__('Prefills Terms & Conditions on a new invoice; edit it per invoice', 'wedevs-project-manager')}</p>
             </div>
           </div>
-          <Textarea value={defaultNotes} onChange={e => set(setDefaultNotes)(e.target.value)} className="text-sm mt-2" rows={4} placeholder={__('Payment is due within 30 days of invoice date.\nThank you for your business.', 'wedevs-project-manager')} />
+          <div className="mt-2">
+            <RichTextEditor content={defaultNotes} onChange={set(setDefaultNotes)} placeholder={__('Payment is due within 30 days of the invoice date.', 'wedevs-project-manager')} minHeight="90px" />
+          </div>
         </div>
       </div>
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Organization', 'wedevs-project-manager')}</h3>
+          <h3 className="text-sm font-medium text-pm-text-primary">{__('Organization', 'wedevs-project-manager')}</h3>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('Organization Name', 'wedevs-project-manager')}</Label>
-          <Input value={organization} onChange={e => set(setOrganization)(e.target.value)} className="w-64 h-8 text-sm" />
+          <Input value={organization} onChange={e => set(setOrganization)(e.target.value)} className="w-64 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('Address Line 1', 'wedevs-project-manager')}</Label>
-          <Input value={address1} onChange={e => set(setAddress1)(e.target.value)} className="w-64 h-8 text-sm" />
+          <Input value={address1} onChange={e => set(setAddress1)(e.target.value)} className="w-64 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('Address Line 2', 'wedevs-project-manager')}</Label>
-          <Input value={address2} onChange={e => set(setAddress2)(e.target.value)} className="w-64 h-8 text-sm" />
+          <Input value={address2} onChange={e => set(setAddress2)(e.target.value)} className="w-64 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('City', 'wedevs-project-manager')}</Label>
-          <Input value={city} onChange={e => set(setCity)(e.target.value)} className="w-64 h-8 text-sm" />
+          <Input value={city} onChange={e => set(setCity)(e.target.value)} className="w-64 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('State/Province', 'wedevs-project-manager')}</Label>
-          <Input value={state} onChange={e => set(setState)(e.target.value)} className="w-64 h-8 text-sm" />
+          <Input value={state} onChange={e => set(setState)(e.target.value)} className="w-64 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <Label className="text-sm font-medium">{__('Zip/Postal Code', 'wedevs-project-manager')}</Label>
-          <Input value={zip} onChange={e => set(setZip)(e.target.value)} className="w-40 h-8 text-sm" />
+          <Input value={zip} onChange={e => set(setZip)(e.target.value)} className="w-40 h-11 text-sm" />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
           <Label className="text-sm font-medium">{__('Country', 'wedevs-project-manager')}</Label>
           <Select value={countryCode} onValueChange={set(setCountryCode)}>
-            <SelectTrigger className="w-52 h-8 text-sm">
+            <SelectTrigger className="w-52 h-11 text-sm">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -319,7 +340,7 @@ export default function InvoiceSettingsTab() {
       </div>
 
       <div className="flex items-center gap-3">
-        <Button type="submit" disabled={!isDirty}>
+        <Button className="h-11 px-5" type="submit" disabled={!isDirty}>
           {__('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && (

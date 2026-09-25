@@ -14,13 +14,7 @@ import {
   CommandItem,
   CommandList,
 } from '@components/ui/command'
-import {
-  Search,
-  FolderKanban,
-  CheckSquare,
-  LayoutList,
-  Loader2,
-} from 'lucide-react'
+import { Search, FolderKanban, CheckSquare, LayoutList, Loader2 } from 'lucide-react'
 
 export function GlobalSearch({ variant = 'topbar' }) {
   const navigate = useNavigate()
@@ -84,6 +78,7 @@ export function GlobalSearch({ variant = 'topbar' }) {
             variant="ghost"
             size="icon"
             className="h-8 w-8 md:hidden shrink-0"
+            aria-label={__('Search', 'wedevs-project-manager')}
             onClick={() => setOpen(true)}
           >
             <Search className="h-5 w-5 text-pm-text-muted" />
@@ -91,7 +86,7 @@ export function GlobalSearch({ variant = 'topbar' }) {
           <Button
             variant="outline"
             size="sm"
-            className="h-7 text-sm gap-1.5 text-pm-text-muted font-normal hidden md:flex"
+            className="h-11 text-sm gap-1.5 text-pm-text-muted font-normal hidden md:flex"
             onClick={() => setOpen(true)}
           >
             <Search className="h-3.5 w-3.5" />
@@ -105,6 +100,7 @@ export function GlobalSearch({ variant = 'topbar' }) {
             variant="ghost"
             size="icon"
             className="h-8 w-8 md:hidden shrink-0"
+            aria-label={__('Search', 'wedevs-project-manager')}
             onClick={() => setOpen(true)}
           >
             <Search className="h-5 w-5 text-pm-text-muted" />

@@ -9,14 +9,11 @@ export default function GroupHeader({ label, count, groupKey }) {
 
   return (
     <h3
-      className={cn(
-        "text-sm font-semibold uppercase tracking-wider flex items-center gap-1.5",
-        cfg.color,
-      )}
+      className="text-[12px] font-medium uppercase tracking-wide text-muted-foreground/70 flex items-center gap-1.5"
     >
       <Icon className="h-4 w-4" />
       {label}
-      <Badge variant="secondary" className="text-[11px] px-1.5 font-normal">
+      <Badge variant="secondary" className="text-[12px] bg-muted px-1.5 py-0.5 rounded-md font-medium">
         {count}
       </Badge>
     </h3>

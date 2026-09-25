@@ -24,6 +24,8 @@ import {
   DialogTitle,
 } from "@components/ui/dialog";
 import { Skeleton } from "@components/ui/skeleton";
+import { LoadFailed } from "@components/common/LoadFailed";
+import { EmptyState } from "@components/common/EmptyState";
 import {
   Plus,
   Milestone as MilestoneIcon,
@@ -42,7 +44,7 @@ export default function MilestonesPage() {
   const dispatch = useAppDispatch();
   const toast = useToast();
 
-  const { items: milestones, loading, filter, sort, formOpen, editingId } =
+  const { items: milestones, loading, loadFailed, filter, sort, formOpen, editingId } =
     useAppSelector((s) => s.milestones);
   const taskSheetOpen = useAppSelector((s) => s.tasks.taskSheetOpen);
   const taskModified = useAppSelector((s) => s.tasks.taskModifiedInSheet);
@@ -209,7 +211,7 @@ export default function MilestonesPage() {
   }), [milestones, upcoming, atRisk, overdue, completed, noDate]);
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
+    <div className="w-full p-4 sm:p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <BackButton fallback={`/projects/${projectId}/task-lists`} />
@@ -220,7 +222,7 @@ export default function MilestonesPage() {
         {canCreateMilestone && (
           <Button
             size="sm"
-            className="gap-1.5"
+            className="gap-1.5 h-11 px-5"
             onClick={() => dispatch(openForm())}
           >
             <Plus className="h-4 w-4" />
@@ -242,36 +244,38 @@ export default function MilestonesPage() {
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-20 rounded-xl" />
+            <Skeleton key={i} className="h-20 rounded-lg" />
           ))}
         </div>
+      ) : loadFailed ? (
+        <LoadFailed
+          title={__('Milestones could not be loaded.', 'wedevs-project-manager')}
+          onRetry={() => dispatch(fetchMilestones({ projectId }))}
+        />
       ) : milestones.length === 0 ? (
-        <div className="text-center py-16">
-          <MilestoneIcon className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
-          <h3 className="text-sm font-medium text-pm-text-primary mb-1">
-            {__("No milestones yet", 'wedevs-project-manager')}
-          </h3>
-          <p className="text-sm text-pm-text-muted mb-4">
-            {__("Track your project progress with milestones.", 'wedevs-project-manager')}
-          </p>
-          {canCreateMilestone && (
+        <EmptyState
+          bordered
+          icon={MilestoneIcon}
+          title={__("No milestones yet", 'wedevs-project-manager')}
+          description={__("Track your project progress with milestones.", 'wedevs-project-manager')}
+          action={canCreateMilestone && (
             <Button
               size="sm"
-              className="gap-1.5"
+              className="gap-1.5 h-11 px-5"
               onClick={() => dispatch(openForm())}
             >
               <Plus className="h-4 w-4" />
               {__("Create your first milestone", 'wedevs-project-manager')}
             </Button>
           )}
-        </div>
+        />
       ) : totalVisible === 0 ? (
-        <div className="text-center py-12">
-          <Filter className="h-10 w-10 text-muted-foreground/30 mx-auto mb-2" />
-          <p className="text-sm text-pm-text-muted">
-            {__("No milestones match the selected filter.", 'wedevs-project-manager')}
-          </p>
-        </div>
+        <EmptyState
+          bordered
+          icon={Filter}
+          title={__("No milestones found", 'wedevs-project-manager')}
+          description={__("No milestones match the selected filter.", 'wedevs-project-manager')}
+        />
       ) : (
         <div className="space-y-6">
           {visibleGroups.map((group) => (

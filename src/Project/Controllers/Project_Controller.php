@@ -17,6 +17,9 @@ use WeDevs\PM\Category\Models\Category;
 use WeDevs\PM\Common\Traits\File_Attachment;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Meta;
+use WeDevs\PM\Common\Models\Board;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Common\Models\Assignee;
 use WeDevs\PM\Task_List\Models\Task_List;
 use WeDevs\PM\Project\Helper\Project_Role_Relation;
 use WeDevs\PM\Settings\Models\Settings;
@@ -50,6 +53,13 @@ class Project_Controller {
         });
 
 		$projects = $this->fetch_projects( $category, $status );
+
+		// Opt-in: the Projects page keeps archived projects in their own list.
+		// Clients that never send the flag still get every status, as before.
+		$exclude_archived = $this->excludes_archived( $request );
+		if ( $exclude_archived && ( '' === $status || 'favourite' === $status ) ) {
+			$projects = $projects->where( wedevs_pm_tb_prefix() . 'pm_projects.status', '<>', Project::ARCHIVED );
+		}
 
 		// Search by title (used by React UI search bar)
 		$title = sanitize_text_field( $request->get_param( 'title' ) );
@@ -92,14 +102,22 @@ class Project_Controller {
 		$project_collection = $projects->getCollection();
 		$resource = new Collection( $project_collection, new Project_Transformer );
 
-		$resource->setMeta( $this->projects_meta( $category ) );
+		$resource->setMeta( $this->projects_meta( $category, $exclude_archived ) );
 
         $resource->setPaginator( new IlluminatePaginatorAdapter( $projects ) );
 
         return $this->get_response( $resource );
     }
 
-    private function projects_meta( $category ) {
+    /**
+     * Whether the request asked to leave archived projects out of the listing.
+     */
+    private function excludes_archived( WP_REST_Request $request ) {
+		$flag = $request->get_param( 'exclude_archived' );
+		return ! empty( $flag ) && 'false' !== $flag;
+    }
+
+    private function projects_meta( $category, $exclude_archived = false ) {
 		$user_id = get_current_user_id();
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
 		$total_projects   = $eloquent_sql->count();
@@ -112,12 +130,20 @@ class Project_Controller {
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
 		$total_archived   = $eloquent_sql->where( 'status', Project::ARCHIVED )->count();
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		if ( $exclude_archived ) {
+			$eloquent_sql = $eloquent_sql->where( 'status', '<>', Project::ARCHIVED );
+		}
 		$favourite 		  = $eloquent_sql->whereHas( 'meta', function ( $query ) use( $user_id ) {
 						$query->where('meta_key', '=', 'favourite_project')
 							->where('entity_id', '=', $user_id)
 							->whereNotNull( 'meta_value' );
 					} )->count();
 		$user_id          = get_current_user_id();
+
+		// "All" on the Projects page no longer holds archived projects.
+		if ( $exclude_archived ) {
+			$total_projects -= $total_archived;
+		}
 
 		$meta  = [
 			'total_projects'   => $total_projects,
@@ -154,7 +180,9 @@ class Project_Controller {
 		})
 		->selectRaw( wedevs_pm_tb_prefix().'pm_projects.*' )
 		->groupBy( wedevs_pm_tb_prefix().'pm_projects.id' )
-		->orderBy( wedevs_pm_tb_prefix().'pm_meta.meta_value', 'DESC');
+		// Starred projects first; the order the user picked (added in index()) then
+		// applies inside the starred group too, not the order they were starred in.
+		->orderByRaw( '(' . esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' ) . '.meta_value IS NULL) ASC' );
 
 		return $projects;
     }
@@ -283,7 +311,24 @@ class Project_Controller {
 		$data    = $request->get_params();//$this->extract_non_empty_values( $request );
 		$project = Project::find( $data['id'] );
 
+		// completed_at is fillable but only this method may set it (below, from the status).
+		unset( $data['completed_at'] );
+
+		$was_complete = Project::COMPLETE === (int) $project->getAttributes()['status'];
+
 		$project->update_model( $data );
+
+		// Stamp the completion date on the way into "complete" and clear it only on
+		// the way back to "incomplete". Archiving keeps it, so a restore can tell a
+		// finished project from an open one.
+		$new_status = (int) $project->getAttributes()['status'];
+		if ( Project::COMPLETE === $new_status && ! $was_complete && empty( $project->completed_at ) ) {
+			$project->completed_at = current_time( 'mysql' );
+			$project->save();
+		} elseif ( Project::INCOMPLETE === $new_status && ! empty( $project->completed_at ) ) {
+			$project->completed_at = null;
+			$project->save();
+		}
 
 		// Establishing relationships
 		$category_ids = map_deep( $request->get_param( 'categories' ), 'intval' );
@@ -291,11 +336,23 @@ class Project_Controller {
 			$project->categories()->sync( $category_ids );
 		}
 
-		$assignees = wedevs_pm_validate_assignee( $request->get_param( 'assignees' ) );
+		// wedevs_pm_validate_assignee() turns a missing value into [], so without
+		// this check an update that only changes the status removed every member.
+		$assignees = $request->has_param( 'assignees' )
+			? wedevs_pm_validate_assignee( $request->get_param( 'assignees' ) )
+			: null;
 
 		if ( is_array( $assignees ) ) {
+			$previous_ids = array_map( 'intval', User_Role::where( 'project_id', $project->id )->pluck( 'user_id' )->all() );
 			$project->assignees()->detach();
 			$this->assign_users( $project, $assignees );
+
+			$kept_ids    = array_map( 'intval', wp_list_pluck( $assignees, 'user_id' ) );
+			$removed_ids = array_diff( $previous_ids, $kept_ids );
+
+			if ( ! empty( $removed_ids ) ) {
+				$this->detach_project_work( $project->id, $removed_ids );
+			}
 		}
 
 		do_action( 'wedevs_pm_project_update', $project, $request->get_params() );
@@ -386,6 +443,16 @@ class Project_Controller {
 
 		$project->discussion_boards()->delete();
 		$project->milestones()->delete();
+
+		// task_lists/discussion_boards/milestones above cover three of the four
+		// board types; kanboard columns share wp_pm_boards and were surviving the
+		// delete as orphans. Sweep whatever is left for this project by id.
+		$board_ids = Board::where( 'project_id', $id )->pluck( 'id' )->all();
+		if ( ! empty( $board_ids ) ) {
+			Boardable::whereIn( 'board_id', $board_ids )->delete();
+			Board::whereIn( 'id', $board_ids )->delete();
+		}
+
 		$project->comments()->delete();
 		$project->assignees()->detach();
 		$this->detach_files( $project );
@@ -401,6 +468,34 @@ class Project_Controller {
 		return [
 			'message' => __( 'A project has been deleted successfully.', 'wedevs-project-manager' )
 		];
+	}
+
+	/**
+	 * Drop per-entity assignments for users who just lost project access.
+	 * The pivot detach above only clears project membership, so a removed user
+	 * stayed on their tasks, discussions and lists: the task showed an assignee
+	 * who can no longer open it, and re-adding the user silently restored the
+	 * old workload.
+	 */
+	private function detach_project_work( $project_id, array $user_ids ) {
+		$user_ids = array_values( array_filter( array_map( 'intval', $user_ids ) ) );
+
+		if ( empty( $user_ids ) ) {
+			return;
+		}
+
+		Assignee::where( 'project_id', $project_id )
+			->whereIn( 'assigned_to', $user_ids )
+			->delete();
+
+		$board_ids = Board::where( 'project_id', $project_id )->pluck( 'id' )->all();
+
+		if ( ! empty( $board_ids ) ) {
+			Boardable::whereIn( 'board_id', $board_ids )
+				->where( 'boardable_type', 'user' )
+				->whereIn( 'boardable_id', $user_ids )
+				->delete();
+		}
 	}
 
 	private function assign_users( Project $project, $assignees = [] ) {
@@ -948,7 +1043,7 @@ class Project_Controller {
 					);
 				} elseif ( isset( $response_data['error']['type'] ) ) {
 					$error_message = sprintf(
-						// translators: %s: error type
+						// translators: %s: error message
 						__( 'AI API error: %s', 'wedevs-project-manager' ),
 						sanitize_text_field( $response_data['error']['type'] )
 					);

@@ -1,12 +1,9 @@
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { usePermissions } from '@hooks/usePermissions'
 import { useActiveProModules, isProModuleActive } from '@hooks/useActiveProModules'
-import {
-  LayoutList, Layout, MessageSquare, Milestone, FileText,
-  Activity, Columns3, GitBranch, Receipt, Settings,
-} from 'lucide-react'
+import { LayoutList, Layout, MessageSquare, Milestone, FileText, Activity, Columns3, GitBranch, Receipt, Settings, Calendar } from 'lucide-react'
 import { cn } from '@lib/utils'
 import ProBadge from '@components/common/ProBadge'
 
@@ -21,33 +18,29 @@ const getSubNavFree = () => [
   { key: 'files',       label: __('Files',       'wedevs-project-manager'), icon: FileText,      path: (pid) => `/projects/${pid}/files` },
 ]
 
-function buildProSubNav(modulePaths) {
+function buildProSubNav(modulePaths, canSeeManagerItems) {
   const isActive = (dir) => isProModuleActive(modulePaths, dir)
   const items = []
+  // Activities is not a module — always show when pro is active (mirrors AppSidebar).
+  items.push({ key: 'activities', label: __('Activities', 'wedevs-project-manager'), icon: Activity, path: (pid) => `/projects/${pid}/activities` })
+  // Calendar is part of Pro core, not a module.
+  items.push({ key: 'calendar', label: __('Calendar', 'wedevs-project-manager'), icon: Calendar, path: (pid) => `/projects/${pid}/calendar` })
   if (isActive('Gantt'))    items.push({ key: 'gantt',    label: __('Gantt Chart',  'wedevs-project-manager'), icon: GitBranch, path: (pid) => `/projects/${pid}/gantt` })
-  if (isActive('Invoice'))  items.push({ key: 'invoices', label: __('Invoices',     'wedevs-project-manager'), icon: Receipt,   path: (pid) => `/projects/${pid}/invoices` })
-  items.push({ key: 'settings', label: __('Settings', 'wedevs-project-manager'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
+  // Same rule as AppSidebar: co-workers and clients only got "Access denied" behind these.
+  if (isActive('Invoice') && canSeeManagerItems) items.push({ key: 'invoices', label: __('Invoices', 'wedevs-project-manager'), icon: Receipt, path: (pid) => `/projects/${pid}/invoices` })
+  if (canSeeManagerItems) items.push({ key: 'settings', label: __('Settings', 'wedevs-project-manager'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
   return items
 }
 
 // ── Component ────────────────────────────────────────
 
 export function ProjectSubNavBar() {
-  const { isPro } = usePermissions()
+  const { isPro, canManage, isManagerAnywhere } = usePermissions()
+  const canSeeManagerItems = canManage || isManagerAnywhere
 
   const activeModulePaths = useActiveProModules()
   const location = useLocation()
   const navigate = useNavigate()
-
-  const [sidebarMode, setSidebarMode] = useState(
-    () => localStorage.getItem('pm-sidebar-mode') ?? 'wordpress'
-  )
-
-  useEffect(() => {
-    const handler = (e) => setSidebarMode(e.detail)
-    window.addEventListener('pm-sidebar-mode-change', handler)
-    return () => window.removeEventListener('pm-sidebar-mode-change', handler)
-  }, [])
 
   const activeProjectId = useMemo(() => {
     const m = location.pathname.match(/^\/projects\/(\d+)/)
@@ -56,31 +49,32 @@ export function ProjectSubNavBar() {
 
   const subNav = useMemo(() => {
     const SUB_NAV_FREE = getSubNavFree()
-    if (isPro) return [...SUB_NAV_FREE, ...buildProSubNav(activeModulePaths)]
+    if (isPro) return [...SUB_NAV_FREE, ...buildProSubNav(activeModulePaths, canSeeManagerItems)]
     return [
       ...SUB_NAV_FREE,
       { key: 'activities', label: __('Activities',  'wedevs-project-manager'), icon: Activity,  path: (pid) => `/projects/${pid}/activities`, proPreview: true },
+      { key: 'calendar', label: __('Calendar',     'wedevs-project-manager'),  icon: Calendar,  path: (pid) => `/projects/${pid}/calendar`, proPreview: true },
       { key: 'gantt',    label: __('Gantt Chart',  'wedevs-project-manager'),  icon: GitBranch, path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
-      { key: 'invoices', label: __('Invoices',     'wedevs-project-manager'),  icon: Receipt,   path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
-      { key: 'settings', label: __('Settings',     'wedevs-project-manager'),  icon: Settings,  path: (pid) => `/projects/${pid}/settings`, proPreview: true },
+      ...(canSeeManagerItems ? [
+        { key: 'invoices', label: __('Invoices',     'wedevs-project-manager'),  icon: Receipt,   path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
+        { key: 'settings', label: __('Settings',     'wedevs-project-manager'),  icon: Settings,  path: (pid) => `/projects/${pid}/settings`, proPreview: true },
+      ] : []),
     ]
-  }, [isPro, activeModulePaths])
+  }, [isPro, activeModulePaths, canSeeManagerItems])
 
   const activeSubKey = useMemo(() => {
     if (!activeProjectId) return null
-    const path = location.pathname
-    for (const item of subNav) {
-      if (path.includes(item.key)) return item.key
-    }
-    return 'task-lists'
+    // Exact segment after the project id; a substring match could pick the wrong tab.
+    const segment = location.pathname.split('/')[3] || ''
+    return subNav.some(item => item.key === segment) ? segment : 'task-lists'
   }, [location.pathname, activeProjectId, subNav])
 
-  // Only render in WP sidebar mode when inside a project
-  if (sidebarMode !== 'wordpress' || !activeProjectId) return null
+  // Render whenever inside a project (both plugin + WP sidebar modes)
+  if (!activeProjectId) return null
 
   return (
-    <div className="shrink-0 bg-pm-surface border-b border-pm-border">
-      <nav className="flex items-stretch overflow-x-auto px-2 scrollbar-none">
+    <div className="shrink-0 bg-pm-surface border-b border-pm-border px-6 py-3">
+      <nav className="inline-flex items-center gap-1 overflow-x-auto rounded-xl border border-pm-border bg-muted/60 p-1.5 scrollbar-none">
         {subNav.map(item => {
           const Icon = item.icon
           const isActive = activeSubKey === item.key
@@ -90,15 +84,14 @@ export function ProjectSubNavBar() {
               key={item.key}
               onClick={() => navigate(item.path(activeProjectId))}
               className={cn(
-                'group/tab flex items-center gap-1.5 px-3 py-2.5 text-[13px] font-medium whitespace-nowrap',
-                'border-b-2 transition-colors shrink-0',
+                'group/tab flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-all duration-200 shrink-0',
                 isActive
-                  ? 'border-pm-accent text-pm-accent'
-                  : 'border-transparent text-pm-text-muted hover:text-pm-text hover:border-pm-border',
+                  ? 'bg-background text-pm-accent shadow-sm'
+                  : 'text-pm-text-muted hover:text-pm-text-primary',
               )}
             >
               <Icon className={cn(
-                'w-3.5 h-3.5 shrink-0',
+                'w-[18px] h-[18px] shrink-0',
                 isActive ? 'text-pm-accent' : 'text-pm-text-muted group-hover/tab:text-pm-text',
               )} />
               {item.label}

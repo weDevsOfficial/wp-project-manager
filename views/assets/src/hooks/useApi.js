@@ -36,6 +36,12 @@ function buildQueryString(obj, prefix) {
   return parts.filter(Boolean).join('&')
 }
 
+// Callers can tell 'forbidden/missing' (403/404) from a failed request.
+function withStatus(error, status) {
+  error.status = status
+  return error
+}
+
 async function request(method, endpoint, data) {
   // PM_Vars.rest_url is the full base: https://site.com/wp-json/pm/v2/
   let url = PM_Vars.rest_url + endpoint
@@ -79,11 +85,11 @@ async function request(method, endpoint, data) {
     json = text ? JSON.parse(text) : {}
   } catch {
     if (res.ok) return {}
-    throw new Error(res.statusText || 'API Error')
+    throw withStatus(new Error(res.statusText || 'API Error'), res.status)
   }
 
   if (!res.ok) {
-    throw new Error(json?.message ?? res.statusText ?? 'API Error')
+    throw withStatus(new Error(json?.message ?? res.statusText ?? 'API Error'), res.status)
   }
 
   return json ?? {}

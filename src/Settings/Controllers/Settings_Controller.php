@@ -66,6 +66,21 @@ class Settings_Controller {
         $project_id = intval( $request->get_param( 'project_id' ) );
         $settings   = $request->get_param( 'settings' );
         $id         = intval( $request->get_param( 'id' ) );
+
+        $items   = is_array( $settings ) ? $settings : [ $data ];
+        $invalid = $this->invalid_invoice_email( $items );
+
+        /**
+         * Reject a settings save before anything is written. Return a WP_Error to stop it.
+         *
+         * @param \WP_Error|null $invalid    Error so far, or null.
+         * @param array          $items      Settings rows being saved ([ 'key' => ..., 'value' => ... ]).
+         * @param int            $project_id Project the settings belong to, or 0.
+         */
+        $invalid = apply_filters( 'wedevs_pm_settings_validation_error', $invalid, $items, $project_id );
+        if ( is_wp_error( $invalid ) ) {
+            return $invalid;
+        }
         
         if ( is_array( $settings ) ) {
             $settings_collection = [];
@@ -89,6 +104,29 @@ class Settings_Controller {
             'message' => __( 'Settings has been changed successfully.', 'wedevs-project-manager' )
         ];
         return $this->get_response( $resource, $message );
+    }
+
+    /**
+     * Reject an invoice save whose PayPal email is not an email address.
+     *
+     * @param array $items Settings rows being saved ([ 'key' => ..., 'value' => ... ]).
+     * @return \WP_Error|null
+     */
+    private function invalid_invoice_email( $items ) {
+        foreach ( (array) $items as $item ) {
+            if ( ! is_array( $item ) || ( $item['key'] ?? '' ) !== 'invoice' || ! is_array( $item['value'] ?? null ) ) {
+                continue;
+            }
+
+            foreach ( [ 'paypal_email', 'paypal_mail' ] as $field ) {
+                $email = isset( $item['value'][ $field ] ) ? trim( (string) $item['value'][ $field ] ) : '';
+                if ( '' !== $email && ! is_email( $email ) ) {
+                    return new \WP_Error( 'pm_invalid_paypal_email', __( 'Enter a valid PayPal email address.', 'wedevs-project-manager' ), [ 'status' => 400 ] );
+                }
+            }
+        }
+
+        return null;
     }
 
     public static function save_settings( $data, $project_id = 0, $id = 0 ) {
@@ -118,6 +156,15 @@ class Settings_Controller {
             $settings = Settings::firstOrCreate([
                 'key' => $data['key']
             ]);
+        }
+
+        if ( isset( $data['value'] ) ) {
+            $data['value'] = Settings::keep_secret_subkeys( $data['key'], $data['value'], $settings->value );
+        }
+
+        // Default invoice terms are rich text now; keep them to post-safe HTML.
+        if ( 'invoice' === $data['key'] && is_array( $data['value'] ?? null ) && isset( $data['value']['default_notes'] ) ) {
+            $data['value']['default_notes'] = wp_kses_post( (string) $data['value']['default_notes'] );
         }
 
         $settings->update_model( $data );

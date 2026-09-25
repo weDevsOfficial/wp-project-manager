@@ -292,6 +292,12 @@ class Milestone {
 	private function achieve_date() {
 		global $wpdb;
 
+		// Every other include guards this; without it an empty result set
+		// reached array_map() with null and emitted `entity_id IN ()`.
+		if ( empty( $this->milestone_ids ) ) {
+			return $this;
+		}
+
 		$tb_meta          = esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' );
 		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
 		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
@@ -478,6 +484,14 @@ class Milestone {
 		global $wpdb;
 		$format     = wedevs_pm_get_prepare_format( $id );
 		$format_ids = wedevs_pm_get_prepare_data( $id );
+
+		// A filter that resolves to no ids produced `id IN ()`, which is a
+		// SQL syntax error rather than an empty result.
+		if ( empty( $format_ids ) ) {
+			$this->where .= ' AND 1=0';
+
+			return $this;
+		}
 
 		$this->where .= $wpdb->prepare( " AND {$this->tb_milestone}.id IN ($format)", $format_ids );
 

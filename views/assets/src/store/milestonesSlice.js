@@ -142,6 +142,7 @@ const milestonesSlice = createSlice({
   extraReducers: (builder) => {
     // Fetch all
     builder.addCase(fetchMilestones.pending, (state) => {
+      state.loadFailed = false
       state.loading = true
     })
     builder.addCase(fetchMilestones.fulfilled, (state, action) => {
@@ -150,6 +151,7 @@ const milestonesSlice = createSlice({
     })
     builder.addCase(fetchMilestones.rejected, (state) => {
       state.loading = false
+      state.loadFailed = true
     })
 
     // Create

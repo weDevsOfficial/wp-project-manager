@@ -137,7 +137,7 @@ class Notion_Preview_Controller {
             return [
                 'success' => false,
                 'error'   => sprintf(
-                    __( 'Notion API returned status %d.', 'wedevs-project-manager' ),
+                    /* translators: %d is the HTTP status code returned by the Notion API. */ __( 'Notion API returned status %d.', 'wedevs-project-manager' ),
                     $status_code
                 ),
             ];

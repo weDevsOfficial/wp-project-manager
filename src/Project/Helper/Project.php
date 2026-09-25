@@ -1431,7 +1431,11 @@ class Project {
 			$order[] = sprintf("%s.%s %s", $tb_pm_projects, esc_sql($key), esc_sql($value));
         }
 
-        $this->orderby = "ORDER BY {$wpdb->prefix}pm_meta.meta_value DESC" . ( ! empty( $order ) ? ', ' . implode( ', ', $order ) : '' );
+        // Starred projects stay grouped on top, but the chosen sort applies inside
+        // that group too; the star order is only the fallback when no sort is given.
+        $this->orderby = ! empty( $order )
+            ? "ORDER BY ({$wpdb->prefix}pm_meta.meta_value IS NULL) ASC, " . implode( ', ', $order )
+            : "ORDER BY {$wpdb->prefix}pm_meta.meta_value DESC";
 
         return $this;
     }

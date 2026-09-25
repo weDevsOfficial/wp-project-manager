@@ -4,6 +4,30 @@ function wedevs_pm_absolute( $value ) {
     return ( null === $value || '' === $value ) ? '' : abs( $value );
 }
 
+/**
+ * A list of user ids, sent as an array or a comma-separated string, reduced to
+ * positive integers. The input shape is kept so existing consumers still work.
+ */
+function wedevs_pm_id_list( $value ) {
+    if ( null === $value || '' === $value || false === $value ) {
+        return $value;
+    }
+
+    $ids = [];
+
+    foreach ( is_array( $value ) ? $value : explode( ',', (string) $value ) as $id ) {
+        $id = is_scalar( $id ) ? trim( (string) $id ) : '';
+
+        if ( preg_match( '/^[1-9][0-9]*$/', $id ) ) {
+            $ids[] = (int) $id;
+        }
+    }
+
+    $ids = array_values( array_unique( $ids ) );
+
+    return is_array( $value ) ? $ids : implode( ',', $ids );
+}
+
 function wedevs_pm_trimer( $value ) {
 	return ( null === $value || '' === $value ) ? '' : trim( $value );
 }

@@ -90,6 +90,18 @@ class User_Controller {
         // User creation
         $user_id = wp_insert_user( $user_data );
 
+        // wp_insert_user() returns WP_Error on a duplicate login or email, and on
+        // any other failed validation. Without this guard the error object fell
+        // through to User::find(), which fatals inside the query builder, so the
+        // client received a 500 carrying WordPress's critical-error page.
+        if ( is_wp_error( $user_id ) ) {
+            return new \WP_Error(
+                $user_id->get_error_code(),
+                $user_id->get_error_message(),
+                [ 'status' => 400 ]
+            );
+        }
+
         if ( is_multisite() ) {
             $blog_id = get_current_blog_id();
             add_user_to_blog( $blog_id, $blog_id, 'subscriber' );

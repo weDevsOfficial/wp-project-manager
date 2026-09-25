@@ -1,25 +1,20 @@
 import { __ } from '@wordpress/i18n';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { fetchTask } from '@store/tasksSlice';
-import { cn } from '@lib/utils';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@components/ui/popover';
-import { Check, ListTodo, X } from 'lucide-react';
+import { createTaskType } from '@store/settingsSlice';
+import { useToast } from '@hooks/useToast';
+import AttributePicker from '@components/common/AttributePicker';
+import { ListTodo } from 'lucide-react';
 
-export default function TaskTypeField({ task, projectId, dispatch, api, canEdit = true }) {
-  const [open, setOpen] = useState(false);
+// canCreate: task types are site-wide, and only people who can open
+// Settings may add one (settings/task-types needs Settings_Page_Access).
+export default function TaskTypeField({ task, projectId, dispatch, api, canEdit = true, canCreate = false }) {
+  const toast = useToast();
   const [types, setTypes] = useState([]);
   const [loadingTypes, setLoadingTypes] = useState(false);
   const [saving, setSaving] = useState(false);
 
   const currentType = task?.type;
-
-  useEffect(() => {
-    if (!canEdit) setOpen(false);
-  }, [canEdit, task?.id]);
 
   const loadTypes = useCallback(() => {
     if (types.length > 0) return;
@@ -33,101 +28,71 @@ export default function TaskTypeField({ task, projectId, dispatch, api, canEdit 
       .finally(() => setLoadingTypes(false));
   }, [api, types.length]);
 
-  const handleSelect = useCallback((type) => {
-    if (!canEdit || saving) return;
+  const saveType = useCallback((typeId, successMessage) => {
+    if (!canEdit || saving) return Promise.resolve();
     setSaving(true);
-    const typeId = type?.id === currentType?.id ? false : type?.id;
-    api.post(`projects/${projectId}/tasks/${task.id}/update`, {
+    return api.post(`projects/${projectId}/tasks/${task.id}/update`, {
       title: task.title,
       type_id: typeId,
     }).then(() => {
       dispatch(fetchTask({ projectId, taskId: task.id }));
-      setOpen(false);
-    }).catch(() => {})
+      toast.success(successMessage || (typeId ? __('Task type updated', 'wedevs-project-manager') : __('Task type removed', 'wedevs-project-manager')));
+    }).catch(() => toast.error(__('Failed to update task type', 'wedevs-project-manager')))
     .finally(() => setSaving(false));
-  }, [saving, currentType, task, projectId, api, dispatch, canEdit]);
+  }, [saving, task, projectId, api, dispatch, canEdit, toast]);
 
-  const handleClear = useCallback(() => {
-    if (!canEdit || saving) return;
-    setSaving(true);
-    api.post(`projects/${projectId}/tasks/${task.id}/update`, {
-      title: task.title,
-      type_id: false,
-    }).then(() => {
-      dispatch(fetchTask({ projectId, taskId: task.id }));
-      setOpen(false);
-    }).catch(() => {})
-    .finally(() => setSaving(false));
-  }, [saving, task, projectId, api, dispatch, canEdit]);
+  // Picking the current type again removes it, as before.
+  const handleSelect = useCallback((type) => {
+    saveType(type?.id === currentType?.id ? false : type?.id);
+  }, [saveType, currentType]);
+
+  const handleClear = useCallback(() => saveType(false), [saveType]);
+
+  // Creates the type, then sets it on this task.
+  const handleCreate = useCallback(async (title) => {
+    let created;
+    try {
+      created = await dispatch(createTaskType({ title, description: '', status: 1 })).unwrap();
+    } catch (e) {
+      throw new Error(typeof e === 'string' && e ? e : __('Failed to create task type', 'wedevs-project-manager'));
+    }
+    if (!created?.id) throw new Error(__('Failed to create task type', 'wedevs-project-manager'));
+    setTypes(prev => [created, ...prev.filter(t => t.id !== created.id)]);
+    await saveType(created.id, __('Task type created', 'wedevs-project-manager'));
+  }, [dispatch, saveType]);
+
+  const options = types.map(t => ({ id: t.id, label: t.title }));
+  // The task's own type shows even before the list has loaded.
+  if (currentType && !options.some(o => String(o.id) === String(currentType.id))) {
+    options.unshift({ id: currentType.id, label: currentType.title });
+  }
 
   return (
-    <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
+    <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
         <ListTodo className="h-4 w-4" /><span className="text-sm">{__('Type', 'wedevs-project-manager')}</span>
       </div>
-      <div className="flex items-center gap-1">
-      <Popover open={open} onOpenChange={(v) => { setOpen(v); if (v) loadTypes(); }}>
-        <PopoverTrigger asChild>
-          <button disabled={!canEdit} className={cn(
-            'text-sm transition-colors',
-            currentType
-              ? 'text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded'
-              : 'text-pm-text-muted',
-            canEdit && (currentType ? 'hover:bg-muted' : 'hover:text-pm-accent')
-          )}>
-            {currentType ? currentType.title : (canEdit ? __('Add type', 'wedevs-project-manager') : __('—', 'wedevs-project-manager'))}
-          </button>
-        </PopoverTrigger>
-        <PopoverContent className="w-44 p-2" align="start">
-          {loadingTypes ? (
-            <p className="text-sm text-pm-text-muted py-2 text-center">{__('Loading...', 'wedevs-project-manager')}</p>
-          ) : types.length === 0 ? (
-            <p className="text-sm text-pm-text-muted py-2 text-center">{__('No task types found', 'wedevs-project-manager')}</p>
-          ) : (
-            <div className="space-y-0.5">
-              {types.map(t => (
-                <button
-                  key={t.id}
-                  type="button"
-                  className={cn(
-                    'w-full text-left text-sm px-2 py-1.5 rounded hover:bg-muted/50 transition-colors flex items-center justify-between text-foreground',
-                    currentType?.id === t.id && 'bg-primary/5 text-primary font-medium'
-                  )}
-                  onClick={() => handleSelect(t)}
-                  disabled={saving}
-                >
-                  {t.title}
-                  {currentType?.id === t.id && <Check className="h-3.5 w-3.5" />}
-                </button>
-              ))}
-              {currentType && (
-                <>
-                  <div className="border-t border-border my-1" />
-                  <button
-                    type="button"
-                    className="w-full text-left text-sm px-2 py-1.5 rounded text-destructive hover:bg-destructive/10 transition-colors"
-                    onClick={handleClear}
-                    disabled={saving}
-                  >
-                    {__('Remove type', 'wedevs-project-manager')}
-                  </button>
-                </>
-              )}
-            </div>
-          )}
-        </PopoverContent>
-      </Popover>
-      {canEdit && currentType && !saving && (
-        <button
-          type="button"
-          onClick={handleClear}
-          className="inline-flex items-center text-pm-text-muted hover:text-destructive transition-colors"
-          title={__('Remove type', 'wedevs-project-manager')}
-        >
-          <X className="h-3.5 w-3.5" />
-        </button>
-      )}
-      </div>
+      <AttributePicker
+        icon={ListTodo}
+        value={currentType?.id ?? null}
+        options={options}
+        onSelect={handleSelect}
+        onClear={handleClear}
+        clearLabel={__('Remove type', 'wedevs-project-manager')}
+        canEdit={canEdit}
+        saving={saving}
+        loading={loadingTypes}
+        placeholder={__('Add type', 'wedevs-project-manager')}
+        readOnlyText={currentType ? currentType.title : __('—', 'wedevs-project-manager')}
+        emptyText={__('No task types found', 'wedevs-project-manager')}
+        onOpenChange={(open) => { if (open) loadTypes(); }}
+        create={canCreate ? {
+          label: __('Create type', 'wedevs-project-manager'),
+          placeholder: __('Type name', 'wedevs-project-manager'),
+          requiredMessage: __('Type name is required', 'wedevs-project-manager'),
+          onSubmit: handleCreate,
+        } : undefined}
+      />
     </div>
   );
 }

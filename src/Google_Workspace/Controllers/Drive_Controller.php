@@ -8,6 +8,7 @@ use WeDevs\PM\Task\Models\Task;
 use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 use WeDevs\PM\File\Models\File;
+use WeDevs\PM\Activity\Models\Activity;
 use Carbon\Carbon;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -229,6 +230,14 @@ class Drive_Controller {
 
         do_action( 'pm_google_drive_file_attached', $row, $type, $id, $project_id );
 
+        if ( $type === 'task' ) {
+            $this->log_task_activity( 'attach_drive_file', 'create', $id, $project_id, [
+                'file_name' => $row->name,
+                'file_url'  => $row->web_view_link,
+                'has_drive' => true,
+            ] );
+        }
+
         return [ 'data' => $this->transform( $row ) ];
     }
 
@@ -247,10 +256,32 @@ class Drive_Controller {
                 return new \WP_Error( 'pm_google_forbidden', __( 'You can only remove Drive files from your own comment.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
             }
             do_action( 'pm_google_drive_file_detached', $row );
+
+            if ( $row->attachable_type === 'task' ) {
+                $this->log_task_activity( 'detach_drive_file', 'delete', (int) $row->attachable_id, $project_id, [
+                    'file_name' => $row->name,
+                ] );
+            }
+
             $row->delete();
         }
 
         return [ 'data' => [ 'id' => $id, 'deleted' => true ] ];
+    }
+
+    /** Activity rows the Activities page, Progress and the dashboard already label. */
+    private function log_task_activity( $action, $action_type, $task_id, $project_id, $meta ) {
+        $task = Task::find( $task_id );
+
+        Activity::create( [
+            'actor_id'      => get_current_user_id(),
+            'action'        => $action,
+            'action_type'   => $action_type,
+            'resource_id'   => (int) $task_id,
+            'resource_type' => 'task',
+            'meta'          => array_merge( [ 'task_title' => $task ? $task->title : '' ], $meta ),
+            'project_id'    => (int) $project_id,
+        ] );
     }
 
     private function transform_collection( $rows ) {
