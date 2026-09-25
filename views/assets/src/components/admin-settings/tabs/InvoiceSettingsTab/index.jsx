@@ -40,8 +40,6 @@ export default function InvoiceSettingsTab() {
   const [zip, setZip] = useState(() => getInv('zip_code', ''));
   const [countryCode, setCountryCode] = useState(() => getInv('country_code', 'BD'));
 
-  const [companyName, setCompanyName] = useState(() => getInv('company_name', ''));
-  const [companyAddress, setCompanyAddress] = useState(() => getInv('company_address', ''));
   const [taxRate, setTaxRate] = useState(() => getInv('tax_rate', ''));
   const [defaultNotes, setDefaultNotes] = useState(() => getInv('default_notes', ''));
 
@@ -96,8 +94,6 @@ export default function InvoiceSettingsTab() {
         secret_publishable_key: secretPublishableKey,
         live_secret_key: liveSecretKey,
         live_publishable_key: livePublishableKey,
-        company_name: companyName,
-        company_address: companyAddress,
         tax_rate: taxRate,
         default_notes: defaultNotes,
         organization,
@@ -266,24 +262,8 @@ export default function InvoiceSettingsTab() {
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
           <div>
-            <Label className="text-sm font-medium">{__('Company Name', 'wedevs-project-manager')}</Label>
-            <p className="text-sm text-pm-text-muted mt-0.5">{__('Displayed on invoices as the billing entity', 'wedevs-project-manager')}</p>
-          </div>
-          <Input value={companyName} onChange={e => set(setCompanyName)(e.target.value)} className="w-64 h-11 text-sm" placeholder={__('Your Company Name', 'wedevs-project-manager')} />
-        </div>
-        <div className="px-5 py-4 border-b border-pm-border">
-          <div className="flex items-center justify-between mb-1">
-            <div>
-              <Label className="text-sm font-medium">{__('Company Address', 'wedevs-project-manager')}</Label>
-              <p className="text-sm text-pm-text-muted mt-0.5">{__('Full address shown on invoices', 'wedevs-project-manager')}</p>
-            </div>
-          </div>
-          <Textarea value={companyAddress} onChange={e => set(setCompanyAddress)(e.target.value)} className="text-sm mt-2" rows={3} placeholder={__('123 Main St, Suite 100\nCity, State 12345', 'wedevs-project-manager')} />
-        </div>
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4 border-b border-pm-border">
-          <div>
             <Label className="text-sm font-medium">{__('Tax Rate (%)', 'wedevs-project-manager')}</Label>
-            <p className="text-sm text-pm-text-muted mt-0.5">{__('Default tax percentage applied to invoices', 'wedevs-project-manager')}</p>
+            <p className="text-sm text-pm-text-muted mt-0.5">{__('Prefills the tax on each line item of a new invoice', 'wedevs-project-manager')}</p>
           </div>
           <Input
             type="number"
@@ -299,11 +279,11 @@ export default function InvoiceSettingsTab() {
         <div className="px-5 py-4">
           <div className="flex items-center justify-between mb-1">
             <div>
-              <Label className="text-sm font-medium">{__('Default Notes / Terms', 'wedevs-project-manager')}</Label>
-              <p className="text-sm text-pm-text-muted mt-0.5">{__('Automatically included at the bottom of every invoice', 'wedevs-project-manager')}</p>
+              <Label className="text-sm font-medium">{__('Default Terms & Conditions', 'wedevs-project-manager')}</Label>
+              <p className="text-sm text-pm-text-muted mt-0.5">{__('Prefills Terms & Conditions on a new invoice; edit it per invoice', 'wedevs-project-manager')}</p>
             </div>
           </div>
-          <Textarea value={defaultNotes} onChange={e => set(setDefaultNotes)(e.target.value)} className="text-sm mt-2" rows={4} placeholder={__('Payment is due within 30 days of invoice date.\nThank you for your business.', 'wedevs-project-manager')} />
+          <Textarea value={defaultNotes} onChange={e => set(setDefaultNotes)(e.target.value)} className="text-sm mt-2" rows={4} placeholder={__('Payment is due within 30 days of the invoice date.', 'wedevs-project-manager')} />
         </div>
       </div>
 
