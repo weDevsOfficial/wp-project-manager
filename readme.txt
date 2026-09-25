@@ -6,7 +6,7 @@ Tags: kanban, project, project management, task management, project manager
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.0.7
+Stable tag: 4.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,6 +250,33 @@ A. If you face any issues, you can contact the support team through the official
 14. Manage projects from the frontend
 
 == Changelog ==
+
+= v4.1.0 – Sep 25, 2026 =
+
+**Update:** Major release. WP Project Manager 4.1.0 needs WP Project Manager Pro 4.1.0 or newer; an older Pro is deactivated with a notice until it is updated. Update both plugins together.
+**Security:** Global settings can no longer be read by low-privileged users, and the Pusher secret is never sent to the browser. Reported by Patchstack (Ananda Dhakal).
+**Security:** Payment gateway secret keys stay on the server and are masked on the settings screen; the PayPal email is validated.
+**Security:** Private tasks, subtasks, milestones and files stay private in lists, the dashboard, activity and email notifications, and comment emails only go to people who can open the item.
+**Security:** A task's completion date can no longer be set from the client, attachment links only accept http(s) URLs, and a Kanban board background can only use or delete the user's own upload.
+**New:** Modernized interface across projects, task lists, the task sheet, Kanban, milestones, discussions, files, My Tasks and settings, with a new type scale, Plus Jakarta Sans, loading skeletons, empty states and retry on failed loads.
+**New:** Dashboard home page scoped to the viewer's role: summary cards that follow the date range, overdue milestones, projects overview, viewer-aware task performance chart, contribution heatmap, team workload and a Recent Activity feed that opens each item.
+**New:** Archive a project from the project menu and browse archived projects in their own list.
+**New:** Filter tasks by priority, label, task type and milestone; search on the Kanban board and in discussions.
+**New:** Kanban board background image per project, with column colors that stay readable on top of it.
+**New:** Paste GitHub Markdown into descriptions and comments, and copy them back as Markdown.
+**New:** Create a task type or milestone straight from its picker in the task sheet, and deep links to My Tasks tabs and task sheet tabs.
+**New:** Project Calendar tab (Pro preview in Free) and a My Tasks overview calendar that shows multi-day tasks as one bar.
+**New:** Invoice Defaults: the tax rate prefills each new line item and Default Terms & Conditions (now a rich text editor) prefills a new invoice (with Pro).
+**Improved:** Toasts with a countdown and clear messages on every action, shared pagination, keyboard and screen reader access across the app, and responsive layouts on narrow screens.
+**Improved:** The activity log records a field's first value, a cleared value and start date changes, and shows as a timeline.
+**Improved:** Settings use a left navigation, and Invoices and Settings tabs show only to managers.
+**Improved:** The File Upload Limit setting applies to every upload, and downloads show progress.
+**Fixed:** Urgent priority shows everywhere and is kept on save, and the Undefined offset notice for it is gone.
+**Fixed:** Dates entered as a day no longer show a day early, and date displays include the year.
+**Fixed:** Stale screens on hosts that cache wp-json responses; member, category and task changes now refresh without a reload.
+**Fixed:** Kanban Import Task shows every task list, AI models load for OpenAI and Google, and the Modules menu is hidden from non-admins.
+**Fixed:** Updating a project without its members no longer removes them, and opening a project no longer jumps back to the previous one.
+**Fixed:** Bullets and numbered lists show in editors on the settings and invoice screens.
 
 = v4.0.7 – Aug 19, 2026 =
 
@@ -595,4 +622,8 @@ A. If you face any issues, you can contact the support team through the official
 * **Fix** Could not download files from the project.
 
 == Upgrade Notice ==
+
+= 4.1.0 =
+Major release with a new interface. If you use WP Project Manager Pro, update it to 4.1.0 as well: an older Pro is deactivated until it is updated.
+
 <strong>BREAKING CHANGE</strong>: v2.0 release is a major version and introduces breaking changes by re-writing the whole plugin. Please test the plugin before updating from <strong>v1.x</strong>. Taking a database backup is advised.
