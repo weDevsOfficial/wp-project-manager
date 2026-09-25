@@ -6,6 +6,7 @@ import { useCurrentProject } from '@hooks/useCurrentProject'
 import { usePermissions } from '@hooks/usePermissions'
 import { UserAvatar } from '@components/common/UserAvatar'
 import { GlobalSearch } from '@components/common/GlobalSearch'
+import { EmptyState } from '@components/common/EmptyState'
 import { Button } from '@components/ui/button'
 import {
   Sheet,
@@ -13,17 +14,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@components/ui/sheet'
-import {
-  ChevronRight,
-  Bell,
-  Loader2,
-  LayoutDashboard,
-  Monitor,
-  Lightbulb,
-  Megaphone,
-  Sun,
-  Moon,
-} from 'lucide-react'
+import { ChevronRight, Bell, Loader2, LayoutDashboard, Monitor, Lightbulb, Megaphone, Sun, Moon } from 'lucide-react'
 import { cn } from '@lib/utils'
 import { formatPmDateTime } from '@lib/pm-utils'
 
@@ -80,7 +71,7 @@ export function TopBar() {
 
   const activeProjectId = useMemo(() => {
     const parts = location.pathname.split('/').filter(Boolean)
-    return parts[0] === 'projects' && parts[1] ? parts[1] : null
+    return parts[0] === 'projects' && /^\d+$/.test(parts[1] || '') ? parts[1] : null
   }, [location.pathname])
 
   const activeProject = useCurrentProject(activeProjectId)
@@ -133,7 +124,9 @@ export function TopBar() {
     const parts = location.pathname.split('/').filter(Boolean)
     const crumbs = [{ label: BREADCRUMB_LABELS['projects'] || __('Projects', 'wedevs-project-manager'), path: '/projects' }]
 
-    if (parts[0] === 'projects' && parts[1]) {
+    if (parts[0] === 'projects' && parts[1] === 'archived') {
+      crumbs.push({ label: __('Archived', 'wedevs-project-manager'), path: '/projects/archived' })
+    } else if (parts[0] === 'projects' && parts[1]) {
       const projectLabel = activeProject?.title
         ? `#${parts[1]} · ${activeProject.title}`
         : `#${parts[1]}`
@@ -169,7 +162,7 @@ export function TopBar() {
     }
 
     return crumbs
-  }, [location.pathname, __, BREADCRUMB_LABELS])
+  }, [location.pathname, activeProject?.title, __, BREADCRUMB_LABELS])
 
   const currentUser = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user : null
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
@@ -232,10 +225,10 @@ export function TopBar() {
         </span>
 
         {/* Notifications */}
-        <Button variant="ghost" size="icon" className="h-8 w-8 relative shrink-0" onClick={() => setNotifOpen(true)}>
+        <Button variant="ghost" size="icon" className="h-8 w-8 relative shrink-0" onClick={() => setNotifOpen(true)} aria-label={__('Notifications', 'wedevs-project-manager')}>
           <Bell className="h-5 w-5 text-pm-text-muted" />
           {unreadCount > 0 && (
-            <span className="absolute -top-0.5 -right-0.5 h-4 min-w-[16px] flex items-center justify-center rounded-full bg-destructive text-[11px] text-white font-bold px-1">
+            <span className="absolute -top-0.5 -right-0.5 h-4 min-w-[16px] flex items-center justify-center rounded-md bg-destructive text-[11px] text-white font-bold px-1">
               {unreadCount}
             </span>
           )}
@@ -245,6 +238,7 @@ export function TopBar() {
         <button
           type="button"
           className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors shrink-0"
+          aria-label={isDark ? __('Switch to light mode', 'wedevs-project-manager') : __('Switch to dark mode', 'wedevs-project-manager')}
           title={isDark ? __('Switch to light mode', 'wedevs-project-manager') : __('Switch to dark mode', 'wedevs-project-manager')}
           onClick={toggleDarkMode}
         >
@@ -261,6 +255,8 @@ export function TopBar() {
                 'p-1.5 rounded transition-colors',
                 sidebarMode === 'plugin' ? 'bg-background shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'
               )}
+              aria-label={__('Plugin sidebar', 'wedevs-project-manager')}
+              aria-pressed={sidebarMode === 'plugin'}
               title={__('Plugin sidebar', 'wedevs-project-manager')}
             >
               <LayoutDashboard className="h-4 w-4" />
@@ -272,6 +268,8 @@ export function TopBar() {
                 'p-1.5 rounded transition-colors',
                 sidebarMode === 'wordpress' ? 'bg-background shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'
               )}
+              aria-label={__('WordPress sidebar', 'wedevs-project-manager')}
+              aria-pressed={sidebarMode === 'wordpress'}
               title={__('WordPress sidebar', 'wedevs-project-manager')}
             >
               <Monitor className="h-4 w-4" />
@@ -303,15 +301,18 @@ export function TopBar() {
           <div className="flex-1 overflow-y-auto min-h-0">
             {notifLoading ? (
               <div className="flex items-center justify-center py-12 text-sm text-pm-text-muted">
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__('Loading...', 'wedevs-project-manager')}
+                <Loader2 className="mr-2 h-4 w-4 animate-spin text-muted-foreground" />{__('Loading...', 'wedevs-project-manager')}
               </div>
             ) : notifications.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-16 text-center px-6">
-                <Bell className="h-10 w-10 text-pm-text-muted/30 mb-3" />
-                <p className="text-sm text-pm-text-muted">{__('No notifications yet', 'wedevs-project-manager')}</p>
-              </div>
+              <EmptyState
+                compact
+                className="py-16"
+                icon={Bell}
+                title={__('No notifications yet', 'wedevs-project-manager')}
+                description={__('Activity on your projects will show up here.', 'wedevs-project-manager')}
+              />
             ) : (
-              <div className="divide-y divide-border">
+              <div className="divide-y divide-pm-border/40">
                 {notifications.map(n => {
                   // Parse {{placeholder}} templates in activity messages
                   let msg = n.message || n.description || n.title || __('Activity', 'wedevs-project-manager')
@@ -323,7 +324,7 @@ export function TopBar() {
                   }
                   const actor = n.actor?.data || n.actor || {}
                   return (
-                    <div key={n.id} className="flex items-start gap-3 px-5 py-3 hover:bg-muted/20 transition-colors">
+                    <div key={n.id} className="flex items-start gap-3 px-5 py-3 hover:bg-muted/40 transition-colors">
                       <UserAvatar user={actor} size="md" className="mt-0.5" />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm text-pm-text-primary leading-relaxed">{msg}</p>

@@ -43,6 +43,15 @@ $wedevs_pm_router->post( 'projects/{project_id}/boards/{board_id}/automation', '
 $wedevs_pm_router->post( 'projects/{project_id}/kanboard/{board_id}/header_background', 'WeDevs/PM/Kanban/Controllers/Kanboard_Controller@header_background' )
     ->permission( ['WeDevs\PM\Core\Permissions\Project_Manage_Capability'] );
 
+$wedevs_pm_router->get( 'projects/{project_id}/kanboard-background', 'WeDevs/PM/Kanban/Controllers/Kanboard_Controller@get_board_background' )
+    ->permission( ['WeDevs\PM\Core\Permissions\Access_Project'] );
+
+$wedevs_pm_router->post( 'projects/{project_id}/kanboard-background', 'WeDevs/PM/Kanban/Controllers/Kanboard_Controller@set_board_background' )
+    ->permission( ['WeDevs\PM\Core\Permissions\Access_Project'] );
+
+$wedevs_pm_router->post( 'projects/{project_id}/kanboard-background/upload', 'WeDevs/PM/Kanban/Controllers/Kanboard_Controller@upload_board_background' )
+    ->permission( ['WeDevs\PM\Core\Permissions\Access_Project'] );
+
 $wedevs_pm_router->post( 'projects/{project_id}/kanboard/filter', 'WeDevs/PM/Kanban/Controllers/Kanboard_Controller@search_tasks' )
     ->permission( ['WeDevs\PM\Core\Permissions\Access_Project'] );
 

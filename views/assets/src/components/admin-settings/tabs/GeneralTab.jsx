@@ -130,7 +130,7 @@ const GeneralTab = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <h2 className="text-lg font-semibold text-pm-text mb-1">
+      <h2 className="text-lg font-semibold text-pm-text-primary mb-1">
         {__('General Settings', 'wedevs-project-manager')}
       </h2>
       <p className="text-sm text-pm-text-muted mb-5">
@@ -167,7 +167,7 @@ const GeneralTab = () => {
       {isPro && (
         <div className="rounded-lg border border-pm-border bg-pm-surface mt-5">
           <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
-            <h3 className="text-sm font-semibold text-pm-text-primary">{__('Pro Settings', 'wedevs-project-manager')}</h3>
+            <h3 className="text-sm font-medium text-pm-text-primary">{__('Pro Settings', 'wedevs-project-manager')}</h3>
           </div>
 
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-5 py-4">
@@ -177,7 +177,7 @@ const GeneralTab = () => {
               </Label>
               <p className="text-sm text-pm-text-muted mt-0.5">{__('Enable start date field for tasks', 'wedevs-project-manager')}</p>
             </div>
-            <Switch checked={taskStartField} onCheckedChange={(v) => { setTaskStartField(v); setIsDirty(true) }} />
+            <Switch aria-label={__('Enable start date field for tasks', 'wedevs-project-manager')} checked={taskStartField} onCheckedChange={(v) => { setTaskStartField(v); setIsDirty(true) }} />
           </div>
 
           <div className="border-t border-pm-border" />
@@ -189,7 +189,7 @@ const GeneralTab = () => {
               </Label>
               <p className="text-sm text-pm-text-muted mt-0.5">{__('Send daily digest emails to team members', 'wedevs-project-manager')}</p>
             </div>
-            <Switch checked={dailyDigest} onCheckedChange={(v) => { setDailyDigest(v); setIsDirty(true) }} />
+            <Switch aria-label={__('Send daily digest emails to team members', 'wedevs-project-manager')} checked={dailyDigest} onCheckedChange={(v) => { setDailyDigest(v); setIsDirty(true) }} />
           </div>
 
           <div className="border-t border-pm-border" />
@@ -205,12 +205,12 @@ const GeneralTab = () => {
               )}
               <div className="flex gap-2">
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
-                <Button type="button" size="sm" variant="outline" className="h-8 text-sm" onClick={handleLogoUpload} disabled={uploading}>
+                <Button type="button" size="sm" variant="outline" className="h-11 text-sm" onClick={handleLogoUpload} disabled={uploading}>
                   {uploading ? <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" /> : <Upload className="h-3.5 w-3.5 mr-1" />}
                   {uploading ? __('Uploading...', 'wedevs-project-manager') : logo ? __('Change', 'wedevs-project-manager') : __('Upload', 'wedevs-project-manager')}
                 </Button>
                 {logo && (
-                  <Button type="button" size="sm" variant="outline" className="h-8 text-sm text-destructive" onClick={() => { setLogo(null); setLogoId(null); setIsDirty(true) }}>
+                  <Button type="button" size="sm" variant="outline" className="h-11 text-sm text-destructive" onClick={() => { setLogo(null); setLogoId(null); setIsDirty(true) }}>
                     <Trash2 className="h-3.5 w-3.5 mr-1" />{__('Remove', 'wedevs-project-manager')}
                   </Button>
                 )}
@@ -221,9 +221,9 @@ const GeneralTab = () => {
       )}
 
       <div className="flex items-center gap-3 mt-5">
-        <Button type="submit" disabled={!isDirty || generalSaving}>
+        <Button className="h-11 px-5" type="submit" disabled={!isDirty || generalSaving}>
           {generalSaving
-            ? __('Saving...', 'wedevs-project-manager')
+            ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</>
             : __('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && !generalSaving && (

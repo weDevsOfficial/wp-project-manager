@@ -28,6 +28,11 @@ window.PM = {
     AdminRoute, ProjectRoute, LicenseRoute, ManagerRoute,
     BackButton, FileUploadArea, ProBadge, ProUpgradeModal, LicenseGuard,
     NewTaskSheet, TaskDetailSheet,
+    AttributePicker,   // task-sheet single-value picker (Type, Priority, Milestone, Pro Sprint);
+                       // the module also exports attributeChipClass / attributePillClass,
+                       // used by Pro's estimate field, so ship Free and Pro together
+    LoadFailed,        // failed-request state with retry (Pro Sprints, Archive)
+    EmptyState,        // icon + title + hint (+ action); `compact` for tabs and panels
   },
 
   // Re-exported libs — Pro externalizes via webpack to use THESE instances

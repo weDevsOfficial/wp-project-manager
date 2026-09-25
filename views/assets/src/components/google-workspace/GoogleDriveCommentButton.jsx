@@ -45,6 +45,7 @@ export default function GoogleDriveCommentButton({ projectId, attachableType, at
         type="button"
         onClick={openPicker}
         title={__('Add from Google Drive', 'wedevs-project-manager')}
+        aria-label={__('Add from Google Drive', 'wedevs-project-manager')}
         className={`p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent ${className}`}
       >
         <DriveMonoGlyph className="h-3.5 w-3.5" />

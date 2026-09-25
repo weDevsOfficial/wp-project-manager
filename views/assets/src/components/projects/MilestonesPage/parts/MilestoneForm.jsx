@@ -57,10 +57,10 @@ export default function MilestoneForm({ milestone, onSubmit, onCancel }) {
         />
       </div>
       <DialogFooter>
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <Button type="button" variant="outline" className="h-11 px-5" onClick={onCancel}>
           {__("Cancel", 'wedevs-project-manager')}
         </Button>
-        <Button type="submit" disabled={!title.trim()}>
+        <Button type="submit" className="h-11 px-5" disabled={!title.trim()}>
           {milestone ? __("Update", 'wedevs-project-manager') : __("Create Milestone", 'wedevs-project-manager')}
         </Button>
       </DialogFooter>

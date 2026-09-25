@@ -26,11 +26,25 @@ const DialogOverlay = React.forwardRef(({ className, ...props }, ref) => (
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-const DialogContent = React.forwardRef(({ className, children, ...props }, ref) => (
+// Radix points aria-describedby at the <DialogDescription> id and warns when none
+// renders it. DialogDescription reports itself through this context, so a dialog
+// keeps Radix's link when it has a description and drops the dangling reference
+// when it has none. An aria-describedby passed by the caller always wins.
+const DialogDescriptionContext = React.createContext(null)
+
+const DialogContent = React.forwardRef(({ className, children, ...props }, ref) => {
+  const [hasDescription, setHasDescription] = React.useState(false)
+  const describedBy = ('aria-describedby' in props || hasDescription)
+    ? {}
+    : { 'aria-describedby': undefined }
+
+  return (
   <DialogPortal>
     <DialogOverlay />
+    <DialogDescriptionContext.Provider value={setHasDescription}>
     <DialogPrimitive.Content
       ref={ref}
+      {...describedBy}
       className={cn(
         "fixed left-[50%] top-[50%] z-50 grid grid-cols-[minmax(0,1fr)] [&>*]:min-w-0 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background text-foreground p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
         className
@@ -43,8 +57,10 @@ const DialogContent = React.forwardRef(({ className, children, ...props }, ref) 
         <span className="sr-only">{__('Close', 'wedevs-project-manager')}</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
+    </DialogDescriptionContext.Provider>
   </DialogPortal>
-))
+  )
+})
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
 const DialogHeader = ({
@@ -75,12 +91,22 @@ const DialogTitle = React.forwardRef(({ className, ...props }, ref) => (
 ))
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
-const DialogDescription = React.forwardRef(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props} />
-))
+const DialogDescription = React.forwardRef(({ className, ...props }, ref) => {
+  const setHasDescription = React.useContext(DialogDescriptionContext)
+
+  React.useLayoutEffect(() => {
+    if (!setHasDescription) return undefined
+    setHasDescription(true)
+    return () => setHasDescription(false)
+  }, [setHasDescription])
+
+  return (
+    <DialogPrimitive.Description
+      ref={ref}
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props} />
+  )
+})
 DialogDescription.displayName = DialogPrimitive.Description.displayName
 
 export {

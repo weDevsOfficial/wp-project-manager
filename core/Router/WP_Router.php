@@ -39,6 +39,12 @@ class WP_Router {
         // that rewrites Cache-Control on wp-json (e.g. an nginx `expires 1h` rule)
         // makes browsers replay stale JSON, so the UI keeps showing old data.
         add_filter( 'rest_post_dispatch', array( __CLASS__, 'send_nocache_headers' ), 10, 3 );
+
+        // Controllers that answer with wp_send_json_*() echo and exit before
+        // rest_post_dispatch ever runs, so the filter above never reaches them.
+        // Emit the same headers up front for plugin routes: whichever way the
+        // controller returns, the response is marked uncacheable.
+        add_filter( 'rest_pre_dispatch', array( __CLASS__, 'send_early_nocache_headers' ), 10, 3 );
 	}
 
 	/**
@@ -63,6 +69,35 @@ class WP_Router {
 		$response->header( 'Expires', 'Wed, 11 Jan 1984 05:00:00 GMT' );
 
 		return $response;
+	}
+
+	/**
+	 * Send the no-store cache headers before the controller runs.
+	 *
+	 * send_nocache_headers() only fires for controllers that return a response.
+	 * Ones that finish with wp_send_json_*() terminate the request first, so
+	 * their responses shipped with no cache headers at all. Setting the headers
+	 * here covers both paths; the later filter simply overwrites the same names.
+	 *
+	 * @param  mixed            $result
+	 * @param  \WP_REST_Server  $server
+	 * @param  \WP_REST_Request $request
+	 *
+	 * @return mixed
+	 */
+	public static function send_early_nocache_headers( $result, $server, $request ) {
+		if ( ! is_object( $request ) || headers_sent() ) {
+			return $result;
+		}
+
+		if ( ! self::is_plugin_route( $request ) ) {
+			return $result;
+		}
+
+		header( 'Cache-Control: no-store, no-cache, must-revalidate, max-age=0' );
+		header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
+
+		return $result;
 	}
 
 	/**
@@ -199,6 +234,22 @@ class WP_Router {
 				}
 			}
 		}	
+
+		// Permission classes return a WP_Error with no status, so the REST API
+		// answered 500 for what is really an authorization failure. Default the
+		// merged error to 401/403 so clients can tell denial from a server fault.
+		$code = $wp_error_merged->get_error_code();
+
+		if ( $code ) {
+			$data = $wp_error_merged->get_error_data( $code );
+
+			if ( ! is_array( $data ) || ! isset( $data['status'] ) ) {
+				$data = is_array( $data ) ? $data : array();
+				$data['status'] = rest_authorization_required_code();
+				$wp_error_merged->add_data( $data, $code );
+			}
+		}
+
 		return $wp_error_merged;
 	}
 

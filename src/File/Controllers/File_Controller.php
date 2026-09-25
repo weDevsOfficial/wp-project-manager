@@ -13,6 +13,7 @@ use WeDevs\PM\File\Transformers\File_Transformer;
 use WeDevs\PM\Core\File_System\File_System;
 use WeDevs\PM\Common\Traits\Request_Filter;
 use Illuminate\Pagination\Paginator;
+use WeDevs\PM\Common\Models\Meta;
 
 class File_Controller {
 
@@ -30,8 +31,18 @@ class File_Controller {
             return $page;
         }); 
 
-        $files = File::with(['meta'])->where( 'project_id', $project_id )
-            ->paginate( $per_page );
+        $files = File::with(['meta'])->where( 'project_id', $project_id );
+
+        // Files flagged private are only visible to roles holding
+        // view_private_file. This listing previously returned every file in the
+        // project, so a client saw private uploads.
+        $private_ids = self::private_file_ids( $project_id );
+
+        if ( ! empty( $private_ids ) ) {
+            $files = $files->whereNotIn( 'id', $private_ids );
+        }
+
+        $files = $files->paginate( $per_page );
 
 
         $file_collection = $files->getCollection();
@@ -42,6 +53,42 @@ class File_Controller {
         $response = $this->get_response( $resource );
 
         return apply_filters( 'wedevs_pm_after_get_files', $response, $files, $resource, $request->get_params() );
+    }
+
+    /**
+     * Ids of files the current user may not see. Empty when the user holds
+     * view_private_file, so managers and co-workers are unaffected.
+     *
+     * @param int $project_id
+     * @return array
+     */
+    private static function private_file_ids( $project_id ) {
+        if ( wedevs_pm_user_can( 'view_private_file', $project_id ) ) {
+            return [];
+        }
+
+        // array_map, not Collection::map: the latter passes (value, key), and
+        // intval()'s second argument is the numeric base, so every element after
+        // the first would be reparsed in a bogus base and come back 0.
+        // Same rule as pm-pro's File::scopePrivate: any non-zero flag is private,
+        // and the uploader always sees their own file.
+        $private_ids = array_map( 'intval', Meta::where( 'project_id', $project_id )
+            ->where( 'entity_type', 'file' )
+            ->where( 'meta_key', 'private' )
+            ->whereNotIn( 'meta_value', [ '0', '', 'false' ] )
+            ->pluck( 'entity_id' )
+            ->all() );
+
+        if ( empty( $private_ids ) ) {
+            return [];
+        }
+
+        $own_ids = array_map( 'intval', File::whereIn( 'id', $private_ids )
+            ->where( 'created_by', get_current_user_id() )
+            ->pluck( 'id' )
+            ->all() );
+
+        return array_values( array_diff( $private_ids, $own_ids ) );
     }
 
     public function show( WP_REST_Request $request ) {
@@ -55,6 +102,10 @@ class File_Controller {
             return new \WP_Error( 'pm_file', __( 'File not found in this project.', 'wedevs-project-manager' ), [ 'status' => 404 ] );
         }
 
+        if ( in_array( intval( $file->id ), self::private_file_ids( $project_id ), true ) ) {
+            return new \WP_Error( 'pm_file', __( 'File not found in this project.', 'wedevs-project-manager' ), [ 'status' => 404 ] );
+        }
+
         $resource = new Item( $file, new File_Transformer );
 
         return $this->get_response( $resource );
@@ -64,7 +115,12 @@ class File_Controller {
         $media_data = $request->get_file_params();
         $file = $media_data['file'];
 
-        $attachment_id = File_System::upload( $file );
+        $attachment_id = File_System::upload( $file, $upload_error );
+
+        if ( ! $attachment_id ) {
+            return new \WP_Error( 'pm_file_upload', $upload_error ? $upload_error : __( 'The file could not be saved.', 'wedevs-project-manager' ), [ 'status' => 400 ] );
+        }
+
         $request->set_param( 'attachment_id', $attachment_id );
 
         $data = $this->extract_non_empty_values( $request );
@@ -104,6 +160,19 @@ class File_Controller {
         if ( ! $file ) {
             wp_send_json_error( [ 'message' => __( 'File not found in this project.', 'wedevs-project-manager' ) ], 404 );
         }
+
+        // A folder's children pointed at a row that no longer exists, so every
+        // file inside a deleted folder became unreachable in the UI while its
+        // blob and rows stayed behind. Move them up to the folder's own parent.
+        File::where( 'parent', $file->id )
+            ->where( 'project_id', $project_id )
+            ->update( [ 'parent' => intval( $file->parent ) ] );
+
+        // Privacy/title/description rows outlived the file they described.
+        Meta::where( 'entity_id', $file->id )
+            ->where( 'project_id', $project_id )
+            ->where( 'entity_type', 'file' )
+            ->delete();
 
         File_System::delete( $file->attachment_id );
         $file->delete();

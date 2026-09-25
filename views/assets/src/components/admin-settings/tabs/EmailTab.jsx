@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react'
 import { __ } from '@wordpress/i18n';
 import React, { useState, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
@@ -39,7 +40,7 @@ const EmailTab = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <h2 className="text-lg font-semibold text-pm-text mb-1">
+      <h2 className="text-lg font-semibold text-pm-text-primary mb-1">
         {__('Email Settings', 'wedevs-project-manager')}
       </h2>
       <p className="text-sm text-pm-text-muted mb-5">
@@ -101,7 +102,7 @@ const EmailTab = () => {
               {__('Email links point to the WP admin backend', 'wedevs-project-manager')}
             </p>
           </div>
-          <Switch
+          <Switch aria-label={__('Email links point to the WP admin backend', 'wedevs-project-manager')}
             id="link_to_backend"
             checked={!!form.link_to_backend}
             onCheckedChange={(val) => updateField('link_to_backend', val)}
@@ -119,7 +120,7 @@ const EmailTab = () => {
               {__('All recipients added as BCC instead of TO', 'wedevs-project-manager')}
             </p>
           </div>
-          <Switch
+          <Switch aria-label={__('All recipients added as BCC instead of TO', 'wedevs-project-manager')}
             id="enable_bcc"
             checked={!!form.enable_bcc}
             onCheckedChange={(val) => updateField('enable_bcc', val)}
@@ -128,9 +129,9 @@ const EmailTab = () => {
       </div>
 
       <div className="flex items-center gap-3 mt-5">
-        <Button type="submit" disabled={!isDirty || emailSaving}>
+        <Button className="h-11 px-5" type="submit" disabled={!isDirty || emailSaving}>
           {emailSaving
-            ? __('Saving...', 'wedevs-project-manager')
+            ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</>
             : __('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && !emailSaving && (

@@ -91,7 +91,7 @@ class Pusher_Controller {
 
             $code = wp_remote_retrieve_response_code( $response );
             if ( $code < 200 || $code >= 300 ) {
-                $last_error = sprintf( __( 'Pusher API returned %1$d: %2$s', 'wedevs-project-manager' ), $code, wp_remote_retrieve_body( $response ) );
+                $last_error = sprintf( /* translators: %1$d is the HTTP status code, %2$s is the response body. */ __( 'Pusher API returned %1$d: %2$s', 'wedevs-project-manager' ), $code, wp_remote_retrieve_body( $response ) );
                 break;
             }
         }
@@ -101,7 +101,7 @@ class Pusher_Controller {
         }
 
         wp_send_json_success( [
-            'message' => sprintf( __( 'Test event broadcast to %d users.', 'wedevs-project-manager' ), count( $channels ) ),
+            'message' => sprintf( /* translators: %d is the number of users the test event was sent to. */ __( 'Test event broadcast to %d users.', 'wedevs-project-manager' ), count( $channels ) ),
         ] );
     }
 }

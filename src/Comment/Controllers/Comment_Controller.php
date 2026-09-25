@@ -87,7 +87,13 @@ class Comment_Controller {
         $commentable_id = $request->get_param('commentable_id');
     
         $files      = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
- 
+
+        $size_error = $files ? \WeDevs\PM\Core\File_System\File_System::size_limit_error( $files ) : '';
+
+        if ( $size_error ) {
+            return new \WP_Error( 'pm_file_too_large', $size_error, [ 'status' => 400 ] );
+        }
+
         $comment = Comment::create( $data );
 
         if ( $type ) {
@@ -134,6 +140,12 @@ class Comment_Controller {
 
         if ( ! $comment ) {
             return new \WP_Error( 'pm_comment', __( 'Comment not found in this project.', 'wedevs-project-manager' ), [ 'status' => 404 ] );
+        }
+
+        $size_error = $files ? \WeDevs\PM\Core\File_System\File_System::size_limit_error( $files ) : '';
+
+        if ( $size_error ) {
+            return new \WP_Error( 'pm_file_too_large', $size_error, [ 'status' => 400 ] );
         }
 
         $comment->update( $data );

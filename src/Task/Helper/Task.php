@@ -400,7 +400,7 @@ class Task {
 	        2 => 'pending',
 	    ];
 
-	    return $items[$status];
+	    return isset( $items[$status] ) ? $items[$status] : 'incomplete';
     }
 
     public static function recurrency( $recurrency ) {
@@ -938,7 +938,9 @@ class Task {
 				FROM {$tb_list} as bo
 				LEFT JOIN {$tb_boardable} as bor ON bor.board_id = bo.id
 				LEFT JOIN {$tb_tasks_escaped} as tk ON tk.id = bor.boardable_id
-				where tk.id IN ({$task_placeholders})",
+				where tk.id IN ({$task_placeholders})
+				AND bor.board_type = 'task_list'
+				AND bor.boardable_type IN ('task', 'sub_task')",
 				$task_ids_safe
 			)
 		);

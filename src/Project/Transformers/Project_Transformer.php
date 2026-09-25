@@ -46,6 +46,7 @@ class Project_Transformer extends TransformerAbstract {
             'favourite'           => !empty($item->favourite) ? (boolean) $item->favourite->meta_value: false,
             'created_at'          => wedevs_pm_format_date( $item->created_at ),
             'updated_at'          => wedevs_pm_format_date( $item->updated_at ),
+            'completed_at'        => wedevs_pm_format_date( $item->completed_at ),
             'list_inbox'          => (int) $listmeta,
         ];
         return apply_filters( "wedevs_pm_project_transformer", $data, $item );

@@ -1,10 +1,14 @@
 "use client";
 
+import { __, sprintf } from '@wordpress/i18n';
+
 import {
   closestCenter,
+  closestCorners,
   DndContext,
   DragOverlay,
 
+  KeyboardSensor,
   MouseSensor,
   pointerWithin,
   TouchSensor,
@@ -16,14 +20,41 @@ import {
   arrayMove,
   horizontalListSortingStrategy,
   SortableContext,
+  sortableKeyboardCoordinates,
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
   createContext,
+  useCallback,
   useContext,
   useState,
 } from "react";
+
+// Sortable columns and cards wrap inputs (the composer, column rename), and
+// dnd-kit's activators fire on any keydown or pointerdown that bubbles up
+// from inside them: Space lifted the column instead of typing a space, and
+// dragging to select text could lift it too. Editable targets are theirs.
+function isEditableTarget(target) {
+  if (!target || typeof target.closest !== "function") return false;
+  return !!target.closest(
+    'input, textarea, select, [contenteditable=""], [contenteditable="true"]',
+  );
+}
+
+function ignoreEditable(Sensor) {
+  return class extends Sensor {
+    static activators = Sensor.activators.map(({ eventName, handler }) => ({
+      eventName,
+      handler: (event, ...rest) =>
+        isEditableTarget(event.target) ? false : handler(event, ...rest),
+    }));
+  };
+}
+
+const EditableSafeMouseSensor = ignoreEditable(MouseSensor);
+const EditableSafeTouchSensor = ignoreEditable(TouchSensor);
+const EditableSafeKeyboardSensor = ignoreEditable(KeyboardSensor);
 import { createPortal } from "react-dom";
 import tunnel from "tunnel-rat";
 
@@ -72,15 +103,13 @@ export const KanbanBoard = ({ id, children, className }) => {
       {...attributes}
       {...listeners}
       className={cn(
-        "flex size-full min-h-40 flex-col overflow-hidden rounded-xl border bg-pm-surface-muted text-sm shadow-sm ring-2 transition-all duration-200 cursor-grab active:cursor-grabbing",
+        "flex size-full min-h-40 flex-col overflow-hidden rounded-xl border border-pm-border/50 bg-pm-surface-muted/70 text-sm transition-all duration-200 cursor-grab active:cursor-grabbing",
         // Card dragged over this column
-        isOver && !activeColumnId && "ring-pm-accent/50 border-pm-accent/30 bg-pm-accent/5",
+        isOver && !activeColumnId && "ring-2 ring-pm-accent/50 border-pm-accent/30 bg-pm-accent/5",
         // Column dragged over this column — distinct highlight
-        isColumnOver && "ring-blue-400 border-blue-400 bg-blue-50/60 scale-[1.01]",
-        // No drag-over
-        !isOver && !isColumnOver && "ring-transparent border-pm-border/40",
+        isColumnOver && "ring-2 ring-blue-400 border-blue-400 bg-blue-50/60 scale-[1.01]",
         // This column is being dragged
-        isDragging && "opacity-40 shadow-2xl scale-[0.97] border-dashed border-pm-border",
+        isDragging && "opacity-40 scale-[0.97]",
         className
       )}
     >
@@ -131,7 +160,7 @@ export const KanbanCard = ({
       </div>
       {activeCardId === id && (
         <t.In>
-          <div className="rounded-xl shadow-xl ring-2 ring-pm-accent/40 opacity-95 rotate-1 scale-[1.02]">
+          <div className="rounded-lg shadow-xl ring-2 ring-pm-accent/40 opacity-95 rotate-1 scale-[1.02]">
             {children ?? <p className="m-0 font-medium text-sm">{name}</p>}
           </div>
         </t.In>
@@ -153,7 +182,7 @@ export const KanbanCards = ({
     <ScrollArea className="overflow-hidden">
       <SortableContext items={items}>
         <div
-          className={cn("flex flex-grow flex-col gap-2 p-2.5", className)}
+          className={cn("flex flex-grow flex-col gap-3 p-3", className)}
           {...props}
         >
           {filteredData.map(children)}
@@ -165,7 +194,7 @@ export const KanbanCards = ({
 };
 
 export const KanbanHeader = ({ className, ...props }) => (
-  <div className={cn("m-0 font-semibold text-sm", className)} {...props} />
+  <div className={cn("m-0 font-semibold text-sm text-pm-text-primary", className)} {...props} />
 );
 
 export const KanbanProvider = ({
@@ -184,8 +213,13 @@ export const KanbanProvider = ({
   const [activeColumnId, setActiveColumnId] = useState(null);
 
   const sensors = useSensors(
-    useSensor(MouseSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+    useSensor(EditableSafeMouseSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(EditableSafeTouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+    // Without a keyboard sensor the board is pointer-only, while every card
+    // still exposes role=button, tabindex=0 and dnd-kit's "press space bar to
+    // lift" hint, so a keyboard or screen-reader user is told to do something
+    // that does nothing.
+    useSensor(EditableSafeKeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
   const columnIds = columns.map((c) => c.id);
@@ -281,39 +315,51 @@ export const KanbanProvider = ({
     onDragStart({ active }) {
       if (active.data?.current?.type === "column") {
         const col = columns.find((c) => c.id === active.id);
-        return `Picked up the column "${col?.name}"`;
+        return sprintf(/* translators: %s: column name. */ __('Picked up the column "%s"', 'wedevs-project-manager'), col?.name);
       }
       const { name, column } = data.find((item) => item.id === active.id) ?? {};
-      return `Picked up the card "${name}" from the "${column}" column`;
+      // `column` is the board id, so announcing it raw read as "from the 3 column".
+      return sprintf(/* translators: 1: card title, 2: column name. */ __('Picked up the card "%1$s" from the "%2$s" column', 'wedevs-project-manager'), name, resolveColumnName(column));
     },
     onDragOver({ active, over }) {
       if (active.data?.current?.type === "column") return "";
-      const { name } = data.find((item) => item.id === active.id) ?? {};
-      const newColumn = resolveColumnName(over?.id);
-      return `Dragged the card "${name}" over the "${newColumn}" column`;
+      const { name, column } = data.find((item) => item.id === active.id) ?? {};
+      const newColumn = resolveColumnName(over?.id) ?? resolveColumnName(column);
+      return sprintf(/* translators: 1: card title, 2: column name. */ __('Dragged the card "%1$s" over the "%2$s" column', 'wedevs-project-manager'), name, newColumn);
     },
     onDragEnd({ active, over }) {
       if (active.data?.current?.type === "column") {
         const col = columns.find((c) => c.id === active.id);
-        return `Dropped the column "${col?.name}"`;
+        return sprintf(/* translators: %s: column name. */ __('Dropped the column "%s"', 'wedevs-project-manager'), col?.name);
       }
-      const { name } = data.find((item) => item.id === active.id) ?? {};
-      const newColumn = resolveColumnName(over?.id);
-      return `Dropped the card "${name}" into the "${newColumn}" column`;
+      const item = data.find((entry) => entry.id === active.id) ?? {};
+      // A drop with no droppable under it lands back where it started, so fall
+      // back to the card's own column instead of announcing "undefined".
+      const newColumn = resolveColumnName(over?.id) ?? resolveColumnName(item.column);
+      return sprintf(/* translators: 1: card title, 2: column name. */ __('Dropped the card "%1$s" into the "%2$s" column', 'wedevs-project-manager'), item.name, newColumn);
     },
     onDragCancel({ active }) {
       if (active.data?.current?.type === "column") {
         const col = columns.find((c) => c.id === active.id);
-        return `Cancelled dragging the column "${col?.name}"`;
+        return sprintf(/* translators: %s: column name. */ __('Cancelled dragging the column "%s"', 'wedevs-project-manager'), col?.name);
       }
       const { name } = data.find((item) => item.id === active.id) ?? {};
-      return `Cancelled dragging the card "${name}"`;
+      return sprintf(/* translators: %s: card title. */ __('Cancelled dragging the card "%s"', 'wedevs-project-manager'), name);
     },
   };
 
-  // Use pointerWithin when dragging cards (better for nested droppables),
-  // closestCenter when dragging columns
-  const collisionDetection = activeColumnId ? closestCenter : pointerWithin;
+  // Cards use pointerWithin (better for nested droppables), columns use
+  // closestCenter. pointerWithin needs pointer coordinates, so during a
+  // keyboard drag it returns nothing at all and a card could be lifted but
+  // never dropped into another column: fall back to geometry in that case.
+  const collisionDetection = useCallback(
+    (args) => {
+      if (activeColumnId) return closestCenter(args);
+      const pointerCollisions = pointerWithin(args);
+      return pointerCollisions.length > 0 ? pointerCollisions : closestCorners(args);
+    },
+    [activeColumnId],
+  );
 
   return (
     <KanbanContext.Provider value={{ columns, data, activeCardId, activeColumnId }}>

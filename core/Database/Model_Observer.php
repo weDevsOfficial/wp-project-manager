@@ -18,11 +18,9 @@ abstract class Model_Observer {
         $new = $resource->getAttributes();
 
         foreach ( $fillable_attributes as $attribute ) {
-            if ( !isset( $old[$attribute] ) ) {
-                continue;
-            }
-
-            if ( !isset( $new[$attribute] ) ) {
+            // array_key_exists, not isset: a first value set on an empty field
+            // (or a value cleared) is a change too.
+            if ( ! array_key_exists( $attribute, $old ) || ! array_key_exists( $attribute, $new ) ) {
                 continue;
             }
             if ( $old[$attribute] != $new[$attribute]  && method_exists( $this, $attribute ) ) {

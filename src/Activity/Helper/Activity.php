@@ -907,6 +907,8 @@ class Activity {
 				/* translators: 1: User display name, 2: Task title */
 				return __( '{{actor.data.display_name}} has updated the description of a task, {{meta.task_title}}.', 'wedevs-project-manager' );
 			
+			// Task_Observer logs start date changes as update_task_start_at_date.
+			case 'update_task_start_at_date':
 			case 'update_task_start_at':
 				/* translators: 1: User display name, 2: Task title, 3: Old start date, 4: New start date */
 				return __( '{{actor.data.display_name}} has updated the start date of a task, {{meta.task_title}}, from {{meta.task_start_at_old}} to {{meta.task_start_at_new}}.', 'wedevs-project-manager' );
@@ -927,7 +929,7 @@ class Activity {
 				/* translators: 1: User display name, 2: Task title, 3: Old priority, 4: New priority */
 				return __( '{{actor.data.display_name}} has updated the priority of a task, {{meta.task_title}}, from {{meta.task_priority_old}} to {{meta.task_priority_new}}.', 'wedevs-project-manager' );
 			
-			case 'update_task_payable':
+			case 'update_task_payable_status':
 				/* translators: 1: User display name, 2: Task title, 3: Old payable status, 4: New payable status */
 				return __( '{{actor.data.display_name}} has updated the payable status of a task, {{meta.task_title}}, from {{meta.task_payable_old}} to {{meta.task_payable_new}}.', 'wedevs-project-manager' );
 			

@@ -159,6 +159,28 @@ function wedevs_pm_get_setting( $key = null, $project_id = false ) {
     return null;
 }
 
+/**
+ * All global settings for the browser (PM_Vars.settings), with secret
+ * sub-keys such as the Stripe secret keys removed.
+ *
+ * @return array|null
+ */
+function wedevs_pm_localized_settings() {
+    $settings = wedevs_pm_get_setting();
+
+    if ( ! is_array( $settings ) ) {
+        return $settings;
+    }
+
+    foreach ( array_keys( \WeDevs\PM\Settings\Models\Settings::$secretSubkeys ) as $key ) {
+        if ( isset( $settings[ $key ] ) ) {
+            $settings[ $key ] = \WeDevs\PM\Settings\Models\Settings::redact_secret_subkeys( $key, $settings[ $key ] );
+        }
+    }
+
+    return $settings;
+}
+
 function wedevs_pm_get_settings( $key = null, $project_id = false ) {
     $settings = null;
 
@@ -437,9 +459,11 @@ function wedevs_pm_has_admin_capability( $user_id = false ) {
 function wedevs_pm_has_manage_capability( $user_id = false ) {
 
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
-    $user    = get_user_by( 'id', $user_id );
 
-    if ( wedevs_pm_has_admin_capability() ) {
+    // Must be evaluated for $user_id, not the current user. Without the argument
+    // this answered "yes" for every user whenever an admin made the request, so
+    // any "can user X do Y" check ran on behalf of someone else came back true.
+    if ( wedevs_pm_has_admin_capability( $user_id ) ) {
         return true;
     }
     

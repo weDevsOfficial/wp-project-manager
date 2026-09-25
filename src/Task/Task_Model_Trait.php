@@ -16,6 +16,7 @@ trait Task_Model_Trait {
         0 => 'low',
         1 => 'medium',
         2 => 'high',
+        3 => 'urgent',
     ];
 
     public static $recurrency = [
@@ -124,7 +125,6 @@ trait Task_Model_Trait {
         $key   = array_search( $value, self::$payability );
 
         if ( array_key_exists( $value, self::$payability ) ) {
-            var_dump( $value );
             $this->attributes['payable'] = $value;
         } else {
             $this->attributes['payable'] = $key;

@@ -115,7 +115,7 @@ const AiSettingsTab = () => {
       <div>
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
               <Bot className="w-5 h-5 text-pm-accent" />
               {__('AI Settings', 'wedevs-project-manager')}
             </h2>
@@ -134,7 +134,7 @@ const AiSettingsTab = () => {
     <div>
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-pm-text-primary flex items-center gap-2">
             <Bot className="w-5 h-5 text-pm-accent" />
             {__('AI Settings', 'wedevs-project-manager')}
           </h2>
@@ -168,16 +168,17 @@ const AiSettingsTab = () => {
               {aiApiState.api_key_saved && !editingKey ? (
                 <>
                   <div className="flex items-center gap-2">
-                    <div className="flex items-center h-9 w-56 rounded-md border border-pm-border bg-pm-surface px-3 text-sm select-none overflow-hidden">
+                    <div className="flex items-center h-11 w-56 rounded-md border border-pm-border bg-pm-surface px-3 text-sm select-none overflow-hidden">
                       <span className="truncate">{showKey && aiApiState.api_key ? aiApiState.api_key : '••••••••••••••••••••••••'}</span>
                     </div>
                     <Button
                       type="button"
                       variant="outline"
                       size="icon"
-                      className="h-9 w-9 shrink-0"
+                      className="h-11 w-11 shrink-0"
                       onClick={handleToggleShow}
                       disabled={revealing}
+                      aria-label={showKey ? __('Hide API Key', 'wedevs-project-manager') : __('Show API Key', 'wedevs-project-manager')}
                       title={showKey ? __('Hide API Key', 'wedevs-project-manager') : __('Show API Key', 'wedevs-project-manager')}
                     >
                       {revealing ? <Loader2 className="h-4 w-4 animate-spin" /> : (showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />)}
@@ -186,8 +187,9 @@ const AiSettingsTab = () => {
                       type="button"
                       variant="outline"
                       size="icon"
-                      className="h-9 w-9 shrink-0"
+                      className="h-11 w-11 shrink-0"
                       onClick={() => { setEditingKey(true); setLocalApiKey(''); setShowKey(false) }}
+                      aria-label={__('Change API Key', 'wedevs-project-manager')}
                       title={__('Change API Key', 'wedevs-project-manager')}
                     >
                       <Pencil className="h-4 w-4" />
@@ -214,14 +216,15 @@ const AiSettingsTab = () => {
                       type="button"
                       variant="outline"
                       size="icon"
-                      className="h-9 w-9 shrink-0"
+                      className="h-11 w-11 shrink-0"
                       onClick={() => setShowKey(v => !v)}
+                      aria-label={showKey ? __('Hide API Key', 'wedevs-project-manager') : __('Show API Key', 'wedevs-project-manager')}
                     >
                       {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </Button>
                   )}
                   {editingKey && (
-                    <Button
+                    <Button className="h-11 px-5"
                       type="button"
                       variant="outline"
                       size="sm"
@@ -283,11 +286,11 @@ const AiSettingsTab = () => {
         </div>
 
         <div className="flex items-center gap-3 mt-5 flex-wrap">
-          <Button type="button" variant="outline" disabled={aiTestingConn || aiSaving} onClick={handleTestConnection}>
-            {aiTestingConn ? __('Testing...', 'wedevs-project-manager') : __('Test Connection', 'wedevs-project-manager')}
+          <Button className="h-11 px-5" type="button" variant="outline" disabled={aiTestingConn || aiSaving} onClick={handleTestConnection}>
+            {aiTestingConn ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Testing...', 'wedevs-project-manager')}</> : __('Test Connection', 'wedevs-project-manager')}
           </Button>
-          <Button type="submit" disabled={aiSaving || aiTestingConn || !isDirty}>
-            {aiSaving ? __('Saving...', 'wedevs-project-manager') : __('Save Changes', 'wedevs-project-manager')}
+          <Button className="h-11 px-5" type="submit" disabled={aiSaving || aiTestingConn || !isDirty}>
+            {aiSaving ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Saving...', 'wedevs-project-manager')}</> : __('Save Changes', 'wedevs-project-manager')}
           </Button>
           {isDirty && (
             <span className="text-sm text-amber-600">{__('You have unsaved changes', 'wedevs-project-manager')}</span>

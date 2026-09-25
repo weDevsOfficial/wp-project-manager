@@ -322,6 +322,7 @@ const taskListsSlice = createSlice({
       state.loading = true
       state.lists = []          // Clear stale data from previous project
       state.expandedIds = []
+      state.loadFailed = false
     })
     builder.addCase(fetchTaskLists.fulfilled, (state, action) => {
       state.loading = false
@@ -340,7 +341,7 @@ const taskListsSlice = createSlice({
       // Auto-expand all lists on load (including page changes)
       state.expandedIds = state.lists.map(l => l.id)
     })
-    builder.addCase(fetchTaskLists.rejected, (state) => { state.loading = false })
+    builder.addCase(fetchTaskLists.rejected, (state) => { state.loading = false; state.loadFailed = true })
 
     builder.addCase(fetchSingleList.fulfilled, (state, action) => {
       state.currentList = action.payload

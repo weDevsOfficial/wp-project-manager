@@ -26,6 +26,8 @@ export const fetchProjects = createAsyncThunk(
         with: 'assignees',
         project_meta: 'all',
         orderby: params?.orderby ?? state.orderBy ?? 'id:desc',
+        // Archived projects live in their own list (#/projects/archived).
+        exclude_archived: 1,
         ...params,
       }
       // Only send status filter if not "all"
@@ -73,6 +75,27 @@ export const deleteProject = createAsyncThunk(
   }
 )
 
+// Archive or restore a project. Only the status changes: the update endpoint
+// keeps members when no assignees list is sent, and a list built from cached
+// data would drop anyone added since. Archiving keeps completed_at, so a
+// finished project is restored as complete.
+export const setProjectArchived = createAsyncThunk(
+  'projects/setProjectArchived',
+  async ({ project, archived }, { rejectWithValue }) => {
+    try {
+      const wasComplete = Boolean(project.completed_at?.date)
+      await api.post(`projects/${project.id}/update`, {
+        id: project.id,
+        title: project.title,
+        status: archived ? 'archived' : (wasComplete ? 'complete' : 'incomplete'),
+      })
+      return { project, archived }
+    } catch (e) {
+      return rejectWithValue(e.message ?? 'Failed to update project')
+    }
+  }
+)
+
 export const toggleProjectStatus = createAsyncThunk(
   'projects/toggleProjectStatus',
   async (projectId, { getState, rejectWithValue }) => {
@@ -83,16 +106,11 @@ export const toggleProjectStatus = createAsyncThunk(
 
       const isComplete = project.status === 'complete' || project.status === '1' || project.status === 1
       const newStatus = isComplete ? 'incomplete' : 'complete'
-      const assignees = (project.assignees?.data ?? []).map(u => ({
-        user_id: u.id,
-        role_id: u.roles?.data?.[0]?.id ?? 1,
-      }))
 
       await api.post(`projects/${projectId}/update`, {
         id: projectId,
         title: project.title,
         status: newStatus,
-        assignees,
       })
       return { projectId, newStatus, currentFilter: state.status }
     } catch (e) {
@@ -201,6 +219,7 @@ export const fetchProjectAssignees = createAsyncThunk(
 const initialState = {
   projects:     [],
   loading:      false,
+  projectsRequestId: null,
   currentPage:  1,
   totalPages:   1,
   total:        0,
@@ -211,7 +230,7 @@ const initialState = {
   orderBy:      'id:desc',
   viewMode:     localStorage.getItem('pm-project-view') ?? 'grid',
 
-  projectsMeta: { total_incomplete: 0, total_complete: 0, total_favourite: 0 },
+  projectsMeta: { total_incomplete: 0, total_complete: 0, total_pending: 0, total_favourite: 0 },
 
   categories:       [],
   categoriesLoaded: false,
@@ -281,8 +300,15 @@ const projectsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchProjects.pending, (state) => { state.loading = true })
+    // The archive page and the Projects page share this list, so only the latest
+    // request may write it; an older one landing last would show the wrong set.
+    builder.addCase(fetchProjects.pending, (state, action) => {
+      state.loading = true
+      state.loadFailed = false
+      state.projectsRequestId = action.meta.requestId
+    })
     builder.addCase(fetchProjects.fulfilled, (state, action) => {
+      if (action.meta.requestId !== state.projectsRequestId) return
       state.loading  = false
       state.projects = action.payload.data ?? []
       state.perPage  = parseInt(String(PM_Vars.settings?.project_per_page), 10) || 10
@@ -298,10 +324,15 @@ const projectsSlice = createSlice({
         const m = action.payload.meta
         if (typeof m.total_incomplete === 'number') state.projectsMeta.total_incomplete = m.total_incomplete
         if (typeof m.total_complete === 'number')   state.projectsMeta.total_complete   = m.total_complete
+        if (typeof m.total_pending === 'number')    state.projectsMeta.total_pending    = m.total_pending
         if (typeof m.total_favourite === 'number')  state.projectsMeta.total_favourite  = m.total_favourite
       }
     })
-    builder.addCase(fetchProjects.rejected, (state) => { state.loading = false })
+    builder.addCase(fetchProjects.rejected, (state, action) => {
+      if (action.meta.requestId !== state.projectsRequestId) return
+      state.loading = false
+      state.loadFailed = true
+    })
 
     builder.addCase(toggleFavourite.fulfilled, (state, action) => {
       const project = state.projects.find(p => p.id === action.payload)
@@ -313,8 +344,48 @@ const projectsSlice = createSlice({
     })
 
     builder.addCase(deleteProject.fulfilled, (state, action) => {
+      // Keep the filter-tab counts in step with the list. toggleProjectStatus and
+      // toggleFavourite already maintain projectsMeta; delete did not, so the
+      // tabs kept counting a project that was gone from the grid.
+      const project = state.projects.find(p => p.id === action.payload)
+      if (project) {
+        if (project.status === 'complete') {
+          state.projectsMeta.total_complete = Math.max(0, state.projectsMeta.total_complete - 1)
+        } else {
+          state.projectsMeta.total_incomplete = Math.max(0, state.projectsMeta.total_incomplete - 1)
+        }
+        if (project.favourite) {
+          state.projectsMeta.total_favourite = Math.max(0, state.projectsMeta.total_favourite - 1)
+        }
+      }
       state.projects = state.projects.filter(p => p.id !== action.payload)
       state.total = Math.max(0, state.total - 1)
+    })
+
+    builder.addCase(setProjectArchived.fulfilled, (state, action) => {
+      const { project, archived } = action.payload
+      if (!archived) {
+        // Restored from the archive list: it no longer belongs there.
+        if (state.activeFilter === 'archived' && state.projects.some(p => p.id === project.id)) {
+          state.projects = state.projects.filter(p => p.id !== project.id)
+          state.total = Math.max(0, state.total - 1)
+        }
+        return
+      }
+      // Leaves every tab on the Projects page, so drop it and its counts.
+      const listed = state.projects.find(p => p.id === project.id)
+      if (listed) {
+        if (listed.status === 'complete') {
+          state.projectsMeta.total_complete = Math.max(0, state.projectsMeta.total_complete - 1)
+        } else if (listed.status === 'incomplete') {
+          state.projectsMeta.total_incomplete = Math.max(0, state.projectsMeta.total_incomplete - 1)
+        }
+        if (listed.favourite) {
+          state.projectsMeta.total_favourite = Math.max(0, state.projectsMeta.total_favourite - 1)
+        }
+        state.projects = state.projects.filter(p => p.id !== project.id)
+        state.total = Math.max(0, state.total - 1)
+      }
     })
 
     builder.addCase(toggleProjectStatus.fulfilled, (state, action) => {

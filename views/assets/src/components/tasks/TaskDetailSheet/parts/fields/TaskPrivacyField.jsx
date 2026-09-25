@@ -4,13 +4,16 @@ import { updateCurrentTaskMeta } from '@store/tasksSlice';
 import { updateTaskPrivacy } from '@store/taskListsSlice';
 import { cn } from '@lib/utils';
 import { usePermissions } from '@hooks/usePermissions';
+import { useToast } from '@hooks/useToast';
 import ProGate from '@components/common/ProGate';
 import ProBadge from '@components/common/ProBadge';
 import { Shield, Eye, EyeOff } from 'lucide-react';
 import { isPrivate } from '@lib/pm-utils';
+import { attributePillClass } from '@components/common/AttributePicker';
 
 export default function TaskPrivacyField({ task, projectId, dispatch, api }) {
   const { isPro } = usePermissions();
+  const toast = useToast();
   const taskPrivate = isPrivate(task?.meta?.privacy);
   const [toggling, setToggling] = useState(false);
 
@@ -22,18 +25,21 @@ export default function TaskPrivacyField({ task, projectId, dispatch, api }) {
     dispatch(updateCurrentTaskMeta({ privacy: newPrivacy }));
     api.post(`projects/${projectId}/tasks/privacy/${task.id}`, {
       is_private: newPrivacy,
+    }).then(() => {
+      toast.success(newPrivacy ? __('Task set to private', 'wedevs-project-manager') : __('Task set to public', 'wedevs-project-manager'));
     }).catch(() => {
       const revert = taskPrivate ? 1 : 0;
       dispatch(updateTaskPrivacy({ taskId: task.id, privacy: revert }));
       dispatch(updateCurrentTaskMeta({ privacy: revert }));
+      toast.error(__('Failed to update task privacy', 'wedevs-project-manager'));
     })
     .finally(() => setToggling(false));
-  }, [taskPrivate, task, projectId, api, dispatch, toggling]);
+  }, [taskPrivate, task, projectId, api, dispatch, toggling, toast, __]);
 
   if (!isPro) {
     return (
       <ProGate feature={__('Privacy', 'wedevs-project-manager')}>
-        <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
+        <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
           <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
             <Shield className="h-4 w-4" /><span className="text-sm">{__('Privacy', 'wedevs-project-manager')}</span>
           </div>
@@ -44,16 +50,13 @@ export default function TaskPrivacyField({ task, projectId, dispatch, api }) {
   }
 
   return (
-    <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
+    <div className="flex items-center min-h-11 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
         <Shield className="h-4 w-4" /><span className="text-sm">{__('Privacy', 'wedevs-project-manager')}</span>
       </div>
       <button
         className={cn(
-          'flex items-center gap-1.5 text-sm px-2 py-0.5 rounded transition-colors',
-          taskPrivate
-            ? 'bg-amber-50 text-amber-700 hover:bg-amber-100'
-            : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100',
+          attributePillClass(taskPrivate ? 'amber' : 'green'),
           toggling && 'opacity-50'
         )}
         onClick={handleToggle}

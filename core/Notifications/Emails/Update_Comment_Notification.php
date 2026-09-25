@@ -32,7 +32,13 @@ class Update_Comment_Notification extends Email {
         foreach ($notify_users as $u ) {
             if( $this->is_enable_user_notification( $u ) ){
                 if( $this->is_enable_user_notification_for_notification_type( $u , '_cpm_email_notification_update_comment' ) ){
-                    $users[] = $project->assignees->where('ID', $u)->first()->user_email;
+                    if ( ! $this->can_user_view_commentable( $u, $request ) ) {
+                        continue;
+                    }
+                    $member = $project->assignees->where( 'ID', $u )->first();
+                    if ( $member ) {
+                        $users[] = $member->user_email;
+                    }
                 }
             }
         }

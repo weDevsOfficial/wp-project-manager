@@ -8,6 +8,7 @@ import { extractNotionUrls } from '@/lib/url-strippers'
 import NotionPreviewCard from './NotionPreviewCard'
 
 const ERROR_SENTINEL = { error: true }
+const FAILED_STATES = ['access_denied', 'error', 'rate_limited']
 
 export default function NotionPreviewContainer({ content }) {
   const api = useApi()
@@ -53,31 +54,34 @@ export default function NotionPreviewContainer({ content }) {
     })
   }, [urlsKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // The card keeps its current data while refreshing: clearing it first made
+  // the card vanish (only loaded cards render), and a failed refresh left it gone.
   const handleRefresh = useCallback((url) => {
-    cache.current.delete(url)
-    setPreviews(prev => ({ ...prev, [url]: null }))
     api.post('notion/preview', { url, force_refresh: true }).then(res => {
       if (res) {
         cache.current.set(url, res)
         setPreviews(prev => ({ ...prev, [url]: res }))
-      } else {
-        setPreviews(prev => ({ ...prev, [url]: ERROR_SENTINEL }))
       }
-    }).catch(() => {
-      setPreviews(prev => ({ ...prev, [url]: ERROR_SENTINEL }))
-    })
+    }).catch(() => { /* keep the card that is already shown */ })
   }, [api])
 
-  if (!urls.length) return null
+  // Only cards whose data loaded. While a batch is in flight, or when it
+  // fails (no access, previews off, past the 10-URL batch cap), the link in
+  // the text is the fallback, so there is nothing to hold space for.
+  const loaded = urls.filter(url => {
+    const data = previews[url]?.data
+    return data && !FAILED_STATES.includes(data.state)
+  })
+
+  if (!loaded.length) return null
 
   return (
     <div className="flex flex-wrap gap-2 mt-2">
-      {urls.map(url => (
+      {loaded.map(url => (
         <NotionPreviewCard
           key={url}
           url={url}
-          previewData={previews[url]?.data ?? null}
-          loading={previews[url] === null || previews[url] === undefined}
+          previewData={previews[url].data}
           onRefresh={() => handleRefresh(url)}
         />
       ))}

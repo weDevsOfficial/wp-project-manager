@@ -6,7 +6,7 @@ $wedevs_pm_router    = Router::singleton();
 $wedevs_pm_authentic = 'WeDevs\PM\Core\Permissions\Authentic';
 
 $wedevs_pm_router->get( 'settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@index' )
-    ->permission( [ $wedevs_pm_authentic ] );
+    ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] );
 
 $wedevs_pm_router->post( 'settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@store' )
     ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] );
@@ -30,6 +30,7 @@ $wedevs_pm_router->post( 'projects/{project_id}/delete/{id}/settings', 'WeDevs/P
 
 $wedevs_pm_router->post( 'settings/task-types', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@store' )
     ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] )
+    ->validator( 'WeDevs\PM\Settings\Validators\Task_Type_Validator' )
     ->sanitizer( 'WeDevs\PM\Settings\Sanitizers\Task_Type_Sanitizer' );
 
 $wedevs_pm_router->get( 'settings/task-types', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@index' )
@@ -37,6 +38,7 @@ $wedevs_pm_router->get( 'settings/task-types', 'WeDevs/PM/Settings/Controllers/T
 
 $wedevs_pm_router->post( 'settings/task-types/{id}', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@update_task_type' )
     ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] )
+    ->validator( 'WeDevs\PM\Settings\Validators\Task_Type_Validator' )
     ->sanitizer( 'WeDevs\PM\Settings\Sanitizers\Task_Type_Sanitizer' );
 
 $wedevs_pm_router->post( 'settings/task-types/{id}/delete', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@destroy_task_type' )
