@@ -3,6 +3,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
+// Lowest Pro version that works with this Free version (Free and Pro 4.1.0 ship as a pair)
+function wedevs_pm_min_pro_version() {
+    return '4.1.0';
+}
+
 // Get all possible Pro package slugs dynamically
 function wedevs_pm_get_pro_packages() {
     return [
@@ -50,8 +55,8 @@ function wedevs_pm_prevent_old_pro_activation( $plugin, $network_wide = false ) 
         $pro_data = get_file_data( $pro_file, [ 'Version' => 'Version' ] );
         $pro_version = $pro_data['Version'] ?? null;
 
-        // If Pro version is < 4.0.0, prevent activation
-        if ( $pro_version && version_compare( $pro_version, '4.0.0', '<' ) ) {
+        // If Pro is older than the required version, prevent activation
+        if ( $pro_version && version_compare( $pro_version, wedevs_pm_min_pro_version(), '<' ) ) {
             // Deactivate it immediately
             deactivate_plugins( $plugin, true );
 
@@ -61,10 +66,11 @@ function wedevs_pm_prevent_old_pro_activation( $plugin, $network_wide = false ) 
             // Redirect back to plugins page with error
             wp_die(
                 sprintf(
-                    /* translators: 1: Pro version number, 2: Free version number */
-                    esc_html__( 'WP Project Manager Pro version %1$s is not compatible with WP Project Manager Free version %2$s. Please update WP Project Manager Pro to version 4.0.0 or higher before activating.', 'wedevs-project-manager' ),
+                    /* translators: 1: Pro version number, 2: Free version number, 3: required Pro version */
+                    esc_html__( 'WP Project Manager Pro version %1$s is not compatible with WP Project Manager Free version %2$s. Please update WP Project Manager Pro to version %3$s or higher before activating.', 'wedevs-project-manager' ),
                     esc_html( $pro_version ),
-                    esc_html( PM_VERSION )
+                    esc_html( PM_VERSION ),
+                    esc_html( wedevs_pm_min_pro_version() )
                 ),
                 esc_html__( 'Plugin Activation Error', 'wedevs-project-manager' ),
                 [ 'back_link' => true ]
@@ -113,7 +119,7 @@ function wedevs_pm_deactivate_incompatible_pro() {
 
         // If updating from 2.x to 3.0 OR Pro version is < 3.0.0, deactivate Pro
         $is_updating = $previous_version && version_compare( $previous_version, '4.0.0', '<' );
-        $pro_is_old = $pro_version && version_compare( $pro_version, '4.0.0', '<' );
+        $pro_is_old = $pro_version && version_compare( $pro_version, wedevs_pm_min_pro_version(), '<' );
 
         if ( $is_updating || $pro_is_old || ! $pro_version ) {
             // Deactivate Pro immediately to prevent fatal errors
@@ -142,10 +148,11 @@ function wedevs_pm_pro_deactivated_notice() {
             <strong><?php esc_html_e( 'WP Project Manager Pro Deactivated', 'wedevs-project-manager' ); ?></strong><br>
             <?php
             echo esc_html( sprintf(
-                /* translators: 1: Free version number, 2: Pro version number */
-                __( 'WP Project Manager has been updated to version %1$s. Your Pro version %2$s was automatically deactivated to prevent compatibility errors. Please update WP Project Manager Pro to version 4.0.0 or higher before reactivating it.', 'wedevs-project-manager' ),
+                /* translators: 1: Free version number, 2: Pro version number, 3: required Pro version */
+                __( 'WP Project Manager has been updated to version %1$s. Your Pro version %2$s was automatically deactivated to prevent compatibility errors. Please update WP Project Manager Pro to version %3$s or higher before reactivating it.', 'wedevs-project-manager' ),
                 PM_VERSION,
-                $pro_version
+                $pro_version,
+                wedevs_pm_min_pro_version()
             ) );
             ?>
         </p>
@@ -158,7 +165,7 @@ function wedevs_pm_pro_deactivated_notice() {
 
 function wedevs_pm_check_pro_compatibility() {
     // Check if Pro version is active
-    $required_version = '4.0.0';
+    $required_version = wedevs_pm_min_pro_version();
 
     // Check if Pro is active
     if ( ! function_exists( 'is_plugin_active' ) ) {
@@ -216,19 +223,21 @@ function wedevs_pm_pro_incompatible_notice() {
             <?php
             if ( $deactivated_on_update ) {
                 echo esc_html( sprintf(
-                    /* translators: 1: Free version number, 2: Pro version number */
-                    __( 'WP Project Manager has been updated to version %1$s. Your Pro version %2$s is not compatible and was automatically deactivated to prevent errors. Please update WP Project Manager Pro to version 4.0.0 or higher before reactivating it.', 'wedevs-project-manager' ),
+                    /* translators: 1: Free version number, 2: Pro version number, 3: required Pro version */
+                    __( 'WP Project Manager has been updated to version %1$s. Your Pro version %2$s is not compatible and was automatically deactivated to prevent errors. Please update WP Project Manager Pro to version %3$s or higher before reactivating it.', 'wedevs-project-manager' ),
                     PM_VERSION,
-                    $pro_version
+                    $pro_version,
+                    wedevs_pm_min_pro_version()
                 ) );
                 // Clear the flag after showing the notice once
                 delete_option( 'wedevs_pm_pro_deactivated_on_update' );
             } else {
                 echo esc_html( sprintf(
-                    /* translators: 1: Free version number, 2: Pro version number */
-                    __( 'WP Project Manager Free version %1$s requires WP Project Manager Pro version 4.0.0 or higher. Your Pro version %2$s is not compatible and has been deactivated. Please update WP Project Manager Pro to version 4.0.0 or higher.', 'wedevs-project-manager' ),
+                    /* translators: 1: Free version number, 2: Pro version number, 3: required Pro version */
+                    __( 'WP Project Manager Free version %1$s requires WP Project Manager Pro version %3$s or higher. Your Pro version %2$s is not compatible and has been deactivated. Please update WP Project Manager Pro to version %3$s or higher.', 'wedevs-project-manager' ),
                     PM_VERSION,
-                    $pro_version
+                    $pro_version,
+                    wedevs_pm_min_pro_version()
                 ) );
             }
             ?>
