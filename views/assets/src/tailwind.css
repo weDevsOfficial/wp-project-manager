@@ -1498,6 +1498,30 @@ body.admin-bar [data-sonner-toaster] {
   content: none;
 }
 
+/* The app-root list reset above strips bullets and numbers. Editors in a
+   dialog portal sit outside the root and keep them; restore the same markers
+   for editors and rich text rendered inside the root (settings, invoices). */
+#wedevs-project-manager :is(.prose, .ProseMirror, .pm-rich-comment-content) ul:not([data-type="taskList"]),
+#wedevs-project-manager :is(.prose, .ProseMirror, .pm-rich-comment-content) ol {
+  padding-left: 1.625em !important;
+  margin: 0.5em 0 !important;
+}
+#wedevs-project-manager :is(.prose, .ProseMirror, .pm-rich-comment-content) ul:not([data-type="taskList"]) {
+  list-style: disc outside !important;
+}
+#wedevs-project-manager :is(.prose, .ProseMirror, .pm-rich-comment-content) ol {
+  list-style: decimal outside !important;
+}
+#wedevs-project-manager :is(.prose, .ProseMirror, .pm-rich-comment-content) :is(ul:not([data-type="taskList"]), ol) > li {
+  list-style: inherit !important;
+  padding-left: 0.375em;
+  margin: 0.25em 0;
+}
+#wedevs-project-manager :is(.prose, .ProseMirror, .pm-rich-comment-content) :is(ul:not([data-type="taskList"]), ol) > li::marker {
+  content: normal !important;
+  color: rgb(var(--pm-text-muted-rgb));
+}
+
 /* Checklists (GitHub-style task lists). Stored without an <input>
    (wp_kses_post strips it), so the read view draws the box from
    data-checked; the editor's TaskItem node view shows a real checkbox
