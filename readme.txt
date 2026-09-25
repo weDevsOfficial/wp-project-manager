@@ -253,7 +253,7 @@ A. If you face any issues, you can contact the support team through the official
 
 = v4.1.0 – Sep 25, 2026 =
 
-**Update:** Major release. WP Project Manager 4.1.0 needs WP Project Manager Pro 4.1.0 or newer; an older Pro is deactivated with a notice until it is updated. Update both plugins together.
+**Update:** Major release. WP Project Manager 4.1.0 needs WP Project Manager Pro 4.1.0 or newer. Pro 4.0.8 stays paused with a notice and can still be updated from the Plugins screen; older Pro versions are deactivated until updated. Update both plugins together.
 **Security:** Global settings can no longer be read by low-privileged users, and the Pusher secret is never sent to the browser. Reported by Patchstack (Ananda Dhakal).
 **Security:** Payment gateway secret keys stay on the server and are masked on the settings screen; the PayPal email is validated.
 **Security:** Private tasks, subtasks, milestones and files stay private in lists, the dashboard, activity and email notifications, and comment emails only go to people who can open the item.
@@ -624,6 +624,6 @@ A. If you face any issues, you can contact the support team through the official
 == Upgrade Notice ==
 
 = 4.1.0 =
-Major release with a new interface. If you use WP Project Manager Pro, update it to 4.1.0 as well: an older Pro is deactivated until it is updated.
+Major release with a new interface. If you use WP Project Manager Pro, update it to 4.1.0 as well: Pro features stay off until both plugins are on 4.1.0.
 
 <strong>BREAKING CHANGE</strong>: v2.0 release is a major version and introduces breaking changes by re-writing the whole plugin. Please test the plugin before updating from <strong>v1.x</strong>. Taking a database backup is advised.
