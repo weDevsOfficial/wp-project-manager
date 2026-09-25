@@ -9,11 +9,20 @@ import { Textarea } from '@components/ui/textarea';
 import { Label } from '@components/ui/label';
 import { Switch } from '@components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
+import RichTextEditor from '@components/common/RichTextEditor';
 import { CURRENCIES, COUNTRIES, getInv } from './constants';
 import ColorPicker from './parts/ColorPicker';
 import KeyInput from './parts/KeyInput';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Default terms used to be a plain textarea; show old plain values as paragraphs.
+const termsToHtml = (value) => {
+  const text = String(value || '').trim();
+  if (!text || /<\/?[a-z][^>]*>/i.test(text)) return text;
+  const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return text.split(/\r?\n\s*\r?\n/).map((para) => `<p>${esc(para).replace(/\r?\n/g, '<br>')}</p>`).join('');
+};
 
 export default function InvoiceSettingsTab() {
   const toast = useToast();
@@ -41,7 +50,7 @@ export default function InvoiceSettingsTab() {
   const [countryCode, setCountryCode] = useState(() => getInv('country_code', 'BD'));
 
   const [taxRate, setTaxRate] = useState(() => getInv('tax_rate', ''));
-  const [defaultNotes, setDefaultNotes] = useState(() => getInv('default_notes', ''));
+  const [defaultNotes, setDefaultNotes] = useState(() => termsToHtml(getInv('default_notes', '')));
 
   const [stripeEnabled, setStripeEnabled] = useState(() => {
     const v = getInv('stripe_status', null);
@@ -95,7 +104,7 @@ export default function InvoiceSettingsTab() {
         live_secret_key: liveSecretKey,
         live_publishable_key: livePublishableKey,
         tax_rate: taxRate,
-        default_notes: defaultNotes,
+        default_notes: defaultNotes === '<p></p>' ? '' : defaultNotes,
         organization,
         address_line_1: address1,
         address_line_2: address2,
@@ -283,7 +292,9 @@ export default function InvoiceSettingsTab() {
               <p className="text-sm text-pm-text-muted mt-0.5">{__('Prefills Terms & Conditions on a new invoice; edit it per invoice', 'wedevs-project-manager')}</p>
             </div>
           </div>
-          <Textarea value={defaultNotes} onChange={e => set(setDefaultNotes)(e.target.value)} className="text-sm mt-2" rows={4} placeholder={__('Payment is due within 30 days of the invoice date.', 'wedevs-project-manager')} />
+          <div className="mt-2">
+            <RichTextEditor content={defaultNotes} onChange={set(setDefaultNotes)} placeholder={__('Payment is due within 30 days of the invoice date.', 'wedevs-project-manager')} minHeight="90px" />
+          </div>
         </div>
       </div>
 

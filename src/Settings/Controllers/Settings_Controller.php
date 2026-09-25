@@ -162,6 +162,11 @@ class Settings_Controller {
             $data['value'] = Settings::keep_secret_subkeys( $data['key'], $data['value'], $settings->value );
         }
 
+        // Default invoice terms are rich text now; keep them to post-safe HTML.
+        if ( 'invoice' === $data['key'] && is_array( $data['value'] ?? null ) && isset( $data['value']['default_notes'] ) ) {
+            $data['value']['default_notes'] = wp_kses_post( (string) $data['value']['default_notes'] );
+        }
+
         $settings->update_model( $data );
         
         return $settings;
