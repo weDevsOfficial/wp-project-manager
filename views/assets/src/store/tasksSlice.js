@@ -246,6 +246,14 @@ const tasksSlice = createSlice({
     markTaskModified(state) {
       state.taskModifiedInSheet = true
     },
+    setCommentReplies(state, action) {
+      const { commentId, replies } = action.payload
+      const comment = state.taskComments.find(c => c.id === commentId)
+      if (comment) {
+        comment.replies = { ...(comment.replies || {}), data: replies }
+        comment.meta = { ...(comment.meta || {}), total_replies: replies.length }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTask.pending, (state) => { state.loading = true })
@@ -312,5 +320,5 @@ const tasksSlice = createSlice({
   },
 })
 
-export const { openTaskSheet, closeTaskSheet, setCurrentTask, updateCurrentTaskMeta, markTaskModified } = tasksSlice.actions
+export const { openTaskSheet, closeTaskSheet, setCurrentTask, updateCurrentTaskMeta, markTaskModified, setCommentReplies } = tasksSlice.actions
 export default tasksSlice.reducer

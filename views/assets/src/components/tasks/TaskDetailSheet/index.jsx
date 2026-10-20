@@ -2,7 +2,7 @@ import { __, _n, sprintf } from '@wordpress/i18n';
 import React, { useEffect, useCallback, useState, useRef } from 'react'
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@store/index'
-import { openTaskSheet, closeTaskSheet, fetchTask, updateTask, changeTaskStatus, addTaskComment, updateTaskComment, deleteTaskComment, deleteTask, markTaskModified } from '@store/tasksSlice'
+import { openTaskSheet, closeTaskSheet, fetchTask, updateTask, changeTaskStatus, addTaskComment, updateTaskComment, deleteTaskComment, deleteTask, markTaskModified, setCommentReplies } from '@store/tasksSlice'
 import { toggleTaskInList, removeTaskFromList } from '@store/taskListsSlice'
 import { useApi } from '@hooks/useApi'
 import { cn } from '@lib/utils'
@@ -28,6 +28,7 @@ import { decorateGoogleLinks } from '@lib/google-links'
 import { renderRichText } from '@lib/markdown'
 import FileUploadArea from '@components/common/FileUploadArea'
 import CommentAttachment from '@components/common/CommentAttachment'
+import { CommentReplies } from '@components/common/CommentReplies'
 import CommentLinkActions from '@components/google-workspace/CommentLinkActions'
 import TaskStatusCircle from '@components/common/TaskStatusCircle'
 import NotifyUsers from '@components/common/NotifyUsers'
@@ -564,13 +565,25 @@ export default function TaskDetailSheet() {
 
   const handleDeleteComment = useCallback(async (commentId) => {
     if (!projectId) return
+    const replyCount = comments.find(c => c.id === commentId)?.replies?.data?.length ?? 0
+    if (replyCount > 0) {
+      const ok = await confirm(
+        sprintf(_n('This comment has %d reply. Deleting the comment deletes the reply too.', 'This comment has %d replies. Deleting the comment deletes the replies too.', replyCount, 'wedevs-project-manager'), replyCount),
+        __('Delete comment?', 'wedevs-project-manager')
+      )
+      if (!ok) return
+    }
     try {
       await dispatch(deleteTaskComment({ projectId, commentId, taskId: currentTask?.id })).unwrap()
       toast.success(__('Comment deleted', 'wedevs-project-manager'))
     } catch {
       toast.error(__('Failed to delete comment', 'wedevs-project-manager'))
     }
-  }, [dispatch, projectId, toast, __])
+  }, [dispatch, projectId, comments, confirm, toast, __])
+
+  const handleRepliesChange = useCallback((commentId, replies) => {
+    dispatch(setCommentReplies({ commentId, replies }))
+  }, [dispatch])
 
   const handleLoadActivities = useCallback(async () => {
     if (!currentTask || !projectId) return
@@ -1173,6 +1186,15 @@ export default function TaskDetailSheet() {
                                 <CommentAttachment key={f.id} file={f} />
                               ))}
                             </div>
+                          )}
+                          {!isEditing && (
+                            <CommentReplies
+                              comment={comment}
+                              projectId={projectId}
+                              users={project?.assignees?.data ?? []}
+                              canEditComment={canEditComment}
+                              onRepliesChange={handleRepliesChange}
+                            />
                           )}
                         </div>
                       </div>
