@@ -7,8 +7,9 @@ export class ProjectPage extends Base {
     super(page);
   }
 
+  // PM opens on the Dashboard since 4.1.0, so go to the project list itself.
   async openProjectsList() {
-    await this.navigateToURL(this.pmHome);
+    await this.navigateToURL(`${this.pmHome}#/projects`);
     await this.waitForPmSpa();
   }
 
