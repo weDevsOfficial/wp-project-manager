@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { usePermissions } from '@hooks/usePermissions'
 import { useActiveProModules, isProModuleActive } from '@hooks/useActiveProModules'
@@ -41,6 +41,7 @@ export function ProjectSubNavBar() {
   const activeModulePaths = useActiveProModules()
   const location = useLocation()
   const navigate = useNavigate()
+  const navRef = useRef(null)
 
   const activeProjectId = useMemo(() => {
     const m = location.pathname.match(/^\/projects\/(\d+)/)
@@ -69,12 +70,23 @@ export function ProjectSubNavBar() {
     return subNav.some(item => item.key === segment) ? segment : 'task-lists'
   }, [location.pathname, activeProjectId, subNav])
 
+  // The strip scrolls sideways on narrow screens; keep the current tab in view.
+  useEffect(() => {
+    const nav = navRef.current
+    const tab = nav?.querySelector('[aria-current="page"]')
+    if (!tab) return
+    const left = tab.offsetLeft - nav.offsetLeft
+    const right = left + tab.offsetWidth
+    if (left < nav.scrollLeft) nav.scrollLeft = left
+    else if (right > nav.scrollLeft + nav.clientWidth) nav.scrollLeft = right - nav.clientWidth
+  }, [activeSubKey, subNav])
+
   // Render whenever inside a project (both plugin + WP sidebar modes)
   if (!activeProjectId) return null
 
   return (
     <div className="shrink-0 bg-pm-surface border-b border-pm-border px-6 py-3">
-      <nav className="inline-flex items-center gap-1 overflow-x-auto rounded-xl border border-pm-border bg-muted/60 p-1.5 scrollbar-none">
+      <nav ref={navRef} className="inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-xl border border-pm-border bg-muted/60 p-1.5 scrollbar-none">
         {subNav.map(item => {
           const Icon = item.icon
           const isActive = activeSubKey === item.key
@@ -83,6 +95,7 @@ export function ProjectSubNavBar() {
             <button
               key={item.key}
               onClick={() => navigate(item.path(activeProjectId))}
+              aria-current={isActive ? 'page' : undefined}
               className={cn(
                 'group/tab flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-all duration-200 shrink-0',
                 isActive
