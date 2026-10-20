@@ -193,6 +193,7 @@ class Task_Transformer extends TransformerAbstract {
         }); 
 
         $comments = $item->comments()
+            ->with( \WeDevs\PM\Comment\Models\Comment::thread_relations() )
             ->orderBy( 'created_at', 'ASC' )
             ->paginate( wedevs_pm_config('app.comment_per_page') );
 

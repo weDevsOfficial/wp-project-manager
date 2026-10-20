@@ -75,6 +75,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
         // });
 
         $comments = $item->comments()
+            ->with( \WeDevs\PM\Comment\Models\Comment::thread_relations() )
             ->orderBy( 'created_at', 'ASC' )
             ->get();
 

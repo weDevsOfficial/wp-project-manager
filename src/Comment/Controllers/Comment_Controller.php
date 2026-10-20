@@ -51,10 +51,12 @@ class Comment_Controller {
 
         if ( $query ) {
             $comments = $query->where( 'project_id', $project_id )
+                ->with( Comment::thread_relations() )
                 ->orderBy( 'created_at', 'ASC' )
                 ->paginate( $per_page, ['*'], 'page', $page );
         } else {
             $comments = Comment::where( 'project_id', $project_id )
+                ->with( Comment::thread_relations() )
                 ->orderBy( 'created_at', 'ASC' )
                 ->paginate( $per_page, ['*'], 'page', $page );
         }
@@ -138,6 +140,38 @@ class Comment_Controller {
         do_action( 'wedevs_pm_after_new_comment', $response, $request->get_params());
         
         return $response;
+    }
+
+    /**
+     * Delete a comment's replies with their attachments in a fixed number of
+     * queries: one to load them, one for their file rows, one for the replies.
+     */
+    private function delete_replies( Comment $comment ) {
+        $replies = $comment->replies()->with( 'files' )->get();
+
+        if ( $replies->isEmpty() ) {
+            return;
+        }
+
+        $reply_ids = $replies->pluck( 'id' )->all();
+
+        foreach ( $replies as $reply ) {
+            foreach ( $reply->files as $file ) {
+                File_System::delete( $file->attachment_id );
+            }
+        }
+
+        File::where( 'fileable_type', 'comment' )->whereIn( 'fileable_id', $reply_ids )->delete();
+
+        /**
+         * Fires once before a comment's replies are deleted with it.
+         *
+         * @param int[]   $reply_ids
+         * @param Comment $comment   The parent comment.
+         */
+        do_action( 'wedevs_pm_comment_replies_delete', $reply_ids, $comment );
+
+        Comment::whereIn( 'id', $reply_ids )->delete();
     }
 
     /**
@@ -247,8 +281,8 @@ class Comment_Controller {
         $resource_id = $comment->commentable_id;
 
         do_action( 'wedevs_cpm_comment_delete', $comment, false );
+        $this->delete_replies( $comment );
         $this->detach_files( $comment );
-        $comment->replies()->delete();
         $comment->files()->delete();
         $comment->delete();
 
