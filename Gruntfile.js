@@ -39,6 +39,7 @@ module.exports = function(grunt) {
                     '!build/**',
                     '!tests/**',
                     '!tests/e2e-playwright/**',
+                    '!plugins/**',
                     '!playwright-report/**',
                     '!test-results/**',
                     '!setup/**',

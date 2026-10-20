@@ -640,12 +640,17 @@ class Task {
 			'commentable_type' => 'task'
 		]);
 
-		$items  = [];
+		$items   = [];
+		$replies = $this->comment_replies( $comments['data'] );
 
         foreach ( $comments['data'] as $key => $comment ) {
         	if ( empty( $comment['id'] ) ) {
         		continue;
         	}
+
+        	$comment_replies                 = empty( $replies[ $comment['id'] ] ) ? [] : $replies[ $comment['id'] ];
+        	$comment['replies']              = [ 'data' => $comment_replies ];
+        	$comment['meta']['total_replies'] = count( $comment_replies );
 
         	$task_id = $comment['commentable_id'];
             $items[$task_id][] = $comment;
@@ -656,6 +661,42 @@ class Task {
         }
 
         return $this;
+	}
+
+	/**
+	 * Replies of the given comments in one query, oldest first, keyed by parent comment id.
+	 *
+	 * @param array $comments
+	 *
+	 * @return array
+	 */
+	private function comment_replies( $comments ) {
+		$parent_ids = array_filter( wp_list_pluck( $comments, 'id' ) );
+
+		if ( empty( $parent_ids ) ) {
+			return [];
+		}
+
+		$replies = wedevs_pm_get_comments( [
+			'commentable_id'   => array_values( $parent_ids ),
+			'commentable_type' => 'comment',
+		] );
+
+		$rows = $replies['data'];
+
+		usort( $rows, function ( $a, $b ) {
+			return [ $a['created_at']['datetime'] ?? '', $a['id'] ] <=> [ $b['created_at']['datetime'] ?? '', $b['id'] ];
+		} );
+
+		$items = [];
+
+		foreach ( $rows as $reply ) {
+			if ( ! empty( $reply['id'] ) ) {
+				$items[ $reply['commentable_id'] ][] = $reply;
+			}
+		}
+
+		return $items;
 	}
 
 	private function include_activities() {

@@ -25,6 +25,26 @@ class Comment extends Eloquent {
         'updated_by',
     ];
 
+    /**
+     * Relations a comment list renders, replies included, for eager loading
+     * so a thread costs a fixed number of queries instead of several per comment.
+     *
+     * @return array
+     */
+    public static function thread_relations() {
+        return [
+            'files',
+            'creator',
+            'updater',
+            'replies' => function ( $query ) {
+                $query->orderBy( 'created_at', 'ASC' )->orderBy( 'id', 'ASC' );
+            },
+            'replies.files',
+            'replies.creator',
+            'replies.updater',
+        ];
+    }
+
     public function replies() {
         return $this->hasMany( $this, 'commentable_id' )->where( 'commentable_type', 'comment' );
     }

@@ -24,6 +24,7 @@ class Loader {
 
         // Remove Drive attachments when their parent entity is deleted.
         add_action( 'wedevs_cpm_comment_delete', [ $this, 'cleanup_comment_attachments' ], 10, 1 );
+        add_action( 'wedevs_pm_comment_replies_delete', [ $this, 'cleanup_reply_attachments' ], 10, 1 );
         add_action( 'wedevs_pm_after_delete_task', [ $this, 'cleanup_task_attachments' ], 10, 1 );
         add_action( 'wedevs_cpm_message_delete', [ $this, 'cleanup_discussion_attachments' ], 10, 1 );
 
@@ -88,6 +89,21 @@ class Loader {
     public function cleanup_comment_attachments( $comment ) {
         $id = is_object( $comment ) ? ( isset( $comment->id ) ? $comment->id : 0 ) : (int) $comment;
         self::delete_attachments( 'comment', $id );
+    }
+
+    public function cleanup_reply_attachments( $reply_ids ) {
+        global $wpdb;
+
+        $reply_ids = array_filter( array_map( 'intval', (array) $reply_ids ) );
+
+        if ( empty( $reply_ids ) ) {
+            return;
+        }
+
+        $placeholders = implode( ', ', array_fill( 0, count( $reply_ids ), '%d' ) );
+        $table        = $wpdb->prefix . 'pm_google_drive_files';
+
+        $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE attachable_type = 'comment' AND attachable_id IN ({$placeholders})", $reply_ids ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- table name from $wpdb->prefix; ids bound as %d
     }
 
     public function cleanup_task_attachments( $task_id ) {

@@ -22,8 +22,18 @@ class Update_Comment_Notification extends Email {
             return ;
         }
 
+        // The edit request carries no commentable_type, so read it from the stored
+        // comment; a reply takes the task, list or discussion of its thread.
+        $thread = Comment::parent_comment( intval( $commentData['data']['id'] ) );
+
+        if ( ! $thread ) {
+            return;
+        }
+
+        $request['commentable_type'] = $thread->commentable_type;
+        $request['commentable_id']   = $thread->commentable_id;
+
         $project      = Project::with('assignees', 'managers')->find( $request['project_id'] );
-        $comment      = Comment::with($request['commentable_type'])->find($commentData['data']['id']);
         $users        = array();
         $notify_users = is_array( $request['notify_users'] )
             ? $request['notify_users']
@@ -54,7 +64,8 @@ class Update_Comment_Notification extends Email {
         if( !$users ){
             return ; 
         }
-        $title         = $comment->{ $request['commentable_type'] }->title;
+        $commentable   = method_exists( $thread, $request['commentable_type'] ) ? $thread->{ $request['commentable_type'] } : null;
+        $title         = $commentable ? $commentable->title : '';
         $template_name = apply_filters( 'wedevs_pm_update_comment_email_template_path', $this->get_template_path( '/html/update-comment.php' ) );
         /* translators: 1: Blog name, 2: Project title, 3: Commentable title */
         $subject       = sprintf( __( '[%1$s][%2$s] Update Comment on: %3$s', 'wedevs-project-manager' ), $this->get_blogname(), $project->title , $title );
