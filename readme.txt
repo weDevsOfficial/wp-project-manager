@@ -6,7 +6,7 @@ Tags: kanban, project, project management, task management, project manager
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.1.0
+Stable tag: 4.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,6 +250,17 @@ A. If you face any issues, you can contact the support team through the official
 14. Manage projects from the frontend
 
 == Changelog ==
+
+= v4.1.1 – Oct 20, 2026 =
+
+**Security:** The SVG upload sanitizer is updated to enshrined/svg-sanitize 1.0.0, which fixes a stored XSS and two denial-of-service issues in the library.
+**New:** Reply to a comment on tasks and discussions. Replies sit under the comment (one level), the reply box mentions the person you answer, and the comment's author is emailed.
+**New:** Pro modules can add their own link to a project card's counters (Pro uses it for Invoices).
+**Improved:** Deleting a comment that has replies asks first, then removes the replies with their attachments.
+**Improved:** Comment lists on discussions, tasks and task lists load with a fixed number of database queries.
+**Fixed:** The project tab bar scrolls on narrow screens instead of cutting off tabs, and keeps the current tab in view.
+**Fixed:** Editing a comment that mentions someone sends the update email again.
+**Fixed:** A comment can only be posted on a task, list, discussion, milestone or file of the same project.
 
 = v4.1.0 – Sep 25, 2026 =
 
