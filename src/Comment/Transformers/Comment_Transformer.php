@@ -37,7 +37,7 @@ class Comment_Transformer extends TransformerAbstract {
             'updated_at'       => wedevs_pm_format_date( $item->updated_at ),
             'project_id'       => (int) $item->project_id,
             'meta'       => [
-                'total_replies' => $item->replies->count(),
+                'total_replies' => $this->total_replies( $item ),
             ],
 
         ];
@@ -54,16 +54,41 @@ class Comment_Transformer extends TransformerAbstract {
     }
 
     /**
+     * Reply count without a query when the replies are already loaded. Replies
+     * are one level deep, so a reply never has replies of its own.
+     *
+     * @param Comment $item
+     *
+     * @return int
+     */
+    private function total_replies( Comment $item ) {
+        if ( 'comment' === $item->commentable_type ) {
+            return 0;
+        }
+
+        if ( $item->relationLoaded( 'replies' ) ) {
+            return $item->replies->count();
+        }
+
+        return $item->replies()->count();
+    }
+
+    /**
      * Include replies to a comment
      *
      * @param Comment $item
      * @return \League\Fractal\Resource\Collection
      */
     public function includeReplies( Comment $item ) {
+        // Eager loaded by Comment::thread_relations(): no query per comment.
+        if ( $item->relationLoaded( 'replies' ) ) {
+            return $this->collection( $item->replies, new Comment_Transformer );
+        }
+
         $request = WP_Router::$request;
         $page    = $request ? ( $request->get_param( 'reply_page' ) ?? 1 ) : 1;
 
-        $replies = $item->replies()->paginate( wedevs_pm_config('app.comment_per_page'), ['*'], 'reply_page', $page );
+        $replies = $item->replies()->orderBy( 'created_at', 'ASC' )->orderBy( 'id', 'ASC' )->paginate( wedevs_pm_config('app.comment_per_page'), ['*'], 'reply_page', $page );
 
         $reply_collection = $replies->getCollection();
         $resource = $this->collection( $reply_collection, new Comment_Transformer );
@@ -83,7 +108,7 @@ class Comment_Transformer extends TransformerAbstract {
         $request = WP_Router::$request;
         $page    = $request ? ( $request->get_param( 'file_page' ) ?? 1 ) : 1;
 
-        $files = $item->files()->get();
+        $files = $item->relationLoaded( 'files' ) ? $item->files : $item->files()->get();
 
         $resource = $this->collection( $files, new File_Transformer );
 

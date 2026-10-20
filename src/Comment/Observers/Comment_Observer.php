@@ -73,6 +73,15 @@ class Comment_Observer extends Model_Observer {
         }
     }
 
+    /** Adds the parent comment id to a reply's activity meta, so the feed can open its thread. */
+    private function with_parent( Comment $comment, array $meta ) {
+        if ( 'comment' === $comment->commentable_type ) {
+            $meta['parent_comment_id'] = (int) $comment->commentable_id;
+        }
+
+        return $meta;
+    }
+
     /** Flags whether a comment body contains a Drive / Meet link (for activity icons). */
     private function gw_meta( Comment $comment ) {
         $content = (string) $comment->content;
@@ -113,7 +122,7 @@ class Comment_Observer extends Model_Observer {
             'action_type'   => $action_type,
             'resource_id'   => $task->id,
             'resource_type' => 'task',
-            'meta'          => $meta,
+            'meta'          => $this->with_parent( $comment, $meta ),
             'project_id'    => $comment->project_id,
         ]);
     }
@@ -144,7 +153,7 @@ class Comment_Observer extends Model_Observer {
             'action_type'   => $action_type,
             'resource_id'   => $list->id,
             'resource_type' => 'task_list',
-            'meta'          => $meta,
+            'meta'          => $this->with_parent( $comment, $meta ),
             'project_id'    => $comment->project_id,
         ]);
     }
@@ -175,7 +184,7 @@ class Comment_Observer extends Model_Observer {
             'action_type'   => $action_type,
             'resource_id'   => $board->id,
             'resource_type' => 'discussion_board',
-            'meta'          => $meta,
+            'meta'          => $this->with_parent( $comment, $meta ),
             'project_id'    => $comment->project_id,
         ]);
     }
@@ -206,7 +215,7 @@ class Comment_Observer extends Model_Observer {
             'action_type'   => $action_type,
             'resource_id'   => $milestone->id,
             'resource_type' => 'milestone',
-            'meta'          => $meta,
+            'meta'          => $this->with_parent( $comment, $meta ),
             'project_id'    => $comment->project_id,
         ]);
     }
@@ -233,7 +242,7 @@ class Comment_Observer extends Model_Observer {
             'action_type'   => $action_type,
             'resource_id'   => $project->id,
             'resource_type' => 'project',
-            'meta'          => $meta,
+            'meta'          => $this->with_parent( $comment, $meta ),
             'project_id'    => $comment->project_id,
         ]);
     }
@@ -269,7 +278,7 @@ class Comment_Observer extends Model_Observer {
             'action_type'   => $action_type,
             'resource_id'   => $file->id,
             'resource_type' => 'file',
-            'meta'          => $meta,
+            'meta'          => $this->with_parent( $comment, $meta ),
             'project_id'    => $comment->project_id,
         ]);
     }

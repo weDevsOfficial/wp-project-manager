@@ -1,5 +1,5 @@
 import { Loader2 } from 'lucide-react'
-import { __ } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useApi } from "@hooks/useApi";
@@ -47,6 +47,7 @@ import FileUploadArea from "@components/common/FileUploadArea";
 import NotifyUsers from "@components/common/NotifyUsers";
 import ProBadge from "@components/common/ProBadge";
 import CommentAttachment from "@components/common/CommentAttachment";
+import { CommentReplies } from "@components/common/CommentReplies";
 import { formatPmDateTime, isPrivate as checkPrivate } from "@lib/pm-utils";
 import { usePermissions } from "@hooks/usePermissions";
 import GoogleDriveAttach from "@components/google-workspace/GoogleDriveAttach";
@@ -111,7 +112,7 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
     try {
       const res = await api.get(
         `projects/${projectId}/discussion-boards/${discussionId}`,
-        { with: "comments" }
+        { with: "comments,comments.replies" }
       );
       const d = res?.data ?? res;
       setDiscussion(d);
@@ -295,7 +296,7 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
         });
       }
       if (res?.data) {
-        setComments((prev) => prev.map((c) => (c.id === editingCommentId ? res.data : c)));
+        setComments((prev) => prev.map((c) => (c.id === editingCommentId ? { ...res.data, replies: c.replies } : c)));
       } else {
         setComments((prev) =>
           prev.map((c) =>
@@ -315,6 +316,14 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
 
   const handleDeleteComment = useCallback(
     async (commentId) => {
+      const replyCount = comments.find((c) => c.id === commentId)?.replies?.data?.length ?? 0;
+      if (replyCount > 0) {
+        const ok = await confirm(
+          sprintf(_n('This comment has %d reply. Deleting the comment deletes the reply too.', 'This comment has %d replies. Deleting the comment deletes the replies too.', replyCount, 'wedevs-project-manager'), replyCount),
+          __("Delete comment?", 'wedevs-project-manager')
+        );
+        if (!ok) return;
+      }
       try {
         await api.post(`projects/${projectId}/comments/${commentId}/delete`);
         setComments((prev) => prev.filter((c) => c.id !== commentId));
@@ -323,8 +332,18 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
         toast.error(__("Failed to delete comment", 'wedevs-project-manager'));
       }
     },
-    [api, projectId, toast, __]
+    [api, projectId, comments, confirm, toast, __]
   );
+
+  const handleRepliesChange = useCallback((commentId, replies) => {
+    setComments((prev) =>
+      prev.map((c) =>
+        c.id === commentId
+          ? { ...c, replies: { ...(c.replies || {}), data: replies }, meta: { ...(c.meta || {}), total_replies: replies.length } }
+          : c
+      )
+    );
+  }, []);
 
   if (loading) {
     return (
@@ -586,6 +605,15 @@ export default function DiscussionDetailPage({ onPrivacyChange, syncedPrivacy } 
                       <LoomPreviewContainer content={c.content || ""} />
                       <DiscussionFiles files={c.files} />
                     </div>
+                  )}
+                  {editingCommentId !== c.id && (
+                    <CommentReplies
+                      comment={c}
+                      projectId={projectId}
+                      users={projectUsers}
+                      canEditComment={canEditComment}
+                      onRepliesChange={handleRepliesChange}
+                    />
                   )}
                 </div>
               </div>

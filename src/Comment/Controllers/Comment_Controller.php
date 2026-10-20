@@ -16,6 +16,10 @@ use WeDevs\PM\Core\File_System\File_System;
 use WeDevs\PM\File\Models\File;
 use WeDevs\PM\Common\Traits\File_Attachment;
 use WeDevs\PM\File\Helper\File as HelperFile;
+use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
+use WeDevs\PM\Milestone\Models\Milestone;
 
 class Comment_Controller {
 
@@ -47,10 +51,12 @@ class Comment_Controller {
 
         if ( $query ) {
             $comments = $query->where( 'project_id', $project_id )
+                ->with( Comment::thread_relations() )
                 ->orderBy( 'created_at', 'ASC' )
                 ->paginate( $per_page, ['*'], 'page', $page );
         } else {
             $comments = Comment::where( 'project_id', $project_id )
+                ->with( Comment::thread_relations() )
                 ->orderBy( 'created_at', 'ASC' )
                 ->paginate( $per_page, ['*'], 'page', $page );
         }
@@ -85,6 +91,22 @@ class Comment_Controller {
 
         $commentable_type = $request->get_param( 'commentable_type' );
         $commentable_id = $request->get_param('commentable_id');
+        $project_id     = intval( $request->get_param( 'project_id' ) );
+
+        if ( 'comment' === $commentable_type ) {
+            $parent = Comment::where( 'id', intval( $commentable_id ) )->where( 'project_id', $project_id )->first();
+
+            if ( ! $parent ) {
+                return new \WP_Error( 'pm_comment', __( 'Comment not found in this project.', 'wedevs-project-manager' ), [ 'status' => 404 ] );
+            }
+
+            // Replies are one level deep: a reply to a reply joins the top comment's thread.
+            $commentable_id = Comment::parent_comment( $parent->id )->id;
+            $data['commentable_id'] = $commentable_id;
+            $request->set_param( 'commentable_id', $commentable_id );
+        } elseif ( ! $this->commentable_in_project( $commentable_type, $commentable_id, $project_id ) ) {
+            return new \WP_Error( 'pm_comment', __( 'The item you are commenting on was not found in this project.', 'wedevs-project-manager' ), [ 'status' => 404 ] );
+        }
     
         $files      = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
 
@@ -118,6 +140,79 @@ class Comment_Controller {
         do_action( 'wedevs_pm_after_new_comment', $response, $request->get_params());
         
         return $response;
+    }
+
+    /**
+     * Delete a comment's replies with their attachments in a fixed number of
+     * queries: one to load them, one for their file rows, one for the replies.
+     */
+    private function delete_replies( Comment $comment ) {
+        $replies = $comment->replies()->with( 'files' )->get();
+
+        if ( $replies->isEmpty() ) {
+            return;
+        }
+
+        $reply_ids = $replies->pluck( 'id' )->all();
+
+        foreach ( $replies as $reply ) {
+            foreach ( $reply->files as $file ) {
+                File_System::delete( $file->attachment_id );
+            }
+        }
+
+        File::where( 'fileable_type', 'comment' )->whereIn( 'fileable_id', $reply_ids )->delete();
+
+        /**
+         * Fires once before a comment's replies are deleted with it.
+         *
+         * @param int[]   $reply_ids
+         * @param Comment $comment   The parent comment.
+         */
+        do_action( 'wedevs_pm_comment_replies_delete', $reply_ids, $comment );
+
+        Comment::whereIn( 'id', $reply_ids )->delete();
+    }
+
+    /**
+     * Whether the item a comment is posted on belongs to the project.
+     *
+     * Types this plugin does not own (e.g. Pro sprints) are left to the
+     * `wedevs_pm_commentable_in_project` filter.
+     */
+    private function commentable_in_project( $type, $id, $project_id ) {
+        $id = intval( $id );
+
+        switch ( $type ) {
+            case 'task':
+                $found = Task::where( 'id', $id )->where( 'project_id', $project_id )->exists();
+                break;
+
+            case 'task_list':
+                $found = Task_List::where( 'id', $id )->where( 'project_id', $project_id )->exists();
+                break;
+
+            case 'discussion_board':
+                $found = Discussion_Board::where( 'id', $id )->where( 'project_id', $project_id )->exists();
+                break;
+
+            case 'milestone':
+                $found = Milestone::where( 'id', $id )->where( 'project_id', $project_id )->exists();
+                break;
+
+            case 'file':
+                $found = File::where( 'id', $id )->where( 'project_id', $project_id )->exists();
+                break;
+
+            case 'project':
+                $found = $id === intval( $project_id );
+                break;
+
+            default:
+                $found = true;
+        }
+
+        return (bool) apply_filters( 'wedevs_pm_commentable_in_project', $found, $type, $id, $project_id );
     }
 
     public function update( WP_REST_Request $request ) {
@@ -186,8 +281,8 @@ class Comment_Controller {
         $resource_id = $comment->commentable_id;
 
         do_action( 'wedevs_cpm_comment_delete', $comment, false );
+        $this->delete_replies( $comment );
         $this->detach_files( $comment );
-        $comment->replies()->delete();
         $comment->files()->delete();
         $comment->delete();
 
