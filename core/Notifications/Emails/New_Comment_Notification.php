@@ -23,15 +23,35 @@ class New_Comment_Notification extends Email {
 
     public function trigger( $commentData, $request ) {
 
-        if ( empty( $request['notify_users'] ) ){
+        $notify_users = empty( $request['notify_users'] ) ? [] : $request['notify_users'];
+        $notify_users = is_array( $notify_users ) ? $notify_users : explode( ',', (string) $notify_users );
+
+        if ( isset( $request['commentable_type'] ) && 'comment' === $request['commentable_type'] ) {
+            $parent = Comment::find( intval( $request['commentable_id'] ) );
+            $root   = $parent ? Comment::parent_comment( $parent->id ) : null;
+
+            if ( ! $root ) {
+                return;
+            }
+
+            // A reply is titled, linked and access-checked by the task, list or
+            // discussion its thread is on, and also tells the parent's author.
+            $request['commentable_type'] = $root->commentable_type;
+            $request['commentable_id']   = $root->commentable_id;
+
+            if ( intval( $parent->created_by ) !== get_current_user_id() ) {
+                $notify_users[] = $parent->created_by;
+            }
+        }
+
+        $notify_users = array_unique( array_filter( array_map( 'intval', $notify_users ) ) );
+
+        if ( empty( $notify_users ) ){
             return ;
         }
         
         $project      = Project::with('assignees', 'managers')->find( $request['project_id'] );
         $users        = array();
-        $notify_users = is_array( $request['notify_users'] )
-            ? $request['notify_users']
-            : explode( ',', (string) $request['notify_users'] );
 
         foreach ( $notify_users as $u ) {
             if( $this->is_enable_user_notification( $u ) ){

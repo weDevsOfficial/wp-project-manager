@@ -252,6 +252,18 @@ function wedevs_pm_pusher_after_new_comment( $comment, $params ) {
     $creator = $comment['data']['creator']['data']['display_name'];
     $title = '';
 
+    // A reply points at its thread's task, list, file or discussion.
+    if ( 'comment' === $type ) {
+        $root = \WeDevs\PM\Comment\Models\Comment::parent_comment( intval( $params['commentable_id'] ) );
+
+        if ( ! $root ) {
+            return;
+        }
+
+        $type                     = $root->commentable_type;
+        $params['commentable_id'] = $root->commentable_id;
+    }
+
     switch ( $type ) {
         case 'task_list':
             $task_list = Task_List::get_results([ 'id' =>  $params['commentable_id']]);

@@ -63,7 +63,7 @@ class Comment_Transformer extends TransformerAbstract {
         $request = WP_Router::$request;
         $page    = $request ? ( $request->get_param( 'reply_page' ) ?? 1 ) : 1;
 
-        $replies = $item->replies()->paginate( wedevs_pm_config('app.comment_per_page'), ['*'], 'reply_page', $page );
+        $replies = $item->replies()->orderBy( 'created_at', 'ASC' )->orderBy( 'id', 'ASC' )->paginate( wedevs_pm_config('app.comment_per_page'), ['*'], 'reply_page', $page );
 
         $reply_collection = $replies->getCollection();
         $resource = $this->collection( $reply_collection, new Comment_Transformer );
