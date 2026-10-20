@@ -163,17 +163,18 @@ export function CommentReplies({ comment, projectId, users = [], canEditComment,
   if (!comment?.id) return null
 
   return (
-    <div className="mt-1.5">
+    <div className="mt-1.5" data-testid="pm-comment-replies">
       <div className="flex items-center gap-3 text-[13px]">
         <button
           type="button"
+          data-testid="pm-reply-link"
           className="font-medium text-pm-text-muted hover:text-pm-accent transition-colors"
           onClick={() => openComposer(comment.creator?.data)}
         >
           {__('Reply', 'wedevs-project-manager')}
         </button>
         {replies.length > 0 && (
-          <span className="text-pm-text-muted">
+          <span className="text-pm-text-muted" data-testid="pm-reply-count">
             {sprintf(_n('%d reply', '%d replies', replies.length, 'wedevs-project-manager'), replies.length)}
           </span>
         )}
@@ -188,7 +189,7 @@ export function CommentReplies({ comment, projectId, users = [], canEditComment,
             const files = reply.files?.data ?? []
 
             return (
-              <div key={reply.id} className="flex gap-2 group/reply">
+              <div key={reply.id} className="flex gap-2 group/reply" data-testid="pm-comment-reply">
                 <UserAvatar user={author} size="sm" />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
@@ -243,6 +244,7 @@ export function CommentReplies({ comment, projectId, users = [], canEditComment,
                       )}
                       <button
                         type="button"
+                        data-testid="pm-reply-link"
                         className="mt-1 text-[12px] font-medium text-pm-text-muted hover:text-pm-accent transition-colors"
                         onClick={() => openComposer(author)}
                       >
@@ -256,7 +258,7 @@ export function CommentReplies({ comment, projectId, users = [], canEditComment,
           })}
 
           {composerOpen && (
-            <div className="space-y-2">
+            <div className="space-y-2" data-testid="pm-reply-composer">
               <RichTextEditor
                 key={composerKey}
                 content={replyText}
@@ -268,7 +270,7 @@ export function CommentReplies({ comment, projectId, users = [], canEditComment,
               />
               <FileUploadArea files={replyFiles} onFilesChange={setReplyFiles} compact />
               <div className="flex items-center gap-2">
-                <Button size="sm" className="h-9 text-sm" onClick={handleSend} disabled={sending || !replyText.trim()}>
+                <Button size="sm" className="h-9 text-sm" data-testid="pm-reply-send" onClick={handleSend} disabled={sending || !replyText.trim()}>
                   {sending ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{__('Sending...', 'wedevs-project-manager')}</> : __('Reply', 'wedevs-project-manager')}
                 </Button>
                 <Button size="sm" variant="ghost" className="h-9 text-sm" onClick={closeComposer} disabled={sending}>{__('Cancel', 'wedevs-project-manager')}</Button>
