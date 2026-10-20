@@ -23,6 +23,7 @@ import { useToast } from "@hooks/useToast";
 import { usePermissions, pmIsManager } from "@hooks/usePermissions";
 import { useProApi } from "@hooks/useProApi";
 import { useProModal } from "@components/common/ProUpgradeModal";
+import { Slot } from "@hooks/useSlot";
 
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
@@ -382,6 +383,8 @@ export default function ProjectsPage({ archived = false }) {
               </TooltipContent>
             </Tooltip>
           ))}
+          {/* Pro appends module counters here (e.g. Invoices). */}
+          <Slot name="projects.card.counters" project={project} />
         </div>
       </TooltipProvider>
     );
