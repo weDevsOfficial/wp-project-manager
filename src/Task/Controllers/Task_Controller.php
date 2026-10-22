@@ -1180,59 +1180,40 @@ class Task_Controller {
     }
 
     public function get_tasks_meta( $tasks_ids = [] ) {
-        global $wpdb;
+        $tasks_ids = array_filter( array_map( 'intval', (array) $tasks_ids ) );
 
         if ( empty( $tasks_ids ) ) {
-            $tasks_ids[] = 0;
+            return [];
         }
 
-        $comment      = esc_sql( $wpdb->prefix . 'pm_comments');
-        $assignees    = esc_sql( $wpdb->prefix . 'pm_assignees');
-        $tb_tasks     = esc_sql( $wpdb->prefix . 'pm_tasks');
-        $tasks_ids    = array_map( 'intval', $tasks_ids );
-        $sanitized_ids = implode( ',', array_map( 'absint', $tasks_ids ) );
+        $tasks = Task::select( 'id' )
+            ->with( 'assignees' )
+            ->withCount( 'comments' )
+            ->whereIn( 'id', $tasks_ids )
+            ->get();
 
-        $results = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT tk.id,
-                    GROUP_CONCAT(
-                        DISTINCT
-                        CONCAT(
-                            '{',
-                                '\"', 'assigned_to', '\"', ':' , '\"', IFNULL(asgn.assigned_to, '') , '\"' , ',',
-                                '\"', 'assigned_at', '\"', ':' , '\"', IFNULL(asgn.assigned_at, '') , '\"' , ',',
-                                '\"', 'completed_at', '\"', ':' , '\"', IFNULL(asgn.completed_at, '') , '\"' , ',',
-                                '\"', 'started_at', '\"', ':' , '\"', IFNULL(asgn.started_at, '') , '\"' , ',',
-                                '\"', 'status', '\"', ':' , '\"', IFNULL(asgn.status, '') , '\"'
-                            ,'}'
-                        ) SEPARATOR '|'
-                    ) as assignees,
-
-                    count(cm.id) as total_comment
-
-                FROM {$tb_tasks} as tk
-                LEFT JOIN {$comment} as cm ON tk.id=cm.commentable_id AND cm.commentable_type = 'task'
-                LEFT JOIN {$assignees} as asgn ON tk.id=asgn.task_id
-                WHERE tk.id IN ({$sanitized_ids})
-                GROUP BY tk.id"
-            )
-        );
-
+        $fields  = [ 'assigned_to', 'assigned_at', 'completed_at', 'started_at', 'status' ];
         $returns = [];
 
-        foreach ( $results as $result ) {
+        foreach ( $tasks as $task ) {
             $users = [];
 
-            if ( ! empty( $result->assignees ) ) {
-                $user_assigns = explode( '|', $result->assignees );
+            foreach ( $task->assignees as $assignee ) {
+                $row = [];
 
-                foreach ( $user_assigns as $user_assign ) {
-                    $users[] = json_decode( $user_assign );
+                foreach ( $fields as $field ) {
+                    $value         = $assignee->getAttributes()[ $field ] ?? null;
+                    $row[ $field ] = null === $value ? '' : (string) $value;
                 }
+
+                $users[ wp_json_encode( $row ) ] = (object) $row;
             }
 
-            $result->assignees = $users;
-            $returns[$result->id] = $result;
+            $returns[ $task->id ] = (object) [
+                'id'            => (string) $task->id,
+                'assignees'     => array_values( $users ),
+                'total_comment' => (string) $task->comments_count,
+            ];
         }
 
         return $returns;
@@ -1455,20 +1436,7 @@ class Task_Controller {
         $assignees = wedevs_pm_tb_prefix() . 'pm_assignees';
 
         $task_collection = Task::select( $task . '.*')
-            ->selectRaw(
-                "GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'assigned_to', '\"', ':' , '\"', IFNULL($assignees.assigned_to, '') , '\"' , ',',
-                            '\"', 'assigned_at', '\"', ':' , '\"', IFNULL($assignees.assigned_at, '') , '\"' , ',',
-                            '\"', 'completed_at', '\"', ':' , '\"', IFNULL($assignees.completed_at, '') , '\"' , ',',
-                            '\"', 'started_at', '\"', ':' , '\"', IFNULL($assignees.started_at, '') , '\"' , ',',
-                            '\"', 'status', '\"', ':' , '\"', IFNULL($assignees.status, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as assignees"
-            )
+            ->with( 'assignees' )
             // DISTINCT avoids cartesian inflation from sibling LEFT JOINs.
             ->selectRaw( "count(DISTINCT $comment.id) as total_comment" )
             ->whereIn( $task . '.id', $task_ids )
