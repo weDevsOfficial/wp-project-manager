@@ -17,6 +17,11 @@ use WeDevs\PM\Calendar\Transformers\Calendar_Transformer;
 use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use WeDevs\PM\User\Helper\Avatar;
+use WeDevs\PM\Common\Models\Assignee;
+use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Common\Models\Meta;
+use WeDevs\PM\Project\Models\Project;
+use WeDevs\PM\Settings\Models\Settings;
 
 
 class MyTask_Controller {
@@ -190,70 +195,7 @@ class MyTask_Controller {
             );
 
             $events = $wpdb->get_results( $wpdb->prepare(
-                "SELECT tsk.*,
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'meta_key', '\"', ':' , '\"', IFNULL(tskmt.meta_key, '') , '\"', ',',
-                            '\"', 'meta_value', '\"', ':' , '\"', IFNULL(tskmt.meta_value, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as task_meta,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'meta_key', '\"', ':' , '\"', IFNULL(boablmt.meta_key, '') , '\"', ',',
-                            '\"', 'meta_value', '\"', ':' , '\"', IFNULL(boablmt.meta_value, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as list_meta,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'assigned_to', '\"', ':' , '\"', IFNULL(asins.assigned_to, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as assignees,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        IFNULL(sett.value, '')
-                    ) SEPARATOR '|'
-                ) as settings,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'title', '\"', ':' , '\"', IFNULL(pj.title, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as project,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'board_id', '\"', ':' , '\"', IFNULL(boabl.board_id, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as boardable,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'id', '\"', ':' , '\"', IFNULL(usr.ID, '') , '\"', ',',
-                            '\"', 'display_name', '\"', ':' , '\"', IFNULL(usr.display_name, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as users
+                "SELECT tsk.*
 
                 FROM {$tb_tasks} as tsk
 
@@ -314,70 +256,7 @@ class MyTask_Controller {
             );
 
             $events = $wpdb->get_results( $wpdb->prepare(
-                "SELECT tsk.*,
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'meta_key', '\"', ':' , '\"', IFNULL(tskmt.meta_key, '') , '\"', ',',
-                            '\"', 'meta_value', '\"', ':' , '\"', IFNULL(tskmt.meta_value, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as task_meta,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'meta_key', '\"', ':' , '\"', IFNULL(boablmt.meta_key, '') , '\"', ',',
-                            '\"', 'meta_value', '\"', ':' , '\"', IFNULL(boablmt.meta_value, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as list_meta,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'assigned_to', '\"', ':' , '\"', IFNULL(asins.assigned_to, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as assignees,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        IFNULL(sett.value, '')
-                    ) SEPARATOR '|'
-                ) as settings,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'title', '\"', ':' , '\"', IFNULL(pj.title, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as project,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'board_id', '\"', ':' , '\"', IFNULL(boabl.board_id, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as boardable,
-
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'id', '\"', ':' , '\"', IFNULL(usr.ID, '') , '\"', ',',
-                            '\"', 'display_name', '\"', ':' , '\"', IFNULL(usr.display_name, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as users
+                "SELECT tsk.*
 
                 FROM {$tb_tasks} as tsk
 
@@ -448,6 +327,8 @@ class MyTask_Controller {
             $roles[ $user_role->project_id ][ $user_role->user_id ] = $user_role->role_id;
         }
 
+        $related = $this->get_calendar_task_relations( $events );
+
         foreach ( $events as $event ) {
             $role = 0;
 
@@ -455,12 +336,14 @@ class MyTask_Controller {
                 $role = $roles[ $event->project_id ][ $current_user_id ];
             }
 
-            $event->list_id       = $this->get_list_id( $event->boardable );
-            $event->settings      = $this->get_settings_value( $event->settings );
-            $event->assignees     = $this->get_assignees_value( $event->assignees, $event->users );
-            $event->task_privacy  = $this->get_privacy_meta_value( $event->task_meta );
-            $event->list_privacy  = $this->get_privacy_meta_value( $event->list_meta );
-            $event->project_title = $this->get_project_title( $event->project );
+            $list_id = $related['list_ids'][ $event->id ] ?? '';
+
+            $event->list_id       = $list_id;
+            $event->settings      = $related['settings'][ $event->project_id ] ?? '';
+            $event->assignees     = [ 'data' => $related['assignees'][ $event->id ] ?? [] ];
+            $event->task_privacy  = $related['task_privacy'][ $event->id ] ?? '';
+            $event->list_privacy  = '' === $list_id ? '' : ( $related['list_privacy'][ $list_id ] ?? '' );
+            $event->project_title = $related['project_titles'][ $event->project_id ] ?? '';
 
 
             if ( ! $this->has_view_permission(
@@ -489,6 +372,118 @@ class MyTask_Controller {
         }
 
         return $tasks;
+    }
+
+    // Batch-loads per-task calendar data; replaces GROUP_CONCAT ... SEPARATOR, which SQLite cannot run.
+    public function get_calendar_task_relations( $events ) {
+        $related = [
+            'list_ids'       => [],
+            'task_privacy'   => [],
+            'list_privacy'   => [],
+            'assignees'      => [],
+            'settings'       => [],
+            'project_titles' => [],
+        ];
+
+        $task_ids    = array_values( array_unique( array_map( 'intval', wp_list_pluck( $events, 'id' ) ) ) );
+        $project_ids = array_values( array_unique( array_map( 'intval', wp_list_pluck( $events, 'project_id' ) ) ) );
+
+        if ( empty( $task_ids ) ) {
+            return $related;
+        }
+
+        $boardables = Boardable::select( 'board_id', 'boardable_id' )
+            ->whereIn( 'boardable_id', $task_ids )
+            ->where( 'board_type', 'task_list' )
+            ->where( 'boardable_type', 'task' )
+            ->orderBy( 'id' )
+            ->get();
+
+        foreach ( $boardables as $boardable ) {
+            if ( ! isset( $related['list_ids'][ $boardable->boardable_id ] ) ) {
+                $related['list_ids'][ $boardable->boardable_id ] = $boardable->board_id;
+            }
+        }
+
+        $related['task_privacy'] = $this->get_privacy_meta_values( 'task', $task_ids );
+        $related['list_privacy'] = $this->get_privacy_meta_values( 'task_list', array_values( $related['list_ids'] ) );
+
+        $assignees = Assignee::select( 'task_id', 'assigned_to' )
+            ->whereIn( 'task_id', $task_ids )
+            ->orderBy( 'id' )
+            ->get();
+
+        $user_ids = array_values( array_unique( array_map( 'intval', $assignees->pluck( 'assigned_to' )->all() ) ) );
+        $users    = [];
+
+        if ( ! empty( $user_ids ) ) {
+            // get_users() limits to members of the current site on multisite, like the old usermeta join.
+            foreach ( get_users( [ 'include' => $user_ids, 'fields' => [ 'ID', 'display_name' ] ] ) as $user ) {
+                $users[ (int) $user->ID ] = $user;
+            }
+        }
+
+        foreach ( $assignees as $assignee ) {
+            $user_id = (int) $assignee->assigned_to;
+
+            if ( empty( $users[ $user_id ] ) || isset( $related['assignees'][ $assignee->task_id ][ $user_id ] ) ) {
+                continue;
+            }
+
+            $related['assignees'][ $assignee->task_id ][ $user_id ] = [
+                'id'           => (string) $user_id,
+                'display_name' => $users[ $user_id ]->display_name,
+                'avatar_url'   => Avatar::get_url( $user_id ),
+            ];
+        }
+
+        foreach ( $related['assignees'] as $task_id => $task_users ) {
+            $related['assignees'][ $task_id ] = array_values( $task_users );
+        }
+
+        if ( ! empty( $project_ids ) ) {
+            $related['project_titles'] = Project::whereIn( 'id', $project_ids )->pluck( 'title', 'id' )->all();
+
+            $settings = Settings::select( 'project_id', 'value' )
+                ->whereIn( 'project_id', $project_ids )
+                ->where( 'key', 'capabilities' )
+                ->orderBy( 'id' )
+                ->get();
+
+            foreach ( $settings as $setting ) {
+                if ( ! isset( $related['settings'][ $setting->project_id ] ) ) {
+                    // Raw column, unserialized the same way get_settings_value() does.
+                    $value = $setting->getAttributes()['value'] ?? '';
+
+                    $related['settings'][ $setting->project_id ] = ! empty( $value ) ? wedevs_pm_safe_unserialize( $value ) : '';
+                }
+            }
+        }
+
+        return $related;
+    }
+
+    private function get_privacy_meta_values( $entity_type, $entity_ids ) {
+        $values = [];
+
+        if ( empty( $entity_ids ) ) {
+            return $values;
+        }
+
+        $metas = Meta::select( 'entity_id', 'meta_value' )
+            ->whereIn( 'entity_id', array_map( 'intval', $entity_ids ) )
+            ->where( 'entity_type', $entity_type )
+            ->where( 'meta_key', 'privacy' )
+            ->orderBy( 'id' )
+            ->get();
+
+        foreach ( $metas as $meta ) {
+            if ( ! isset( $values[ $meta->entity_id ] ) ) {
+                $values[ $meta->entity_id ] = $meta->getAttributes()['meta_value'] ?? '';
+            }
+        }
+
+        return $values;
     }
 
     public function get_current_user_project_ids( $user_id, $project_id = false ) {

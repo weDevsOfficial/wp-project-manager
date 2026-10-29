@@ -120,18 +120,46 @@ class List_Task_Transformer extends TransformerAbstract {
         return false;
     }
 
-    public function get_task_assignee_ids( $item ) {
-        $assigness = [];
-        if( empty( $item->assignees ) ) {
+    // Eager-loaded relation, or the legacy GROUP_CONCAT string if an extension still selects it.
+    private function assignee_rows( $item ) {
+        $assignees = $item->assignees;
+
+        if ( empty( $assignees ) ) {
             return [];
         }
 
-        $users = explode( '|', $item->assignees );
+        if ( is_string( $assignees ) ) {
+            $rows = [];
 
-        foreach ( $users as $key => $assign ) {
-            $assign = str_replace('`', '"', $assign);
-            $assign = json_decode( $assign );
-            
+            foreach ( explode( '|', $assignees ) as $assign ) {
+                $assign = json_decode( str_replace( '`', '"', $assign ) );
+
+                if ( $assign ) {
+                    $rows[] = $assign;
+                }
+            }
+
+            return $rows;
+        }
+
+        $rows = [];
+
+        foreach ( $assignees as $assign ) {
+            $row = (object) array_intersect_key(
+                $assign->getAttributes(),
+                array_flip( [ 'assigned_to', 'assigned_at', 'completed_at', 'started_at', 'status' ] )
+            );
+
+            $rows[ wp_json_encode( $row ) ] = $row;
+        }
+
+        return array_values( $rows );
+    }
+
+    public function get_task_assignee_ids( $item ) {
+        $assigness = [];
+
+        foreach ( $this->assignee_rows( $item ) as $assign ) {
             if ( !empty( $assign->assigned_to ) ) {
                 $assigness[] = $assign->assigned_to;
             }
@@ -169,16 +197,8 @@ class List_Task_Transformer extends TransformerAbstract {
 
     public function assignees( $item ) {
         $assignees = ['data'=>[]];
-        if( empty( $item->assignees ) ) {
-            return $assignees;
-        }
 
-        $users = explode( '|', $item->assignees );
-        
-        foreach ( $users as $key => $assign ) {
-            $assign = str_replace('`', '"', $assign);
-            $assign = json_decode( $assign );
-            
+        foreach ( $this->assignee_rows( $item ) as $assign ) {
             if ( empty( $assign->assigned_to ) ) continue;
             $user = get_user_by( 'id', $assign->assigned_to );
             if ( empty( $user ) ) continue;

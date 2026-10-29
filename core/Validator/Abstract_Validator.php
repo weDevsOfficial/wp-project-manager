@@ -6,6 +6,15 @@ use WeDevs\PM\Core\Validator\Validator;
 use WP_REST_Request;
 
 abstract class Abstract_Validator implements Validator {
+    const ALLOWED_RULES = [
+        'wedevs_pm_required',
+        'wedevs_pm_gtz',
+        'wedevs_pm_numeric',
+        'wedevs_pm_unique',
+        'wedevs_pm_kses',
+        'wedevs_pm_pro_required',
+    ];
+
     /**
      * Current WP_REST_Request object to the application.
      *
@@ -142,9 +151,12 @@ abstract class Abstract_Validator implements Validator {
             $prefixed_fn_name = 'wedevs_pm_' . $fn_name;
         }
         
-        if ( function_exists( $prefixed_fn_name ) ) {
-            $fn_name = $prefixed_fn_name;
+        // Rule strings can carry request data: run only known validators, never a raw function name.
+        if ( ! in_array( $prefixed_fn_name, self::ALLOWED_RULES, true ) || ! function_exists( $prefixed_fn_name ) ) {
+            return true;
         }
+
+        $fn_name = $prefixed_fn_name;
 
         if ( count( $fn_parts ) > 1 ) {
             $fn_params = trim( $fn_parts[1] );

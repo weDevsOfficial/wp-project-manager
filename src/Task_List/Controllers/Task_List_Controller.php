@@ -93,18 +93,9 @@ class Task_List_Controller {
         $title       = sanitize_text_field( $request->get_param( 'title' ) );
         $is_archive  = filter_var($request->get_param('is_archive'), FILTER_VALIDATE_BOOLEAN);
 
+        // pm_meta join stays: the Pro privacy filter adds WHERE clauses on it.
         $task_lists = Task_List::select( $tb_lists . '.*' )
-            ->selectRaw(
-                "GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'meta_key', '\"', ':' , '\"', IFNULL($tb_meta.meta_key, '') , '\"', ',',
-                            '\"', 'meta_value', '\"', ':' , '\"', IFNULL($tb_meta.meta_value, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as meta"
-            )
+            ->with( 'metas' )
             ->leftJoin( $tb_boardable, function( $join ) use($tb_boardable, $tb_lists) {
                 $join->on( $tb_lists . '.id', '=', $tb_boardable . '.board_id' );
             })
@@ -718,19 +709,8 @@ class Task_List_Controller {
         $filter = is_string($filter) ? $filter : '';
 
         // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via apply_filters() which allows extensibility for custom JOIN clauses
-        $results = $wpdb->get_results(  $wpdb->prepare(
-            "SELECT bo.board_id,
-                group_concat(
-                    DISTINCT
-                    if(itasks.status=0, itasks.id, null)
-                    separator '|'
-                ) incompleted_task_ids,
-                group_concat(
-                    DISTINCT
-                    if(itasks.status=1, itasks.id, null)
-                    separator '|'
-                ) completed_task_ids
-
+        $rows = $wpdb->get_results(  $wpdb->prepare(
+            "SELECT DISTINCT bo.board_id, itasks.id, itasks.status
             FROM {$wpdb->prefix}pm_tasks as itasks
             LEFT JOIN {$wpdb->prefix}pm_boardables as bo ON bo.boardable_id=itasks.id
             {$join}
@@ -740,17 +720,26 @@ class Task_List_Controller {
             bo.boardable_type = 'task'
             AND
             itasks.project_id=%d
-            {$filter}
-            GROUP BY bo.board_id",
+            {$filter}",
             [...$list_ids_sanitized, $project_id, ...$filter_values]
         ) );
         $returns = [];
 
-        foreach ( $results as $result ) {
-            $result->incompleted_task_ids = empty( $result->incompleted_task_ids ) ? [] : explode( '|', $result->incompleted_task_ids );
-            $result->completed_task_ids   = empty( $result->completed_task_ids ) ? [] : explode( '|', $result->completed_task_ids );
+        // Grouped in PHP: MySQL's GROUP_CONCAT ... SEPARATOR does not run on SQLite.
+        foreach ( (array) $rows as $row ) {
+            if ( ! isset( $returns[ $row->board_id ] ) ) {
+                $returns[ $row->board_id ] = (object) [
+                    'board_id'             => $row->board_id,
+                    'incompleted_task_ids' => [],
+                    'completed_task_ids'   => [],
+                ];
+            }
 
-            $returns[$result->board_id] = $result;
+            if ( (int) $row->status === 0 ) {
+                $returns[ $row->board_id ]->incompleted_task_ids[] = $row->id;
+            } elseif ( (int) $row->status === 1 ) {
+                $returns[ $row->board_id ]->completed_task_ids[] = $row->id;
+            }
         }
 
         return $returns;

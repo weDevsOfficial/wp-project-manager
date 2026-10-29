@@ -20,6 +20,8 @@ class Update_Project extends Abstract_Validator {
         if(is_array( $id )) {
             return [];
         }
+
+        $id = intval( $id );
         
         return [
             'title' => 'required|pm_unique:Project,title,'.$id,
