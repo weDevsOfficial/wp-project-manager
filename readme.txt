@@ -6,7 +6,7 @@ Tags: kanban, project, project management, task management, project manager
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.1.1
+Stable tag: 4.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,6 +250,12 @@ A. If you face any issues, you can contact the support team through the official
 14. Manage projects from the frontend
 
 == Changelog ==
+
+= v4.1.2 – Oct 29, 2026 =
+
+**Security:** Fixed a security issue in how project changes are checked before they are saved. Reported by Wordfence. We recommend updating right away.
+**Fixed:** Project Manager now works on sites that use an SQLite database, such as WordPress Playground. Task lists, task counts, assignees and the My Tasks calendar load correctly there.
+**Improved:** The text editor and the libraries that keep shared content safe are updated to their latest versions.
 
 = v4.1.1 – Oct 20, 2026 =
 
