@@ -7,8 +7,8 @@
     "pnpm": ">=9.0.0"
   },
   "scripts": {
-    "dev": "wp-scripts start",
-    "build": "wp-scripts build",
+    "dev": "node init && wp-scripts start",
+    "build": "node init && wp-scripts build",
     "lint": "eslint views/assets/src --ext .ts,.tsx",
     "makepot": "wp i18n make-pot . languages/wedevs-project-manager.pot --exclude=node_modules,build,tests,views/assets/dist,vendor",
     "release": "php composer-scripts/patch-deprecations.php && grunt release --force"
