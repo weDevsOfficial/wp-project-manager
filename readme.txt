@@ -232,6 +232,8 @@ A. Yes. The plugin is suitable for freelancers, startups, agencies, and enterpri
 A. Yes. The plugin includes developer-friendly actions and filters so you can customize and extend its features based on your business needs.
 = Q. How can I get support or report a bug? =
 A. If you face any issues, you can contact the support team through the official website or report bugs on GitHub. Regular updates are released to improve security and performance. Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on Git Hub.
+= Q. Where do I report security bugs found in this plugin? =
+A. Please report security bugs found in the source code of the WP Project Manager plugin through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/9e5fb52e-656f-42c2-8c3f-76bf68188d91). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Screenshots ==
 1. Manage unlimited projects
