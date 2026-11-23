@@ -377,7 +377,8 @@ export default function TaskDetailSheet() {
     try {
       await dispatch(updateTask({
         projectId, taskId: currentTask.id,
-        data: { start_at: startDate || undefined, due_date: dueDate || undefined },
+        // An empty string clears the date; a missing key keeps the stored one.
+        data: { start_at: startDate || '', due_date: dueDate || '' },
       })).unwrap()
       toast.success(__('Dates updated', 'wedevs-project-manager'))
       setEditingDates(false)
@@ -823,6 +824,19 @@ export default function TaskDetailSheet() {
                           placeholder={__('Start', 'wedevs-project-manager')}
                           className="h-7 w-auto min-w-[140px]"
                         />
+                        {startDate && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7 shrink-0 text-pm-text-muted hover:text-pm-text-primary"
+                            onClick={() => setStartDate('')}
+                            aria-label={__('Clear start date', 'wedevs-project-manager')}
+                            title={__('Clear start date', 'wedevs-project-manager')}
+                          >
+                            <X className="h-3.5 w-3.5" />
+                          </Button>
+                        )}
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="w-9 shrink-0 text-[12px] text-pm-text-muted">{__('Due', 'wedevs-project-manager')}</span>
@@ -833,6 +847,19 @@ export default function TaskDetailSheet() {
                           placeholder={__('Due', 'wedevs-project-manager')}
                           className="h-7 w-auto min-w-[140px]"
                         />
+                        {dueDate && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7 shrink-0 text-pm-text-muted hover:text-pm-text-primary"
+                            onClick={() => setDueDate('')}
+                            aria-label={__('Clear due date', 'wedevs-project-manager')}
+                            title={__('Clear due date', 'wedevs-project-manager')}
+                          >
+                            <X className="h-3.5 w-3.5" />
+                          </Button>
+                        )}
                       </div>
                       <div className="flex items-center gap-2 pl-11">
                         <Button size="sm" className="h-8 text-[14px] px-3" onClick={handleDateSave}>{__('Save', 'wedevs-project-manager')}</Button>
