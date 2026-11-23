@@ -6,7 +6,7 @@ import ProBadge from '@components/common/ProBadge'
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
 import { cn } from '@lib/utils'
 import { useFilter } from '@hooks/useSlot'
-import { Settings, Mail, ListTodo, Bot, Radio, FileText, ShoppingCart, Users } from 'lucide-react'
+import { Settings, Mail, ListTodo, Bot, Radio, FileText, ShoppingCart, Users, Plug } from 'lucide-react'
 import { DriveMonoGlyph as GoogleWorkspaceNavIcon } from '@components/google-workspace/GoogleIcons'
 
 // Brand SVG icons for settings nav (not available as non-deprecated lucide icons)
@@ -63,6 +63,7 @@ const getProTabConfig = () => ({
   'pages':       { title: __('Pages',       'wedevs-project-manager'), description: __('Configure front-end pages for Project Manager.',         'wedevs-project-manager'), icon: FileText,     mockKey: 'settings'     },
   'woo-project': { title: __('WooCommerce', 'wedevs-project-manager'), description: __('Automatically create projects from WooCommerce orders.', 'wedevs-project-manager'), icon: ShoppingCart, mockKey: 'woo-project'  },
   'workload':    { title: __('Workload',    'wedevs-project-manager'), description: __('Set how much work each person can carry and see who is over capacity on the dashboard.', 'wedevs-project-manager'), icon: Users, mockKey: 'settings' },
+  'mcp':         { title: __('MCP',         'wedevs-project-manager'), description: __('Let AI assistants such as Claude, ChatGPT and Cursor manage projects and tasks through the Model Context Protocol.', 'wedevs-project-manager'), icon: Plug, mockKey: 'settings' },
 })
 
 // ── Component ────────────────────────────────────────────────
@@ -75,6 +76,7 @@ const SettingsPage = () => {
   // Woo Project tab component — injected by pm-pro via filter (only when module is active)
   const WooProjectComponent = useFilter('settings.tab.woo-project.component', null)
   const WorkloadComponent = useFilter('settings.tab.workload.component', null)
+  const McpComponent = useFilter('settings.tab.mcp.component', null)
 
   // Mirror the exact sidebar logic:
   //   !isPro           → show with pro:true (ProSettingsPreview)
@@ -126,6 +128,7 @@ const SettingsPage = () => {
       title: __('Advanced', 'wedevs-project-manager'),
       tabs: [
         { key: 'ai-settings', label: __('AI Settings', 'wedevs-project-manager'), icon: Bot },
+        { key: 'mcp',         label: __('MCP',         'wedevs-project-manager'), icon: Plug, pro: true, isNew: true },
       ],
     },
   ]
@@ -144,6 +147,7 @@ const SettingsPage = () => {
   // For all other tabs: use the static tabComponents map.
   const ActiveComponent = activeTab === 'woo-project' ? WooProjectComponent
     : activeTab === 'workload' ? WorkloadComponent
+    : activeTab === 'mcp' ? McpComponent
     : tabComponents[activeTab]
 
   return (
@@ -193,7 +197,16 @@ const SettingsPage = () => {
                         isActive ? 'text-pm-accent' : 'text-pm-text-muted group-hover/tab:text-pm-text',
                       )} />
                       <span className="truncate">{tab.label}</span>
-                      {needsPro && <span className="ml-auto shrink-0"><ProBadge interactive={false} /></span>}
+                      {(tab.isNew || needsPro) && (
+                        <span className="ml-auto shrink-0 flex items-center gap-1">
+                          {tab.isNew && (
+                            <span className="inline-flex items-center text-[11px] font-medium px-1.5 py-0.5 rounded bg-pm-accent/10 text-pm-accent">
+                              {__('New', 'wedevs-project-manager')}
+                            </span>
+                          )}
+                          {needsPro && <ProBadge interactive={false} />}
+                        </span>
+                      )}
                     </button>
                   )
                 })}
