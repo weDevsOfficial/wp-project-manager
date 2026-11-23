@@ -528,8 +528,9 @@ class Kanboard_Controller {
             wp_send_json_error( [ 'message' => __( 'No file provided', 'wedevs-project-manager' ) ], 400 );
         }
 
+        // Raster images only: an SVG background is a document that can carry script.
         $file_type = wp_check_filetype( $file['name'] );
-        if ( strpos( (string) $file_type['type'], 'image/' ) !== 0 ) {
+        if ( ! in_array( (string) $file_type['type'], [ 'image/jpeg', 'image/png', 'image/gif', 'image/webp' ], true ) ) {
             wp_send_json_error( [ 'message' => __( 'Please choose an image file', 'wedevs-project-manager' ) ], 400 );
         }
 

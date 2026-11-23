@@ -151,30 +151,47 @@ function wedevs_pm_init_tracker() {
 }
 
 function wedevs_pm_clean_svg() {
+    // Late, so a filter that re-allows SVG cannot run after this one. Fails
+    // closed: an SVG is kept only once its sanitized copy is written back.
     add_filter( 'wp_check_filetype_and_ext', function ( $data, $file, $filename, $mimes ) {
-        if ( $data['ext'] === 'svg' ) {
-            $sanitizer = new Sanitizer();
+        $is_svg = 'svg' === $data['ext']
+            || 'image/svg+xml' === $data['type']
+            || preg_match( '/\.svgz?$/i', (string) $filename );
 
-            // Initialize WP_Filesystem
-            global $wp_filesystem;
-            if ( empty( $wp_filesystem ) ) {
-                require_once ABSPATH . 'wp-admin/includes/file.php';
-                WP_Filesystem();
-            }
+        if ( ! $is_svg ) {
+            return $data;
+        }
 
-            // Check if file exists and is readable
-            if ( $wp_filesystem->exists( $file ) && $wp_filesystem->is_readable( $file ) ) {
-                $dirtySVG = $wp_filesystem->get_contents( $file );
-                if ( $dirtySVG !== false ) {
-                    $cleanSVG = $sanitizer->sanitize( $dirtySVG );
-                    // Check if sanitization was successful
-                    if ( $cleanSVG !== false && $wp_filesystem->is_writable( $file ) ) {
-                        $wp_filesystem->put_contents( $file, $cleanSVG, FS_CHMOD_FILE );
-                    }
-                }
-            }
+        $reject = array_merge( (array) $data, [ 'ext' => false, 'type' => false, 'proper_filename' => false ] );
+
+        global $wp_filesystem;
+        if ( empty( $wp_filesystem ) ) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+            WP_Filesystem();
+        }
+
+        if ( empty( $wp_filesystem ) || ! $wp_filesystem->exists( $file ) || ! $wp_filesystem->is_readable( $file ) || ! $wp_filesystem->is_writable( $file ) ) {
+            return $reject;
+        }
+
+        $dirty_svg = $wp_filesystem->get_contents( $file );
+
+        if ( false === $dirty_svg || '' === trim( $dirty_svg ) ) {
+            return $reject;
+        }
+
+        $clean_svg = ( new Sanitizer() )->sanitize( $dirty_svg );
+
+        // svg-sanitize returns false for a document it refuses (e.g. one that
+        // defines DTD entities); keeping the raw file then would store it unsanitized.
+        if ( false === $clean_svg || '' === trim( $clean_svg ) ) {
+            return $reject;
+        }
+
+        if ( ! $wp_filesystem->put_contents( $file, $clean_svg, FS_CHMOD_FILE ) ) {
+            return $reject;
         }
 
         return $data;
-    }, 10, 4 );
+    }, 999, 4 );
 }
