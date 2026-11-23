@@ -128,7 +128,7 @@ const SettingsPage = () => {
       title: __('Advanced', 'wedevs-project-manager'),
       tabs: [
         { key: 'ai-settings', label: __('AI Settings', 'wedevs-project-manager'), icon: Bot },
-        { key: 'mcp',         label: __('MCP',         'wedevs-project-manager'), icon: Plug, pro: true },
+        { key: 'mcp',         label: __('MCP',         'wedevs-project-manager'), icon: Plug, pro: true, isNew: true },
       ],
     },
   ]
@@ -197,7 +197,16 @@ const SettingsPage = () => {
                         isActive ? 'text-pm-accent' : 'text-pm-text-muted group-hover/tab:text-pm-text',
                       )} />
                       <span className="truncate">{tab.label}</span>
-                      {needsPro && <span className="ml-auto shrink-0"><ProBadge interactive={false} /></span>}
+                      {(tab.isNew || needsPro) && (
+                        <span className="ml-auto shrink-0 flex items-center gap-1">
+                          {tab.isNew && (
+                            <span className="inline-flex items-center text-[11px] font-medium px-1.5 py-0.5 rounded bg-pm-accent/10 text-pm-accent">
+                              {__('New', 'wedevs-project-manager')}
+                            </span>
+                          )}
+                          {needsPro && <ProBadge interactive={false} />}
+                        </span>
+                      )}
                     </button>
                   )
                 })}
