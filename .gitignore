@@ -31,3 +31,4 @@ CLAUDE.local.md
 
 # Local wp-env scaffolding (CI clones/fetches these fresh)
 /plugins/
+config.bat
